@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<grammar
+  version="1.0"
+  xml:lang="de-DE"
+  root="rootRule"
+  xmlns="http://www.w3.org/2001/06/grammar"
+  tag-format="semantics/1.0">
+  
+  <!--Root-->
+  <rule id="rootRule">
+    <one-of>
+      <item>
+        <ruleref uri="#shutdown"/>
+      </item>
+      <item>
+        <ruleref uri="#locked"/>
+      </item>
+      <item>
+        <ruleref uri="#smarthome"/>
+      </item>
+      <item>
+        <ruleref uri="#microcontroller"/>
+      </item>
+      <item>
+        <ruleref uri="#module"/>
+      </item>
+      <item>
+        <ruleref uri="#general"/>
+      </item>
+      <item>
+        <ruleref uri="#system"/>
+      </item>
+      <item>
+        <ruleref uri="#time"/>
+      </item>
+    </one-of>
+  </rule>
+  
+  <!--System ausschalten-->
+  <rule id="shutdown">
+    <item>spiegel ausschalten</item>
+  </rule>
+  
+  <!--Spiegel ent-/sprerren-->
+  <rule id="locked">
+      <item>spiegel</item>
+  </rule>
+  
+  <!--Smart Home / Haupseite-->
+  <rule id="smarthome">
+    <one-of>
+      <item>smart home</item>
+      <item>smart</item>
+      <item>home</item>
+      <item>hauptseite</item>
+    </one-of>
+  </rule>
+
+  <!--Mikrocontroller-->
+  <rule id="microcontroller">
+    <one-of>
+      <item>mikrocontroller</item>
+      <item>controller</item>
+    </one-of>
+  </rule>
+
+  <!--Module-->
+  <rule id="module">
+    <item>modul</item>
+    <one-of>
+      <item>null</item>
+      <item>ein</item>
+      <item>eins</item>
+      <item>zwei</item>
+      <item>drei</item>
+      <item>vier</item>
+      <item>fünf</item>
+      <item>sechs</item>
+      <item>sieben</item>
+      <item>acht</item>
+      <item>neun</item>
+      <item>zehn</item>
+      <item>elf</item>
+      <item>zwölf</item>
+      <item>zwanzig</item>
+      <item>dreißig</item>
+    </one-of>
+    <item repeat="0-1">
+      <item>und</item>
+      <one-of>
+        <item>zehn</item>
+        <item>zwanzig</item>
+        <item>dreißig</item>
+      </one-of>
+    </item>
+  </rule>
+
+  <!--Allgemein-->
+  <rule id="general">
+    <one-of>
+      <item>allgemein</item>
+      <item>alle</item>
+    </one-of>
+  </rule>
+
+  <!--System-->
+  <rule id="system">
+    <one-of>
+      <item>system</item>
+      <item>licht</item>
+    </one-of>
+    <one-of>
+      <item>an</item>
+      <item>aus</item>
+      <item>normal</item>
+      <item>alarm</item>
+      <item>sos</item>
+    </one-of>
+  </rule>
+  
+  <!--Time-->
+  <rule id="time">
+    <item>zeit</item>
+  </rule>
+</grammar>
