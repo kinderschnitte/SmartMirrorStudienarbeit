@@ -20,13 +20,6 @@ namespace SmartMirrorServer.RequestHandler
 
                     return await Browser.BrowserSite.BuildBrowserHome();
 
-                case FileName.TIME:
-
-                    if (isMirror)
-                        return await MirrorSite.BuildMirrorTime();
-
-                    return new byte[0];
-
                 case FileName.UNKNOWN:
                     return new byte[0];
 

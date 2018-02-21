@@ -9,10 +9,5 @@ namespace SmartMirrorServer.RequestHandler.Mirror
         {
             return await MirrorHome.BuildMirrorHome();
         }
-
-        public static async Task<byte[]> BuildMirrorTime()
-        {
-            return await MirrorTime.BuildMirrorTime();
-        }
     }
 }
