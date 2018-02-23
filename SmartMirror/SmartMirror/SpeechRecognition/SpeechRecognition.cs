@@ -58,11 +58,11 @@ namespace SmartMirror.SpeechRecognition
             switch (recognizedSpeech.RecognizedMessage.MessageType)
             {
                 case Type.HOME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/home.html")));
+                    //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/home.html")));
                     break;
 
                 case Type.TIME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/time.html")));
+                    //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/time.html")));
                     break;
 
                 case Type.UNKNOWN:
@@ -72,11 +72,11 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Type.MIRROR_LOCK:
-                    isOn = !isOn;
-                    if (isOn)
-                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/home.html")));
-                    else
-                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/time.html")));
+                    //isOn = !isOn;
+                    //if (isOn)
+                    //    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/home.html")));
+                    //else
+                    //    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => browser.Navigate(new Uri("http://localhost/MagicMirror/time.html")));
                     break;
 
                 default:
