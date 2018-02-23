@@ -1,8 +1,6 @@
-﻿using System;
-using Windows.UI.Core;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using SmartMirror.SerializableClasses;
 
 namespace SmartMirror
 {
@@ -11,41 +9,41 @@ namespace SmartMirror
     /// </summary>
     public sealed partial class MainPage
     {
-        private WebView browser;
-
         private readonly SpeechRecognition.SpeechRecognition speechRecognition;
 
         private readonly CoreDispatcher dispatcher;
 
+        private StorageData storageData;
+
         public MainPage()
         {
             InitializeComponent();
-
+  
             Loaded += onLoaded;
 
             Unloaded += onUnloaded;
 
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
-            speechRecognition = new SpeechRecognition.SpeechRecognition(dispatcher, browser);
+            speechRecognition = new SpeechRecognition.SpeechRecognition(dispatcher);
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             speechRecognition.StopRecognizing();
+            SerializableStorage<StorageData>.Save("StorageData.dat", storageData);
         }
 
         private void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            browser = new WebView();
-            RotateTransform rotateTransform = new RotateTransform {Angle = 90};
-            browser.RenderTransform = rotateTransform;
-            grid.Children.Add(browser);
-
-            Uri timeUri = new Uri("http://localhost/MagicMirror/time.html");
-            browser.Navigate(timeUri);
+            loadModuls();
 
             speechRecognition.StartRecognizing();
+        }
+
+        private async void loadModuls()
+        {
+            storageData = await SerializableStorage<StorageData>.Load("StorageData.dat");
         }
     }
 }

@@ -103,6 +103,8 @@
     </Compile>
     <Compile Include="Objects\RecognizedSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableClasses\SerializableStorage.cs" />
+    <Compile Include="SerializableClasses\StorageData.cs" />
     <Compile Include="SpeechRecognitionManager\SpeechRecognitionExtensions.cs" />
     <Compile Include="SpeechRecognitionManager\SpeechRecognitionManager.cs" />
     <Compile Include="SpeechRecognition\SpeechRecognition.cs" />

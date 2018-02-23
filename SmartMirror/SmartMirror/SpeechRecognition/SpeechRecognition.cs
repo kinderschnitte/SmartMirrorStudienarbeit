@@ -14,15 +14,12 @@ namespace SmartMirror.SpeechRecognition
     {
         private SpeechRecognitionManager.SpeechRecognitionManager speechRecognizer;
 
-        private readonly WebView browser;
-
         private readonly CoreDispatcher dispatcher;
 
         private volatile bool isOn;
 
-        public SpeechRecognition(CoreDispatcher dispatcher, WebView browser)
+        public SpeechRecognition(CoreDispatcher dispatcher)
         {
-            this.browser = browser;
             this.dispatcher = dispatcher;
 
             StartRecognizing();
