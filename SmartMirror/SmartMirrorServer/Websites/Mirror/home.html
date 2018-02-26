@@ -21,6 +21,8 @@
 			.grid-container {
 				display: grid;
 				min-height: 100%;
+				width: 100vw;
+				height: 100vh;
 				grid-template-columns: 33.3% 33.3% 33.3%;
 				background-color: black;
 				padding: 10px;
@@ -29,374 +31,66 @@
 			.grid-item {
 				background-color: black;
 				border: 1px solid whitesmoke;
-				padding: 0;
+				padding: 10px;
 				font-size: 2vmin;
 				text-align: center;
+			    color: white;
+			    align-self: center;
+			}
+
+			.clock {
+			    display: block;
+			    font-size: 5em;
+			    text-align: center;
+			    width: 100%;
+			}
+
+			.sun {
+			    display: block;
+			    font-size: 2em;
+			    text-align: center;
 			}
 		</style>
 	</head>
-	<body>
+	<body onload="startTime()">
 	<main>
 		<div class="grid-container">
-			<div class="grid-item"><canvas class="bigclock" id="bigclock" style="width: 100%; height: 100% ; text-align: center;"></canvas></div>
+			<div class="grid-item">
+				<div class="clock">00:00:00</div>
+				<div class="sun"><div style="width: 50%; float: left;">Sunrise:</div><div style="width: 50%; float: right;">Sunset:</div></div>
+				<div class="sun"><div style="width: 50%; float: left;">sunriseTime</div><div style="width: 50%; float: right;">sunsetTime</div></div>
+			</div>
 			<div class="grid-item">2</div>
-			<div class="grid-item">3</div>  
+			<div class="grid-item">3</div>
 			<div class="grid-item">4</div>
 			<div class="grid-item">5</div>
-			<div class="grid-item">6</div>  
+		    <div class="grid-item">6</div>
 			<div class="grid-item">7</div>
 			<div class="grid-item">8</div>
-			<div class="grid-item">9</div>  
+			<div class="grid-item">9</div>
 		</div>
 	</main>
-		<script type="text/javascript">
-			(function () {
-				'use strict';
-
-				var pi = Math.PI,
-					sin = Math.sin,
-					cos = Math.cos,
-					tan = Math.tan,
-					asin = Math.asin,
-					atan = Math.atan2,
-					acos = Math.acos,
-					rad = pi / 180;
-
-				var dayMs = 1000 * 60 * 60 * 24,
-					j1970 = 2440588,
-					j2000 = 2451545;
-
-				function toJulian(date) { return date.valueOf() / dayMs - 0.5 + j1970; }
-				function fromJulian(j) { return new Date((j + 0.5 - j1970) * dayMs); }
-				function toDays(date) { return toJulian(date) - j2000; }
-
-				var e = rad * 23.4397;
-
-				function rightAscension(l, b) { return atan(sin(l) * cos(e) - tan(b) * sin(e), cos(l)); }
-				function declination(l, b) { return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l)); }
-
-				function azimuth(h, phi, dec) { return atan(sin(h), cos(h) * sin(phi) - tan(dec) * cos(phi)); }
-				function altitude(h, phi, dec) { return asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(h)); }
-
-				function siderealTime(d, lw) { return rad * (280.16 + 360.9856235 * d) - lw; }
-
-				function astroRefraction(h) {
-					if (h < 0)
-						h = 0;
-					return 0.0002967 / Math.tan(h + 0.00312536 / (h + 0.08901179));
-				}
-
-				function solarMeanAnomaly(d) { return rad * (357.5291 + 0.98560028 * d); }
-
-				function eclipticLongitude(m) {
-
-					var c = rad * (1.9148 * sin(m) + 0.02 * sin(2 * m) + 0.0003 * sin(3 * m)),
-						p = rad * 102.9372;
-
-					return m + c + p + pi;
-				}
-
-				function sunCoords(d) {
-
-					var m = solarMeanAnomaly(d),
-						l = eclipticLongitude(m);
-
-					return {
-						dec: declination(l, 0),
-						ra: rightAscension(l, 0)
-					};
-				}
-
-
-				var sunCalc = {};
-
-				sunCalc.getPosition = function (date, lat, lng) {
-
-					var lw = rad * -lng,
-						phi = rad * lat,
-						d = toDays(date),
-
-						c = sunCoords(d),
-						h = siderealTime(d, lw) - c.ra;
-
-					return {
-						azimuth: azimuth(h, phi, c.dec),
-						altitude: altitude(h, phi, c.dec)
-					};
-				};
-
-				var times = sunCalc.times = [
-					[-0.833, 'sunrise', 'sunset'],
-					[-0.3, 'sunriseEnd', 'sunsetStart'],
-					[-6, 'dawn', 'dusk'],
-					[-12, 'nauticalDawn', 'nauticalDusk'],
-					[-18, 'nightEnd', 'night'],
-					[6, 'goldenHourEnd', 'goldenHour']
-				];
-
-				sunCalc.addTime = function (angle, riseName, setName) {
-					times.push([angle, riseName, setName]);
-				};
-
-				var j0 = 0.0009;
-
-				function julianCycle(d, lw) { return Math.round(d - j0 - lw / (2 * pi)); }
-
-				function approxTransit(ht, lw, n) { return j0 + (ht + lw) / (2 * pi) + n; }
-				function solarTransitJ(ds, m, l) { return j2000 + ds + 0.0053 * sin(m) - 0.0069 * sin(2 * l); }
-
-				function hourAngle(h, phi, d) { return acos((sin(h) - sin(phi) * sin(d)) / (cos(phi) * cos(d))); }
-
-				function getSetJ(h, lw, phi, dec, n, m, l) {
-
-					var w = hourAngle(h, phi, dec),
-						a = approxTransit(w, lw, n);
-					return solarTransitJ(a, m, l);
-				}
-
-				sunCalc.getTimes = function (date, lat, lng) {
-
-					var lw = rad * -lng,
-						phi = rad * lat,
-
-						d = toDays(date),
-						n = julianCycle(d, lw),
-						ds = approxTransit(0, lw, n),
-
-						m = solarMeanAnomaly(ds),
-						l = eclipticLongitude(m),
-						dec = declination(l, 0),
-
-						jnoon = solarTransitJ(ds, m, l),
-
-						i, len, time, jset, jrise;
-
-
-					var result = {
-						solarNoon: fromJulian(jnoon),
-						nadir: fromJulian(jnoon - 0.5)
-					};
-
-					for (i = 0, len = times.length; i < len; i += 1) {
-						time = times[i];
-
-						jset = getSetJ(time[0] * rad, lw, phi, dec, n, m, l);
-						jrise = jnoon - (jset - jnoon);
-
-						result[time[1]] = fromJulian(jrise);
-						result[time[2]] = fromJulian(jset);
-					}
-
-					return result;
-				};
-
-				function moonCoords(d) {
-
-					var ll = rad * (218.316 + 13.176396 * d);
-					var m = rad * (134.963 + 13.064993 * d);
-					var f = rad * (93.272 + 13.229350 * d);
-
-					var l = ll + rad * 6.289 * sin(m);
-					var b = rad * 5.128 * sin(f);
-					var dt = 385001 - 20905 * cos(m);
-
-					return {
-						ra: rightAscension(l, b),
-						dec: declination(l, b),
-						dist: dt
-					};
-				}
-
-				sunCalc.getMoonPosition = function (date, lat, lng) {
-
-					var lw = rad * -lng;
-					var phi = rad * lat;
-					var d = toDays(date);
-
-					var c = moonCoords(d);
-					var hh = siderealTime(d, lw) - c.ra;
-					var h = altitude(hh, phi, c.dec);
-					var pa = atan(sin(hh), tan(phi) * cos(c.dec) - sin(c.dec) * cos(hh));
-
-					h = h + astroRefraction(h);
-
-					return {
-						azimuth: azimuth(hh, phi, c.dec),
-						altitude: h,
-						distance: c.dist,
-						parallacticAngle: pa
-					};
-				};
-
-				sunCalc.getMoonIllumination = function (date) {
-
-					var d = toDays(date || new Date()),
-						s = sunCoords(d),
-						m = moonCoords(d),
-
-						sdist = 149598000,
-
-						phi = acos(sin(s.dec) * sin(m.dec) + cos(s.dec) * cos(m.dec) * cos(s.ra - m.ra)),
-						inc = atan(sdist * sin(phi), m.dist - sdist * cos(phi)),
-						angle = atan(cos(s.dec) * sin(s.ra - m.ra), sin(s.dec) * cos(m.dec) -
-								cos(s.dec) * sin(m.dec) * cos(s.ra - m.ra));
-
-					return {
-						fraction: (1 + cos(inc)) / 2,
-						phase: 0.5 + 0.5 * inc * (angle < 0 ? -1 : 1) / Math.PI,
-						angle: angle
-					};
-				};
-
-
-				function hoursLater(date, h) {
-					return new Date(date.valueOf() + h * dayMs / 24);
-				}
-
-				sunCalc.getMoonTimes = function (date, lat, lng, inUtc) {
-					var t = new Date(date);
-					if (inUtc) t.setUTCHours(0, 0, 0, 0);
-					else t.setHours(0, 0, 0, 0);
-
-					var hc = 0.133 * rad,
-						h0 = sunCalc.getMoonPosition(t, lat, lng).altitude - hc,
-						h1, h2, rise, set, a, b, xe, ye, d, roots, x1, x2, dx;
-
-					for (var i = 1; i <= 24; i += 2) {
-						h1 = sunCalc.getMoonPosition(hoursLater(t, i), lat, lng).altitude - hc;
-						h2 = sunCalc.getMoonPosition(hoursLater(t, i + 1), lat, lng).altitude - hc;
-
-						a = (h0 + h2) / 2 - h1;
-						b = (h2 - h0) / 2;
-						xe = -b / (2 * a);
-						ye = (a * xe + b) * xe + h1;
-						d = b * b - 4 * a * h1;
-						roots = 0;
-
-						if (d >= 0) {
-							dx = Math.sqrt(d) / (Math.abs(a) * 2);
-							x1 = xe - dx;
-							x2 = xe + dx;
-							if (Math.abs(x1) <= 1) roots++;
-							if (Math.abs(x2) <= 1) roots++;
-							if (x1 < -1) x1 = x2;
-						}
-
-						if (roots === 1) {
-							if (h0 < 0) rise = i + x1;
-							else set = i + x1;
-
-						} else if (roots === 2) {
-							rise = i + (ye < 0 ? x2 : x1);
-							set = i + (ye < 0 ? x1 : x2);
-						}
-
-						if (rise && set) break;
-
-						h0 = h2;
-					}
-
-					var result = {};
-
-					if (rise) result.rise = hoursLater(t, rise);
-					if (set) result.set = hoursLater(t, set);
-
-					if (!rise && !set) result[ye > 0 ? 'alwaysUp' : 'alwaysDown'] = true;
-
-					return result;
-				};
-
-
-				window.SunCalc = sunCalc;
-
-			}());
-
-		</script>
-		<script type="text/javascript">
-
-			function getClock()
+	<script type="text/javascript">
+		function clock()
+		{
+			var time = new Date(),
+				hours = time.getHours(),
+				minutes = time.getMinutes(),
+				seconds = time.getSeconds();
+
+			document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+  
+			function harold(standIn)
 			{
-				var d = new Date();
-				var str = positionZero(d.getHours(), d.getMinutes(), d.getSeconds());
-
-				var times = SunCalc.getTimes(new Date(), 48.8465, 8.5885);
-
-				var sunriseHour = times.sunrise.getHours();
-				var sunriseMinute = times.sunrise.getMinutes();
-				var sunsetHour = times.sunset.getHours();
-				var sunsetMinute = times.sunset.getMinutes();
-
-				if (parseInt(sunriseHour) < 10)
+				if (standIn < 10)
 				{
-					sunriseHour = "0" + sunriseHour;
+					standIn = '0' + standIn;
 				}
 
-				if (parseInt(sunriseMinute) < 10)
-				{
-					sunriseMinute = "0" + sunriseMinute;
-				}
-
-				if (parseInt(sunsetHour) < 10)
-				{
-					sunsetHour = "0" + sunsetHour;
-				}
-
-				if (parseInt(sunsetMinute) < 10)
-				{
-					sunsetMinute = "0" + sunsetMinute;
-				}
-
-				var sunrise = sunriseHour + ':' + sunriseMinute;
-				var sunset =  sunsetHour+ ':' + sunsetMinute;
-
-				var sun = "Sunrise: " + sunrise + " | Sunset: " + sunset;
-
-				var bigclock = document.getElementById('bigclock');
-
-				var bigcontext = bigclock.getContext("2d");
-
-				bigcontext.clearRect(0, 0, bigcontext.width, bigcontext.height);
-
-				bigcontext.font = "100% Arial";
-
-				bigcontext.fillStyle = "#FFFFFF";
-
-				var bigtextwidth = bigcontext.measureText(str).width;
-				var bigtextheight = bigcontext.measureText(str).height;
-
-				bigcontext.fillText(str, bigclock.width / 2 - (bigtextwidth / 2), bigclock.height / 2 - (bigtextheight / 2));
-
-				bigcontext.font = "50% Arial";
-
-				bigcontext.fillStyle = "#FFFFFF";
-
-				bigtextwidth = bigcontext.measureText(sun).width;
-				bigtextheight = bigcontext.measureText(sun).height;
-
-				bigcontext.fillText(sun, bigclock.width / 2 - (bigtextwidth / 2), bigclock.height / 2 - (bigtextheight / 2));
+				return standIn;
 			}
-
-			function positionZero(hour, min, sec)
-			{
-				var curTime;
-				if (hour < 10)
-					curTime = "0" + hour.toString();
-				else
-					curTime = hour.toString();
-
-				if (min < 10)
-					curTime += ":0" + min.toString();
-				else
-					curTime += ":" + min.toString();
-
-				if (sec < 10)
-					curTime += ":0" + sec.toString();
-				else
-					curTime += ":" + sec.toString();
-				return curTime;
-			}
-
-			setInterval(getClock, 1000);
-		</script>
+		}
+		setInterval(clock, 1000);
+	</script>
 	</body>
 </html>

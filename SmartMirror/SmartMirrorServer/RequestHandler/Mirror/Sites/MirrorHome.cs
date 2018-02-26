@@ -22,12 +22,28 @@ namespace SmartMirrorServer.RequestHandler.Mirror.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("Websites\\Mirror\\home.html");
 
+                DateTime date = DateTime.Today;
+                bool isSunrise = false;
+                bool isSunset = false;
+                DateTime sunrise = DateTime.Now;
+                DateTime sunset = DateTime.Now;
+
+                SunTimes.Instance.CalculateSunRiseSetTimes(new SunTimes.LatitudeCoords (32, 4, 0, SunTimes.LatitudeCoords.Direction.North), new SunTimes.LongitudeCoords (34, 46, 0, SunTimes.LongitudeCoords.Direction.East), date, ref sunrise, ref sunset, ref isSunrise, ref isSunset);
+
+                string sunriseString = sunrise.ToString("HH:mm");
+                string sunsetString = sunrise.ToString("HH:mm");
+
                 foreach (string line in file)
                 {
                     string tag = line;
 
                     if (tag.Contains("startTime"))
                         tag = tag.Replace("startTime", Application.StartTime);
+                    else if (tag.Contains("sunriseTime") || tag.Contains("sunsetTime"))
+                    {
+                        tag = tag.Replace("sunriseTime", sunriseString);
+                        tag = tag.Replace("sunsetTime", sunsetString);
+                    }
 
                     page += tag;
                 }
