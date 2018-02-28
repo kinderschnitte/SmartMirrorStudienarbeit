@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace SmartMirror.Enums
+namespace SmartMirrorServer.Enums
 {
     [DataContract(Name = "Module")]
     public enum Module

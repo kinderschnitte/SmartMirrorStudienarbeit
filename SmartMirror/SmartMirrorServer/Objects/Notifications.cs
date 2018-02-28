@@ -1,6 +1,6 @@
 ﻿namespace SmartMirrorServer.Objects
 {
-    internal class Notifications
+    public sealed class Notifications
     {
         /// <summary>
         /// Bei Start des Systems

@@ -1,10 +1,11 @@
 ﻿using System;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using SmartMirrorServer.Objects;
+using SmartMirrorServer.SerializableClasses;
 
 namespace SmartMirrorServer
 {
-    internal static class Application
+    public static class Application
     {
         #region Public Constructors
 
@@ -18,6 +19,17 @@ namespace SmartMirrorServer
             SystemInformation = new EasClientDeviceInformation();
 
             Notifications = new Notifications();
+
+            WeatherApiUrl = "http://api.openweathermap.org/data/2.5";
+
+            WeatherApiKey = "4ce3d25d1b8cb5953ba718abd11bd07a";
+
+            loadData();
+        }
+
+        private static async void loadData()
+        {
+            StorageData = await SerializableStorage<StorageData>.Load("StorageData.dat");
         }
 
         #endregion Public Constructors
@@ -38,6 +50,17 @@ namespace SmartMirrorServer
         /// Aktivitätsnachrichten
         /// </summary>
         public static Notifications Notifications { get; }
+
+        public static string WeatherApiUrl { get; }
+
+        public static string WeatherApiKey { get; }
+
+        public static StorageData StorageData { get; private set; }
+
+        public static void SaveStorageData()
+        {
+            SerializableStorage<StorageData>.Save("StorageData.dat", StorageData);
+        }
 
         #endregion Public Properties
     }

@@ -4,13 +4,13 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace SmartMirror.SerializableClasses
+namespace SmartMirrorServer.SerializableClasses
 {
     /// <summary>
     /// Provides functions to save and load single object as well as List of 'T' using serialization
     /// </summary>
     /// <typeparam name="T">Type parameter to be serialize</typeparam>
-    public static class SerializableStorage<T> where T : new()
+    internal static class SerializableStorage<T> where T : new()
     {
         public static async void Save(string fileName, T data)
         {

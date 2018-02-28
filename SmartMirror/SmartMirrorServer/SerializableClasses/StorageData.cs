@@ -1,10 +1,10 @@
 ﻿using System.Runtime.Serialization;
-using SmartMirror.Enums;
+using SmartMirrorServer.Enums;
 
-namespace SmartMirror.SerializableClasses
+namespace SmartMirrorServer.SerializableClasses
 {
     [DataContract]
-    public class StorageData
+    public sealed class StorageData
     {
         [DataMember]
         public Module UpperLeftModule { get; set; } = Module.NONE;
@@ -32,5 +32,14 @@ namespace SmartMirror.SerializableClasses
 
         [DataMember]
         public Module LowerRightModule { get; set; } = Module.NONE;
+
+        [DataMember]
+        public string City { get; set; }
+
+        [DataMember]
+        public string Country { get; set; }
+
+        [DataMember]
+        public string Language { get; set; }
     }
 }
