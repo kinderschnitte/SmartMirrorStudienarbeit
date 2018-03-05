@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 using SmartMirror.Enums;
 using SmartMirror.Objects;
 using SmartMirror.SpeechRecognitionManager;

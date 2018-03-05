@@ -42,6 +42,9 @@ namespace SmartMirrorServer.Notification
         /// <param name="message"></param>
         public static void SendPushNotification(string subject, string message)
         {
+            return;
+
+            // TODO PushBullet Access Token von gespeicherten Einstellungen
             PushbulletClient pushbulletClient = new PushbulletClient("");
 
             UserDevices devices = pushbulletClient.CurrentUsersDevices();

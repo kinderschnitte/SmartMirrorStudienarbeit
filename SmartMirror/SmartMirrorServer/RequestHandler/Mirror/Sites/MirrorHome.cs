@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using SmartMirrorServer.HelperMethods;
 using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
-using SmartMirrorServer.SerializableClasses;
 
 namespace SmartMirrorServer.RequestHandler.Mirror.Sites
 {

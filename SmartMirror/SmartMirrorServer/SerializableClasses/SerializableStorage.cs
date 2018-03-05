@@ -38,6 +38,10 @@ namespace SmartMirrorServer.SerializableClasses
             try
             {
                 Task.WaitAll();
+
+                FileInfo fInfo = new FileInfo(fileName);
+                if (!fInfo.Exists) { return new T(); }
+
                 StorageFile file = await folder.GetFileAsync(fileName);
 
                 T result;
