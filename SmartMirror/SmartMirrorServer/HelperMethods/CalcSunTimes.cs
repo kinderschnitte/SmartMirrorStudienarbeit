@@ -1,4 +1,5 @@
 ﻿using System;
+using SmartMirrorServer.Objects.Sun;
 
 namespace SmartMirrorServer.HelperMethods
 {
@@ -33,68 +34,6 @@ namespace SmartMirrorServer.HelperMethods
         public static SunTimes Instance { get; } = new SunTimes();
 
         #endregion
-
-        internal abstract class Coords
-        {
-            protected int MDegrees;
-            protected int MMinutes;
-            protected int MSeconds;
-
-            public double ToDouble()
-            {
-                return Sign() * (MDegrees + ((double)MMinutes / 60) + ((double)MSeconds / 3600));
-            }
-
-            protected abstract int Sign();
-        }
-
-        public class LatitudeCoords : Coords
-        {
-            public enum Direction
-            {
-                NORTH,
-                SOUTH
-            }
-
-            private readonly Direction mDirection;
-
-            public LatitudeCoords(int degrees, int minutes, int seconds, Direction direction)
-            {
-                MDegrees = degrees;
-                MMinutes = minutes;
-                MSeconds = seconds;
-                mDirection = direction;
-            }
-
-            protected override int Sign()
-            {
-                return mDirection == Direction.NORTH ? 1 : -1;
-            }
-        }
-
-        public class LongitudeCoords : Coords
-        {
-            public enum Direction
-            {
-                EAST,
-                WEST
-            }
-
-            private readonly Direction mDirection;
-
-            public LongitudeCoords(int degrees, int minutes, int seconds, Direction direction)
-            {
-                MDegrees = degrees;
-                MMinutes = minutes;
-                MSeconds = seconds;
-                mDirection = direction;
-            }
-
-            protected override int Sign()
-            {
-                return mDirection == Direction.EAST ? 1 : -1;
-            }
-        }
 
         /// <summary>
         /// Calculate sunrise and sunset times. Returns false if time zone and longitude are incompatible.

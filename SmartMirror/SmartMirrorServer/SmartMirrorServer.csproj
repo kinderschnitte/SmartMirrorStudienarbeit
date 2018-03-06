@@ -97,8 +97,6 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Enums\Module.cs" />
-    <Compile Include="Enums\PostQueryEnums\PostQueryType.cs" />
-    <Compile Include="Enums\PostQueryEnums\ValueType.cs" />
     <Compile Include="Enums\QueryEnums\FileName.cs" />
     <Compile Include="Enums\QueryEnums\FileType.cs" />
     <Compile Include="Enums\RequestEnums\AcceptResponseEncoding.cs" />
@@ -113,17 +111,18 @@
     <Compile Include="Extensions\RequestExtensionClass.cs" />
     <Compile Include="Extensions\StringBuilderExtensionClass.cs" />
     <Compile Include="Extensions\StringExtensionClass.cs" />
-    <Compile Include="Extensions\ValueTypeExtensionClass.cs" />
     <Compile Include="HelperMethods\CalcSunTimes.cs" />
     <Compile Include="HelperMethods\FileHelperClass.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Objects\Moduls\Sun.cs" />
     <Compile Include="Objects\Notifications.cs" />
-    <Compile Include="Objects\PostQuery.cs" />
     <Compile Include="Objects\Query.cs" />
     <Compile Include="Objects\Request.cs" />
+    <Compile Include="Objects\Sun\Coords.cs" />
+    <Compile Include="Objects\Sun\LatitudeCoords.cs" />
+    <Compile Include="Objects\Sun\LongitudeCoords.cs" />
     <Compile Include="RequestHandler\Browser\BrowserSite.cs" />
-    <Compile Include="RequestHandler\Browser\Sites\BrowserHome.cs" />
+    <Compile Include="RequestHandler\Browser\Sites\BrowserSettings.cs" />
     <Compile Include="RequestHandler\Mirror\MirrorSite.cs" />
     <Compile Include="RequestHandler\Mirror\Sites\MirrorHome.cs" />
     <Compile Include="RequestHandler\RequestHandler.cs" />

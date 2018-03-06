@@ -101,11 +101,6 @@ namespace SmartMirrorServer.Objects
         public List<ContentType> ContentType { get; }
 
         /// <summary>
-        /// Post Query des HTTP Requests
-        /// </summary>
-        public PostQuery PostQuery { get; set; }
-
-        /// <summary>
         /// Standaard konstruktor der Klasse
         /// </summary>
         public Request()

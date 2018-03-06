@@ -32,6 +32,11 @@ namespace SmartMirrorServer
             });
         }
 
+        public static void SaveData()
+        {
+            Application.SaveStorageData();
+        }
+
         #endregion Public Methods
     }
 }

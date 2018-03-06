@@ -63,8 +63,6 @@ namespace SmartMirrorServer.Extensions
                         request.SetContentType(field);
                     else if (field.Contains("Referer:"))
                         request.SetReferer(field);
-                    else if (field.Contains("\0"))
-                        request.SetPostQuery(requestHeader[requestHeader.Length - 1]);
                 }
 
                 return request;

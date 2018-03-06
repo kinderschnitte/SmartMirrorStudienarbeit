@@ -26,7 +26,6 @@ namespace SmartMirror
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             speechRecognition.StopRecognizing();
-            SmartMirrorServer.Application.SaveStorageData();
         }
 
         private void onLoaded(object sender, RoutedEventArgs routedEventArgs)

@@ -2,10 +2,8 @@
 {
     public enum FileName
     {
+        SETTINGS,
         HOME,
-        MICROCONTROLLER,
-        MODULE,
-        ALLUNITS,
         TIME,
         UNKNOWN
     }

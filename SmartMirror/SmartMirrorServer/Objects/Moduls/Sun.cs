@@ -16,7 +16,7 @@ namespace SmartMirrorServer.Objects.Moduls
             bool isSunset = false;
             DateTime sunrise = DateTime.Now;
             DateTime sunset = DateTime.Now;
-            SunTimes.Instance.CalculateSunRiseSetTimes(new SunTimes.LatitudeCoords(32, 4, 0, SunTimes.LatitudeCoords.Direction.NORTH), new SunTimes.LongitudeCoords(34, 46, 0, SunTimes.LongitudeCoords.Direction.EAST), date, ref sunrise, ref sunset, ref isSunrise, ref isSunset);
+            SunTimes.Instance.CalculateSunRiseSetTimes(Application.StorageData.LatitudeCoords, Application.StorageData.LongitudeCoords, date, ref sunrise, ref sunset, ref isSunrise, ref isSunset);
             Sunrise = sunrise.ToString("HH:mm");
             Sunset = sunset.ToString("HH:mm");
         }

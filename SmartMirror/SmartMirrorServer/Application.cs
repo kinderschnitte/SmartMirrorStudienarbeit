@@ -5,7 +5,7 @@ using SmartMirrorServer.SerializableClasses;
 
 namespace SmartMirrorServer
 {
-    public static class Application
+    internal static class Application
     {
         #region Public Constructors
 

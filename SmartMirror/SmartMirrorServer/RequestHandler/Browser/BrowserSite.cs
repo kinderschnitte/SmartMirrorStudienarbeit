@@ -5,9 +5,9 @@ namespace SmartMirrorServer.RequestHandler.Browser
 {
     internal static class BrowserSite
     {
-        public static async Task<byte[]> BuildBrowserHome()
+        public static async Task<byte[]> BuildBrowserSettings()
         {
-            return await BrowserHome.BuildBrowserHome();
+            return await BrowserSettings.BuildBrowserSettings();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using SmartMirrorServer.Enums.PostQueryEnums;
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Enums.RequestEnums;
 using SmartMirrorServer.Objects;
@@ -154,53 +153,6 @@ namespace SmartMirrorServer.Extensions
         }
 
         /// <summary>
-        /// Setzt den Post Query des Requests
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="query"></param>
-        public static void SetPostQuery(this Request request, string query)
-        {
-            string realPostQuery = query.Replace("\0", "");
-
-            PostQuery postQuery = new PostQuery();
-
-            if (realPostQuery == "")
-                postQuery.CompleteQuery = "";
-            else
-            {
-                string[] stringSeparators = { "=", "&" };
-                string[] splittedPostQuery = realPostQuery.Split(stringSeparators, StringSplitOptions.None);
-
-                postQuery.CompleteQuery = realPostQuery;
-
-                if (request.Query.FileName == FileName.ALLUNITS)
-                {
-                    if (splittedPostQuery[0] == "GENERAL")
-                        postQuery.Type = PostQueryType.SYSTEM;
-                    else if (splittedPostQuery[0] == "LIGHT")
-                        postQuery.Type = PostQueryType.ALL_LIGHT_MICROCONTROLLER;
-
-                    // TODO Weitere Controllertypen einfügen
-                }
-                else if (request.Query.FileName == FileName.MICROCONTROLLER)
-                    postQuery.Type = PostQueryType.MICROCONTROLLER;
-                else if (request.Query.FileName == FileName.MODULE)
-                    postQuery.Type = PostQueryType.MODULE;
-                else
-                    postQuery.Type = PostQueryType.UNKNOWN;
-
-                switch (postQuery.Type)
-                {
-                    case PostQueryType.SYSTEM:
-                    default:
-                        break;
-                }
-            }
-
-            request.PostQuery = postQuery;
-        }
-
-        /// <summary>
         /// Setzt das Query des Requests
         /// </summary>
         /// <param name="request"></param>
@@ -224,7 +176,7 @@ namespace SmartMirrorServer.Extensions
 
             if (finalQuery == " ")
             {
-                query.FileName = FileName.HOME;
+                query.FileName = FileName.SETTINGS;
                 query.FileType = FileType.HTML;
                 query.FilePath = "";
                 request.Query = query;
@@ -240,20 +192,12 @@ namespace SmartMirrorServer.Extensions
 
                 switch (splittedFile[0])
                 {
+                    case "settings":
+                        query.FileName = FileName.SETTINGS;
+                        break;
+
                     case "home":
                         query.FileName = FileName.HOME;
-                        break;
-
-                    case "microcontroller":
-                        query.FileName = FileName.MICROCONTROLLER;
-                        break;
-
-                    case "module":
-                        query.FileName = FileName.MODULE;
-                        break;
-
-                    case "allunits":
-                        query.FileName = FileName.ALLUNITS;
                         break;
 
                     case "time":

@@ -6,21 +6,21 @@ using SmartMirrorServer.HelperMethods;
 
 namespace SmartMirrorServer.RequestHandler.Browser.Sites
 {
-    internal static class BrowserHome
+    internal static class BrowserSettings
     {
         #region Public Methods
 
         /// <summary>
-        /// Bildet Home Seite und gibt diese zurück
+        /// Bildet Settings Seite und gibt diese zurück
         /// </summary>
         /// <returns></returns>
-        public static async Task<byte[]> BuildBrowserHome()
+        public static async Task<byte[]> BuildBrowserSettings()
         {
             string page = string.Empty;
 
             try
             {
-                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("Websites\\Browser\\home.html");
+                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\Browser\\settings.html");
 
                 foreach (string line in file)
                 {

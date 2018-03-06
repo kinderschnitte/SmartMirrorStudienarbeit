@@ -19,6 +19,7 @@ namespace SmartMirror
         public App()
         {
             InitializeComponent();
+
             Suspending += onSuspending;
         }
 
@@ -82,6 +83,7 @@ namespace SmartMirror
         private static void onSuspending(object sender, SuspendingEventArgs e)
         {
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
+            SmartMirrorServer.StartupTask.SaveData();
             //TODO: Anwendungszustand speichern und alle Hintergrundaktivitäten beenden
             deferral.Complete();
         }

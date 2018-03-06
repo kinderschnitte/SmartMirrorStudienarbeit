@@ -18,28 +18,5 @@ namespace SmartMirrorServer.Extensions
             int end = strSource.IndexOf(strEnd, start, StringComparison.Ordinal);
             return strSource.Substring(start, end - start);
         }
-
-        /// <summary>
-        /// Gibt den Valut Type als Enum zurück
-        /// </summary>
-        /// <param name="valueType"></param>
-        /// <returns></returns>
-        public static Enums.PostQueryEnums.ValueType GetValueType(this string valueType)
-        {
-            switch (valueType)
-            {
-                case "STATUS":
-                    return Enums.PostQueryEnums.ValueType.STATUS;
-
-                case "INTERVALL":
-                    return Enums.PostQueryEnums.ValueType.INTERVALL;
-
-                case "BRIGHTNESS":
-                    return Enums.PostQueryEnums.ValueType.BRIGHTNESS;
-
-                default:
-                    return Enums.PostQueryEnums.ValueType.UNKNOWN;
-            }
-        }
     }
 }
