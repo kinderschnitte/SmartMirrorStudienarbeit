@@ -19,6 +19,10 @@ namespace SmartMirrorServer.Extensions
         {
             switch (connection.Split(' ')[1])
             {
+                case "keep-alive":
+                    request.Connection = ConnectionTyp.KEEP_ALIVE;
+                    break;
+
                 case "Keep-Alive":
                     request.Connection = ConnectionTyp.KEEP_ALIVE;
                     break;

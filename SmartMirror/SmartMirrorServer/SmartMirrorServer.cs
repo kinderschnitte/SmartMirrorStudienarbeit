@@ -12,7 +12,7 @@ using SmartMirrorServer.Objects;
 
 namespace SmartMirrorServer
 {
-    internal static class SmartMirrorServer
+    internal class SmartMirrorServer
     {
 
         #region Private Fields
@@ -29,24 +29,28 @@ namespace SmartMirrorServer
         /// <summary>
         /// Startet den Server Smart Home Webserver
         /// </summary>
-        public static async void Start()
+        public async void Start()
         {
             try
             {
                 // Server Instanz
                 StreamSocketListener listener = new StreamSocketListener();
 
+                // Event, welches bei einer http Anfrage ausgelöst wird
+                listener.ConnectionReceived += listener_ConnectionReceived;
+
                 // Server Port 80
                 await listener.BindServiceNameAsync("80");
 
-                // Event, welches bei einer http Anfrage ausgelöst wird
-                listener.ConnectionReceived += listener_ConnectionReceived;
+                Debug.WriteLine("Server gestartet auf Port: " + listener.Information.LocalPort); // TODO Löschen
 
                 if (Application.Notifications.SystemStartNotifications)
                     Notification.Notification.SendPushNotification("System wurde gestartet.", "Das Smart Home System wurde erfolgreich gestartet.");
             }
             catch (Exception exception)
             {
+                Debug.WriteLine(exception.StackTrace); // TODO Löschen
+
                 if (Application.Notifications.ExceptionNotifications)
                     Notification.Notification.SendPushNotification("Fehler aufgetreten.", $"{exception.StackTrace}");
             }
@@ -61,7 +65,7 @@ namespace SmartMirrorServer
         /// </summary>
         /// <param name="inputStream"></param>
         /// <returns></returns>
-        private static async Task<StringBuilder> handleHttpRequest(IInputStream inputStream)
+        private async Task<StringBuilder> handleHttpRequest(IInputStream inputStream)
         {
             StringBuilder requestString = new StringBuilder();
 
@@ -88,7 +92,7 @@ namespace SmartMirrorServer
         /// <param name="args"></param>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        private static async Task handleHttpResponse(StreamSocketListenerConnectionReceivedEventArgs args, StringBuilder requestString)
+        private async Task handleHttpResponse(StreamSocketListenerConnectionReceivedEventArgs args, StringBuilder requestString)
         {
             Debug.WriteLine(requestString.ToString()); // TODO Löschen
 
@@ -107,7 +111,7 @@ namespace SmartMirrorServer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private static async void listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
+        private async void listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
             Console.WriteLine("Verbindung eingegangen");
 
@@ -125,7 +129,7 @@ namespace SmartMirrorServer
         /// <param name="request"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static async Task sendPicture(Stream responseStream, Request request, byte[] file)
+        private async Task sendPicture(Stream responseStream, Request request, byte[] file)
         {
             string fileType;
 
@@ -165,7 +169,7 @@ namespace SmartMirrorServer
         /// <param name="request"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static async Task sendResponse(IOutputStream outputStream, Request request, byte[] file)
+        private async Task sendResponse(IOutputStream outputStream, Request request, byte[] file)
         {
             using (IOutputStream output = outputStream)
             {
@@ -185,7 +189,7 @@ namespace SmartMirrorServer
         /// <param name="responseStream"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static async Task sendWebsite(Stream responseStream, byte[] file)
+        private async Task sendWebsite(Stream responseStream, byte[] file)
         {
             using (MemoryStream bodyStream = new MemoryStream(file))
             {

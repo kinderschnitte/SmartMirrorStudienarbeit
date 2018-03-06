@@ -22,7 +22,7 @@ namespace SmartMirrorServer.RequestHandler.Mirror.Sites
 
             try
             {
-                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("Websites\\Mirror\\home.html");
+                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\Mirror\\home.html");
 
                 // Sunset / Sunrise
                 Sun sun = new Sun();
