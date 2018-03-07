@@ -17,7 +17,7 @@ namespace SmartMirrorServer.RequestHandler
         {
             try
             {
-                return File.ReadAllBytes("Images/" + request.Query.CompleteQuery.Replace(" ", ""));
+                return File.ReadAllBytes("SmartMirrorServer/Images/" + request.Query.CompleteQuery.Replace(" ", ""));
             }
             catch (Exception exception)
             {

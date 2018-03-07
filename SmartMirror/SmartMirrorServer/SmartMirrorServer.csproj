@@ -147,6 +147,21 @@
     <None Include="SmartMirrorServer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\SmartMirror\cloudy-icon.png" />
+    <Content Include="Images\SmartMirror\favicon.ico" />
+    <Content Include="Images\SmartMirror\lightening-icon.png" />
+    <Content Include="Images\SmartMirror\mostly-cloudy-icon.png" />
+    <Content Include="Images\SmartMirror\mostly-sunny-icon.png" />
+    <Content Include="Images\SmartMirror\raining-icon.png" />
+    <Content Include="Images\SmartMirror\shower-icon-2.png" />
+    <Content Include="Images\SmartMirror\shower-icon.png" />
+    <Content Include="Images\SmartMirror\snowing-icon.png" />
+    <Content Include="Images\SmartMirror\sunny-icon-2.png" />
+    <Content Include="Images\SmartMirror\sunny-icon-3.png" />
+    <Content Include="Images\SmartMirror\sunny-icon.png" />
+    <Content Include="Images\SmartMirror\thunder-storm-icon.png" />
+    <Content Include="Images\SmartMirror\windy-icon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
       <InProject>false</InProject>
@@ -186,9 +201,7 @@
       <Version>3.1.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Weather\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>

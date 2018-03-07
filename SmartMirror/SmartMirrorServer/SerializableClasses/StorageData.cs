@@ -44,9 +44,9 @@ namespace SmartMirrorServer.SerializableClasses
         public string Language { get; set; }
 
         [DataMember]
-        public LatitudeCoords LatitudeCoords { get; set; }
+        public LatitudeCoords LatitudeCoords { get; set; } = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH);
 
         [DataMember]
-        public LongitudeCoords LongitudeCoords { get; set; }
+        public LongitudeCoords LongitudeCoords { get; set; } = new LongitudeCoords(8, 24, 13, LongitudeCoords.Direction.EAST);
     }
 }

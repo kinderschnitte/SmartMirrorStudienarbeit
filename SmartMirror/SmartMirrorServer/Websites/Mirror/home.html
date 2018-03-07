@@ -6,11 +6,11 @@
 		<title>Smart Mirror</title>
 		<style>
 			html {
-			    margin: 0;
+				margin: 0;
 				background: black;
 				min-height: 100%;
-			    -ms-background-size: cover;
-			    background-size: cover;
+				-ms-background-size: cover;
+				background-size: cover;
 			}
 
 			body {
@@ -34,21 +34,27 @@
 				padding: 10px;
 				font-size: 2vmin;
 				text-align: center;
-			    color: white;
-			    align-self: center;
+				color: white;
+				align-self: center;
 			}
 
 			.clock {
-			    display: block;
-			    font-size: 5em;
-			    text-align: center;
-			    width: 100%;
+				display: block;
+				font-size: 5em;
+				text-align: center;
+				width: 100%;
 			}
 
 			.sun {
-			    display: block;
-			    font-size: 2em;
-			    text-align: center;
+				display: block;
+				font-size: 2em;
+				text-align: center;
+			}
+
+			.weathericon {
+				display: block;
+				font-size: 2em;
+				text-align: center;
 			}
 		</style>
 	</head>
@@ -60,11 +66,13 @@
 				<div class="sun"><div style="width: 50%; float: left;">Sunrise:</div><div style="width: 50%; float: right;">Sunset:</div></div>
 				<div class="sun"><div style="width: 50%; float: left;">sunriseTime</div><div style="width: 50%; float: right;">sunsetTime</div></div>
 			</div>
-			<div class="grid-item">2</div>
+			<div class="grid-item">
+				<div class="weathericon"><div style="width: 50%; float: left;"><img src="cloudy-icon.png" alt="" style="width: 100%"/></div></div>
+			</div>
 			<div class="grid-item">3</div>
 			<div class="grid-item">4</div>
 			<div class="grid-item">5</div>
-		    <div class="grid-item">6</div>
+			<div class="grid-item">6</div>
 			<div class="grid-item">7</div>
 			<div class="grid-item">8</div>
 			<div class="grid-item">9</div>
