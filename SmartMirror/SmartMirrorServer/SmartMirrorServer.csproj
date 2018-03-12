@@ -11,7 +11,7 @@
     <AssemblyName>SmartMirrorServer</AssemblyName>
     <DefaultLanguage>de-DE</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
@@ -121,10 +121,11 @@
     <Compile Include="Objects\Sun\Coords.cs" />
     <Compile Include="Objects\Sun\LatitudeCoords.cs" />
     <Compile Include="Objects\Sun\LongitudeCoords.cs" />
-    <Compile Include="RequestHandler\Browser\BrowserSite.cs" />
-    <Compile Include="RequestHandler\Browser\Sites\BrowserSettings.cs" />
-    <Compile Include="RequestHandler\Mirror\MirrorSite.cs" />
-    <Compile Include="RequestHandler\Mirror\Sites\MirrorHome.cs" />
+    <Compile Include="RequestHandler\Site.cs" />
+    <Compile Include="RequestHandler\Sites\Settings.cs" />
+    <Compile Include="RequestHandler\Sites\Weather.cs" />
+    <Compile Include="RequestHandler\Sites\Time.cs" />
+    <Compile Include="RequestHandler\Sites\Home.cs" />
     <Compile Include="RequestHandler\RequestHandler.cs" />
     <Compile Include="RequestHandler\ResponseImage.cs" />
     <Compile Include="RequestHandler\ResponseWebsite.cs" />
@@ -148,20 +149,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\favicon.ico" />
-    <Content Include="Images\SmartMirror\cloudy-icon.png" />
-    <Content Include="Images\SmartMirror\favicon.ico" />
-    <Content Include="Images\SmartMirror\lightening-icon.png" />
-    <Content Include="Images\SmartMirror\mostly-cloudy-icon.png" />
-    <Content Include="Images\SmartMirror\mostly-sunny-icon.png" />
-    <Content Include="Images\SmartMirror\raining-icon.png" />
-    <Content Include="Images\SmartMirror\shower-icon-2.png" />
-    <Content Include="Images\SmartMirror\shower-icon.png" />
-    <Content Include="Images\SmartMirror\snowing-icon.png" />
-    <Content Include="Images\SmartMirror\sunny-icon-2.png" />
-    <Content Include="Images\SmartMirror\sunny-icon-3.png" />
-    <Content Include="Images\SmartMirror\sunny-icon.png" />
-    <Content Include="Images\SmartMirror\thunder-storm-icon.png" />
-    <Content Include="Images\SmartMirror\windy-icon.png" />
+    <Content Include="Images\cloudy-icon.png" />
+    <Content Include="Images\humidity.png" />
+    <Content Include="Images\lightening-icon.png" />
+    <Content Include="Images\mostly-cloudy-icon.png" />
+    <Content Include="Images\mostly-sunny-icon.png" />
+    <Content Include="Images\raining-icon.png" />
+    <Content Include="Images\shower-icon-2.png" />
+    <Content Include="Images\shower-icon.png" />
+    <Content Include="Images\snowing-icon.png" />
+    <Content Include="Images\sunny-icon-2.png" />
+    <Content Include="Images\sunny-icon-3.png" />
+    <Content Include="Images\sunny-icon.png" />
+    <Content Include="Images\thunder-storm-icon.png" />
+    <Content Include="Images\windspeed.png" />
+    <Content Include="Images\windy-icon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
       <InProject>false</InProject>
@@ -184,15 +186,15 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png">
       <InProject>false</InProject>
     </Content>
-    <Content Include="Websites\Browser\settings.html" />
-    <Content Include="Websites\Mirror\home.html" />
+    <Content Include="Websites\settings.html" />
+    <Content Include="Websites\home.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="lightbuzz-smtp">
       <Version>1.8.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.7</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.1</Version>

@@ -5,7 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Smart Mirror</title>
 		<style>
-			html {
+			html
+            {
 				margin: 0;
 				background: black;
 				min-height: 100%;
@@ -13,22 +14,25 @@
 				background-size: cover;
 			}
 
-			body {
+			body
+            {
 				margin: 0;
 				min-height: 100%;
 			}
 
-			.grid-container {
+			.grid-container
+            {
 				display: grid;
 				min-height: 100%;
 				width: 100vw;
 				height: 100vh;
-				grid-template-columns: 33.3% 33.3% 33.3%;
+				grid-template-columns: 50% 50%;
 				background-color: black;
 				padding: 10px;
 			}
 
-			.grid-item {
+			.grid-item
+            {
 				background-color: black;
 				border: 1px solid whitesmoke;
 				padding: 10px;
@@ -38,23 +42,26 @@
 				align-self: center;
 			}
 
-			.clock {
+			.clock
+            {
 				display: block;
-				font-size: 5em;
+				font-size: 9em;
 				text-align: center;
 				width: 100%;
 			}
 
-			.sun {
+			.sun
+            {
 				display: block;
 				font-size: 2em;
 				text-align: center;
 			}
 
-			.weathericon {
-				display: block;
-				font-size: 2em;
-				text-align: center;
+			.weatherinfo
+			{
+			    display: block;
+			    font-size: 1.5em;
+			    text-align: center;
 			}
 		</style>
 	</head>
@@ -63,19 +70,36 @@
 		<div class="grid-container">
 			<div class="grid-item">
 				<div class="clock">00:00:00</div>
-				<div class="sun"><div style="width: 50%; float: left;">Sunrise:</div><div style="width: 50%; float: right;">Sunset:</div></div>
+				<div class="sun"><div style="width: 50%; float: left;">Sonnenaufgang:</div><div style="width: 50%; float: right;">Sonnenuntergang:</div></div>
 				<div class="sun"><div style="width: 50%; float: left;">sunriseTime</div><div style="width: 50%; float: right;">sunsetTime</div></div>
 			</div>
-			<div class="grid-item">
-				<div class="weathericon"><div style="width: 50%; float: left;"><img src="cloudy-icon.png" alt="" style="width: 100%"/></div></div>
-			</div>
+		    <div class="grid-item">
+		        <table style="width: 100%; padding-right: 5%; padding-left: 5%;">
+		            <tr>
+		                <th colspan="4" style="font-size: 2em">Wetterbeschreibung</th>
+		            </tr>
+		            <tr>
+		                <td colspan="2" rowspan="3">
+		                    <img src="WetterIcon" alt="" style="width: 80%;"/>
+		                </td>
+		                <td colspan="2">
+		                    <label style="font-size: 5em">AktuelleTemperatur</label>
+		                </td>
+		            </tr>
+		            <tr>
+		                <td><label style="font-size: 1.25em">Min: MinimaleTemperatur</label></td>
+		                <td><label style="font-size: 1.25em">Max: MaximaleTemperatur</label></td>
+		            </tr>
+		            <tr>
+		                <td style="font-size: 2em"><img src="humidity.png" alt="" style="height: 0.75em"/> Luftfeuchtigkeit</td>
+                        <td style="font-size: 2em"><img src="windspeed.png" alt="" style="height: 0.75em"/> Windgeschwindigkeit</td>
+		            </tr>
+		        </table>
+		    </div>
 			<div class="grid-item">3</div>
 			<div class="grid-item">4</div>
 			<div class="grid-item">5</div>
 			<div class="grid-item">6</div>
-			<div class="grid-item">7</div>
-			<div class="grid-item">8</div>
-			<div class="grid-item">9</div>
 		</div>
 	</main>
 	<script type="text/javascript">

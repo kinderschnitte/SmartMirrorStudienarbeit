@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using SmartMirrorServer.HelperMethods;
-using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
-namespace SmartMirrorServer.RequestHandler.Mirror.Sites
+namespace SmartMirrorServer.RequestHandler.Sites
 {
-    internal static class MirrorHome
+    internal static class Weather
     {
         #region Public Methods
 
@@ -16,16 +15,13 @@ namespace SmartMirrorServer.RequestHandler.Mirror.Sites
         /// Bildet Home Seite und gibt diese zurück
         /// </summary>
         /// <returns></returns>
-        public static async Task<byte[]> BuildMirrorHome()
+        public static async Task<byte[]> BuildWeather()
         {
             string page = string.Empty;
 
             try
             {
-                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\Mirror\\home.html");
-
-                // Sunset / Sunrise
-                Sun sun = new Sun();
+                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\weather.html");
 
                 SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName();
                 Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName();
@@ -38,8 +34,8 @@ namespace SmartMirrorServer.RequestHandler.Mirror.Sites
                         tag = tag.Replace("startTime", Application.StartTime);
                     else if (tag.Contains("sunriseTime") || tag.Contains("sunsetTime"))
                     {
-                        tag = tag.Replace("sunriseTime", sun.Sunrise);
-                        tag = tag.Replace("sunsetTime", sun.Sunset);
+                        //tag = tag.Replace("sunriseTime", );
+                        //tag = tag.Replace("sunsetTime", );
                     }
 
                     page += tag;

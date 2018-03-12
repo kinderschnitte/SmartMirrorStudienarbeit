@@ -5,6 +5,7 @@
         SETTINGS,
         HOME,
         TIME,
+        WEATHER,
         UNKNOWN
     }
 }
