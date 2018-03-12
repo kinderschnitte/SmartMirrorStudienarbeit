@@ -29,6 +29,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 Sun sun = new Sun();
 
                 SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName();
+
                 Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName();
 
                 foreach (string line in file)

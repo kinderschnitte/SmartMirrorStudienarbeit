@@ -20,63 +20,52 @@
 				min-height: 100%;
 			}
 
-			.grid-container
-            {
-				display: grid;
-				min-height: 100%;
-				width: 100vw;
-				height: 100vh;
-				grid-template-columns: 50% 50%;
-				background-color: black;
-				padding: 10px;
-			}
+            .grid-container {
+                display: grid;
+                min-height: 100%;
+                width: 100vw;
+                height: 100vh;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: 33.3% 33.3% 33.3%;
+                background-color: black;
+                padding: 10px;
+            }
 
 			.grid-item
             {
 				background-color: black;
 				border: 1px solid whitesmoke;
-				padding: 10px;
 				font-size: 2vmin;
 				text-align: center;
 				color: white;
 				align-self: center;
-			}
-
-			.clock
-            {
-				display: block;
-				font-size: 9em;
-				text-align: center;
-				width: 100%;
-			}
-
-			.sun
-            {
-				display: block;
-				font-size: 2em;
-				text-align: center;
-			}
-
-			.weatherinfo
-			{
-			    display: block;
-			    font-size: 1.5em;
-			    text-align: center;
+			    height: 100%;
+			    width: 100%;
 			}
 		</style>
 	</head>
 	<body onload="startTime()">
 	<main>
 		<div class="grid-container">
-			<div class="grid-item">
-				<div class="clock">00:00:00</div>
-				<div class="sun"><div style="width: 50%; float: left;">Sonnenaufgang:</div><div style="width: 50%; float: right;">Sonnenuntergang:</div></div>
-				<div class="sun"><div style="width: 50%; float: left;">sunriseTime</div><div style="width: 50%; float: right;">sunsetTime</div></div>
-			</div>
 		    <div class="grid-item">
-		        <table style="width: 100%; padding-right: 5%; padding-left: 5%;">
+		        <table style="width: 100%; height: 100%; padding: 5%">
 		            <tr>
-		                <th colspan="4" style="font-size: 2em">Wetterbeschreibung</th>
+		                <td colspan="2" style="font-size: 8em;" class="clock">00:00:00</td>
+		            </tr>
+		            <tr>
+                        <td style="font-size: 1.25em;">Sonnenaufgang:</td>
+                        <td style="font-size: 1.25em;">Sonnenuntergang:</td>
+		            </tr>
+		            <tr>
+                        <td style="font-size: 1.75em;">sunriseTime</td>
+                        <td style="font-size: 1.75em;">sunsetTime</td>
+		            </tr>
+		        </table>
+		    </div>
+		    <div class="grid-item">
+		        <table style="width: 100%; height: 100%; padding: 5%;">
+		            <tr>
+		                <th colspan="4" style="font-size: 2em;">Wetterbeschreibung</th>
 		            </tr>
 		            <tr>
 		                <td colspan="2" rowspan="3">
@@ -87,8 +76,8 @@
 		                </td>
 		            </tr>
 		            <tr>
-		                <td><label style="font-size: 1.25em">Min: MinimaleTemperatur</label></td>
-		                <td><label style="font-size: 1.25em">Max: MaximaleTemperatur</label></td>
+		                <td><label style="font-size: 1.25em;">Min: MinimaleTemperatur</label></td>
+		                <td><label style="font-size: 1.25em;">Max: MaximaleTemperatur</label></td>
 		            </tr>
 		            <tr>
 		                <td style="font-size: 2em"><img src="humidity.png" alt="" style="height: 0.75em"/> Luftfeuchtigkeit</td>
