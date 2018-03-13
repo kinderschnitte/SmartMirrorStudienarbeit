@@ -24,7 +24,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\time.html");
 
                 // Sunset / Sunrise
-                Sun sun = new Sun();
+                //Sun sun = new Sun();
 
                 foreach (string line in file)
                 {
@@ -34,8 +34,8 @@ namespace SmartMirrorServer.RequestHandler.Sites
                         tag = tag.Replace("startTime", Application.StartTime);
                     else if (tag.Contains("sunriseTime") || tag.Contains("sunsetTime"))
                     {
-                        tag = tag.Replace("sunriseTime", sun.Sunrise);
-                        tag = tag.Replace("sunsetTime", sun.Sunset);
+                        //tag = tag.Replace("sunriseTime", sun.Sunrise);
+                        //tag = tag.Replace("sunsetTime", sun.Sunset);
                     }
 
                     page += tag;

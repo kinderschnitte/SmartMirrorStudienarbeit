@@ -52,7 +52,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
         private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName()
         {
-            return await CurrentWeather.GetByCityNameAsync(Application.StorageData.City, Application.StorageData.Country, Application.StorageData.Language, "metric");
+            return await CurrentWeather.GetByCityNameAsync("Karlsruhe", "Germany", "de", "metric");
         }
 
 

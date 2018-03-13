@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NewsAPI;
+using NewsAPI.Constants;
+using NewsAPI.Models;
 using SmartMirrorServer.HelperMethods;
+using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
+using SmartMirrorServer.Objects.Sun;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -25,12 +31,26 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\home.html");
 
+                // TODO entfernen
+                Module testModule = new Module
+                {
+                    NewsCategory = Categories.Sports,
+                    NewsCountry = Countries.DE,
+                    NewsLanguage = Languages.DE,
+                    NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" },
+                    LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.Direction.EAST),
+                    LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH)
+                };
+
                 // Sunset / Sunrise
-                Sun sun = new Sun();
+                Sun sun = new Sun(testModule);
 
                 SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName();
 
                 Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName();
+
+                ArticlesResult result1 = await getNewsBySource(testModule);
+                //ArticlesResult result2 = await getNewsByCategory(testModule);
 
                 foreach (string line in file)
                 {
@@ -58,6 +78,34 @@ namespace SmartMirrorServer.RequestHandler.Sites
                         tag = tag.Replace("Wetterbeschreibung", currentResult.Item.Description);
                     else if (tag.Contains("WetterIcon"))
                         tag = tag.Replace("WetterIcon", chooseWeatherIcon(currentResult.Item.Icon));
+                    else if (tag.Contains("Ort"))
+                        tag = tag.Replace("Ort", currentResult.Item.City);
+                    else if (tag.Contains("Nachrichten"))
+                    {
+                        StringBuilder stringBuilder = new StringBuilder();
+
+                        stringBuilder.Append(
+                            "<table style=\"width: 100%; height: 100%; padding: 5%; text-align: left;\">" +
+                                "<tr>" +
+                                    "<th colspan=\"4\" style=\"font-size: 2.25em;\">News</th>" +
+                                "</tr>"
+                                );
+
+                        foreach (Article article in result1.Articles.Take(4))
+                        {
+                            stringBuilder.Append(
+                                    "<tr>" +
+                                        "<td>" +
+                                            $"<label style=\"font - size: 2em\">{article.Title}</label>" +
+                                        "</td>" +
+                                    "</tr>"
+                                );
+                        }
+
+                        stringBuilder.Append("</table>");
+
+                        tag = tag.Replace("Nachrichten", stringBuilder.ToString());
+                    }
 
                     page += tag;
                 }
@@ -118,6 +166,33 @@ namespace SmartMirrorServer.RequestHandler.Sites
         private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName()
         {
             return await FiveDaysForecast.GetByCityNameAsync("Karlsruhe", "Germany", "de", "metric"); // TODO Wie oben anpassen
+        }
+
+        private static async Task<ArticlesResult> getNewsBySource(Module module)
+        {
+            NewsApiClient newsApiClient = new NewsApiClient(Application.NewsApiKey);
+
+            ArticlesResult topheadlines = await newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+            {
+                Language = module.NewsLanguage,
+                Sources = module.NewsSources
+            });
+
+            return topheadlines;
+        }
+
+        private static async Task<ArticlesResult> getNewsByCategory(Module module)
+        {
+            NewsApiClient newsApiClient = new NewsApiClient(Application.NewsApiKey);
+
+            ArticlesResult topheadlines = await newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+            {
+                Category = module.NewsCategory,
+                Country = module.NewsCountry,
+                Language = module.NewsLanguage
+            });
+
+            return topheadlines;
         }
 
         #endregion Public Methods

@@ -24,6 +24,8 @@ namespace SmartMirrorServer
 
             WeatherApiKey = "4ce3d25d1b8cb5953ba718abd11bd07a";
 
+            NewsApiKey = "9d6d50c70043491ba1aa1a2048b4197a";
+
             loadData();
         }
 
@@ -54,6 +56,8 @@ namespace SmartMirrorServer
         public static string WeatherApiUrl { get; }
 
         public static string WeatherApiKey { get; }
+
+        public static string NewsApiKey { get; }
 
         public static StorageData StorageData { get; private set; }
 
