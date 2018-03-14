@@ -42,8 +42,6 @@ namespace SmartMirrorServer
                 // Server Port 80
                 await listener.BindServiceNameAsync("80");
 
-                Debug.WriteLine("Server gestartet auf Port: " + listener.Information.LocalPort); // TODO Löschen
-
                 if (Application.Notifications.SystemStartNotifications)
                     Notification.Notification.SendPushNotification("System wurde gestartet.", "Das Smart Home System wurde erfolgreich gestartet.");
             }

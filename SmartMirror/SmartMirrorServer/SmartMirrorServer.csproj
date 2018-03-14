@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Enums\ModuleType.cs" />
+    <Compile Include="Enums\ModulLocation.cs" />
     <Compile Include="Enums\QueryEnums\FileName.cs" />
     <Compile Include="Enums\QueryEnums\FileType.cs" />
     <Compile Include="Enums\RequestEnums\AcceptResponseEncoding.cs" />

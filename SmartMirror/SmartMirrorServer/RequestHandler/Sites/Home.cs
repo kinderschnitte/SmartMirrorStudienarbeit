@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NewsAPI;
 using NewsAPI.Constants;
 using NewsAPI.Models;
+using SmartMirrorServer.Enums;
 using SmartMirrorServer.HelperMethods;
 using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls;
@@ -34,27 +35,40 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 // TODO entfernen
                 Module testModule = new Module
                 {
+                    ModuleType = ModuleType.NONE,
                     NewsCategory = Categories.Sports,
                     NewsCountry = Countries.DE,
                     NewsLanguage = Languages.DE,
                     NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" },
                     LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.Direction.EAST),
-                    LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH)
+                    LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH),
+                    Language = "de",
+                    City = "Karlsruhe",
+                    Country = "Germany"
                 };
 
                 // Sunset / Sunrise
                 Sun sun = new Sun(testModule);
 
-                SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName();
-
-                Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName();
-
-                ArticlesResult result1 = await getNewsBySource(testModule);
+                //Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName(testModule);
                 //ArticlesResult result2 = await getNewsByCategory(testModule);
 
                 foreach (string line in file)
                 {
                     string tag = line;
+
+                    if (tag.Contains("Modul0"))
+                        tag = tag.Replace("Modul0", await getModul(ModulLocation.UPPERLEFT));
+                    else if (tag.Contains("Modul1"))
+                        tag = tag.Replace("Modul1", await getModul(ModulLocation.UPPERRIGHT));
+                    else if (tag.Contains("Modul2"))
+                        tag = tag.Replace("Modul2", await getModul(ModulLocation.MIDDLELEFT));
+                    else if (tag.Contains("Modul3"))
+                        tag = tag.Replace("Modul3", await getModul(ModulLocation.MIDDLERIGHT));
+                    else if (tag.Contains("Modul4"))
+                        tag = tag.Replace("Modul4", await getModul(ModulLocation.LOWERLEFT));
+                    else if (tag.Contains("Modul5"))
+                        tag = tag.Replace("Modul5", await getModul(ModulLocation.LOWERRIGHT));
 
                     if (tag.Contains("startTime"))
                         tag = tag.Replace("startTime", Application.StartTime);
@@ -63,8 +77,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
                         tag = tag.Replace("sunriseTime", sun.Sunrise);
                         tag = tag.Replace("sunsetTime", sun.Sunset);
                     }
-                    else if (tag.Contains("AktuelleTemperatur"))
-                        tag = tag.Replace("AktuelleTemperatur", Math.Round(currentResult.Item.Temp, 1).ToString(CultureInfo.InvariantCulture) + " °C");
                     else if (tag.Contains("MaximaleTemperatur") || tag.Contains("MinimaleTemperatur"))
                     {
                         tag = tag.Replace("MaximaleTemperatur", currentResult.Item.TempMax.ToString(CultureInfo.InvariantCulture) + " °C");
@@ -74,38 +86,8 @@ namespace SmartMirrorServer.RequestHandler.Sites
                         tag = tag.Replace("Luftfeuchtigkeit", currentResult.Item.Humidity.ToString(CultureInfo.InvariantCulture) + " %");
                     else if (tag.Contains("Windgeschwindigkeit"))
                         tag = tag.Replace("Windgeschwindigkeit", currentResult.Item.WindSpeed.ToString(CultureInfo.InvariantCulture) + " km/h");
-                    else if (tag.Contains("Wetterbeschreibung"))
-                        tag = tag.Replace("Wetterbeschreibung", currentResult.Item.Description);
-                    else if (tag.Contains("WetterIcon"))
-                        tag = tag.Replace("WetterIcon", chooseWeatherIcon(currentResult.Item.Icon));
                     else if (tag.Contains("Ort"))
                         tag = tag.Replace("Ort", currentResult.Item.City);
-                    else if (tag.Contains("Nachrichten"))
-                    {
-                        StringBuilder stringBuilder = new StringBuilder();
-
-                        stringBuilder.Append(
-                            "<table style=\"width: 100%; height: 100%; padding: 5%; text-align: left;\">" +
-                                "<tr>" +
-                                    "<th colspan=\"4\" style=\"font-size: 2.25em;\">News</th>" +
-                                "</tr>"
-                                );
-
-                        foreach (Article article in result1.Articles.Take(4))
-                        {
-                            stringBuilder.Append(
-                                    "<tr>" +
-                                        "<td>" +
-                                            $"<label style=\"font - size: 2em\">{article.Title}</label>" +
-                                        "</td>" +
-                                    "</tr>"
-                                );
-                        }
-
-                        stringBuilder.Append("</table>");
-
-                        tag = tag.Replace("Nachrichten", stringBuilder.ToString());
-                    }
 
                     page += tag;
                 }
@@ -117,6 +99,145 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
 
             return Encoding.UTF8.GetBytes(page);
+        }
+
+        private static async Task<string> getModul(ModulLocation modulLocation)
+        {
+            switch (modulLocation)
+            {
+                case ModulLocation.UPPERLEFT:
+                     return await buildModul(Application.StorageData.UpperLeftModule);
+
+                case ModulLocation.UPPERRIGHT:
+                     return await buildModul(Application.StorageData.UpperRightModule);
+
+                case ModulLocation.MIDDLELEFT:
+                    return await buildModul(Application.StorageData.MiddleLeftModule);
+
+                case ModulLocation.MIDDLERIGHT:
+                    return await buildModul(Application.StorageData.MiddleRightModule);
+
+                case ModulLocation.LOWERLEFT:
+                    return await buildModul(Application.StorageData.LowerLeftModule);
+
+                case ModulLocation.LOWERRIGHT:
+                    return await buildModul(Application.StorageData.LowerRightModule);
+            }
+
+            return string.Empty;
+        }
+
+        private static async Task<string> buildModul(Module module)
+        {
+            switch (module.ModuleType)
+            {
+                case ModuleType.NONE:
+                    return string.Empty;
+
+                case ModuleType.TIME:
+                    return getTimeModul(module);
+
+                case ModuleType.WEATHER:
+                    return await getWeatherModul(module);
+
+                case ModuleType.WEATHERFORECAST:
+                    return getWeatherforecastModul(module);
+
+                case ModuleType.NEWS:
+                    return await getNewsModul(module);
+            }
+
+            return string.Empty;
+        }
+
+        private static async Task<string> getNewsModul(Module module)
+        {
+            ArticlesResult result = await getNewsBySource(module);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(
+                                 "<table style=\"width: 100%; height: 100%; padding: 5%;\">" +
+                                    "<tr>" +
+                                        "<td colspan=\"4\" style=\"font-size: 2em;\">News</td>" +
+                                    "</tr>"
+                                );
+
+            foreach (Article article in result.Articles.Take(4))
+            {
+                stringBuilder.Append(
+                                     "<tr>" +
+                                        "<td style=\"text-align: left;\">" +
+                                            $"<label style=\"font-size: 1.25em;\">{article.Title} ({article.Source.Name})</label>" +
+                                        "</td>" +
+                                     "</tr>"
+                                    );
+            }
+
+            stringBuilder.Append("</table>");
+
+            return stringBuilder.ToString();
+        }
+
+        private static string getWeatherforecastModul(Module module)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static async Task<string> getWeatherModul(Module module)
+        {
+            SingleResult<CurrentWeatherResult> result = await getCurrentWeatherByCityName(module);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(
+                                 "<table style=\"width: 100%; height: 100%; padding: 5%;\">" +
+                                    "<tr>" +
+                                        $"<th colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</th>" +
+                                    "</tr>"
+                                );
+
+            stringBuilder.Append(
+                                 "<tr>" +
+                                    "<td colspan=\"2\" rowspan=\"2\" >" +
+                                        $"<img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/>" +
+                                    "</td>" +
+                                    "<td colspan=\"2\">" +
+                                        $"<label style=\"font-size: 5em\">{Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture) + " °C"}</label>" +
+                                    "</td>" +
+                                 "</tr>"
+                                );
+
+            stringBuilder.Append("</table>");
+
+            return stringBuilder.ToString();
+        }
+    /*              
+    </ tr >
+              
+    < tr >
+              
+    < td >< label style = "font-size: 1.25em;" > Min: MinimaleTemperatur</ label></ td >
+                     
+    < td >< label style = "font-size: 1.25em;" > Max: MaximaleTemperatur</ label></ td >
+                            
+    </ tr >
+                            
+    < tr >
+                            
+    < td colspan = "2" style = "font-size: 1.25em" >< img src = "location.png" alt = "" style = "height: 0.75em" /> Ort</ td>
+                                       
+    < td style = "font-size: 2em" >< img src = "humidity.png" alt = "" style = "height: 0.75em" /> Luftfeuchtigkeit</ td>
+                                                
+    < td style = "font-size: 2em" >< img src = "windspeed.png" alt = "" style = "height: 0.75em" /> Windgeschwindigkeit</ td>
+                                                         
+    </ tr >
+                                                         
+    </ table >*/
+
+        private static string getTimeModul(Module module)
+        {
+            throw new NotImplementedException();
         }
 
         private static string chooseWeatherIcon(string itemIcon)
@@ -156,16 +277,15 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
         }
 
-        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName()
+        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)
         {
-            //return await CurrentWeather.GetByCityNameAsync(Application.StorageData.City, Application.StorageData.Country, Application.StorageData.Language, "metric");
-            return await CurrentWeather.GetByCityNameAsync("Karlsruhe", "Germany", "de", "metric");
+            return await CurrentWeather.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
         }
 
 
-        private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName()
+        private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
         {
-            return await FiveDaysForecast.GetByCityNameAsync("Karlsruhe", "Germany", "de", "metric"); // TODO Wie oben anpassen
+            return await FiveDaysForecast.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
         }
 
         private static async Task<ArticlesResult> getNewsBySource(Module module)

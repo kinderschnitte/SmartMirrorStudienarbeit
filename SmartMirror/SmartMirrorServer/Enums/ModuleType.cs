@@ -10,6 +10,10 @@ namespace SmartMirrorServer.Enums
         [EnumMember]
         TIME,
         [EnumMember]
-        WEATHER
+        WEATHER,
+        [EnumMember]
+        WEATHERFORECAST,
+        [EnumMember]
+        NEWS
     }
 }
