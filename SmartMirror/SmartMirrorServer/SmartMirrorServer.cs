@@ -111,8 +111,6 @@ namespace SmartMirrorServer
         /// <param name="args"></param>
         private async void listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            Console.WriteLine("Verbindung eingegangen");
-
             // Verarbeitet die HTTP Anfrage
             StringBuilder requestString = await handleHttpRequest(args.Socket.InputStream);
 

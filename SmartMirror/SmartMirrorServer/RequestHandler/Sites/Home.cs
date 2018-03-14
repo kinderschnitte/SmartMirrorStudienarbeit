@@ -5,14 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NewsAPI;
-using NewsAPI.Constants;
 using NewsAPI.Models;
 using SmartMirrorServer.Enums;
 using SmartMirrorServer.HelperMethods;
 using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
-using SmartMirrorServer.Objects.Sun;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -32,26 +30,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\home.html");
 
-                // TODO entfernen
-                Module testModule = new Module
-                {
-                    ModuleType = ModuleType.NONE,
-                    NewsCategory = Categories.Sports,
-                    NewsCountry = Countries.DE,
-                    NewsLanguage = Languages.DE,
-                    NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" },
-                    LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.Direction.EAST),
-                    LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH),
-                    Language = "de",
-                    City = "Karlsruhe",
-                    Country = "Germany"
-                };
-
-                // Sunset / Sunrise
-                Sun sun = new Sun(testModule);
-
                 //Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName(testModule);
-                //ArticlesResult result2 = await getNewsByCategory(testModule);
 
                 foreach (string line in file)
                 {
@@ -69,14 +48,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
                         tag = tag.Replace("Modul4", await getModul(ModulLocation.LOWERLEFT));
                     else if (tag.Contains("Modul5"))
                         tag = tag.Replace("Modul5", await getModul(ModulLocation.LOWERRIGHT));
-
-                    if (tag.Contains("startTime"))
-                        tag = tag.Replace("startTime", Application.StartTime);
-                    else if (tag.Contains("sunriseTime") || tag.Contains("sunsetTime"))
-                    {
-                        tag = tag.Replace("sunriseTime", sun.Sunrise);
-                        tag = tag.Replace("sunsetTime", sun.Sunset);
-                    }
 
                     page += tag;
                 }
@@ -141,16 +112,21 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
         private static async Task<string> getNewsModul(Module module)
         {
-            ArticlesResult result = await getNewsBySource(module);
+            ArticlesResult result;
+
+            if (module.NewsSources == null)
+                result = await getNewsByCategory(module);
+            else
+                result = await getNewsBySource(module);
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <td colspan=\"4\" style=\"font-size: 2em;\"> News </td> </tr>");
+            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <td colspan=\"4\" style=\"font-size: 2em;\">News</td> </tr>");
 
             foreach (Article article in result.Articles.Take(4))
-            {
-                stringBuilder.Append($" <tr> <td style=\"text-align: left;\"> <label style=\"font-size: 1.25em;\"> {article.Title} ({article.Source.Name}) </label> </td> </tr> </table>");
-            }
+                stringBuilder.Append($" <tr> <td style=\"text-align: left;\" onclick=\"window.location='{article.Url}'\"> <label style=\"font-size: 1.25em;\">{article.Title} ({article.Source.Name})</label> </td> </tr>");
+
+            stringBuilder.Append(" </table>");
 
             return stringBuilder.ToString();
         }
@@ -166,20 +142,26 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <th colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</th> </tr>");
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <th colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</th> </tr>");
 
-            stringBuilder.Append($" <tr> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
-            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.25em;\"> Min: {result.Item.TempMin.ToString(CultureInfo.InvariantCulture)} °C </label> </td> <td> <label style=\"font-size: 1.25em;\"> Max: {result.Item.TempMax.ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td> <label style=\"font-size: 1.25em;\"> Min: {result.Item.TempMin.ToString(CultureInfo.InvariantCulture)} °C </label> </td> <td> <label style=\"font-size: 1.25em;\"> Max: {result.Item.TempMax.ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
-            stringBuilder.Append($" <tr> <td colspan=\"2\" style=\"font-size: 1.25em;\"><img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.City} </td> <td style=\"font-size: 2em;\"><img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.Humidity.ToString(CultureInfo.InvariantCulture)}  % </td> <td style=\"font-size: 2em;\"><img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture)} km/h </td> </tr> </table>");
+            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" style=\"font-size: 1.25em;\"><img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.City} </td> <td style=\"font-size: 2em;\"><img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.Humidity.ToString(CultureInfo.InvariantCulture)}  % </td> <td style=\"font-size: 2em;\"><img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture)} km/h </td> </tr> </table>");
 
             return stringBuilder.ToString();
         }
 
         private static string getTimeModul(Module module)
         {
-            throw new NotImplementedException();
+            Sun sun = new Sun(module);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <td colspan=\"2\" style=\"font-size: 8em;\" class=\"clock\">00:00:00</td> </tr> <tr> <td style=\"font-size: 1em;\">Sonnenaufgang:</td> <td style=\"font-size: 1em;\">Sonnenuntergang:</td> </tr> <tr> <td style=\"font-size: 1.75em;\">{sun.Sunrise}</td> <td style=\"font-size: 1.75em;\">{sun.Sunset}</td> </tr> </table>");
+
+            return stringBuilder.ToString();
         }
 
         private static string chooseWeatherIcon(string itemIcon)
@@ -223,7 +205,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
         {
             return await CurrentWeather.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
         }
-        
+
         private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
         {
             return await FiveDaysForecast.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");

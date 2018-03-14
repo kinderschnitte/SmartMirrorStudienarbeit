@@ -10,15 +10,14 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         public static SingleResult<CurrentWeatherResult> GetWeatherCurrent(JObject response)
         {
             string error = getServerErrorFromResponse(response);
+
             if (!string.IsNullOrEmpty(error))
                 return new SingleResult<CurrentWeatherResult>(null, false, error);
 
             CurrentWeatherResult weatherCurrent = new CurrentWeatherResult();
 
             if (response["sys"] != null)
-            {
                 weatherCurrent.Country = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["sys"]["country"])));
-            }
 
             if (response["weather"] != null)
             {
@@ -31,6 +30,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             {
                 weatherCurrent.Temp = Convert.ToDouble(response["main"]["temp"].Value<double>());
                 weatherCurrent.TempMax = Convert.ToDouble(response["main"]["temp_max"].Value<double>());
+
                 try
                 {
                     weatherCurrent.TempMin = Convert.ToDouble(response["main"]["temp_min"].Value<double>());
@@ -43,9 +43,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             }
 
             if (response["wind"] != null)
-            {
                 weatherCurrent.WindSpeed = Convert.ToDouble(response["wind"]["speed"].Value<double>());
-            }
 
             weatherCurrent.Date = DateTime.UtcNow;
             weatherCurrent.City = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["name"])));
@@ -57,6 +55,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         public static Result<FiveDaysForecastResult> GetWeatherForecast(JObject response)
         {
             string error = getServerErrorFromResponse(response);
+
             if (!string.IsNullOrEmpty(error))
                 return new Result<FiveDaysForecastResult>(null, false, error);
 
@@ -64,6 +63,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             List<FiveDaysForecastResult> weatherForecasts = new List<FiveDaysForecastResult>();
 
             JArray responseItems = JArray.Parse(response["list"].ToString());
+
             foreach (JToken item in responseItems)
             {
                 FiveDaysForecastResult weatherForecast = new FiveDaysForecastResult();
@@ -90,14 +90,11 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 }
 
                 if (item["wind"] != null)
-                {
                     weatherForecast.WindSpeed = Convert.ToDouble(item["wind"]["speed"].Value<double>());
-                }
 
                 if (item["clouds"] != null)
-                {
                     weatherForecast.Clouds = Convert.ToDouble(item["clouds"]["all"].Value<double>());
-                }
+
                 weatherForecast.Date = Convert.ToDateTime(item["dt_txt"].Value<DateTime>());
                 weatherForecast.DateUnixFormat = Convert.ToInt32(item["dt"].Value<int>());
 
@@ -113,8 +110,10 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 return null;
 
             string errorMessage = "Server error " + response["cod"];
+
             if (!string.IsNullOrEmpty(response["message"].ToString()))
                 errorMessage += ". " + response["message"];
+
             return errorMessage;
         }
     }

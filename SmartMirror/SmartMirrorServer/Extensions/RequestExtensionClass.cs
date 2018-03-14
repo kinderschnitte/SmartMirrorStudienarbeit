@@ -176,7 +176,7 @@ namespace SmartMirrorServer.Extensions
 
             if (finalQuery == " ")
             {
-                query.FileName = FileName.SETTINGS;
+                query.FileName = FileName.HOME;
                 query.FileType = FileType.HTML;
                 query.FilePath = "";
                 request.Query = query;
@@ -202,6 +202,10 @@ namespace SmartMirrorServer.Extensions
 
                     case "time":
                         query.FileName = FileName.TIME;
+                        break;
+
+                    case "weather":
+                        query.FileName = FileName.WEATHER;
                         break;
 
                     default:
