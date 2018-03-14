@@ -77,17 +77,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
                         tag = tag.Replace("sunriseTime", sun.Sunrise);
                         tag = tag.Replace("sunsetTime", sun.Sunset);
                     }
-                    else if (tag.Contains("MaximaleTemperatur") || tag.Contains("MinimaleTemperatur"))
-                    {
-                        tag = tag.Replace("MaximaleTemperatur", currentResult.Item.TempMax.ToString(CultureInfo.InvariantCulture) + " °C");
-                        tag = tag.Replace("MinimaleTemperatur", currentResult.Item.TempMin.ToString(CultureInfo.InvariantCulture) + " °C");
-                    }
-                    else if (tag.Contains("Luftfeuchtigkeit"))
-                        tag = tag.Replace("Luftfeuchtigkeit", currentResult.Item.Humidity.ToString(CultureInfo.InvariantCulture) + " %");
-                    else if (tag.Contains("Windgeschwindigkeit"))
-                        tag = tag.Replace("Windgeschwindigkeit", currentResult.Item.WindSpeed.ToString(CultureInfo.InvariantCulture) + " km/h");
-                    else if (tag.Contains("Ort"))
-                        tag = tag.Replace("Ort", currentResult.Item.City);
 
                     page += tag;
                 }
@@ -156,25 +145,12 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(
-                                 "<table style=\"width: 100%; height: 100%; padding: 5%;\">" +
-                                    "<tr>" +
-                                        "<td colspan=\"4\" style=\"font-size: 2em;\">News</td>" +
-                                    "</tr>"
-                                );
+            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <td colspan=\"4\" style=\"font-size: 2em;\"> News </td> </tr>");
 
             foreach (Article article in result.Articles.Take(4))
             {
-                stringBuilder.Append(
-                                     "<tr>" +
-                                        "<td style=\"text-align: left;\">" +
-                                            $"<label style=\"font-size: 1.25em;\">{article.Title} ({article.Source.Name})</label>" +
-                                        "</td>" +
-                                     "</tr>"
-                                    );
+                stringBuilder.Append($" <tr> <td style=\"text-align: left;\"> <label style=\"font-size: 1.25em;\"> {article.Title} ({article.Source.Name}) </label> </td> </tr> </table>");
             }
-
-            stringBuilder.Append("</table>");
 
             return stringBuilder.ToString();
         }
@@ -190,50 +166,16 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(
-                                 "<table style=\"width: 100%; height: 100%; padding: 5%;\">" +
-                                    "<tr>" +
-                                        $"<th colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</th>" +
-                                    "</tr>"
-                                );
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <th colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</th> </tr>");
 
-            stringBuilder.Append(
-                                 "<tr>" +
-                                    "<td colspan=\"2\" rowspan=\"2\" >" +
-                                        $"<img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/>" +
-                                    "</td>" +
-                                    "<td colspan=\"2\">" +
-                                        $"<label style=\"font-size: 5em\">{Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture) + " °C"}</label>" +
-                                    "</td>" +
-                                 "</tr>"
-                                );
+            stringBuilder.Append($" <tr> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
-            stringBuilder.Append("</table>");
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.25em;\"> Min: {result.Item.TempMin.ToString(CultureInfo.InvariantCulture)} °C </label> </td> <td> <label style=\"font-size: 1.25em;\"> Max: {result.Item.TempMax.ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+
+            stringBuilder.Append($" <tr> <td colspan=\"2\" style=\"font-size: 1.25em;\"><img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.City} </td> <td style=\"font-size: 2em;\"><img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.Humidity.ToString(CultureInfo.InvariantCulture)}  % </td> <td style=\"font-size: 2em;\"><img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture)} km/h </td> </tr> </table>");
 
             return stringBuilder.ToString();
         }
-    /*              
-    </ tr >
-              
-    < tr >
-              
-    < td >< label style = "font-size: 1.25em;" > Min: MinimaleTemperatur</ label></ td >
-                     
-    < td >< label style = "font-size: 1.25em;" > Max: MaximaleTemperatur</ label></ td >
-                            
-    </ tr >
-                            
-    < tr >
-                            
-    < td colspan = "2" style = "font-size: 1.25em" >< img src = "location.png" alt = "" style = "height: 0.75em" /> Ort</ td>
-                                       
-    < td style = "font-size: 2em" >< img src = "humidity.png" alt = "" style = "height: 0.75em" /> Luftfeuchtigkeit</ td>
-                                                
-    < td style = "font-size: 2em" >< img src = "windspeed.png" alt = "" style = "height: 0.75em" /> Windgeschwindigkeit</ td>
-                                                         
-    </ tr >
-                                                         
-    </ table >*/
 
         private static string getTimeModul(Module module)
         {
@@ -281,8 +223,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
         {
             return await CurrentWeather.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
         }
-
-
+        
         private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
         {
             return await FiveDaysForecast.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
