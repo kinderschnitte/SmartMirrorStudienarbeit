@@ -121,10 +121,10 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <col width=\"75%\"> <col width=\"25%\"> <tr> <td colspan=\"2\" style=\"font-size: 2em; text-align: left; color:grey;\">News</td> </tr>");
+            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%; display: table; box-sizing:border-box;\"> <tr> <td colspan=\"2\" style=\"font-size: 2em; text-align: left; color:grey;\">News</td> </tr>");
 
             foreach (Article article in result.Articles.Take(4))
-                stringBuilder.Append($" <tr> <td style=\"text-align: left; white-space: nowrap;\" onclick=\"window.location='{article.Url}'\"> <label style=\"font-size: 1.25em; cursor: pointer;\">{article.Title}</label> </td> <td style=\"text-align: center; white-space: nowrap;\" onclick=\"window.location='{article.Url}'\"> <label style=\"font-size: 1.25em; cursor: pointer;\">({article.Source.Name})</label> </td> </tr>");
+                stringBuilder.Append($" <tr> <td style=\"display: table-cell; font-size: 1.25em; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 1px; width: 75%; text-align: left;\" onclick=\"window.location='{article.Url}'\">{article.Title}</td> <td style=\"font-size: 1.25em; cursor: pointer; text-align: left; white-space: nowrap;\" onclick=\"window.location='{article.Url}'\">({article.Source.Name})</td> </tr>");
 
             stringBuilder.Append(" </table>");
 
