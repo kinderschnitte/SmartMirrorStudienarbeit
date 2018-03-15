@@ -121,10 +121,10 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <td colspan=\"4\" style=\"font-size: 2em;\">News</td> </tr>");
+            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <col width=\"75%\"> <col width=\"25%\"> <tr> <td colspan=\"2\" style=\"font-size: 2em; text-align: left; color:grey;\">News</td> </tr>");
 
             foreach (Article article in result.Articles.Take(4))
-                stringBuilder.Append($" <tr> <td style=\"text-align: left;\" onclick=\"window.location='{article.Url}'\"> <label style=\"font-size: 1.25em;\">{article.Title} ({article.Source.Name})</label> </td> </tr>");
+                stringBuilder.Append($" <tr> <td style=\"text-align: left; white-space: nowrap;\" onclick=\"window.location='{article.Url}'\"> <label style=\"font-size: 1.25em; cursor: pointer;\">{article.Title}</label> </td> <td style=\"text-align: center; white-space: nowrap;\" onclick=\"window.location='{article.Url}'\"> <label style=\"font-size: 1.25em; cursor: pointer;\">({article.Source.Name})</label> </td> </tr>");
 
             stringBuilder.Append(" </table>");
 
@@ -142,7 +142,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <th colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</th> </tr>");
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</td> </tr>");
 
             stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
@@ -159,7 +159,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 5%;\"> <tr> <td colspan=\"2\" style=\"font-size: 8em;\" class=\"clock\">00:00:00</td> </tr> <tr> <td style=\"font-size: 1em;\">Sonnenaufgang:</td> <td style=\"font-size: 1em;\">Sonnenuntergang:</td> </tr> <tr> <td style=\"font-size: 1.75em;\">{sun.Sunrise}</td> <td style=\"font-size: 1.75em;\">{sun.Sunset}</td> </tr> </table>");
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <tr> <td colspan=\"2\" style=\"font-size: 1.5em;\">{DateTime.Now:D}</td> </tr> <tr> <td colspan=\"2\" style=\"font-size: 6.5em;\" class=\"clock\">00:00:00</td> </tr> <tr> <td style=\"font-size: 1em;\">Sonnenaufgang:</td> <td style=\"font-size: 1em;\">Sonnenuntergang:</td> </tr> <tr> <td style=\"font-size: 1.75em;\">{sun.Sunrise}</td> <td style=\"font-size: 1.75em;\">{sun.Sunset}</td> </tr> </table>");
 
             return stringBuilder.ToString();
         }
