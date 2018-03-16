@@ -114,11 +114,13 @@
     <Compile Include="Extensions\StringExtensionClass.cs" />
     <Compile Include="HelperMethods\CalcSunTimes.cs" />
     <Compile Include="HelperMethods\FileHelperClass.cs" />
+    <Compile Include="HelperMethods\QuoteOfDay.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Objects\Module.cs" />
     <Compile Include="Objects\Moduls\Sun.cs" />
     <Compile Include="Objects\Notifications.cs" />
     <Compile Include="Objects\Query.cs" />
+    <Compile Include="Objects\QuoteOfDay.cs" />
     <Compile Include="Objects\Request.cs" />
     <Compile Include="Objects\Sun\Coords.cs" />
     <Compile Include="Objects\Sun\LatitudeCoords.cs" />

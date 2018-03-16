@@ -11,6 +11,7 @@ using SmartMirrorServer.HelperMethods;
 using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
+using QuoteOfDay = SmartMirrorServer.Objects.QuoteOfDay;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -29,7 +30,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             try
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\home.html");
-
+                QuoteOfDay test = await getQuoteOfDay();
                 //Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName(testModule);
 
                 foreach (string line in file)
@@ -236,6 +237,11 @@ namespace SmartMirrorServer.RequestHandler.Sites
             });
 
             return topheadlines;
+        }
+
+        private static async Task<Objects.QuoteOfDay> getQuoteOfDay()
+        {
+            return await HelperMethods.QuoteOfDay.GetQuoteOfDay();
         }
 
         #endregion Public Methods

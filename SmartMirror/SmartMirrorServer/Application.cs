@@ -26,6 +26,8 @@ namespace SmartMirrorServer
 
             NewsApiKey = "9d6d50c70043491ba1aa1a2048b4197a";
 
+            QuoteOfDay = "https://taeglicheszit.at//zitat-api.php?format=csv";
+
             loadData();
         }
 
@@ -52,6 +54,8 @@ namespace SmartMirrorServer
         /// Aktivitätsnachrichten
         /// </summary>
         public static Notifications Notifications { get; }
+
+        public static string QuoteOfDay { get; }
 
         public static string WeatherApiUrl { get; }
 
