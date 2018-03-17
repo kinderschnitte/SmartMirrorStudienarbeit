@@ -33,5 +33,4 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
         public bool Success { get; set; }
     }
-    
 }

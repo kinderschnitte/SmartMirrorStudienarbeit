@@ -118,6 +118,7 @@
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Objects\Module.cs" />
     <Compile Include="Objects\Moduls\Sun.cs" />
+    <Compile Include="Objects\Moduls\Weather\ForecastDays.cs" />
     <Compile Include="Objects\Notifications.cs" />
     <Compile Include="Objects\Query.cs" />
     <Compile Include="Objects\QuoteOfDay.cs" />

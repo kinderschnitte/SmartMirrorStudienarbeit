@@ -30,8 +30,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
             try
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\home.html");
-                QuoteOfDay test = await getQuoteOfDay();
-                //Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName(testModule);
 
                 foreach (string line in file)
                 {
@@ -102,13 +100,33 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     return await getWeatherModul(module);
 
                 case ModuleType.WEATHERFORECAST:
-                    return getWeatherforecastModul(module);
+                    return await getWeatherforecastModul(module);
 
                 case ModuleType.NEWS:
                     return await getNewsModul(module);
+
+                case ModuleType.QUOTEOFDAY:
+                    return await getQuoteOfDayModul();
             }
 
             return string.Empty;
+        }
+
+        private static async Task<string> getQuoteOfDayModul()
+        {
+            QuoteOfDay result = await getQuoteOfDay();
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%;\">");
+
+            stringBuilder.Append($" <tr> <td style=\"font-size: 1.5em; text-align: left;\">{result.Text}</td> </tr>");
+
+            stringBuilder.Append($" <tr> <td style=\"font-size: 1.5em; text-align: center;\">{result.Author}</td> </tr>");
+
+            stringBuilder.Append(" </table>");
+
+            return stringBuilder.ToString();
         }
 
         private static async Task<string> getNewsModul(Module module)
@@ -122,19 +140,63 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%; display: table; box-sizing:border-box;\"> <tr> <td colspan=\"2\" style=\"font-size: 2em; text-align: left; color:grey;\">News</td> </tr>");
+            stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%; display: table; box-sizing:border-box;\">");
+            stringBuilder.Append(" <tr> <td colspan=\"2\" style=\"font-size: 1.5em; text-align: left; color:grey;\">News</td> </tr>");
 
             foreach (Article article in result.Articles.Take(4))
-                stringBuilder.Append($" <tr> <td style=\"display: table-cell; font-size: 1.25em; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 1px; width: 75%; text-align: left;\" onclick=\"window.location='{article.Url}'\">{article.Title}</td> <td style=\"font-size: 1.25em; cursor: pointer; text-align: left; white-space: nowrap;\" onclick=\"window.location='{article.Url}'\">({article.Source.Name})</td> </tr>");
+                stringBuilder.Append($" <tr> <td style=\"display: table-cell; font-size: 1.25em; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 1px; width: 80%; text-align: left;\" onclick=\"window.location='{article.Url}'\">{article.Title}</td> <td style=\"font-size: 1.25em; cursor: pointer; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 1px; width: 20%; display: table-cell;\" onclick=\"window.location='{article.Url}'\">{article.Source.Name}</td> </tr>");
 
             stringBuilder.Append(" </table>");
 
             return stringBuilder.ToString();
         }
 
-        private static string getWeatherforecastModul(Module module)
+        private static async Task<string> getWeatherforecastModul(Module module)
         {
-            throw new NotImplementedException();
+            List<ForecastDays> result = await getcalculatedForecast(module);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%; table-layout: fixed; cursor: pointer;\" onclick =\"window.location='https://openweathermap.org/city/{result[0].CityId}'\">");
+
+            stringBuilder.Append($"<tr> <td colspan=\"3\" style=\"font-size: 1.5em; text-align: left; color: grey; width: 60%;\">5 Tage Wettervorhersage</td> <td colspan=\"2\" style=\"width: 40%; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result[0].City}</td> </tr>");
+
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[1].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[2].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[3].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[4].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[5].Date:ddd}</label> </td> </tr>");
+
+            stringBuilder.Append($" <tr> <td> <img src=\"http://openweathermap.org/img/w/{result[1].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[2].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[3].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[4].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[5].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> </tr>");
+
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[1].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[2].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[3].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[4].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[5].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> </tr>");
+
+            stringBuilder.Append("</table>");
+
+            return stringBuilder.ToString();
+        }
+
+        private static async Task<List<ForecastDays>> getcalculatedForecast(Module module)
+        {
+            Result<FiveDaysForecastResult> forecasts = await getFiveDaysForecastByCityName(module);
+
+            List<ForecastDays> forecastDays = new List<ForecastDays>();
+
+            List<List<FiveDaysForecastResult>> result = forecasts.Items.GroupBy(d => d.Date.DayOfYear).Select(s => s.ToList()).ToList();
+
+            foreach (List<FiveDaysForecastResult> fiveDaysForecastResult in result)
+            {
+                ForecastDays forecastDay = new ForecastDays
+                {
+                    City = fiveDaysForecastResult[0].City,
+                    CityId = fiveDaysForecastResult[0].CityId,
+                    Date = fiveDaysForecastResult[0].Date,
+                    Temperature = fiveDaysForecastResult.Average(innerList => innerList.Temp),
+                    MinTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMin),
+                    MaxTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMax),
+                    Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key
+                };
+
+                forecastDays.Add(forecastDay);
+            }
+
+            return forecastDays;
         }
 
         private static async Task<string> getWeatherModul(Module module)
@@ -145,7 +207,8 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</td> </tr>");
 
-            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+            //stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"http://openweathermap.org/img/w/{result.Item.Icon}.png\" alt=\"\" style=\"width: 75%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
             stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td> <label style=\"font-size: 1.25em;\"> Min: {result.Item.TempMin.ToString(CultureInfo.InvariantCulture)} °C </label> </td> <td> <label style=\"font-size: 1.25em;\"> Max: {result.Item.TempMax.ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
@@ -239,7 +302,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return topheadlines;
         }
 
-        private static async Task<Objects.QuoteOfDay> getQuoteOfDay()
+        private static async Task<QuoteOfDay> getQuoteOfDay()
         {
             return await HelperMethods.QuoteOfDay.GetQuoteOfDay();
         }

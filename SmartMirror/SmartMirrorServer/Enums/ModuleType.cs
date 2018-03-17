@@ -14,6 +14,8 @@ namespace SmartMirrorServer.Enums
         [EnumMember]
         WEATHERFORECAST,
         [EnumMember]
-        NEWS
+        NEWS,
+        [EnumMember]
+        QUOTEOFDAY
     }
 }

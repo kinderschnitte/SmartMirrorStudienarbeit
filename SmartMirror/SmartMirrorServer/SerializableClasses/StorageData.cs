@@ -16,8 +16,8 @@ namespace SmartMirrorServer.SerializableClasses
             UpperRightModule = new Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de"};
             MiddleLeftModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } };
             MiddleRightModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports};
-            LowerLeftModule = new Module { ModuleType = ModuleType.NONE };
-            LowerRightModule = new Module { ModuleType = ModuleType.NONE };
+            LowerLeftModule = new Module { ModuleType = ModuleType.QUOTEOFDAY };
+            LowerRightModule = new Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" };
         }
 
         [DataMember]
