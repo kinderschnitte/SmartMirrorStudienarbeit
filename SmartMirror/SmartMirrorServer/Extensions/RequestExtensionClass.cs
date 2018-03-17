@@ -208,6 +208,10 @@ namespace SmartMirrorServer.Extensions
                         query.FileName = FileName.WEATHER;
                         break;
 
+                    case "light":
+                        query.FileName = FileName.LIGHT;
+                        break;
+
                     default:
                         query.FileName = FileName.UNKNOWN;
                         break;

@@ -24,5 +24,10 @@ namespace SmartMirrorServer.RequestHandler
         {
             return await Weather.BuildWeather();
         }
+
+        public static async Task<byte[]> BuildLight()
+        {
+            return await Light.BuildLight();
+        }
     }
 }
