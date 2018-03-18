@@ -193,6 +193,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png">
       <InProject>false</InProject>
     </Content>
+    <Content Include="Websites\time.html" />
     <Content Include="Websites\light.html" />
     <Content Include="Websites\settings.html" />
     <Content Include="Websites\home.html" />

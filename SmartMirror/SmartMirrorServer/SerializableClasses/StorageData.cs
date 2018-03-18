@@ -18,6 +18,8 @@ namespace SmartMirrorServer.SerializableClasses
             MiddleRightModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports};
             LowerLeftModule = new Module { ModuleType = ModuleType.QUOTEOFDAY };
             LowerRightModule = new Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" };
+
+            TimeModul = new Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.Direction.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH) };
         }
 
         [DataMember]
@@ -37,5 +39,8 @@ namespace SmartMirrorServer.SerializableClasses
 
         [DataMember]
         public Module LowerRightModule { get; set; }
+
+        [DataMember]
+        public Module TimeModul { get; set; }
     }
 }

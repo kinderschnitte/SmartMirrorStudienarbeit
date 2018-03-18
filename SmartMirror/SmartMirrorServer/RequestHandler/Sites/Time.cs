@@ -23,19 +23,18 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\time.html");
 
-                // Sunset / Sunrise
-                //Sun sun = new Sun();
+                Sun sun = new Sun(Application.StorageData.TimeModul);
 
                 foreach (string line in file)
                 {
                     string tag = line;
 
-                    if (tag.Contains("startTime"))
-                        tag = tag.Replace("startTime", Application.StartTime);
-                    else if (tag.Contains("sunriseTime") || tag.Contains("sunsetTime"))
+                    if (tag.Contains("Datum"))
+                        tag = tag.Replace("Datum", DateTime.Now.ToString("D"));
+                    else if (tag.Contains("sunrise") || tag.Contains("sunset"))
                     {
-                        //tag = tag.Replace("sunriseTime", sun.Sunrise);
-                        //tag = tag.Replace("sunsetTime", sun.Sunset);
+                        tag = tag.Replace("sunrise", sun.Sunrise);
+                        tag = tag.Replace("sunset", sun.Sunset);
                     }
 
                     page += tag;

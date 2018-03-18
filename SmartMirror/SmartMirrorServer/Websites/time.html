@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Smart Mirror</title>
+		<style>
+			html
+			{
+				margin: 0;
+				background: black;
+				min-height: 100%;
+				-ms-background-size: cover;
+				background-size: cover;
+				font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+			}
+
+            body
+            {
+                margin: 0;
+                min-height: 100%;
+            }
+		</style>
+	</head>
+	<body>
+	    <main>
+	        <table style="width: 100%; height: 100%; padding: 5%; color: white; text-align: center;">
+	            <tr> <td colspan="2" style="font-size: 5em;">Datum</td> </tr>
+	            <tr> <td colspan="2" style="font-size: 17.5em; padding-top: 10%;" class="clock">00:00:00</td> </tr>
+	            <tr> <td style="font-size: 2.5em; padding-top: 20%;">Sonnenaufgang:</td> <td style="font-size: 2.5em; padding-top: 20%;">Sonnenuntergang:</td> </tr>
+                <tr> <td style="font-size: 4em;">sunrise</td> <td style="font-size: 4em;">sunset</td> </tr>
+	        </table>
+	    </main>
+	    <script type="text/javascript">
+		    function clock()
+		    {
+			    var time = new Date(),
+				    hours = time.getHours(),
+				    minutes = time.getMinutes(),
+				    seconds = time.getSeconds();
+
+			    document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+  
+			    function harold(standIn)
+			    {
+				    if (standIn < 10)
+				    {
+					    standIn = '0' + standIn;
+				    }
+
+				    return standIn;
+			    }
+		    }
+		    setInterval(clock, 1000);
+	    </script>
+	</body>
+</html>
