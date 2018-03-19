@@ -13,7 +13,7 @@ namespace SmartMirror
         public MainPage()
         {
             InitializeComponent();
-  
+
             Loaded += onLoaded;
 
             Unloaded += onUnloaded;

@@ -2,124 +2,173 @@
 <grammar
   version="1.0"
   xml:lang="de-DE"
+  mode="voice"
   root="rootRule"
   xmlns="http://www.w3.org/2001/06/grammar"
   tag-format="semantics/1.0">
   
   <!--Root-->
-  <rule id="rootRule">
+  <rule id="rootRule" scope="public">
     <one-of>
-      <item>
-        <ruleref uri="#shutdown"/>
-      </item>
-      <item>
-        <ruleref uri="#locked"/>
-      </item>
-      <item>
-        <ruleref uri="#smarthome"/>
-      </item>
-      <item>
-        <ruleref uri="#microcontroller"/>
-      </item>
-      <item>
-        <ruleref uri="#module"/>
-      </item>
-      <item>
-        <ruleref uri="#general"/>
-      </item>
-      <item>
-        <ruleref uri="#system"/>
-      </item>
+      <item> <ruleref uri="#Home"/> </item>
       <item>
         <ruleref uri="#time"/>
       </item>
+      <item>
+        <ruleref uri="#light"/>
+      </item>
+      <item>
+        <ruleref uri="#weather"/>
+      </item>
+      <item>
+        <ruleref uri="#weatherforecast"/>
+      </item>
+      <item>
+        <ruleref uri="#news"/>
+      </item>
+      <item>
+        <ruleref uri="#quote"/>
+      </item>
     </one-of>
   </rule>
   
-  <!--System ausschalten-->
-  <rule id="shutdown">
-    <item>spiegel ausschalten</item>
-  </rule>
-  
-  <!--Spiegel ent-/sprerren-->
-  <rule id="locked">
-      <item>spiegel</item>
-  </rule>
-  
-  <!--Smart Home / Haupseite-->
-  <rule id="smarthome">
-    <one-of>
-      <item>smart home</item>
-      <item>smart</item>
-      <item>home</item>
-      <item>hauptseite</item>
-    </one-of>
+  <!--Home-->
+  <rule id="Home">
+    <example> spiegel zeige bitte die übersicht </example>
+    <example> spiegel zeige die übersicht </example>
+    <example> spiegel zeige bitte übersicht </example>
+    <example> spiegel zeige übersicht </example>
+    <example> spiegel zeige übersicht bitte </example>
+    <example> spiegel bitte zeige übersicht </example>
+    <example> spiegel bitte zeige die übersicht </example>
+    
+    <example> spiegel zeige bitte die module </example>
+    <example> spiegel zeige die module </example>
+    <example> spiegel zeige bitte module </example>
+    <example> spiegel zeige module </example>
+    <example> spiegel zeige module bitte </example>
+    <example> spiegel bitte zeige module </example>
+    <example> spiegel bitte zeige die module </example>
+
+    <example> spiegel zeige bitte die modulübersicht </example>
+    <example> spiegel zeige die modulübersicht </example>
+    <example> spiegel zeige bitte modulübersicht </example>
+    <example> spiegel zeige modulübersicht </example>
+    <example> spiegel zeige modulübersicht bitte </example>
+    <example> spiegel bitte zeige modulübersicht </example>
+    <example> spiegel bitte zeige die modulübersicht </example>
+
+    <example> spiegel zeige bitte die hauptseite </example>
+    <example> spiegel zeige die hauptseite </example>
+    <example> spiegel zeige bitte hauptseite </example>
+    <example> spiegel zeige hauptseite </example>
+    <example> spiegel zeige hauptseite bitte </example>
+    <example> spiegel bitte zeige hauptseite </example>
+    <example> spiegel bitte zeige die hauptseite </example>
+
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> die </item>
+    <ruleref uri="#HomePossibilities"/>
+    <item repeat="0-1"> bitte </item>
   </rule>
 
-  <!--Mikrocontroller-->
-  <rule id="microcontroller">
-    <one-of>
-      <item>mikrocontroller</item>
-      <item>controller</item>
-    </one-of>
-  </rule>
+  <rule id="HomePossibilities">
+    <example> übersicht </example>
+    <example> module </example>
+    <example> modulübersicht </example>
+    <example> hauptseite </example>
 
-  <!--Module-->
-  <rule id="module">
-    <item>modul</item>
-    <one-of>
-      <item>null</item>
-      <item>ein</item>
-      <item>eins</item>
-      <item>zwei</item>
-      <item>drei</item>
-      <item>vier</item>
-      <item>fünf</item>
-      <item>sechs</item>
-      <item>sieben</item>
-      <item>acht</item>
-      <item>neun</item>
-      <item>zehn</item>
-      <item>elf</item>
-      <item>zwölf</item>
-      <item>zwanzig</item>
-      <item>dreißig</item>
-    </one-of>
-    <item repeat="0-1">
-      <item>und</item>
+    <item>
       <one-of>
-        <item>zehn</item>
-        <item>zwanzig</item>
-        <item>dreißig</item>
+        <item> übersicht </item>
+        <item> module </item>
+        <item> modulübersicht </item>
+        <item> hauptseite </item>
       </one-of>
     </item>
-  </rule>
-
-  <!--Allgemein-->
-  <rule id="general">
-    <one-of>
-      <item>allgemein</item>
-      <item>alle</item>
-    </one-of>
-  </rule>
-
-  <!--System-->
-  <rule id="system">
-    <one-of>
-      <item>system</item>
-      <item>licht</item>
-    </one-of>
-    <one-of>
-      <item>an</item>
-      <item>aus</item>
-      <item>normal</item>
-      <item>alarm</item>
-      <item>sos</item>
-    </one-of>
   </rule>
   
   <!--Time-->
   <rule id="time">
-    <item>zeit</item>
+      <item>zeit</item>
+      <item>uhrzeit</item>
+      <item>sonnenaufgang</item>
+      <item>sonnenuntergang</item>
+      <item>sonne</item>
+      <item>datum</item>
+      <item>tag</item>
+      <item>monat</item>
+      <item>jahr</item>
+  </rule>
+  
+  <!--Light-->
+  <rule id="light">
+      <item>licht</item>
+  </rule>
+
+  <!--Weather-->
+  <rule id="weather">
+    <one-of>
+      <item>wetter</item>
+      <item>aktuelles wetter</item>
+      <item>wetter heute</item>
+      <item>temperatur</item>
+    </one-of>
+  </rule>
+
+  <!--Weatherforecast-->
+  <rule id="weatherforecast">
+    <one-of>
+      <item>wettervorhersage</item>
+      <item>vorhersage</item>
+      <item>wetter morgen</item>
+      <item>wetter übermorgen</item>
+    </one-of>
+  </rule>
+
+  <!--News-->
+  <rule id="news">
+    <one-of>
+      <item>sport nachrichten</item>
+      <item>sport news</item>
+      
+      <item>branchen nachrichten</item>
+      <item>brachen news</item>
+      <item>unternehmens nachrichten</item>
+      <item>unternehmens news</item>
+      <item>geschäft nachrichten</item>
+      <item>geschäft news</item>
+      <item>handel nachrichten</item>
+      <item>handel news</item>
+      
+      <item>unterhaltungs nachrichten</item>
+      <item>unterhaltungs news</item>
+      <item>entertainment nachrichten</item>
+      <item>entertainment news</item>
+
+      <item>gesundheits nachrichten</item>
+      <item>gesundheits news</item>
+
+      <item>wissenschafts nachrichten</item>
+      <item>wissenschafts news</item>
+      <item>naturwissenschafts nachrichten</item>
+      <item>naturwissenschafts news</item>
+
+      <item>technologie nachrichten</item>
+      <item>technologie news</item>
+      <item>technik nachrichten</item>
+      <item>technik news</item>
+    </one-of>
+  </rule>
+
+  <!--Quote-->
+  <rule id="quote">
+    <one-of>
+      <item>zitat</item>
+      <item>spruch</item>
+    </one-of>
   </rule>
 </grammar>
