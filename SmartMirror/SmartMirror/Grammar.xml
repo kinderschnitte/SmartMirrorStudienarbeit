@@ -41,6 +41,7 @@
     <example> spiegel zeige übersicht bitte </example>
     <example> spiegel bitte zeige übersicht </example>
     <example> spiegel bitte zeige die übersicht </example>
+    <example> spiegel übersicht </example>
     
     <example> spiegel zeige bitte die module </example>
     <example> spiegel zeige die module </example>
@@ -49,6 +50,7 @@
     <example> spiegel zeige module bitte </example>
     <example> spiegel bitte zeige module </example>
     <example> spiegel bitte zeige die module </example>
+    <example> spiegel module </example>
 
     <example> spiegel zeige bitte die modulübersicht </example>
     <example> spiegel zeige die modulübersicht </example>
@@ -57,6 +59,7 @@
     <example> spiegel zeige modulübersicht bitte </example>
     <example> spiegel bitte zeige modulübersicht </example>
     <example> spiegel bitte zeige die modulübersicht </example>
+    <example> spiegel modulübersicht </example>
 
     <example> spiegel zeige bitte die hauptseite </example>
     <example> spiegel zeige die hauptseite </example>
@@ -65,10 +68,11 @@
     <example> spiegel zeige hauptseite bitte </example>
     <example> spiegel bitte zeige hauptseite </example>
     <example> spiegel bitte zeige die hauptseite </example>
+    <example> spiegel hauptseite </example>
 
     <item> spiegel </item>
     <item repeat="0-1"> bitte </item>
-    <item> zeige </item>
+    <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> die </item>
     <ruleref uri="#HomePossibilities"/>
@@ -93,82 +97,629 @@
   
   <!--Time-->
   <rule id="time">
-      <item>zeit</item>
-      <item>uhrzeit</item>
-      <item>sonnenaufgang</item>
-      <item>sonnenuntergang</item>
-      <item>sonne</item>
-      <item>datum</item>
-      <item>tag</item>
-      <item>monat</item>
-      <item>jahr</item>
+    <example> spiegel zeige bitte die zeit </example>
+    <example> spiegel zeige die zeit </example>
+    <example> spiegel zeige bitte zeit </example>
+    <example> spiegel zeige zeit </example>
+    <example> spiegel zeige zeit bitte </example>
+    <example> spiegel bitte zeige zeit </example>
+    <example> spiegel bitte zeige die zeit </example>
+    <example> spiegel zeit </example>
+    
+    <example> spiegel zeige bitte die uhrzeit </example>
+    <example> spiegel zeige die uhrzeit </example>
+    <example> spiegel zeige bitte uhrzeit </example>
+    <example> spiegel zeige uhrzeit </example>
+    <example> spiegel zeige uhrzeit bitte </example>
+    <example> spiegel bitte zeige uhrzeit </example>
+    <example> spiegel bitte zeige die uhrzeit </example>
+    <example> spiegel uhrzeit </example>
+      
+    <example> spiegel zeige bitte den sonnenaufgang </example>
+    <example> spiegel zeige den sonnenaufgang </example>
+    <example> spiegel zeige bitte sonnenaufgang </example>
+    <example> spiegel zeige sonnenaufgang </example>
+    <example> spiegel zeige sonnenaufgang bitte </example>
+    <example> spiegel bitte zeige sonnenaufgang </example>
+    <example> spiegel bitte zeige den sonnenaufgang </example>
+    <example> spiegel sonnenaufgang </example>
+  
+    <example> spiegel zeige bitte den sonnenuntergang </example>
+    <example> spiegel zeige den sonnenuntergang </example>
+    <example> spiegel zeige bitte sonnenuntergang </example>
+    <example> spiegel zeige sonnenuntergang </example>
+    <example> spiegel zeige sonnenuntergang bitte </example>
+    <example> spiegel bitte zeige sonnenuntergang </example>
+    <example> spiegel bitte zeige den sonnenuntergang </example>
+    <example> spiegel sonnenuntergang </example>
+    
+    <example> spiegel zeige bitte die sonne </example>
+    <example> spiegel zeige die sonne </example>
+    <example> spiegel zeige bitte sonne </example>
+    <example> spiegel zeige sonne </example>
+    <example> spiegel zeige sonne bitte </example>
+    <example> spiegel bitte zeige sonne </example>
+    <example> spiegel bitte zeige die sonne </example>
+    <example> spiegel sonne </example>
+      
+    <example> spiegel zeige bitte das datum </example>
+    <example> spiegel zeige das datum </example>
+    <example> spiegel zeige bitte datum </example>
+    <example> spiegel zeige datum </example>
+    <example> spiegel zeige datum bitte </example>
+    <example> spiegel bitte zeige datum </example>
+    <example> spiegel bitte zeige das datum </example>
+    <example> spiegel datum </example>
+  
+    <example> spiegel zeige bitte den tag </example>
+    <example> spiegel zeige den tag </example>
+    <example> spiegel zeige bitte tag </example>
+    <example> spiegel zeige tag </example>
+    <example> spiegel zeige tag bitte </example>
+    <example> spiegel bitte zeige tag </example>
+    <example> spiegel bitte zeige den tag </example>
+    <example> spiegel tag </example>
+  
+    <example> spiegel zeige bitte den monat </example>
+    <example> spiegel zeige den monat </example>
+    <example> spiegel zeige bitte monat </example>
+    <example> spiegel zeige monat </example>
+    <example> spiegel zeige monat bitte </example>
+    <example> spiegel bitte zeige monat </example>
+    <example> spiegel bitte zeige den monat </example>
+    <example> spiegel monat </example>
+  
+    <example> spiegel zeige bitte das jahr </example>
+    <example> spiegel zeige das jahr </example>
+    <example> spiegel zeige bitte jahr </example>
+    <example> spiegel zeige jahr </example>
+    <example> spiegel zeige jahr bitte </example>
+    <example> spiegel bitte zeige jahr </example>
+    <example> spiegel bitte zeige das jahr </example>
+    <example> spiegel jahr </example>
+    
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1">
+      <one-of>
+        <item> die </item>
+        <item> den </item>
+        <item> das </item>
+      </one-of>
+    </item>
+    <ruleref uri="#TimePossibilities"/>
+    <item repeat="0-1"> bitte </item>
+  </rule>
+  
+  <rule id="TimePossibilities">
+    <example> zeit </example>
+    <example> uhrzeit </example>
+    <example> sonnenaufgang </example>
+    <example> sonnenuntergang </example>
+    <example> sonne </example>
+    <example> datum </example>
+    <example> tag </example>
+    <example> monat </example>
+    <example> jahr </example>
+
+    <item>
+      <one-of>
+        <item>zeit</item>
+        <item>uhrzeit</item>
+        <item>sonnenaufgang</item>
+        <item>sonnenuntergang</item>
+        <item>sonne</item>
+        <item>datum</item>
+        <item>tag</item>
+        <item>monat</item>
+        <item>jahr</item>
+      </one-of>
+    </item>
   </rule>
   
   <!--Light-->
   <rule id="light">
-      <item>licht</item>
+    <example> spiegel zeige bitte das licht </example>
+    <example> spiegel zeige das licht </example>
+    <example> spiegel zeige bitte licht </example>
+    <example> spiegel zeige licht </example>
+    <example> spiegel zeige licht bitte </example>
+    <example> spiegel bitte zeige licht </example>
+    <example> spiegel bitte zeige das licht </example>
+    <example> spiegel licht </example>
+    
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> das </item>
+    <item> licht </item>
+    <item repeat="0-1"> bitte </item>
   </rule>
 
   <!--Weather-->
   <rule id="weather">
-    <one-of>
-      <item>wetter</item>
-      <item>aktuelles wetter</item>
-      <item>wetter heute</item>
-      <item>temperatur</item>
-    </one-of>
+    <example> spiegel zeige bitte das wetter </example>
+    <example> spiegel zeige das wetter </example>
+    <example> spiegel zeige bitte wetter </example>
+    <example> spiegel zeige wetter </example>
+    <example> spiegel zeige wetter bitte </example>
+    <example> spiegel bitte zeige wetter </example>
+    <example> spiegel bitte zeige das wetter </example>
+    <example> spiegel wetter </example>
+    
+    <example> spiegel zeige bitte die temperatur </example>
+    <example> spiegel zeige die temperatur </example>
+    <example> spiegel zeige bitte temperatur </example>
+    <example> spiegel zeige temperatur </example>
+    <example> spiegel zeige temperatur bitte </example>
+    <example> spiegel bitte zeige temperatur </example>
+    <example> spiegel bitte zeige die temperatur </example>
+    <example> spiegel temperatur </example>
+      
+    <example> spiegel zeige bitte das wetter heute </example>
+    <example> spiegel zeige das wetter heute </example>
+    <example> spiegel zeige bitte wetter heute </example>
+    <example> spiegel zeige wetter heute </example>
+    <example> spiegel zeige wetter heute bitte </example>
+    <example> spiegel bitte zeige wetter heute </example>
+    <example> spiegel bitte zeige das wetter heute </example>
+    <example> spiegel wetter heute </example>
+      
+    <example> spiegel zeige bitte das aktuelles wetter </example>
+    <example> spiegel zeige das aktuelles wetter </example>
+    <example> spiegel zeige bitte aktuelles wetter </example>
+    <example> spiegel zeige aktuelles wetter </example>
+    <example> spiegel zeige aktuelles wetter bitte </example>
+    <example> spiegel bitte zeige aktuelles wetter </example>
+    <example> spiegel bitte zeige das aktuelles wetter </example>
+    <example> spiegel aktuelles wetter </example>
+    
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1">
+      <one-of>
+        <item> die </item>
+        <item> das </item>
+      </one-of>
+    </item>
+    <ruleref uri="#WeatherPossibilities"/>
+    <item repeat="0-1"> bitte </item>
+  </rule>
+  
+  <rule id="WeatherPossibilities">
+    <example> wetter </example>
+    <example> aktuelles wetter </example>
+    <example> wetter heute </example>
+    <example> temperatur </example>
+
+    <item>
+      <one-of>
+        <item>wetter</item>
+        <item>aktuelles wetter</item>
+        <item>wetter heute</item>
+        <item>temperatur</item>
+      </one-of>
+    </item>
   </rule>
 
   <!--Weatherforecast-->
   <rule id="weatherforecast">
-    <one-of>
-      <item>wettervorhersage</item>
-      <item>vorhersage</item>
-      <item>wetter morgen</item>
-      <item>wetter übermorgen</item>
-    </one-of>
+    <example> spiegel zeige bitte die wettervorhersage </example>
+    <example> spiegel zeige die wettervorhersage </example>
+    <example> spiegel zeige bitte wettervorhersage </example>
+    <example> spiegel zeige wettervorhersage </example>
+    <example> spiegel zeige wettervorhersage bitte </example>
+    <example> spiegel bitte zeige wettervorhersage </example>
+    <example> spiegel bitte zeige die wettervorhersage </example>
+    <example> spiegel wettervorhersage </example>
+    
+    <example> spiegel zeige bitte die vorhersage </example>
+    <example> spiegel zeige die vorhersage </example>
+    <example> spiegel zeige bitte vorhersage </example>
+    <example> spiegel zeige vorhersage </example>
+    <example> spiegel zeige vorhersage bitte </example>
+    <example> spiegel bitte zeige vorhersage </example>
+    <example> spiegel bitte zeige die vorhersage </example>
+    <example> spiegel vorhersage </example>
+      
+    <example> spiegel zeige bitte das wetter morgen </example>
+    <example> spiegel zeige das wetter morgen </example>
+    <example> spiegel zeige bitte wetter morgen </example>
+    <example> spiegel zeige wetter morgen </example>
+    <example> spiegel zeige wetter morgen bitte </example>
+    <example> spiegel bitte zeige wetter morgen </example>
+    <example> spiegel bitte zeige das wetter morgen </example>
+    <example> spiegel wetter morgen </example>
+      
+    <example> spiegel zeige bitte das wetter übermorgen </example>
+    <example> spiegel zeige das wetter übermorgen </example>
+    <example> spiegel zeige bitte wetter übermorgen </example>
+    <example> spiegel zeige wetter übermorgen </example>
+    <example> spiegel zeige wetter übermorgen bitte </example>
+    <example> spiegel bitte zeige wetter übermorgen </example>
+    <example> spiegel bitte zeige das wetter übermorgen </example>
+    <example> spiegel wetter übermorgen </example>
+    
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1">
+      <one-of>
+        <item> die </item>
+        <item> das </item>
+      </one-of>
+    </item>
+    <ruleref uri="#WeatherforecastPossibilities"/>
+    <item repeat="0-1"> bitte </item>
+  </rule>
+  
+  <rule id="WeatherforecastPossibilities">
+    <example> wettervorhersage </example>
+    <example> vorhersage </example>
+    <example> wetter morgen </example>
+    <example> wetter übermorgen </example>
+
+    <item>
+      <one-of>
+        <item>wettervorhersage</item>
+        <item>vorhersage</item>
+        <item>wetter morgen</item>
+        <item>wetter übermorgen</item>
+      </one-of>
+    </item>
   </rule>
 
   <!--News-->
   <rule id="news">
-    <one-of>
-      <item>sport nachrichten</item>
-      <item>sport news</item>
+    <example> spiegel zeige bitte die sport nachrichten </example>
+    <example> spiegel zeige die sport nachrichten </example>
+    <example> spiegel zeige bitte sport nachrichten </example>
+    <example> spiegel zeige sport nachrichten </example>
+    <example> spiegel zeige sport nachrichten bitte </example>
+    <example> spiegel bitte zeige sport nachrichten </example>
+    <example> spiegel bitte zeige die sport nachrichten </example>
+    <example> spiegel sport nachrichten </example>
+    
+    <example> spiegel zeige bitte die sport news </example>
+    <example> spiegel zeige die sport news </example>
+    <example> spiegel zeige bitte sport news </example>
+    <example> spiegel zeige sport news </example>
+    <example> spiegel zeige sport news bitte </example>
+    <example> spiegel bitte zeige sport news </example>
+    <example> spiegel bitte zeige die sport news </example>
+    <example> spiegel sport news </example>
+    
+    <example> spiegel zeige bitte die branchen nachrichten </example>
+    <example> spiegel zeige die branchen nachrichten </example>
+    <example> spiegel zeige bitte branchen nachrichten </example>
+    <example> spiegel zeige branchen nachrichten </example>
+    <example> spiegel zeige branchen nachrichten bitte </example>
+    <example> spiegel bitte zeige branchen nachrichten </example>
+    <example> spiegel bitte zeige die branchen nachrichten </example>
+    <example> spiegel branchen nachrichten </example>
+    
+    <example> spiegel zeige bitte die branchen news </example>
+    <example> spiegel zeige die branchen news </example>
+    <example> spiegel zeige bitte branchen news </example>
+    <example> spiegel zeige branchen news </example>
+    <example> spiegel zeige branchen news bitte </example>
+    <example> spiegel bitte zeige branchen news </example>
+    <example> spiegel bitte zeige die branchen news </example>
+    <example> spiegel branchen news </example>
+    
+    <example> spiegel zeige bitte die unternehmens nachrichten </example>
+    <example> spiegel zeige die unternehmens nachrichten </example>
+    <example> spiegel zeige bitte unternehmens nachrichten </example>
+    <example> spiegel zeige unternehmens nachrichten </example>
+    <example> spiegel zeige unternehmens nachrichten bitte </example>
+    <example> spiegel bitte zeige unternehmens nachrichten </example>
+    <example> spiegel bitte zeige die unternehmens nachrichten </example>
+    <example> spiegel unternehmens nachrichten </example>
+    
+    <example> spiegel zeige bitte die unternehmens news </example>
+    <example> spiegel zeige die unternehmens news </example>
+    <example> spiegel zeige bitte unternehmens news </example>
+    <example> spiegel zeige unternehmens news </example>
+    <example> spiegel zeige unternehmens news bitte </example>
+    <example> spiegel bitte zeige unternehmens news </example>
+    <example> spiegel bitte zeige die unternehmens news </example>
+    <example> spiegel unternehmens news </example>
+    
+    <example> spiegel zeige bitte die geschäfts nachrichten </example>
+    <example> spiegel zeige die geschäfts nachrichten </example>
+    <example> spiegel zeige bitte geschäfts nachrichten </example>
+    <example> spiegel zeige geschäfts nachrichten </example>
+    <example> spiegel zeige geschäfts nachrichten bitte </example>
+    <example> spiegel bitte zeige geschäfts nachrichten </example>
+    <example> spiegel bitte zeige die geschäfts nachrichten </example>
+    <example> spiegel geschäfts nachrichten </example>
+    
+    <example> spiegel zeige bitte die geschäfts news </example>
+    <example> spiegel zeige die geschäfts news </example>
+    <example> spiegel zeige bitte geschäfts news </example>
+    <example> spiegel zeige geschäfts news </example>
+    <example> spiegel zeige geschäfts news bitte </example>
+    <example> spiegel bitte zeige geschäfts news </example>
+    <example> spiegel bitte zeige die geschäfts news </example>
+    <example> spiegel geschäfts news </example>
+    
+    <example> spiegel zeige bitte die handels nachrichten </example>
+    <example> spiegel zeige die handels nachrichten </example>
+    <example> spiegel zeige bitte handels nachrichten </example>
+    <example> spiegel zeige handels nachrichten </example>
+    <example> spiegel zeige handels nachrichten bitte </example>
+    <example> spiegel bitte zeige handels nachrichten </example>
+    <example> spiegel bitte zeige die handels nachrichten </example>
+    <example> spiegel handels nachrichten </example>
+    
+    <example> spiegel zeige bitte die handels news </example>
+    <example> spiegel zeige die handels news </example>
+    <example> spiegel zeige bitte handels news </example>
+    <example> spiegel zeige handels news </example>
+    <example> spiegel zeige handels news bitte </example>
+    <example> spiegel bitte zeige handels news </example>
+    <example> spiegel bitte zeige die handels news </example>
+    <example> spiegel handels news </example>
+    
+    <example> spiegel zeige bitte die unterhaltungs nachrichten </example>
+    <example> spiegel zeige die unterhaltungs nachrichten </example>
+    <example> spiegel zeige bitte unterhaltungs nachrichten </example>
+    <example> spiegel zeige unterhaltungs nachrichten </example>
+    <example> spiegel zeige unterhaltungs nachrichten bitte </example>
+    <example> spiegel bitte zeige unterhaltungs nachrichten </example>
+    <example> spiegel bitte zeige die unterhaltungs nachrichten </example>
+    <example> spiegel unterhaltungs nachrichten </example>
+    
+    <example> spiegel zeige bitte die unterhaltungs news </example>
+    <example> spiegel zeige die unterhaltungs news </example>
+    <example> spiegel zeige bitte unterhaltungs news </example>
+    <example> spiegel zeige unterhaltungs news </example>
+    <example> spiegel zeige unterhaltungs news bitte </example>
+    <example> spiegel bitte zeige unterhaltungs news </example>
+    <example> spiegel bitte zeige die unterhaltungs news </example>
+    <example> spiegel unterhaltungs news </example>
+    
+    <example> spiegel zeige bitte die entertainment nachrichten </example>
+    <example> spiegel zeige die entertainment nachrichten </example>
+    <example> spiegel zeige bitte entertainment nachrichten </example>
+    <example> spiegel zeige entertainment nachrichten </example>
+    <example> spiegel zeige entertainment nachrichten bitte </example>
+    <example> spiegel bitte zeige entertainment nachrichten </example>
+    <example> spiegel bitte zeige die entertainment nachrichten </example>
+    <example> spiegel entertainment nachrichten </example>
+    
+    <example> spiegel zeige bitte die entertainment news </example>
+    <example> spiegel zeige die entertainment news </example>
+    <example> spiegel zeige bitte entertainment news </example>
+    <example> spiegel zeige entertainment news </example>
+    <example> spiegel zeige entertainment news bitte </example>
+    <example> spiegel bitte zeige entertainment news </example>
+    <example> spiegel bitte zeige die entertainment news </example>
+    <example> spiegel entertainment news </example>
+    
+    <example> spiegel zeige bitte die gesundheits nachrichten </example>
+    <example> spiegel zeige die gesundheits nachrichten </example>
+    <example> spiegel zeige bitte gesundheits nachrichten </example>
+    <example> spiegel zeige gesundheits nachrichten </example>
+    <example> spiegel zeige gesundheits nachrichten bitte </example>
+    <example> spiegel bitte zeige gesundheits nachrichten </example>
+    <example> spiegel bitte zeige die gesundheits nachrichten </example>
+    <example> spiegel gesundheits nachrichten </example>
+    
+    <example> spiegel zeige bitte die gesundheits news </example>
+    <example> spiegel zeige die gesundheits news </example>
+    <example> spiegel zeige bitte gesundheits news </example>
+    <example> spiegel zeige gesundheits news </example>
+    <example> spiegel zeige gesundheits news bitte </example>
+    <example> spiegel bitte zeige gesundheits news </example>
+    <example> spiegel bitte zeige die gesundheits news </example>
+    <example> spiegel gesundheits news </example>
+    
+    <example> spiegel zeige bitte die wissenschafts nachrichten </example>
+    <example> spiegel zeige die wissenschafts nachrichten </example>
+    <example> spiegel zeige bitte wissenschafts nachrichten </example>
+    <example> spiegel zeige wissenschafts nachrichten </example>
+    <example> spiegel zeige wissenschafts nachrichten bitte </example>
+    <example> spiegel bitte zeige wissenschafts nachrichten </example>
+    <example> spiegel bitte zeige die wissenschafts nachrichten </example>
+    <example> spiegel wissenschafts nachrichten </example>
+    
+    <example> spiegel zeige bitte die wissenschafts news </example>
+    <example> spiegel zeige die wissenschafts news </example>
+    <example> spiegel zeige bitte wissenschafts news </example>
+    <example> spiegel zeige wissenschafts news </example>
+    <example> spiegel zeige wissenschafts news bitte </example>
+    <example> spiegel bitte zeige wissenschafts news </example>
+    <example> spiegel bitte zeige die wissenschafts news </example>
+    <example> spiegel wissenschafts news </example>
+    
+    <example> spiegel zeige bitte die naturwissenschafts nachrichten </example>
+    <example> spiegel zeige die naturwissenschafts nachrichten </example>
+    <example> spiegel zeige bitte naturwissenschafts nachrichten </example>
+    <example> spiegel zeige naturwissenschafts nachrichten </example>
+    <example> spiegel zeige naturwissenschafts nachrichten bitte </example>
+    <example> spiegel bitte zeige naturwissenschafts nachrichten </example>
+    <example> spiegel bitte zeige die naturwissenschafts nachrichten </example>
+    <example> spiegel naturwissenschafts nachrichten </example>
+    
+    <example> spiegel zeige bitte die naturwissenschafts news </example>
+    <example> spiegel zeige die naturwissenschafts news </example>
+    <example> spiegel zeige bitte naturwissenschafts news </example>
+    <example> spiegel zeige naturwissenschafts news </example>
+    <example> spiegel zeige naturwissenschafts news bitte </example>
+    <example> spiegel bitte zeige naturwissenschafts news </example>
+    <example> spiegel bitte zeige die naturwissenschafts news </example>
+    <example> spiegel naturwissenschafts news </example>
+    
+    <example> spiegel zeige bitte die technologie nachrichten </example>
+    <example> spiegel zeige die technologie nachrichten </example>
+    <example> spiegel zeige bitte technologie nachrichten </example>
+    <example> spiegel zeige technologie nachrichten </example>
+    <example> spiegel zeige technologie nachrichten bitte </example>
+    <example> spiegel bitte zeige technologie nachrichten </example>
+    <example> spiegel bitte zeige die technologie nachrichten </example>
+    <example> spiegel technologie nachrichten </example>
+    
+    <example> spiegel zeige bitte die technologie news </example>
+    <example> spiegel zeige die technologie news </example>
+    <example> spiegel zeige bitte technologie news </example>
+    <example> spiegel zeige technologie news </example>
+    <example> spiegel zeige technologie news bitte </example>
+    <example> spiegel bitte zeige technologie news </example>
+    <example> spiegel bitte zeige die technologie news </example>
+    <example> spiegel technologie news </example>
+    
+    <example> spiegel zeige bitte die technik nachrichten </example>
+    <example> spiegel zeige die technik nachrichten </example>
+    <example> spiegel zeige bitte technik nachrichten </example>
+    <example> spiegel zeige technik nachrichten </example>
+    <example> spiegel zeige technik nachrichten bitte </example>
+    <example> spiegel bitte zeige technik nachrichten </example>
+    <example> spiegel bitte zeige die technik nachrichten </example>
+    <example> spiegel technik nachrichten </example>
+    
+    <example> spiegel zeige bitte die technik news </example>
+    <example> spiegel zeige die technik news </example>
+    <example> spiegel zeige bitte technik news </example>
+    <example> spiegel zeige technik news </example>
+    <example> spiegel zeige technik news bitte </example>
+    <example> spiegel bitte zeige technik news </example>
+    <example> spiegel bitte zeige die technik news </example>
+    <example> spiegel technik news </example>
+    
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> die </item>
+    <ruleref uri="#NewsPossibilities"/>
+    <item repeat="0-1"> bitte </item>
+  </rule>
+  
+  <rule id="NewsPossibilities">
+    <example>sport nachrichten</example>
+    <example>sport news</example>
       
-      <item>branchen nachrichten</item>
-      <item>brachen news</item>
-      <item>unternehmens nachrichten</item>
-      <item>unternehmens news</item>
-      <item>geschäft nachrichten</item>
-      <item>geschäft news</item>
-      <item>handel nachrichten</item>
-      <item>handel news</item>
+    <example>branchen nachrichten</example>
+    <example>branchen news</example>
+    <example>unternehmens nachrichten</example>
+    <example>unternehmens news</example>
+    <example>geschäfts nachrichten</example>
+    <example>geschäfts news</example>
+    <example>handels nachrichten</example>
+    <example>handels news</example>
       
-      <item>unterhaltungs nachrichten</item>
-      <item>unterhaltungs news</item>
-      <item>entertainment nachrichten</item>
-      <item>entertainment news</item>
+    <example>unterhaltungs nachrichten</example>
+    <example>unterhaltungs news</example>
+    <example>entertainment nachrichten</example>
+    <example>entertainment news</example>
 
-      <item>gesundheits nachrichten</item>
-      <item>gesundheits news</item>
+    <example>gesundheits nachrichten</example>
+    <example>gesundheits news</example>
 
-      <item>wissenschafts nachrichten</item>
-      <item>wissenschafts news</item>
-      <item>naturwissenschafts nachrichten</item>
-      <item>naturwissenschafts news</item>
+    <example>wissenschafts nachrichten</example>
+    <example>wissenschafts news</example>
+    <example>naturwissenschafts nachrichten</example>
+    <example>naturwissenschafts news</example>
 
-      <item>technologie nachrichten</item>
-      <item>technologie news</item>
-      <item>technik nachrichten</item>
-      <item>technik news</item>
-    </one-of>
+    <example>technologie nachrichten</example>
+    <example>technologie news</example>
+    <example>technik nachrichten</example>
+    <example>technik news</example>
+
+    <item>
+      <one-of>
+        <item>sport nachrichten</item>
+        <item>sport news</item>
+      
+        <item>branchen nachrichten</item>
+        <item>branchen news</item>
+        <item>unternehmens nachrichten</item>
+        <item>unternehmens news</item>
+        <item>geschäfts nachrichten</item>
+        <item>geschäfts news</item>
+        <item>handels nachrichten</item>
+        <item>handels news</item>
+      
+        <item>unterhaltungs nachrichten</item>
+        <item>unterhaltungs news</item>
+        <item>entertainment nachrichten</item>
+        <item>entertainment news</item>
+
+        <item>gesundheits nachrichten</item>
+        <item>gesundheits news</item>
+
+        <item>wissenschafts nachrichten</item>
+        <item>wissenschafts news</item>
+        <item>naturwissenschafts nachrichten</item>
+        <item>naturwissenschafts news</item>
+
+        <item>technologie nachrichten</item>
+        <item>technologie news</item>
+        <item>technik nachrichten</item>
+        <item>technik news</item>
+      </one-of>
+    </item>
   </rule>
 
   <!--Quote-->
   <rule id="quote">
-    <one-of>
-      <item>zitat</item>
-      <item>spruch</item>
-    </one-of>
+    <example> spiegel zeige bitte das zitat </example>
+    <example> spiegel zeige bitte ein zitat </example>
+    <example> spiegel zeige das zitat </example>
+    <example> spiegel zeige ein zitat </example>
+    <example> spiegel zeige bitte zitat </example>
+    <example> spiegel zeige zitat </example>
+    <example> spiegel zeige zitat bitte </example>
+    <example> spiegel bitte zeige zitat </example>
+    <example> spiegel bitte zeige das zitat </example>
+    <example> spiegel bitte zeige ein zitat </example>
+    <example> spiegel zitat </example>
+    
+    <example> spiegel zeige bitte den spruch </example>
+    <example> spiegel zeige bitte einen spruch </example>
+    <example> spiegel zeige den spruch </example>
+    <example> spiegel zeige einen spruch </example>
+    <example> spiegel zeige bitte spruch </example>
+    <example> spiegel zeige spruch </example>
+    <example> spiegel zeige spruch bitte </example>
+    <example> spiegel bitte zeige spruch </example>
+    <example> spiegel bitte zeige den spruch </example>
+    <example> spiegel bitte zeige einen spruch </example>
+    <example> spiegel spruch </example>
+    
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1">
+      <one-of>
+        <item> den </item>
+        <item> das </item>
+        <item> ein </item>
+        <item> einen </item>
+      </one-of>
+    </item>
+    <ruleref uri="#QuotePossibilities"/>
+    <item repeat="0-1"> bitte </item>
   </rule>
+  
+  <rule id="QuotePossibilities">
+    <example> zitat </example>
+    <example> spruch </example>
+
+    <item>
+      <one-of>
+        <item>zitat</item>
+        <item>spruch</item>
+      </one-of>
+    </item>
+  </rule>
+
 </grammar>

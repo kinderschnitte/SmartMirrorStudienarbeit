@@ -2,10 +2,13 @@
 {
     public enum Type
     {
-        MIRROR_LOCK,
         HOME,
         TIME,
-        SHUTDOWN,
+        WEATHER,
+        WEATHERFORECAST,
+        LIGHT,
+        NEWS,
+        QUOTE,
         UNKNOWN
     }
 }

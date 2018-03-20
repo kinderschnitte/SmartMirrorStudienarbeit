@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Text;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
 using SmartMirror.Enums;
@@ -45,27 +45,145 @@ namespace SmartMirror.SpeechRecognition
         }
 
         // ReSharper disable once SuggestBaseTypeForParameter
-        private RecognizedSpeech evaluateSpeechInput(SpeechRecognitionResult argsResult)
+        private static RecognizedSpeech evaluateSpeechInput(SpeechRecognitionResult argsResult)
         {
             RecognizedSpeech recognizedSpeech = new RecognizedSpeech
             {
                 RawText = argsResult.Text,
                 Confidence = argsResult.Confidence,
-                MessageType = getSpeechInputMessageType(),
-                Message = getSpeechInputMessage()
+                MessageType = getSpeechInputMessageType(argsResult.Text)
             };
+
+            recognizedSpeech.Message = getSpeechInputMessage(recognizedSpeech);
 
             return recognizedSpeech;
         }
 
-        private Message getSpeechInputMessage()
+        private static Message getSpeechInputMessage(RecognizedSpeech recognizedSpeech)
         {
-            throw new NotImplementedException();
+            switch (recognizedSpeech.MessageType)
+            {
+                case Type.HOME:
+                    return Message.HOME;
+
+                case Type.TIME:
+                    return Message.TIME;
+
+                case Type.WEATHER:
+                    return Message.WEATHER;
+
+                case Type.WEATHERFORECAST:
+                    return Message.WEATHERFORECAST;
+
+                case Type.LIGHT:
+                    return Message.LIGHT;
+
+                case Type.NEWS:
+                    if (recognizedSpeech.RawText.Contains("sport"))
+                        return Message.NEWS_SPORTS;
+                    else if (recognizedSpeech.RawText.Contains("branchen") || recognizedSpeech.RawText.Contains("unternehmens") || recognizedSpeech.RawText.Contains("geschäfts") || recognizedSpeech.RawText.Contains("handels"))
+                        return Message.NEWS_BUSINESS;
+                    else if (recognizedSpeech.RawText.Contains("unterhaltungs") || recognizedSpeech.RawText.Contains("entertainment"))
+                        return Message.NEWS_ENTERTAINMENT;
+                    else if (recognizedSpeech.RawText.Contains("gesundheits"))
+                        return Message.NEWS_HEALTH;
+                    else if (recognizedSpeech.RawText.Contains("wissenschafts") || recognizedSpeech.RawText.Contains("naturwissenschafts"))
+                        return Message.NEWS_SCIENCE;
+                    else if (recognizedSpeech.RawText.Contains("technologie") || recognizedSpeech.RawText.Contains("technik"))
+                        return Message.NEWS_TECHNOLOGY;
+                    else return Message.UNKNOWN;
+
+                case Type.QUOTE:
+                    return Message.QUOTE;
+
+                case Type.UNKNOWN:
+                    return Message.UNKNOWN;
+
+                default:
+                    return Message.UNKNOWN;
+            }
         }
 
-        private Type getSpeechInputMessageType()
+        private static Type getSpeechInputMessageType(string message)
         {
-            throw new NotImplementedException();
+            StringBuilder stringBuilder = new StringBuilder(message);
+
+            stringBuilder.Replace("spiegel", "");
+            stringBuilder.Replace("zeige", "");
+            stringBuilder.Replace("bitte", "");
+            stringBuilder.Replace("die", "");
+            stringBuilder.Replace("das", "");
+            stringBuilder.Replace("den", "");
+            stringBuilder.Replace("ein", "");
+            stringBuilder.Replace("einen", "");
+
+            switch (stringBuilder.ToString().Trim())
+            {
+                case "übersicht":
+                case "module":
+                case "modulübersicht":
+                case "hauptseite":
+                    return Type.HOME;
+
+                case "zeit":
+                case "uhrzeit":
+                case "sonnenaufgang":
+                case "sonnenuntergang":
+                case "sonne":
+                case "datum":
+                case "jahr":
+                case "monat":
+                case "tag":
+                    return Type.TIME;
+
+                case "licht":
+                    return Type.LIGHT;
+
+                case "wetter":
+                case "temperatur":
+                case "wetter heute":
+                case "aktuelles wetter":
+                    return Type.WEATHER;
+
+                case "wettervorhersage":
+                case "vorhersage":
+                case "wetter morgen":
+                case "wetter übermorgen":
+                    return Type.WEATHERFORECAST;
+
+                case "sport nachrichten":
+                case "sport news":
+                case "branchen nachrichten":
+                case "branchen news":
+                case "unternehmens nachrichten":
+                case "unternehmens news":
+                case "geschäfts nachrichten":
+                case "geschäfts news":
+                case "handels nachrichten":
+                case "handels news":
+                case "unterhaltungs nachrichten":
+                case "unterhaltungs news":
+                case "entertainment nachrichten":
+                case "entertainment news":
+                case "gesundheits nachrichten":
+                case "gesundheits news":
+                case "wissenschafts nachrichten":
+                case "wissenschafts news":
+                case "naturwissenschafts nachrichten":
+                case "naturwissenschafts news":
+                case "technologie nachrichten":
+                case "technologie news":
+                case "technik nachrichten":
+                case "technik news":
+                    return Type.NEWS;
+
+                case "zitat":
+                case "spruch":
+                    return Type.QUOTE;
+
+                default:
+                    return Type.UNKNOWN;
+            }
         }
 
         private async void handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
