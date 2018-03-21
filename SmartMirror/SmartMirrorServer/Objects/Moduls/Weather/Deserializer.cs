@@ -17,7 +17,11 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             CurrentWeatherResult weatherCurrent = new CurrentWeatherResult();
 
             if (response["sys"] != null)
+            {
                 weatherCurrent.Country = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["sys"]["country"])));
+                weatherCurrent.Sunrise = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["sys"]["sunrise"]))))).LocalDateTime;
+                weatherCurrent.Sunset = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["sys"]["sunset"]))))).LocalDateTime;
+            }
 
             if (response["weather"] != null)
             {
@@ -39,11 +43,34 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 {
                     weatherCurrent.TempMin = 0;
                 }
+
                 weatherCurrent.Humidity = Convert.ToDouble(response["main"]["humidity"].Value<double>());
+
+                weatherCurrent.Pressure = Convert.ToDouble(response["main"]["pressure"].Value<double>());
+                //weatherCurrent.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"].Value<double>());
+                //weatherCurrent.GroundLevelPressure = Convert.ToDouble(response["main"]["grnd_level"].Value<double>());
             }
 
             if (response["wind"] != null)
+            {
                 weatherCurrent.WindSpeed = Convert.ToDouble(response["wind"]["speed"].Value<double>());
+                weatherCurrent.WindDegree = Convert.ToDouble(response["wind"]["deg"].Value<double>());
+            }
+
+            if (response["clouds"] != null)
+            {
+                weatherCurrent.Cloudinesss = Convert.ToInt32(response["clouds"]["all"].Value<int>());
+            }
+
+            if (response["rain"] != null)
+            {
+                weatherCurrent.Rain = Convert.ToDouble(response["rain"]["all"].Value<double>());
+            }
+
+            if (response["snow"] != null)
+            {
+                weatherCurrent.Snow = Convert.ToDouble(response["snow"]["all"].Value<double>());
+            }
 
             weatherCurrent.Date = DateTime.UtcNow;
             weatherCurrent.City = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["name"])));

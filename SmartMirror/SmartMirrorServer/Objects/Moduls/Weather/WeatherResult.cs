@@ -26,6 +26,24 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
         public double WindSpeed { get; set; }
 
+        public double WindDegree { get; set; }
+
+        public int Cloudinesss { get; set; }
+
+        public double Pressure { get; set; }
+
+        public double SeaLevelPressure { get; set; }
+
+        public double GroundLevelPressure { get; set; }
+
+        public double Rain { get; set; }
+
+        public double Snow { get; set; }
+
+        public DateTime Sunrise { get; set; }
+
+        public DateTime Sunset { get; set; }
+
         public string Icon { get; set; }
     }
 }

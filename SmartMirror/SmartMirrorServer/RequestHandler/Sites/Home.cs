@@ -120,9 +120,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             stringBuilder.Append("<table style=\"width: 100%; height: 100%; padding: 2.5%;\">");
 
-            stringBuilder.Append($" <tr> <td style=\"font-size: 1.5em; text-align: left;\">{result.Text}</td> </tr>");
-
-            stringBuilder.Append($" <tr> <td style=\"font-size: 1.5em; text-align: center;\">{result.Author}</td> </tr>");
+            stringBuilder.Append($" <tr> <td style=\"font-size: 1.5em; text-align: left;\">{result.Text}<br/>- {result.Author}</td> </tr>");
 
             stringBuilder.Append(" </table>");
 
@@ -163,7 +161,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[1].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[2].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[3].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[4].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.25em; color: grey;\">{result[5].Date:ddd}</label> </td> </tr>");
 
-            stringBuilder.Append($" <tr> <td> <img src=\"http://openweathermap.org/img/w/{result[1].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[2].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[3].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[4].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"http://openweathermap.org/img/w/{result[5].Icon}.png\" alt=\"\" style=\"width: 80%;\"/> </td> </tr>");
+            stringBuilder.Append($" <tr> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[1].Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[2].Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[3].Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[4].Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[5].Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> </tr>");
 
             stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[1].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[2].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[3].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[4].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> <td> <label style=\"font-size: 1.25em;\">{Math.Round(result[5].Temperature, 1).ToString(CultureInfo.InvariantCulture)} °C</label> </td> </tr>");
 
@@ -205,12 +203,11 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</td> </tr>");
+            stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%; table-layout: fixed;\"> <col width=\"20%\"><col width=\"20%\"><col width=\"30%\"><col width=\"30%\"><tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"4\" style=\"font-size: 2em;\">{result.Item.Description}</td> </tr>");
 
-            //stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{chooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 80%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
-            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"http://openweathermap.org/img/w/{result.Item.Icon}.png\" alt=\"\" style=\"width: 75%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" rowspan=\"2\"> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result.Item.Icon)}\" alt=\"\" style=\"width: 60%;\"/> </td> <td colspan=\"2\"> <label style=\"font-size: 5em\"> {Math.Round(result.Item.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
 
-            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td> <label style=\"font-size: 1.25em;\"> Min: {result.Item.TempMin.ToString(CultureInfo.InvariantCulture)} °C </label> </td> <td> <label style=\"font-size: 1.25em;\"> Max: {result.Item.TempMax.ToString(CultureInfo.InvariantCulture)} °C </label> </td> </tr>");
+            stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" style=\"font-size: 1.25em;\"> {result.Item.TempMin.ToString(CultureInfo.InvariantCulture)} °C / {result.Item.TempMax.ToString(CultureInfo.InvariantCulture)} °C </td> </tr>");
 
             stringBuilder.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result.Item.CityId}'\"> <td colspan=\"2\" style=\"font-size: 1.25em;\"><img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.City} </td> <td style=\"font-size: 2em;\"><img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.Humidity.ToString(CultureInfo.InvariantCulture)}  % </td> <td style=\"font-size: 2em;\"><img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> {result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture)} km/h </td> </tr> </table>");
 
@@ -226,43 +223,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
             stringBuilder.Append($"<table style=\"width: 100%; height: 100%; padding: 2.5%;\"> <tr> <td colspan=\"2\" style=\"font-size: 1.5em;\">{DateTime.Now:D}</td> </tr> <tr> <td colspan=\"2\" style=\"font-size: 6.5em;\" class=\"clock\">00:00:00</td> </tr> <tr> <td style=\"font-size: 1em;\">Sonnenaufgang:</td> <td style=\"font-size: 1em;\">Sonnenuntergang:</td> </tr> <tr> <td style=\"font-size: 1.75em;\">{sun.Sunrise}</td> <td style=\"font-size: 1.75em;\">{sun.Sunset}</td> </tr> </table>");
 
             return stringBuilder.ToString();
-        }
-
-        private static string chooseWeatherIcon(string itemIcon)
-        {
-            switch (itemIcon)
-            {
-                case "01d":
-                case "01n":
-                    return "sunny-icon.png";
-
-                case "02d":
-                case "02n":
-                    return "mostly-sunny-icon.png";
-
-                case "03d":
-                case "03n":
-                case "04d":
-                case "04n":
-                    return "cloudy-icon.png";
-
-                case "09d":
-                case "09n":
-                case "10d":
-                case "10n":
-                    return "shower-icon.png";
-
-                case "11d":
-                case "11n":
-                    return "thunder-storm-icon.png";
-
-                case "13d":
-                case "13n":
-                    return "snowing-icon.png";
-
-                default:
-                    return "";
-            }
         }
 
         private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)

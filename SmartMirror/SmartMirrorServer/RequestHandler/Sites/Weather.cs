@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using SmartMirrorServer.HelperMethods;
+using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirrorServer.RequestHandler.Sites
@@ -23,20 +25,40 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\weather.html");
 
-                SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName();
-                Result<FiveDaysForecastResult> fiveDayForecastResult = await getFiveDaysForecastByCityName();
+                SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName(Application.StorageData.WeatherModul);
 
                 foreach (string line in file)
                 {
                     string tag = line;
 
-                    if (tag.Contains("startTime"))
-                        tag = tag.Replace("startTime", Application.StartTime);
-                    else if (tag.Contains("sunriseTime") || tag.Contains("sunsetTime"))
-                    {
-                        //tag = tag.Replace("sunriseTime", );
-                        //tag = tag.Replace("sunsetTime", );
-                    }
+                    if (tag.Contains("CityId"))
+                        tag = tag.Replace("CityId", currentResult.Item.CityId.ToString());
+                    else if (tag.Contains("City"))
+                        tag = tag.Replace("City", currentResult.Item.City);
+                    else if (tag.Contains("Description"))
+                        tag = tag.Replace("Description", currentResult.Item.Description);
+                    else if (tag.Contains("WeatherIcon"))
+                        tag = tag.Replace("WeatherIcon", WeatherHelperClass.ChooseWeatherIcon(currentResult.Item.Icon));
+                    else if (tag.Contains("Temperature"))
+                        tag = tag.Replace("Temperature", Math.Round(currentResult.Item.Temp, 1).ToString(CultureInfo.InvariantCulture));
+                    else if (tag.Contains("TempMin"))
+                        tag = tag.Replace("TempMin", Math.Round(currentResult.Item.TempMin, 1).ToString(CultureInfo.InvariantCulture));
+
+                    if (tag.Contains("TempMax"))
+                        tag = tag.Replace("TempMax", Math.Round(currentResult.Item.TempMax, 1).ToString(CultureInfo.InvariantCulture));
+                    else if (tag.Contains("Humidity"))
+                        tag = tag.Replace("Humidity", currentResult.Item.Humidity.ToString(CultureInfo.InvariantCulture));
+                    else if (tag.Contains("WindSpeed"))
+                        tag = tag.Replace("WindSpeed", currentResult.Item.WindSpeed.ToString(CultureInfo.InvariantCulture));
+                    else if (tag.Contains("Cloudiness"))
+                        tag = tag.Replace("Cloudiness", currentResult.Item.Cloudinesss.ToString());
+                    else if (tag.Contains("Pressure"))
+                        tag = tag.Replace("Pressure", currentResult.Item.Pressure.ToString(CultureInfo.InvariantCulture));
+                    else if (tag.Contains("PrecipitationIcon"))
+                        tag = tag.Replace("PrecipitationIcon", currentResult.Item.Snow > 0 ? "snowflake.png" : "rain.png");
+
+                    if (tag.Contains("Precipitation"))
+                        tag = tag.Replace("Precipitation", currentResult.Item.Snow > 0 ? currentResult.Item.Snow.ToString(CultureInfo.InvariantCulture) : currentResult.Item.Rain.ToString(CultureInfo.InvariantCulture));
 
                     page += tag;
                 }
@@ -50,15 +72,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return Encoding.UTF8.GetBytes(page);
         }
 
-        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName()
+        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)
         {
-            return await CurrentWeather.GetByCityNameAsync("Karlsruhe", "Germany", "de", "metric");
-        }
-
-
-        private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName()
-        {
-            return await FiveDaysForecast.GetByCityNameAsync("Karlsruhe", "Germany", "de", "metric"); // TODO Wie oben anpassen
+            return await CurrentWeather.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
         }
 
         #endregion Public Methods

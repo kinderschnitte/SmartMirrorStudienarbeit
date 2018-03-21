@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Smart Mirror</title>
+		<style>
+			html
+			{
+				margin: 0;
+				background: black;
+				min-height: 100%;
+				-ms-background-size: cover;
+				background-size: cover;
+				font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+			}
+
+			body
+			{
+				margin: 0;
+				min-height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<table style="width: 100%; height: 100%; padding: 1%; color: white; text-align: center; table-layout: fixed;">
+				<tr style="cursor: pointer;" onclick="window.location = 'https://openweathermap.org/city/CityId'">
+					<td colspan="3" style="font-size: 1.25em; text-align: right;"><img src="location.png" alt="" style="height: 0.75em;"/> City </td>
+				</tr>
+				<tr style="cursor: pointer;" onclick="window.location = 'https://openweathermap.org/city/CityId'">
+					<td colspan="3" style="font-size: 5em;"> Description </td>
+				</tr>
+				<tr style="cursor: pointer;" onclick="window.location = 'https://openweathermap.org/city/CityId'">
+					<td colspan="3"> <img src="WeatherIcon" alt="" style="width: 75%;"/> </td>
+				</tr>
+				<tr style="cursor: pointer;" onclick="window.location = 'https://openweathermap.org/city/CityId'">
+					<td colspan="3" style="font-size: 7.5em"> Temperature °C </td>
+				</tr>
+				<tr style="cursor: pointer;" onclick="window.location = 'https://openweathermap.org/city/CityId'">
+					<td style="font-size: 3em; padding-top: 5%;"><img src="humidity.png" alt="" style="height: 0.75em;"/> Humidity % </td>
+					<td style="font-size: 3em; padding-top: 5%;"> TempMin °C / TempMax °C </td>
+					<td style="font-size: 3em; padding-top: 5%;"><img src="windspeed.png" alt="" style="height: 0.75em;"/> WindSpeed km/h </td>
+				</tr>
+				<tr style="cursor: pointer;" onclick="window.location = 'https://openweathermap.org/city/CityId'">
+					<td style="font-size: 3em; padding-top: 5%;"><img src="cloudiness.png" alt="" style="height: 0.75em;"/> Cloudiness % </td>
+					<td style="font-size: 3em; padding-top: 5%;"><img src="pressure.png" alt="" style="height: 0.75em;"/> Pressure hPa </td>
+					<td style="font-size: 3em; padding-top: 5%;"><img src="PrecipitationIcon" alt="" style="height: 0.75em;" /> Precipitation mm </td>
+				</tr>
+			</table>
+		</main>
+	</body>
+</html>

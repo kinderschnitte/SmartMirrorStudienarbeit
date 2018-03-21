@@ -115,6 +115,7 @@
     <Compile Include="HelperMethods\CalcSunTimes.cs" />
     <Compile Include="HelperMethods\FileHelperClass.cs" />
     <Compile Include="HelperMethods\QuoteOfDay.cs" />
+    <Compile Include="HelperMethods\WeatherHelperClass.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Objects\Module.cs" />
     <Compile Include="Objects\Moduls\Sun.cs" />
@@ -154,23 +155,47 @@
     <None Include="SmartMirrorServer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\cloudiness.png" />
+    <Content Include="Images\cloudy.png" />
+    <Content Include="Images\cold.png" />
+    <Content Include="Images\crescent.png" />
     <Content Include="Images\favicon.ico" />
-    <Content Include="Images\cloudy-icon.png" />
+    <Content Include="Images\fog.png" />
+    <Content Include="Images\frost.png" />
+    <Content Include="Images\full-moon.png" />
+    <Content Include="Images\half-moon.png" />
+    <Content Include="Images\heavy-rain.png" />
+    <Content Include="Images\hot.png" />
+    <Content Include="Images\new-moon.png" />
+    <Content Include="Images\overcast.png" />
+    <Content Include="Images\pressure.png" />
+    <Content Include="Images\rain.png" />
+    <Content Include="Images\shower.png" />
+    <Content Include="Images\snowflake.png" />
+    <Content Include="Images\snowy.png" />
+    <Content Include="Images\stormy.png" />
+    <Content Include="Images\sun-rain.png" />
+    <Content Include="Images\sunny-cloudy.png" />
+    <Content Include="Images\sunny.png" />
+    <Content Include="Images\thunder.png" />
+    <Content Include="Images\warm.png" />
+    <Content Include="Images\Weather Icons\cloudy-icon.png" />
     <Content Include="Images\humidity.png" />
-    <Content Include="Images\lightening-icon.png" />
+    <Content Include="Images\Weather Icons\lightening-icon.png" />
     <Content Include="Images\location.png" />
-    <Content Include="Images\mostly-cloudy-icon.png" />
-    <Content Include="Images\mostly-sunny-icon.png" />
-    <Content Include="Images\raining-icon.png" />
-    <Content Include="Images\shower-icon-2.png" />
-    <Content Include="Images\shower-icon.png" />
-    <Content Include="Images\snowing-icon.png" />
-    <Content Include="Images\sunny-icon-2.png" />
-    <Content Include="Images\sunny-icon-3.png" />
-    <Content Include="Images\sunny-icon.png" />
-    <Content Include="Images\thunder-storm-icon.png" />
+    <Content Include="Images\Weather Icons\mostly-cloudy-icon.png" />
+    <Content Include="Images\Weather Icons\mostly-sunny-icon.png" />
+    <Content Include="Images\Weather Icons\raining-icon.png" />
+    <Content Include="Images\Weather Icons\shower-icon-2.png" />
+    <Content Include="Images\Weather Icons\shower-icon.png" />
+    <Content Include="Images\Weather Icons\snowing-icon.png" />
+    <Content Include="Images\Weather Icons\sunny-icon-2.png" />
+    <Content Include="Images\Weather Icons\sunny-icon-3.png" />
+    <Content Include="Images\Weather Icons\sunny-icon.png" />
+    <Content Include="Images\Weather Icons\thunder-storm-icon.png" />
     <Content Include="Images\windspeed.png" />
-    <Content Include="Images\windy-icon.png" />
+    <Content Include="Images\Weather Icons\windy-icon.png" />
+    <Content Include="Images\windy.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
       <InProject>false</InProject>
@@ -193,6 +218,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png">
       <InProject>false</InProject>
     </Content>
+    <Content Include="Websites\weather.html" />
     <Content Include="Websites\time.html" />
     <Content Include="Websites\light.html" />
     <Content Include="Websites\settings.html" />
