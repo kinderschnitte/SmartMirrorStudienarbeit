@@ -130,6 +130,7 @@
     <Compile Include="RequestHandler\Site.cs" />
     <Compile Include="RequestHandler\Sites\Settings.cs" />
     <Compile Include="RequestHandler\Sites\Light.cs" />
+    <Compile Include="RequestHandler\Sites\Weatherforecast.cs" />
     <Compile Include="RequestHandler\Sites\Weather.cs" />
     <Compile Include="RequestHandler\Sites\Time.cs" />
     <Compile Include="RequestHandler\Sites\Home.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png">
       <InProject>false</InProject>
     </Content>
+    <Content Include="Websites\weatherforecast.html" />
     <Content Include="Websites\weather.html" />
     <Content Include="Websites\time.html" />
     <Content Include="Websites\light.html" />

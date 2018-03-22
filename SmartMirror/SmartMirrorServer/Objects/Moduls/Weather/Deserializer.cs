@@ -45,7 +45,6 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 }
 
                 weatherCurrent.Humidity = Convert.ToDouble(response["main"]["humidity"].Value<double>());
-
                 weatherCurrent.Pressure = Convert.ToDouble(response["main"]["pressure"].Value<double>());
                 //weatherCurrent.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"].Value<double>());
                 //weatherCurrent.GroundLevelPressure = Convert.ToDouble(response["main"]["grnd_level"].Value<double>());
@@ -58,19 +57,13 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             }
 
             if (response["clouds"] != null)
-            {
                 weatherCurrent.Cloudinesss = Convert.ToInt32(response["clouds"]["all"].Value<int>());
-            }
 
             if (response["rain"] != null)
-            {
                 weatherCurrent.Rain = Convert.ToDouble(response["rain"]["all"].Value<double>());
-            }
 
             if (response["snow"] != null)
-            {
                 weatherCurrent.Snow = Convert.ToDouble(response["snow"]["all"].Value<double>());
-            }
 
             weatherCurrent.Date = DateTime.UtcNow;
             weatherCurrent.City = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["name"])));
@@ -94,6 +87,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             foreach (JToken item in responseItems)
             {
                 FiveDaysForecastResult weatherForecast = new FiveDaysForecastResult();
+
                 if (response["city"] != null)
                 {
                     weatherForecast.City = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["city"]["name"])));
@@ -114,13 +108,25 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                     weatherForecast.TempMax = Convert.ToDouble(item["main"]["temp_max"].Value<double>());
                     weatherForecast.TempMin = Convert.ToDouble(item["main"]["temp_min"].Value<double>());
                     weatherForecast.Humidity = Convert.ToDouble(item["main"]["humidity"].Value<double>());
+                    weatherForecast.Pressure = Convert.ToDouble(response["main"]["pressure"].Value<double>());
+                    //weatherForecast.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"].Value<double>());
+                    //weatherForecast.GroundLevelPressure = Convert.ToDouble(response["main"]["grnd_level"].Value<double>());
                 }
 
                 if (item["wind"] != null)
+                {
                     weatherForecast.WindSpeed = Convert.ToDouble(item["wind"]["speed"].Value<double>());
+                    weatherForecast.WindDegree = Convert.ToDouble(response["wind"]["deg"].Value<double>());
+                }
 
                 if (item["clouds"] != null)
                     weatherForecast.Clouds = Convert.ToDouble(item["clouds"]["all"].Value<double>());
+
+                if (response["rain"] != null)
+                    weatherForecast.Rain = Convert.ToDouble(response["rain"]["all"].Value<double>());
+
+                if (response["snow"] != null)
+                    weatherForecast.Snow = Convert.ToDouble(response["snow"]["all"].Value<double>());
 
                 weatherForecast.Date = Convert.ToDateTime(item["dt_txt"].Value<DateTime>());
                 weatherForecast.DateUnixFormat = Convert.ToInt32(item["dt"].Value<int>());
