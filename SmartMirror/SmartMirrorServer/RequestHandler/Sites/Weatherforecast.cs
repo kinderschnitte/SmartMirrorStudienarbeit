@@ -54,7 +54,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder forecastString = new StringBuilder();
 
-            forecastString.Append("<table style=\"width: 100 %; height: 100 %; padding: 1 %; color: white; text-align: center; table-layout: fixed;\">");
+            forecastString.Append("<table style=\"width: 100%; height: 100%; padding: 1%; color: white; text-align: center; table-layout: fixed;\">");
             forecastString.Append(" <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\"> <col width=\"11.11%;\">");
             forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"10\" style=\"font-size: 1.25em; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/>{result[0][0].City}</td> </tr>");
 
@@ -68,14 +68,14 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     day = "Übermorgen";
                 else
                     day = fiveDaysForecastResults[0].Date.ToString("dddd");
-                
-                forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\"> <td colspan=\"9\" style=\"font-size: 1.75em; color: grey; text-align: left; padding-top: 2.5%;\">{day}</td> </tr>");
+
+                forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\"> <td colspan=\"9\" style=\"font-size: 1.75em; color: grey; text-align: left; padding-top: 1.5%;\">{day}</td> </tr>");
 
                 foreach (FiveDaysForecastResult fiveDaysForecastResult in fiveDaysForecastResults)
                 {
                     forecastString.Append($" <tr style=\"cursor: pointer; font-size: 1em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResult.CityId}'\">");
                     forecastString.Append($" <td>{fiveDaysForecastResult.Date:t}</td>");
-                    forecastString.Append($" <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(fiveDaysForecastResult.Icon)}\" alt=\"\" style=\"width: 5%; margin: auto;\"/> </td>");
+                    forecastString.Append($" <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(fiveDaysForecastResult.Icon)}\" alt=\"\" style=\"width: 30%; margin: auto;\"/> </td>");
                     forecastString.Append($" <td>{fiveDaysForecastResult.Description}</td>");
                     forecastString.Append($" <td>{Math.Round(fiveDaysForecastResult.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C</td>");
                     //forecastString.Append($" <td>{Math.Round(fiveDaysForecastResult.TempMin, 1).ToString(CultureInfo.InvariantCulture)} °C / {Math.Round(fiveDaysForecastResult.TempMax, 1).ToString(CultureInfo.InvariantCulture)} °C</td>");
@@ -90,7 +90,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     forecastString.Append(" </tr>");
                 }
             }
-            
+
             forecastString.Append(" </table>");
 
             return forecastString.ToString();
