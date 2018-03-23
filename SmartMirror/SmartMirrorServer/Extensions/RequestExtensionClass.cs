@@ -208,6 +208,10 @@ namespace SmartMirrorServer.Extensions
                         query.FileName = FileName.WEATHER;
                         break;
 
+                    case "weatherforecast":
+                        query.FileName = FileName.WEATHERFORECAST;
+                        break;
+
                     case "light":
                         query.FileName = FileName.LIGHT;
                         break;

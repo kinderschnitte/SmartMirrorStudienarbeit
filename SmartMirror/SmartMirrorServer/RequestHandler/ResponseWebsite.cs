@@ -27,6 +27,9 @@ namespace SmartMirrorServer.RequestHandler
                 case FileName.WEATHER:
                     return await Site.BuildWeather();
 
+                case FileName.WEATHERFORECAST:
+                    return await Site.BuildWeatherforecast();
+
                 case FileName.LIGHT:
                     return await Site.BuildLight();
 

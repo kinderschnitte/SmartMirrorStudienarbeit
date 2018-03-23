@@ -108,25 +108,33 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                     weatherForecast.TempMax = Convert.ToDouble(item["main"]["temp_max"].Value<double>());
                     weatherForecast.TempMin = Convert.ToDouble(item["main"]["temp_min"].Value<double>());
                     weatherForecast.Humidity = Convert.ToDouble(item["main"]["humidity"].Value<double>());
-                    weatherForecast.Pressure = Convert.ToDouble(response["main"]["pressure"].Value<double>());
-                    //weatherForecast.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"].Value<double>());
-                    //weatherForecast.GroundLevelPressure = Convert.ToDouble(response["main"]["grnd_level"].Value<double>());
+                    weatherForecast.Pressure = Convert.ToDouble(item["main"]["pressure"].Value<double>());
+                    weatherForecast.SeaLevelPressure = Convert.ToDouble(item["main"]["sea_level"].Value<double>());
+                    weatherForecast.GroundLevelPressure = Convert.ToDouble(item["main"]["grnd_level"].Value<double>());
                 }
 
                 if (item["wind"] != null)
                 {
                     weatherForecast.WindSpeed = Convert.ToDouble(item["wind"]["speed"].Value<double>());
-                    weatherForecast.WindDegree = Convert.ToDouble(response["wind"]["deg"].Value<double>());
+                    weatherForecast.WindDegree = Convert.ToDouble(item["wind"]["deg"].Value<double>());
                 }
 
                 if (item["clouds"] != null)
-                    weatherForecast.Clouds = Convert.ToDouble(item["clouds"]["all"].Value<double>());
+                    weatherForecast.Cloudinesss = Convert.ToInt32(item["clouds"]["all"].Value<int>());
 
-                if (response["rain"] != null)
-                    weatherForecast.Rain = Convert.ToDouble(response["rain"]["all"].Value<double>());
+                try
+                {
+                    if (item["rain"]?["3h"] != null)
+                        weatherForecast.Rain = Convert.ToDouble(item["rain"]["3h"].Value<double>());
 
-                if (response["snow"] != null)
-                    weatherForecast.Snow = Convert.ToDouble(response["snow"]["all"].Value<double>());
+                    if(item["snow"]?["3h"] != null)
+                        weatherForecast.Snow = Convert.ToDouble(item["snow"]["3h"].Value<double>());
+                }
+                catch (Exception)
+                {
+                    weatherForecast.Rain = 0;
+                    weatherForecast.Snow = 0;
+                }
 
                 weatherForecast.Date = Convert.ToDateTime(item["dt_txt"].Value<DateTime>());
                 weatherForecast.DateUnixFormat = Convert.ToInt32(item["dt"].Value<int>());

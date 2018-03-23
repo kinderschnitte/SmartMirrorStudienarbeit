@@ -6,6 +6,7 @@
         HOME,
         TIME,
         WEATHER,
+        WEATHERFORECAST,
         LIGHT,
         UNKNOWN
     }
