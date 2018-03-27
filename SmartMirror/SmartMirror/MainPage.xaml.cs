@@ -1,4 +1,5 @@
-﻿using Windows.UI.Core;
+﻿using System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace SmartMirror
@@ -31,6 +32,8 @@ namespace SmartMirror
         private void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             speechRecognition.StartRecognizing();
+
+            Browser.Navigate(new UriBuilder("http", "localhost", 80).Uri);
         }
     }
 }

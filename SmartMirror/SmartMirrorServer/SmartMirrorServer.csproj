@@ -159,6 +159,7 @@
     <Content Include="Images\cloudiness.png" />
     <Content Include="Images\cloudy.png" />
     <Content Include="Images\cold.png" />
+    <Content Include="Images\coldsmall.png" />
     <Content Include="Images\crescent.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\fog.png" />
@@ -167,6 +168,7 @@
     <Content Include="Images\half-moon.png" />
     <Content Include="Images\heavy-rain.png" />
     <Content Include="Images\hot.png" />
+    <Content Include="Images\hotsmall.png" />
     <Content Include="Images\new-moon.png" />
     <Content Include="Images\overcast.png" />
     <Content Include="Images\pressure.png" />
@@ -178,6 +180,8 @@
     <Content Include="Images\sun-rain.png" />
     <Content Include="Images\sunny-cloudy.png" />
     <Content Include="Images\sunny.png" />
+    <Content Include="Images\sunrise.png" />
+    <Content Include="Images\sunset.png" />
     <Content Include="Images\thunder.png" />
     <Content Include="Images\warm.png" />
     <Content Include="Images\Weather Icons\cloudy-icon.png" />

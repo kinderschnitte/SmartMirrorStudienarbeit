@@ -44,8 +44,8 @@ namespace SmartMirrorServer
                 updateModules();
 
                 //TimeSpan period = TimeSpan.FromMinutes(Application.DataUpdateMinutes);
-                TimeSpan period = TimeSpan.FromMinutes(1);
-                ThreadPoolTimer.CreatePeriodicTimer(source => { updateModules(); }, period);
+                //TimeSpan period = TimeSpan.FromMinutes(1);
+                //ThreadPoolTimer.CreatePeriodicTimer(source => { updateModules(); }, period);
 
                 StreamSocketListener listener = new StreamSocketListener();
                 listener.ConnectionReceived += listener_ConnectionReceived;

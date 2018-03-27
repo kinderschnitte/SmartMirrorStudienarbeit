@@ -5,11 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1080" Height="1920">
-        <WebView Name="Browser" Margin="1501.484,0,-1501.484,0" UseLayoutRounding="False" d:LayoutRounding="Auto">
-            <WebView.RenderTransform>
-                <RotateTransform Angle="90"/>
-            </WebView.RenderTransform>
-        </WebView>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1080" Height="1920" RenderTransformOrigin="0.5 0.5" Margin="0 -420 0 0">
+        <Grid.RenderTransform>
+            <RotateTransform Angle="90"/>
+        </Grid.RenderTransform>
+        <WebView Name="Browser" Height="1920" Width="1080"/>
     </Grid>
 </Page>
