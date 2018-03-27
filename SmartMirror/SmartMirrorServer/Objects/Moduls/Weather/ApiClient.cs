@@ -1,12 +1,11 @@
 ﻿using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace SmartMirrorServer.Objects.Moduls.Weather
 {
     internal static class ApiClient
     {
-        public static async Task<JObject> GetResponse(string queryString)
+        public static JObject GetResponse(string queryString)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -19,7 +18,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 else
                     url = apiUrl + queryString;
 
-                string response = await client.GetStringAsync(url);
+                string response = client.GetStringAsync(url).Result;
                 JObject parsedResponse = JObject.Parse(response);
 
                 return parsedResponse;

@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace SmartMirrorServer.HelperMethods
 {
     internal static class QuoteOfDay
     {
-        public static async Task<Objects.QuoteOfDay> GetQuoteOfDay()
+        public static Objects.QuoteOfDay GetQuoteOfDay()
         {
-            string fileList = await getCsv(Application.QuoteOfDay);
+            string fileList = getCsv();
 
             string[] tempStr = fileList.Split('|');
 
@@ -19,17 +18,15 @@ namespace SmartMirrorServer.HelperMethods
             return splitted.Count > 1 ? new Objects.QuoteOfDay {Author = splitted[1], Text = splitted[0]} : new Objects.QuoteOfDay {Author = "", Text = splitted[0]};
         }
 
-        private static async Task<string> getCsv(string url)
+        private static string getCsv()
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://taeglicheszit.at");
-                HttpResponseMessage response = await client.GetAsync("/zitat-api.php?format=csv");
+                HttpResponseMessage response = client.GetAsync("/zitat-api.php?format=csv").Result;
 
                 using (HttpContent content = response.Content)
-                {
-                    return await content.ReadAsStringAsync();
-                }
+                    return content.ReadAsStringAsync().Result;
             }
         }
     }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SmartMirrorServer.HelperMethods;
-using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirrorServer.RequestHandler.Sites
@@ -31,7 +29,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     string tag = line;
 
                     if (tag.Contains("Forecast"))
-                        tag = tag.Replace("Forecast", await getForecastString());
+                        tag = tag.Replace("Forecast", getForecastString());
 
                     page += tag;
                 }
@@ -45,12 +43,13 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return Encoding.UTF8.GetBytes(page);
         }
 
-        private static async Task<string> getForecastString()
+        private static string getForecastString()
         {
-            List<List<FiveDaysForecastResult>> result = await getcalculatedForecast(Application.StorageData.WeatherforecastModul);
+            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>)Application.Data[Application.StorageData.WeatherforecastModul];
 
             // Infos zu heutigen Tag löschen
-            result.RemoveAt(0);
+            if (result.Count > 5)
+                result.RemoveAt(0);
 
             StringBuilder forecastString = new StringBuilder();
 
@@ -94,20 +93,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
             forecastString.Append(" </table>");
 
             return forecastString.ToString();
-        }
-
-        private static async Task<Result<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
-        {
-            return await FiveDaysForecast.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
-        }
-
-        private static async Task<List<List<FiveDaysForecastResult>>> getcalculatedForecast(Module module)
-        {
-            Result<FiveDaysForecastResult> forecasts = await getFiveDaysForecastByCityName(module);
-
-            List<List<FiveDaysForecastResult>> result = forecasts.Items.GroupBy(d => d.Date.DayOfYear).Select(s => s.ToList()).ToList();
-
-            return result;
         }
 
         #endregion Public Methods

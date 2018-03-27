@@ -1,5 +1,6 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace SmartMirrorServer.Objects.Moduls.Weather
@@ -12,13 +13,13 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         /// </summary>
         /// <param name="id">City 'OpenwWeatherMap' identifier.</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCityIdAsync(int id)
+        public static Result<FiveDaysForecastResult> GetByCityId(int id)
         {
             try
             {
                 if (0 > id) return new Result<FiveDaysForecastResult>(null, false, "City Id must be a positive number.");
-                Task<JObject> response = ApiClient.GetResponse("/forecast?id=" + id);
-                return Deserializer.GetWeatherForecast(await response);
+                JObject response = ApiClient.GetResponse("/forecast?id=" + id);
+                return Deserializer.GetWeatherForecast(response);
             }
             catch (Exception ex)
             {
@@ -33,13 +34,13 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         /// <param name="language">The language of the information returned (example: English - en, Russian - ru, Italian - it, Spanish - sp, Ukrainian - ua, German - de, Portuguese - pt, Romanian - ro, Polish - pl, Finnish - fi, Dutch - nl, French - fr, Bulgarian - bg, Swedish - se, Chinese Traditional - zh_tw, Chinese Simplified - zh_cn, Turkish - tr , Czech - cz, Galician - gl, Vietnamese - vi, Arabic - ar, Macedonian - mk, Slovak - sk).</param>
         /// <param name="units">The units of the date (metric or imperial).</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCityIdAsync(int id, string language, string units)
+        public static Result<FiveDaysForecastResult> GetByCityId(int id, string language, string units)
         {
             try
             {
                 if (0 > id) return new Result<FiveDaysForecastResult>(null, false, "City Id must be a positive number.");
-                Task<JObject> response = ApiClient.GetResponse("/forecast?id=" + id + "&lang=" + language + "&units=" + units);
-                return Deserializer.GetWeatherForecast(await response);
+                JObject response = ApiClient.GetResponse("/forecast?id=" + id + "&lang=" + language + "&units=" + units);
+                return Deserializer.GetWeatherForecast(response);
             }
             catch (Exception ex)
             {
@@ -53,15 +54,15 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         /// <param name="city">Name of the city.</param>
         /// <param name="country">Country of the city.</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCityNameAsync(string city, string country)
+        public static Result<FiveDaysForecastResult> GetByCityName(string city, string country)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(city) || string.IsNullOrEmpty(country))
                     return new Result<FiveDaysForecastResult>(null, false, "City and/or Country cannot be empty.");
-                Task<JObject> response = ApiClient.GetResponse("/forecast?q=" + city + "," + country);
+                JObject response = ApiClient.GetResponse("/forecast?q=" + city + "," + country);
 
-                return Deserializer.GetWeatherForecast(await response);
+                return Deserializer.GetWeatherForecast(response);
             }
             catch (Exception ex)
             {
@@ -77,19 +78,22 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         /// <param name="language">The language of the information returned (example: English - en, Russian - ru, Italian - it, Spanish - sp, Ukrainian - ua, German - de, Portuguese - pt, Romanian - ro, Polish - pl, Finnish - fi, Dutch - nl, French - fr, Bulgarian - bg, Swedish - se, Chinese Traditional - zh_tw, Chinese Simplified - zh_cn, Turkish - tr , Czech - cz, Galician - gl, Vietnamese - vi, Arabic - ar, Macedonian - mk, Slovak - sk).</param>
         /// <param name="units">The units of the date (metric or imperial).</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCityNameAsync(string city, string country, string language, string units)
+        public static List<List<FiveDaysForecastResult>> GetByCityName(string city, string country, string language, string units)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(city) || string.IsNullOrEmpty(country))
-                    return new Result<FiveDaysForecastResult>(null, false, "City and/or Country cannot be empty.");
-                Task<JObject> response = ApiClient.GetResponse("/forecast?q=" + city + "," + country + "&lang=" + language + "&units=" + units);
+                    //return new Result<FiveDaysForecastResult>(null, false, "City and/or Country cannot be empty.");
+                    return null;
 
-                return Deserializer.GetWeatherForecast(await response);
+                JObject response = ApiClient.GetResponse("/forecast?q=" + city + "," + country + "&lang=" + language + "&units=" + units);
+
+                return Deserializer.GetWeatherForecast(response).Items.GroupBy(d => d.Date.DayOfYear).Select(s => s.ToList()).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new Result<FiveDaysForecastResult> { Items = null, Success = false, Message = ex.Message + " - " + ex.StackTrace };
+                //return new Result<FiveDaysForecastResult> { Items = null, Success = false, Message = ex.Message + " - " + ex.StackTrace };
+                return null;
             }
         }
 
@@ -99,12 +103,12 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         /// <param name="lat">Latitud of the city.</param>
         /// <param name="lon">Longitude of the city.</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCoordinatesAsync(double lat, double lon)
+        public static Result<FiveDaysForecastResult> GetByCoordinates(double lat, double lon)
         {
             try
             {
-                Task<JObject> response = ApiClient.GetResponse("/forecast?lat=" + lat + "&lon=" + lon);
-                return Deserializer.GetWeatherForecast(await response);
+                JObject response = ApiClient.GetResponse("/forecast?lat=" + lat + "&lon=" + lon);
+                return Deserializer.GetWeatherForecast(response);
             }
             catch (Exception ex)
             {
@@ -120,12 +124,12 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
         /// <param name="language">The language of the information returned (example: English - en, Russian - ru, Italian - it, Spanish - sp, Ukrainian - ua, German - de, Portuguese - pt, Romanian - ro, Polish - pl, Finnish - fi, Dutch - nl, French - fr, Bulgarian - bg, Swedish - se, Chinese Traditional - zh_tw, Chinese Simplified - zh_cn, Turkish - tr , Czech - cz, Galician - gl, Vietnamese - vi, Arabic - ar, Macedonian - mk, Slovak - sk).</param>
         /// <param name="units">The units of the date (metric or imperial).</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCoordinatesAsync(double lat, double lon, string language, string units)
+        public static Result<FiveDaysForecastResult> GetByCoordinates(double lat, double lon, string language, string units)
         {
             try
             {
-                Task<JObject> response = ApiClient.GetResponse("/forecast?lat=" + lat + "&lon=" + lon + "&lang=" + language + "&units=" + units);
-                return Deserializer.GetWeatherForecast(await response);
+                JObject response = ApiClient.GetResponse("/forecast?lat=" + lat + "&lon=" + lon + "&lang=" + language + "&units=" + units);
+                return Deserializer.GetWeatherForecast(response);
             }
             catch (Exception ex)
             {

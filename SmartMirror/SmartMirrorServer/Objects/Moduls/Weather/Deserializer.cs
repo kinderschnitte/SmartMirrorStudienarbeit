@@ -34,26 +34,17 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
             {
                 weatherCurrent.Temp = Convert.ToDouble(response["main"]["temp"].Value<double>());
                 weatherCurrent.TempMax = Convert.ToDouble(response["main"]["temp_max"].Value<double>());
-
-                try
-                {
-                    weatherCurrent.TempMin = Convert.ToDouble(response["main"]["temp_min"].Value<double>());
-                }
-                catch
-                {
-                    weatherCurrent.TempMin = 0;
-                }
-
+                weatherCurrent.TempMin = Convert.ToDouble(response["main"]["temp_min"]?.Value<double>());
                 weatherCurrent.Humidity = Convert.ToDouble(response["main"]["humidity"].Value<double>());
                 weatherCurrent.Pressure = Convert.ToDouble(response["main"]["pressure"].Value<double>());
-                //weatherCurrent.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"].Value<double>());
-                //weatherCurrent.GroundLevelPressure = Convert.ToDouble(response["main"]["grnd_level"].Value<double>());
+                weatherCurrent.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"]?.Value<double>());
+                weatherCurrent.GroundLevelPressure = Convert.ToDouble(response["main"]["grnd_level"]?.Value<double>());
             }
 
             if (response["wind"] != null)
             {
                 weatherCurrent.WindSpeed = Convert.ToDouble(response["wind"]["speed"].Value<double>());
-                weatherCurrent.WindDegree = Convert.ToDouble(response["wind"]["deg"].Value<double>());
+                weatherCurrent.WindDegree = Convert.ToDouble(response["wind"]["deg"]?.Value<double>());
             }
 
             if (response["clouds"] != null)

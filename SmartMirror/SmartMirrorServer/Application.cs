@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using SmartMirrorServer.Objects;
 using SmartMirrorServer.SerializableClasses;
@@ -29,6 +31,10 @@ namespace SmartMirrorServer
             QuoteOfDay = "https://taeglicheszit.at//zitat-api.php?format=csv";
 
             loadData();
+
+            Data = new ConcurrentDictionary<Module, dynamic>();
+
+            DataUpdateMinutes = 30;
         }
 
         private static async void loadData()
@@ -64,6 +70,10 @@ namespace SmartMirrorServer
         public static string NewsApiKey { get; }
 
         public static StorageData StorageData { get; private set; }
+
+        public static ConcurrentDictionary<Module, dynamic> Data { get; }
+
+        public static int DataUpdateMinutes { get; }
 
         public static void SaveStorageData()
         {

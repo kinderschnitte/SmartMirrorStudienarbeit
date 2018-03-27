@@ -5,6 +5,7 @@ using Windows.System.Threading;
 namespace SmartMirrorServer
 {
     // ReSharper disable once UnusedMember.Global
+    // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class StartupTask : IBackgroundTask
     {
         #region Private Fields

@@ -23,7 +23,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\time.html");
 
-                Sun sun = new Sun(Application.StorageData.TimeModul);
+                Sun sun = (Sun)Application.Data[Application.StorageData.TimeModul];
 
                 foreach (string line in file)
                 {

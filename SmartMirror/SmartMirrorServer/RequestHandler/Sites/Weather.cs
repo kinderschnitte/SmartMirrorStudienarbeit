@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using SmartMirrorServer.HelperMethods;
-using SmartMirrorServer.Objects;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirrorServer.RequestHandler.Sites
@@ -25,7 +24,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\weather.html");
 
-                SingleResult<CurrentWeatherResult> currentResult = await getCurrentWeatherByCityName(Application.StorageData.WeatherModul);
+                SingleResult<CurrentWeatherResult> currentResult = (SingleResult<CurrentWeatherResult>) Application.Data[Application.StorageData.WeatherModul];
 
                 foreach (string line in file)
                 {
@@ -70,11 +69,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
 
             return Encoding.UTF8.GetBytes(page);
-        }
-
-        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)
-        {
-            return await CurrentWeather.GetByCityNameAsync(module.City, module.Country, module.Language, "metric");
         }
 
         #endregion Public Methods
