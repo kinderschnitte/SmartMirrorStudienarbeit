@@ -22,6 +22,7 @@ namespace SmartMirrorServer.SerializableClasses
             TimeModul = new Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.Direction.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.Direction.NORTH) };
             WeatherModul = new Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" };
             WeatherforecastModul = new Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" };
+            QuoteModul = new Module { ModuleType = ModuleType.QUOTEOFDAY };
         }
 
         [DataMember]
@@ -50,5 +51,8 @@ namespace SmartMirrorServer.SerializableClasses
 
         [DataMember]
         public Module WeatherforecastModul { get; set; }
+
+        [DataMember]
+        public Module QuoteModul { get; set; }
     }
 }

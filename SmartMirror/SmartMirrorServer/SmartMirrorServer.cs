@@ -188,8 +188,6 @@ namespace SmartMirrorServer
                     return;
 
                 Application.Data.AddOrUpdate(Application.StorageData.WeatherModul, getCurrentWeatherByCityName(Application.StorageData.WeatherModul), (key, value) => getCurrentWeatherByCityName(Application.StorageData.WeatherModul));
-
-                Debug.WriteLine("Wetter gesetzt.");
             });
 
             Task.Run(() =>
@@ -198,8 +196,6 @@ namespace SmartMirrorServer
                     return;
 
                 Application.Data.AddOrUpdate(Application.StorageData.TimeModul, new Sun(Application.StorageData.TimeModul), (key, value) => new Sun(Application.StorageData.TimeModul));
-
-                Debug.WriteLine("Zeit gesetzt.");
             });
 
             Task.Run(() =>
@@ -208,8 +204,14 @@ namespace SmartMirrorServer
                     return;
 
                 Application.Data.AddOrUpdate(Application.StorageData.WeatherforecastModul, getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul), (key, value) => getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul));
+            });
 
-                Debug.WriteLine("Wettervorhersage gesetzt.");
+            Task.Run(() =>
+            {
+                if (Application.StorageData.QuoteModul == null)
+                    return;
+
+                Application.Data.AddOrUpdate(Application.StorageData.QuoteModul, getQuoteOfDay(), (key, value) => getQuoteOfDay());
             });
 
             Task.Run(() =>
@@ -218,8 +220,6 @@ namespace SmartMirrorServer
                     return;
 
                 buildModul(Application.StorageData.UpperLeftModule);
-
-                Debug.WriteLine("Module oben links gesetzt.");
             });
 
             Task.Run(() =>
@@ -228,8 +228,6 @@ namespace SmartMirrorServer
                     return;
 
                 buildModul(Application.StorageData.UpperRightModule);
-
-                Debug.WriteLine("Module oben rechts gesetzt.");
             });
 
             Task.Run(() =>
@@ -238,8 +236,6 @@ namespace SmartMirrorServer
                     return;
 
                 buildModul(Application.StorageData.MiddleLeftModule);
-
-                Debug.WriteLine("Module mitte links gesetzt.");
             });
 
             Task.Run(() =>
@@ -248,8 +244,6 @@ namespace SmartMirrorServer
                     return;
 
                 buildModul(Application.StorageData.MiddleRightModule);
-
-                Debug.WriteLine("Module mitte rechts gesetzt.");
             });
 
             Task.Run(() =>
@@ -258,8 +252,6 @@ namespace SmartMirrorServer
                     return;
 
                 buildModul(Application.StorageData.LowerLeftModule);
-
-                Debug.WriteLine("Module unten links gesetzt.");
             });
 
             Task.Run(() =>
@@ -268,8 +260,6 @@ namespace SmartMirrorServer
                     return;
 
                 buildModul(Application.StorageData.LowerRightModule);
-
-                Debug.WriteLine("Module unten rechts gesetzt.");
             });
         }
         private static void weatherforecastModul(Module module)
@@ -285,12 +275,13 @@ namespace SmartMirrorServer
 
             Application.Data.AddOrUpdate(module, result, (key, value) => result);
         }
+
         /// <summary>
         /// Nimmt den Request entgegen und gibt diesen als StringBuilder Objekt zurück
         /// </summary>
         /// <param name="inputStream"></param>
         /// <returns></returns>
-        private async Task<StringBuilder> handleHttpRequest(IInputStream inputStream)
+        private static async Task<StringBuilder> handleHttpRequest(IInputStream inputStream)
         {
             StringBuilder requestString = new StringBuilder();
 
@@ -317,7 +308,7 @@ namespace SmartMirrorServer
         /// <param name="args"></param>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        private async Task handleHttpResponse(StreamSocketListenerConnectionReceivedEventArgs args, StringBuilder requestString)
+        private static async Task handleHttpResponse(StreamSocketListenerConnectionReceivedEventArgs args, StringBuilder requestString)
         {
             Debug.WriteLine(requestString.ToString()); // TODO Löschen
 
@@ -336,7 +327,7 @@ namespace SmartMirrorServer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
+        private static async void listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
             // Verarbeitet die HTTP Anfrage
             StringBuilder requestString = await handleHttpRequest(args.Socket.InputStream);
@@ -352,7 +343,7 @@ namespace SmartMirrorServer
         /// <param name="request"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private async Task sendPicture(Stream responseStream, Request request, byte[] file)
+        private static async Task sendPicture(Stream responseStream, Request request, byte[] file)
         {
             string fileType;
 
@@ -392,7 +383,7 @@ namespace SmartMirrorServer
         /// <param name="request"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private async Task sendResponse(IOutputStream outputStream, Request request, byte[] file)
+        private static async Task sendResponse(IOutputStream outputStream, Request request, byte[] file)
         {
             using (IOutputStream output = outputStream)
             {
@@ -412,7 +403,7 @@ namespace SmartMirrorServer
         /// <param name="responseStream"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private async Task sendWebsite(Stream responseStream, byte[] file)
+        private static async Task sendWebsite(Stream responseStream, byte[] file)
         {
             using (MemoryStream bodyStream = new MemoryStream(file))
             {

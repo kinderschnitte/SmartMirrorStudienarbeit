@@ -7,8 +7,10 @@
             switch (itemIcon)
             {
                 case "01d":
-                case "01n":
                     return "sunny.png";
+
+                case "01n":
+                    return "full-moon.png";
 
                 case "02d":
                 case "02n":
@@ -16,12 +18,16 @@
 
                 case "03d":
                 case "03n":
+                    return "cloudy.png";
+
                 case "04d":
                 case "04n":
-                    return "cloudy.png";
+                    return "overcast.png";
 
                 case "09d":
                 case "09n":
+                    return "heavy-rain.png";
+
                 case "10d":
                 case "10n":
                     return "shower.png";
@@ -33,6 +39,10 @@
                 case "13d":
                 case "13n":
                     return "snowy.png";
+
+                case "50d":
+                case "50n":
+                    return "fog.png";
 
                 default:
                     return "";

@@ -8,6 +8,7 @@
         WEATHER,
         WEATHERFORECAST,
         LIGHT,
+        QUOTE,
         UNKNOWN
     }
 }

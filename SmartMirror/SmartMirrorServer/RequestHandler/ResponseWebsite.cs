@@ -33,6 +33,9 @@ namespace SmartMirrorServer.RequestHandler
                 case FileName.LIGHT:
                     return await Site.BuildLight();
 
+                case FileName.QUOTE:
+                    return await Site.BuildQuote();
+
                 default:
                     return new byte[0];
             }

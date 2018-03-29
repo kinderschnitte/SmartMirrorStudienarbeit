@@ -24,7 +24,10 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\weather.html");
 
-                SingleResult<CurrentWeatherResult> currentResult = (SingleResult<CurrentWeatherResult>) Application.Data[Application.StorageData.WeatherModul];
+                if (!Application.Data.TryGetValue(Application.StorageData.WeatherModul, out dynamic r))
+                    return Encoding.UTF8.GetBytes(page);
+
+                SingleResult<CurrentWeatherResult> currentResult = (SingleResult<CurrentWeatherResult>) r;
 
                 foreach (string line in file)
                 {

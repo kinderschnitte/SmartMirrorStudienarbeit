@@ -45,7 +45,10 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
         private static string getForecastString()
         {
-            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>)Application.Data[Application.StorageData.WeatherforecastModul];
+            if (!Application.Data.TryGetValue(Application.StorageData.WeatherforecastModul, out dynamic r))
+                return string.Empty;
+
+            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>) r;
 
             // Infos zu heutigen Tag löschen
             if (result.Count > 5)
@@ -79,7 +82,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     forecastString.Append($" <td>{Math.Round(fiveDaysForecastResult.Temp, 1).ToString(CultureInfo.InvariantCulture)} °C</td>");
                     //forecastString.Append($" <td>{Math.Round(fiveDaysForecastResult.TempMin, 1).ToString(CultureInfo.InvariantCulture)} °C / {Math.Round(fiveDaysForecastResult.TempMax, 1).ToString(CultureInfo.InvariantCulture)} °C</td>");
                     forecastString.Append($" <td> <img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> {fiveDaysForecastResult.Humidity} %</td>");
-                    forecastString.Append($" <td> <img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> {fiveDaysForecastResult.WindSpeed} m/s</td>");
+                    forecastString.Append($" <td> <img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> {fiveDaysForecastResult.WindSpeed} <div style=\"display: inline-block; text-align: center; font-size: 0.45em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">m</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">s</span> </div> </label> </td>");
                     forecastString.Append($" <td> <img src=\"cloudiness.png\" alt=\"\" style=\"height: 0.75em;\"/> {fiveDaysForecastResult.Cloudinesss} %</td>");
                     forecastString.Append($" <td> <img src=\"pressure.png\" alt=\"\" style=\"height: 0.75em;\"/> {fiveDaysForecastResult.Pressure} hPa</td>");
 

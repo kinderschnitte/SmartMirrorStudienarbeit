@@ -34,5 +34,10 @@ namespace SmartMirrorServer.RequestHandler
         {
             return await Light.BuildLight();
         }
+
+        public static async Task<byte[]> BuildQuote()
+        {
+            return await Quote.BuildQuote();
+        }
     }
 }

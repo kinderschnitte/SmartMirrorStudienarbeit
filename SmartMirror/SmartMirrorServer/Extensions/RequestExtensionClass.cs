@@ -216,6 +216,10 @@ namespace SmartMirrorServer.Extensions
                         query.FileName = FileName.LIGHT;
                         break;
 
+                    case "quote":
+                        query.FileName = FileName.QUOTE;
+                        break;
+
                     default:
                         query.FileName = FileName.UNKNOWN;
                         break;
