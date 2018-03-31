@@ -22,7 +22,7 @@ namespace SmartMirror
 
             CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
-            speechRecognition = new SpeechRecognition.SpeechRecognition(dispatcher);
+            speechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

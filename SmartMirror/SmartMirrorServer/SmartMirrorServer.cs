@@ -104,7 +104,7 @@ namespace SmartMirrorServer
         {
             IEnumerable<List<FiveDaysForecastResult>> result = getFiveDaysForecastByCityName(module);
 
-            List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = fiveDaysForecastResult.Average(innerList => innerList.Temp), MinTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMin), MaxTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMax), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
+            List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1) , MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
             // Infos zu heutigen Tag löschen
             if (forecastDays.Count > 5)
@@ -118,7 +118,7 @@ namespace SmartMirrorServer
             return CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
 
-        private static IEnumerable<List<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
+        private static List<List<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
         {
             return FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
@@ -244,7 +244,7 @@ namespace SmartMirrorServer
                 if (Application.StorageData.WeatherforecastModul == null)
                     return;
 
-                weatherforecastModul(Application.StorageData.WeatherforecastModul);
+                Application.Data.AddOrUpdate(Application.StorageData.WeatherforecastModul, getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul), (key, value) => getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul));
             });
 
             Task.Run(() =>

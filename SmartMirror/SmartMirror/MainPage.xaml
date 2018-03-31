@@ -9,6 +9,6 @@
         <Grid.RenderTransform>
             <RotateTransform Angle="90"/>
         </Grid.RenderTransform>
-        <WebView Name="Browser" Height="1920" Width="1080"/>
+        <WebView x:Name="Browser" x:FieldModifier="public" Height="1920" Width="1080"/>
     </Grid>
 </Page>

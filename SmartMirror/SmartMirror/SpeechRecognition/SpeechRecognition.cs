@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
@@ -15,8 +16,11 @@ namespace SmartMirror.SpeechRecognition
 
         private readonly CoreDispatcher dispatcher;
 
-        public SpeechRecognition(CoreDispatcher dispatcher)
+        private readonly MainPage mainPage;
+
+        public SpeechRecognition(MainPage mainPage, CoreDispatcher dispatcher)
         {
+            this.mainPage = mainPage;
             this.dispatcher = dispatcher;
 
             StartRecognizing();
@@ -188,7 +192,90 @@ namespace SmartMirror.SpeechRecognition
 
         private async void handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
         {
-
+            switch (recognizedSpeech.MessageType)
+            {
+                case Type.HOME:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/home.html"));
+                    });
+                    break;
+                case Type.TIME:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/time.html"));
+                    });
+                    break;
+                case Type.WEATHER:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/weather.html"));
+                    });
+                    break;
+                case Type.WEATHERFORECAST:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/weatherforecast.html"));
+                    });
+                    break;
+                case Type.LIGHT:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/light.html"));
+                    });
+                    break;
+                case Type.NEWS:
+                    switch (recognizedSpeech.Message)
+                    {
+                        case Message.NEWS_SPORTS:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Sports"));
+                            });
+                            break;
+                        case Message.NEWS_BUSINESS:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Business"));
+                            });
+                            break;
+                        case Message.NEWS_ENTERTAINMENT:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Entertainment"));
+                            });
+                            break;
+                        case Message.NEWS_HEALTH:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Health"));
+                            });
+                            break;
+                        case Message.NEWS_SCIENCE:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Science"));
+                            });
+                            break;
+                        case Message.NEWS_TECHNOLOGY:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Technology"));
+                            });
+                            break;
+                        case Message.UNKNOWN:
+                            break;
+                    }
+                    break;
+                case Type.QUOTE:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/quote.html"));
+                    });
+                    break;
+                case Type.UNKNOWN:
+                    return;
+            }
         }
     }
 }

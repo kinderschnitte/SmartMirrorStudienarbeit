@@ -32,9 +32,9 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
             if (response["main"] != null)
             {
-                weatherCurrent.Temp = Convert.ToDouble(response["main"]["temp"].Value<double>());
-                weatherCurrent.TempMax = Convert.ToDouble(response["main"]["temp_max"].Value<double>());
-                weatherCurrent.TempMin = Convert.ToDouble(response["main"]["temp_min"]?.Value<double>());
+                weatherCurrent.Temp = Math.Round(Convert.ToDouble(response["main"]["temp"].Value<double>()), 1);
+                weatherCurrent.TempMax = Math.Round(Convert.ToDouble(response["main"]["temp_max"].Value<double>()), 1);
+                weatherCurrent.TempMin = Math.Round(Convert.ToDouble(response["main"]["temp_min"].Value<double>()), 1);
                 weatherCurrent.Humidity = Convert.ToDouble(response["main"]["humidity"].Value<double>());
                 weatherCurrent.Pressure = Convert.ToDouble(response["main"]["pressure"].Value<double>());
                 weatherCurrent.SeaLevelPressure = Convert.ToDouble(response["main"]["sea_level"]?.Value<double>());
@@ -43,7 +43,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
             if (response["wind"] != null)
             {
-                weatherCurrent.WindSpeed = Convert.ToDouble(response["wind"]["speed"].Value<double>());
+                weatherCurrent.WindSpeed = Math.Round(Convert.ToDouble(response["wind"]["speed"].Value<double>()), 1);
                 weatherCurrent.WindDegree = Convert.ToDouble(response["wind"]["deg"]?.Value<double>());
             }
 
@@ -51,10 +51,10 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 weatherCurrent.Cloudinesss = Convert.ToInt32(response["clouds"]["all"].Value<int>());
 
             if (response["rain"] != null)
-                weatherCurrent.Rain = Convert.ToDouble(response["rain"]["all"].Value<double>());
+                weatherCurrent.Rain = Math.Round(Convert.ToDouble(response["rain"]["all"].Value<double>()), 2);
 
             if (response["snow"] != null)
-                weatherCurrent.Snow = Convert.ToDouble(response["snow"]["all"].Value<double>());
+                weatherCurrent.Snow = Math.Round(Convert.ToDouble(response["snow"]["all"].Value<double>()), 2);
 
             weatherCurrent.Date = DateTime.UtcNow;
             weatherCurrent.City = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["name"])));
@@ -95,9 +95,9 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
                 if (item["main"] != null)
                 {
-                    weatherForecast.Temp = Convert.ToDouble(item["main"]["temp"].Value<double>());
-                    weatherForecast.TempMax = Convert.ToDouble(item["main"]["temp_max"].Value<double>());
-                    weatherForecast.TempMin = Convert.ToDouble(item["main"]["temp_min"].Value<double>());
+                    weatherForecast.Temp = Math.Round(Convert.ToDouble(item["main"]["temp"].Value<double>()), 1);
+                    weatherForecast.TempMax = Math.Round(Convert.ToDouble(item["main"]["temp_max"].Value<double>()), 1);
+                    weatherForecast.TempMin = Math.Round(Convert.ToDouble(item["main"]["temp_min"].Value<double>()), 1);
                     weatherForecast.Humidity = Convert.ToDouble(item["main"]["humidity"].Value<double>());
                     weatherForecast.Pressure = Convert.ToDouble(item["main"]["pressure"].Value<double>());
                     weatherForecast.SeaLevelPressure = Convert.ToDouble(item["main"]["sea_level"].Value<double>());
@@ -106,7 +106,7 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
                 if (item["wind"] != null)
                 {
-                    weatherForecast.WindSpeed = Convert.ToDouble(item["wind"]["speed"].Value<double>());
+                    weatherForecast.WindSpeed = Math.Round(Convert.ToDouble(item["wind"]["speed"].Value<double>()), 1);
                     weatherForecast.WindDegree = Convert.ToDouble(item["wind"]["deg"].Value<double>());
                 }
 
@@ -116,10 +116,10 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
                 try
                 {
                     if (item["rain"]?["3h"] != null)
-                        weatherForecast.Rain = Convert.ToDouble(item["rain"]["3h"].Value<double>());
+                        weatherForecast.Rain = Math.Round(Convert.ToDouble(item["rain"]["3h"].Value<double>()), 2);
 
                     if(item["snow"]?["3h"] != null)
-                        weatherForecast.Snow = Convert.ToDouble(item["snow"]["3h"].Value<double>());
+                        weatherForecast.Snow = Math.Round(Convert.ToDouble(item["snow"]["3h"].Value<double>()), 2);
                 }
                 catch (Exception)
                 {
