@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using SmartMirrorServer.Objects;
 using SmartMirrorServer.RequestHandler.Sites;
 
 namespace SmartMirrorServer.RequestHandler
@@ -38,6 +39,11 @@ namespace SmartMirrorServer.RequestHandler
         public static async Task<byte[]> BuildQuote()
         {
             return await Quote.BuildQuote();
+        }
+
+        public static async Task<byte[]> BuildNews(Request request)
+        {
+            return await News.BuildNews(request);
         }
     }
 }

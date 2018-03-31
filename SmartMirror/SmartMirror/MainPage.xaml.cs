@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -29,11 +30,12 @@ namespace SmartMirror
             speechRecognition.StopRecognizing();
         }
 
-        private void onLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             speechRecognition.StartRecognizing();
 
-            Browser.Navigate(new UriBuilder("http", "localhost", 80).Uri);
+            await Task.Delay(TimeSpan.FromSeconds(10));
+            Browser.Navigate(new Uri("http://localhost/home.html"));
         }
     }
 }

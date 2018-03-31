@@ -128,6 +128,7 @@
     <Compile Include="Objects\Sun\LatitudeCoords.cs" />
     <Compile Include="Objects\Sun\LongitudeCoords.cs" />
     <Compile Include="RequestHandler\Site.cs" />
+    <Compile Include="RequestHandler\Sites\News.cs" />
     <Compile Include="RequestHandler\Sites\Settings.cs" />
     <Compile Include="RequestHandler\Sites\Light.cs" />
     <Compile Include="RequestHandler\Sites\Quote.cs" />
@@ -225,6 +226,7 @@
       <InProject>false</InProject>
     </Content>
     <Content Include="Websites\quote.html" />
+    <Content Include="Websites\news.html" />
     <Content Include="Websites\weatherforecast.html" />
     <Content Include="Websites\weather.html" />
     <Content Include="Websites\time.html" />

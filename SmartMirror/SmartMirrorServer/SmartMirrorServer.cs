@@ -21,7 +21,7 @@ using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirrorServer
 {
-    internal class SmartMirrorServer
+    internal static class SmartMirrorServer
     {
 
         #region Private Fields
@@ -38,11 +38,16 @@ namespace SmartMirrorServer
         /// <summary>
         /// Startet den Server Smart Home Webserver
         /// </summary>
-        public async void Start()
+        public static async void Start()
         {
             try
             {
-                updateModules();
+                #pragma warning disable 4014
+                Task.Run(() =>
+                {
+                    updateModules();
+                });
+                #pragma warning restore 4014
 
                 TimeSpan period = TimeSpan.FromMinutes(Application.DataUpdateMinutes);
                 ThreadPoolTimer.CreatePeriodicTimer(source => { updateModules(); }, period);
@@ -70,6 +75,7 @@ namespace SmartMirrorServer
 
         private static void buildModul(Module module)
         {
+            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (module.ModuleType)
             {
                 case ModuleType.TIME:
@@ -96,25 +102,9 @@ namespace SmartMirrorServer
 
         private static List<ForecastDays> getcalculatedForecast(Module module)
         {
-            List<List<FiveDaysForecastResult>> result = getFiveDaysForecastByCityName(module);
+            IEnumerable<List<FiveDaysForecastResult>> result = getFiveDaysForecastByCityName(module);
 
-            List<ForecastDays> forecastDays = new List<ForecastDays>();
-
-            foreach (List<FiveDaysForecastResult> fiveDaysForecastResult in result)
-            {
-                ForecastDays forecastDay = new ForecastDays
-                {
-                    City = fiveDaysForecastResult[0].City,
-                    CityId = fiveDaysForecastResult[0].CityId,
-                    Date = fiveDaysForecastResult[0].Date,
-                    Temperature = fiveDaysForecastResult.Average(innerList => innerList.Temp),
-                    MinTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMin),
-                    MaxTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMax),
-                    Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key
-                };
-
-                forecastDays.Add(forecastDay);
-            }
+            List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = fiveDaysForecastResult.Average(innerList => innerList.Temp), MinTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMin), MaxTemp = fiveDaysForecastResult.Min(innerList => innerList.TempMax), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
             // Infos zu heutigen Tag löschen
             if (forecastDays.Count > 5)
@@ -128,7 +118,7 @@ namespace SmartMirrorServer
             return CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
 
-        private static List<List<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
+        private static IEnumerable<List<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
         {
             return FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
@@ -180,41 +170,9 @@ namespace SmartMirrorServer
             Application.Data.AddOrUpdate(module, new Sun(module), (key, value) => new Sun(module));
         }
 
-        private static void updateModules()
+        private static async void updateModules()
         {
-            Task.Run(() =>
-            {
-                if (Application.StorageData.WeatherModul == null)
-                    return;
-
-                Application.Data.AddOrUpdate(Application.StorageData.WeatherModul, getCurrentWeatherByCityName(Application.StorageData.WeatherModul), (key, value) => getCurrentWeatherByCityName(Application.StorageData.WeatherModul));
-            });
-
-            Task.Run(() =>
-            {
-                if (Application.StorageData.TimeModul == null)
-                    return;
-
-                Application.Data.AddOrUpdate(Application.StorageData.TimeModul, new Sun(Application.StorageData.TimeModul), (key, value) => new Sun(Application.StorageData.TimeModul));
-            });
-
-            Task.Run(() =>
-            {
-                if (Application.StorageData.WeatherforecastModul == null)
-                    return;
-
-                Application.Data.AddOrUpdate(Application.StorageData.WeatherforecastModul, getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul), (key, value) => getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul));
-            });
-
-            Task.Run(() =>
-            {
-                if (Application.StorageData.QuoteModul == null)
-                    return;
-
-                Application.Data.AddOrUpdate(Application.StorageData.QuoteModul, getQuoteOfDay(), (key, value) => getQuoteOfDay());
-            });
-
-            Task.Run(() =>
+            Task upperLeftModuleTask = Task.Run(() =>
             {
                 if (Application.StorageData.UpperLeftModule == null)
                     return;
@@ -222,7 +180,7 @@ namespace SmartMirrorServer
                 buildModul(Application.StorageData.UpperLeftModule);
             });
 
-            Task.Run(() =>
+            Task upperRightModuleTask = Task.Run(() =>
             {
                 if (Application.StorageData.UpperRightModule == null)
                     return;
@@ -230,7 +188,7 @@ namespace SmartMirrorServer
                 buildModul(Application.StorageData.UpperRightModule);
             });
 
-            Task.Run(() =>
+            Task middleLeftModuleTask = Task.Run(() =>
             {
                 if (Application.StorageData.MiddleLeftModule == null)
                     return;
@@ -238,7 +196,7 @@ namespace SmartMirrorServer
                 buildModul(Application.StorageData.MiddleLeftModule);
             });
 
-            Task.Run(() =>
+            Task middleRightModuleTask = Task.Run(() =>
             {
                 if (Application.StorageData.MiddleRightModule == null)
                     return;
@@ -246,7 +204,7 @@ namespace SmartMirrorServer
                 buildModul(Application.StorageData.MiddleRightModule);
             });
 
-            Task.Run(() =>
+            Task lowerLeftModuleTask = Task.Run(() =>
             {
                 if (Application.StorageData.LowerLeftModule == null)
                     return;
@@ -254,14 +212,99 @@ namespace SmartMirrorServer
                 buildModul(Application.StorageData.LowerLeftModule);
             });
 
-            Task.Run(() =>
+            Task lowerrightModuleTask = Task.Run(() =>
             {
                 if (Application.StorageData.LowerRightModule == null)
                     return;
 
                 buildModul(Application.StorageData.LowerRightModule);
             });
+
+            await Task.WhenAny(Task.WhenAll(upperLeftModuleTask, upperRightModuleTask, middleLeftModuleTask, middleRightModuleTask, lowerLeftModuleTask, lowerrightModuleTask), Task.Delay(TimeSpan.FromSeconds(10)));
+
+            #pragma warning disable 4014
+            Task.Run(() =>
+            {
+                if (Application.StorageData.WeatherModul == null)
+                    return;
+
+                weatherModul(Application.StorageData.WeatherModul);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.TimeModul == null)
+                    return;
+
+                timeModul(Application.StorageData.TimeModul);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.WeatherforecastModul == null)
+                    return;
+
+                weatherforecastModul(Application.StorageData.WeatherforecastModul);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.QuoteModul == null)
+                    return;
+
+                quoteOfDayModul(Application.StorageData.QuoteModul);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.NewsScienceModule == null)
+                    return;
+
+                newsModul(Application.StorageData.NewsScienceModule);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.NewsEntertainmentModule == null)
+                    return;
+
+                newsModul(Application.StorageData.NewsEntertainmentModule);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.NewsHealthModule == null)
+                    return;
+
+                newsModul(Application.StorageData.NewsHealthModule);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.NewsSportsModule == null)
+                    return;
+
+                newsModul(Application.StorageData.NewsSportsModule);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.NewsTechnologyModule == null)
+                    return;
+
+                newsModul(Application.StorageData.NewsTechnologyModule);
+            });
+
+            Task.Run(() =>
+            {
+                if (Application.StorageData.NewsBusinessModule == null)
+                    return;
+
+                newsModul(Application.StorageData.NewsBusinessModule);
+            });
+            #pragma warning restore 4014
         }
+
         private static void weatherforecastModul(Module module)
         {
             List<ForecastDays> result = getcalculatedForecast(module);
@@ -347,6 +390,7 @@ namespace SmartMirrorServer
         {
             string fileType;
 
+            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (request.Query.FileType)
             {
                 case FileType.JPEG:

@@ -23,6 +23,12 @@ namespace SmartMirrorServer.SerializableClasses
             WeatherModul = new Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" };
             WeatherforecastModul = new Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" };
             QuoteModul = new Module { ModuleType = ModuleType.QUOTEOFDAY };
+            NewsBusinessModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Business };
+            NewsEntertainmentModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Entertainment };
+            NewsHealthModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Health };
+            NewsScienceModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Science };
+            NewsSportsModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports };
+            NewsTechnologyModule = new Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Technology };
         }
 
         [DataMember]
@@ -54,5 +60,24 @@ namespace SmartMirrorServer.SerializableClasses
 
         [DataMember]
         public Module QuoteModul { get; set; }
+
+        [DataMember]
+        public Module NewsBusinessModule { get; set; }
+
+        [DataMember]
+        public Module NewsEntertainmentModule { get; set; }
+
+        [DataMember]
+        public Module NewsHealthModule { get; set; }
+
+        [DataMember]
+        public Module NewsScienceModule { get; set; }
+
+        [DataMember]
+        public Module NewsSportsModule { get; set; }
+
+        [DataMember]
+        public Module NewsTechnologyModule { get; set; }
+
     }
 }

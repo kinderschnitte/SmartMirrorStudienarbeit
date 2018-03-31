@@ -9,6 +9,7 @@
         WEATHERFORECAST,
         LIGHT,
         QUOTE,
+        NEWS,
         UNKNOWN
     }
 }

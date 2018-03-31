@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Enums.RequestEnums;
 using SmartMirrorServer.Objects;
@@ -183,12 +185,12 @@ namespace SmartMirrorServer.Extensions
             }
             else
             {
-                string[] splittedQuery = finalQuery.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] splittedQuery = finalQuery.Split(new[] { '/', '?', '&' }, StringSplitOptions.RemoveEmptyEntries);
 
-                string path = finalQuery.Remove(finalQuery.Length - splittedQuery[splittedQuery.Length - 1].Length);
+                string path = splittedQuery[0].Trim();
                 query.FilePath = path;
 
-                string[] splittedFile = splittedQuery[splittedQuery.Length - 1].Split('.');
+                string[] splittedFile = splittedQuery[0].Trim().Split('.');
 
                 switch (splittedFile[0])
                 {
@@ -220,12 +222,16 @@ namespace SmartMirrorServer.Extensions
                         query.FileName = FileName.QUOTE;
                         break;
 
+                    case "news":
+                        query.FileName = FileName.NEWS;
+                        break;
+
                     default:
                         query.FileName = FileName.UNKNOWN;
                         break;
                 }
 
-                switch (splittedFile[1].Remove(splittedFile[1].Length - 1))
+                switch (splittedFile[1])
                 {
                     case "html":
                         query.FileType = FileType.HTML;
@@ -249,7 +255,15 @@ namespace SmartMirrorServer.Extensions
                         break;
                 }
 
-                request.Query = query;
+                if (splittedQuery.Length == 1)
+                    request.Query = query;
+                else
+                {
+                    foreach (string parameter in splittedQuery.Skip(1).ToArray())
+                        query.Parameters.Add(parameter.Trim());
+
+                    request.Query = query;
+                }
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using SmartMirrorServer.Enums.QueryEnums;
+﻿using System.Collections.Generic;
+using SmartMirrorServer.Enums.QueryEnums;
 
 namespace SmartMirrorServer.Objects
 {
@@ -23,5 +24,15 @@ namespace SmartMirrorServer.Objects
         /// Dateityp der angeforderten Datei
         /// </summary>
         public FileType FileType { get; set; }
+
+        /// <summary>
+        /// Übergebene Parameter
+        /// </summary>
+        public List<string> Parameters { get; }
+
+        public Query()
+        {
+            Parameters = new List<string>();
+        }
     }
 }
