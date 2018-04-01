@@ -100,6 +100,25 @@ namespace SmartMirror.SpeechRecognition
                 case Type.QUOTE:
                     return Message.QUOTE;
 
+                case Type.RELOAD:
+                    return Message.RELOAD;
+
+                case Type.NAVIGATE:
+                    if (recognizedSpeech.RawText.Contains("zurück") || recognizedSpeech.RawText.Contains("zurückblättern"))
+                        return Message.NAVIGATE_BACKWARDS;
+                    else if (recognizedSpeech.RawText.Contains("vor") || recognizedSpeech.RawText.Contains("vorwärts") || recognizedSpeech.RawText.Contains("vorwärtsblättern"))
+                        return Message.NAVIGATE_FOREWARDS;
+                    else
+                        return Message.UNKNOWN;
+
+                case Type.SCROLL:
+                    if (recognizedSpeech.RawText.Contains("hoch") || recognizedSpeech.RawText.Contains("nach oben"))
+                        return Message.SCROLL_UP;
+                    else if (recognizedSpeech.RawText.Contains("runter") || recognizedSpeech.RawText.Contains("herrunter") || recognizedSpeech.RawText.Contains("nach unten"))
+                        return Message.SCROLL_DOWN;
+                    else
+                        return Message.UNKNOWN;
+
                 case Type.UNKNOWN:
                     return Message.UNKNOWN;
 
@@ -113,13 +132,19 @@ namespace SmartMirror.SpeechRecognition
             StringBuilder stringBuilder = new StringBuilder(message);
 
             stringBuilder.Replace("spiegel", "");
-            stringBuilder.Replace("zeige", "");
-            stringBuilder.Replace("bitte", "");
-            stringBuilder.Replace("die", "");
-            stringBuilder.Replace("das", "");
-            stringBuilder.Replace("den", "");
-            stringBuilder.Replace("ein", "");
-            stringBuilder.Replace("einen", "");
+            stringBuilder.Replace(" zeige", "");
+            stringBuilder.Replace(" scrolle", "");
+            stringBuilder.Replace(" bitte", "");
+            stringBuilder.Replace(" die", "");
+            stringBuilder.Replace(" das", "");
+            stringBuilder.Replace(" den", "");
+            stringBuilder.Replace(" einen", "");
+            stringBuilder.Replace(" eine", "");
+            stringBuilder.Replace(" ein", "");
+            stringBuilder.Replace(" aktuelle", "");
+            stringBuilder.Replace(" Seite", "");
+
+            Debug.WriteLine(stringBuilder.ToString()); // TODO entfernen
 
             switch (stringBuilder.ToString().Trim())
             {
@@ -185,6 +210,24 @@ namespace SmartMirror.SpeechRecognition
                 case "spruch":
                     return Type.QUOTE;
 
+                case "hoch":
+                case "nach oben":
+                case "runter":
+                case "herrunter":
+                case "nach unten":
+                    return Type.SCROLL;
+
+                case "zurück":
+                case "zurückblättern":
+                case "vor":
+                case "vorwärts":
+                case "vorwärtsblättern":
+                    return Type.NAVIGATE;
+
+                case "erneut laden":
+                case "neu laden":
+                    return Type.RELOAD;
+
                 default:
                     return Type.UNKNOWN;
             }
@@ -200,30 +243,35 @@ namespace SmartMirror.SpeechRecognition
                         mainPage.Browser.Navigate(new Uri("http://localhost/home.html"));
                     });
                     break;
+
                 case Type.TIME:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/time.html"));
                     });
                     break;
+
                 case Type.WEATHER:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/weather.html"));
                     });
                     break;
+
                 case Type.WEATHERFORECAST:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/weatherforecast.html"));
                     });
                     break;
+
                 case Type.LIGHT:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/light.html"));
                     });
                     break;
+
                 case Type.NEWS:
                     switch (recognizedSpeech.Message)
                     {
@@ -263,16 +311,43 @@ namespace SmartMirror.SpeechRecognition
                                 mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Technology"));
                             });
                             break;
-                        case Message.UNKNOWN:
-                            break;
                     }
                     break;
+
                 case Type.QUOTE:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/quote.html"));
                     });
                     break;
+
+                case Type.RELOAD:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Refresh();
+                    });
+                    break;
+
+                case Type.NAVIGATE:
+                    if (recognizedSpeech.Message != Message.NAVIGATE_FOREWARDS)
+                    {
+                        if (recognizedSpeech.Message == Message.NAVIGATE_BACKWARDS)
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { mainPage.Browser.GoBack(); });
+                    }
+                    else
+                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { mainPage.Browser.GoForward(); });
+                    break;
+
+                case Type.SCROLL:
+                    if (recognizedSpeech.Message != Message.SCROLL_UP)
+                    {
+                        if (recognizedSpeech.Message == Message.SCROLL_DOWN)
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, -50);" }); });
+                    }
+                    else
+                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, 50);" }); });
+                    break;
+
                 case Type.UNKNOWN:
                     return;
             }

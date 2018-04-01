@@ -10,7 +10,9 @@
   <!--Root-->
   <rule id="rootRule" scope="public">
     <one-of>
-      <item> <ruleref uri="#Home"/> </item>
+      <item>
+        <ruleref uri="#home"/>
+      </item>
       <item>
         <ruleref uri="#time"/>
       </item>
@@ -29,11 +31,20 @@
       <item>
         <ruleref uri="#quote"/>
       </item>
+      <item>
+        <ruleref uri="#scroll"/>
+      </item>
+      <item>
+        <ruleref uri="#navigate"/>
+      </item>
+      <item>
+        <ruleref uri="#reload"/>
+      </item>
     </one-of>
   </rule>
   
   <!--Home-->
-  <rule id="Home">
+  <rule id="home">
     <example> spiegel zeige bitte die übersicht </example>
     <example> spiegel zeige die übersicht </example>
     <example> spiegel zeige bitte übersicht </example>
@@ -720,6 +731,129 @@
         <item>spruch</item>
       </one-of>
     </item>
+  </rule>
+
+  <!--WebView scrollen-->
+  <rule id="scroll">
+    <example> spiegel bitte scrolle hoch </example>
+    <example> spiegel bitte scrolle nach oben </example>
+    <example> spiegel bitte scrolle runter </example>
+    <example> spiegel bitte scrolle herrunter </example>
+    <example> spiegel bitte scrolle nach unten </example>
+    <example> spiegel scrolle hoch </example>
+    <example> spiegel scrolle nach oben </example>
+    <example> spiegel scrolle runter </example>
+    <example> spiegel scrolle herrunter </example>
+    <example> spiegel scrolle nach unten </example>
+    <example> spiegel hoch </example>
+    <example> spiegel nach oben </example>
+    <example> spiegel runter </example>
+    <example> spiegel herrunter </example>
+    <example> spiegel nach unten </example>
+    <example> spiegel bitte hoch </example>
+    <example> spiegel bitte nach oben </example>
+    <example> spiegel bitte runter </example>
+    <example> spiegel bitte herrunter </example>
+    <example> spiegel bitte nach unten </example>
+
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> scrolle </item>
+    <ruleref uri="#ScrollPossibilities"/>
+  </rule>
+
+  <rule id="ScrollPossibilities">
+    <example> hoch </example>
+    <example> nach oben </example>
+    <example> runter </example>
+    <example> herrunter </example>
+    <example> nach unten </example>
+
+    <item>
+      <one-of>
+        <item>hoch</item>
+        <item>nach oben</item>
+        <item>runter</item>
+        <item>herrunter</item>
+        <item>nach unten</item>
+      </one-of>
+    </item>
+  </rule>
+
+  <!--WebView navigieren-->
+  <rule id="navigate">
+    <example> spiegel bitte eine Seite zurück </example>
+    <example> spiegel bitte eine Seite zurückblättern </example>
+    <example> spiegel eine Seite zurück </example>
+    <example> spiegel eine Seite zurückblättern </example>
+    <example> spiegel bitte zurück </example>
+    <example> spiegel bitte zurückblättern </example>
+    <example> spiegel zurück </example>
+    <example> spiegel zurückblättern </example>
+
+    <example> spiegel bitte eine Seite vor </example>
+    <example> spiegel bitte eine Seite vorwärts </example>
+    <example> spiegel bitte eine Seite vorwärtsblättern</example>
+    <example> spiegel eine Seite vor </example>
+    <example> spiegel eine Seite vorwärts </example>
+    <example> spiegel eine Seite vorwärtsblättern</example>
+    <example> spiegel bitte vor </example>
+    <example> spiegel bitte vorwärts </example>
+    <example> spiegel bitte vorwärtsblättern</example>
+    <example> spiegel vor </example>
+    <example> spiegel vorwärts </example>
+    <example> spiegel vorwärtsblättern</example>
+
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> eine Seite </item>
+    <ruleref uri="#NavigatePossibilities"/>
+  </rule>
+
+  <rule id="NavigatePossibilities">
+    <example> zurück </example>
+    <example> zurückblättern </example>
+    <example> vor </example>
+    <example> vorwärts </example>
+    <example> vorwärtsblättern</example>
+
+    <item>
+      <one-of>
+        <item>zurück</item>
+        <item>zurückblättern</item>
+        <item>vor</item>
+        <item>vorwärts</item>
+        <item>vorwärtsblättern</item>
+      </one-of>
+    </item>
+  </rule>
+
+  <!--WebView neu laden-->
+  <rule id="reload">
+    <example> spiegel bitte aktuelle Seite neu laden </example>
+    <example> spiegel bitte aktuelle Seite erneut laden </example>
+    <example> spiegel aktuelle Seite neu laden </example>
+    <example> spiegel aktuelle Seite erneut laden </example>
+    <example> spiegel bitte Seite neu laden </example>
+    <example> spiegel bitte Seite erneut laden </example>
+    <example> spiegel bitte neu laden </example>
+    <example> spiegel bitte erneut laden </example>
+    <example> spiegel Seite neu laden </example>
+    <example> spiegel Seite erneut laden </example>
+    <example> spiegel neu laden </example>
+    <example> spiegel erneut laden </example>
+
+    <item> spiegel </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> aktuelle </item>
+    <item repeat="0-1"> Seite </item>
+    <item>
+      <one-of>
+        <item> neu </item>
+        <item> erneut </item>
+      </one-of>
+    </item>
+    <item> laden </item>
   </rule>
 
 </grammar>

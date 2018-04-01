@@ -9,6 +9,9 @@
         LIGHT,
         NEWS,
         QUOTE,
+        SCROLL,
+        RELOAD,
+        NAVIGATE,
         UNKNOWN
     }
 }
