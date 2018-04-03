@@ -11,6 +11,7 @@ namespace SmartMirror
     internal partial class MainPage
     {
         private readonly SpeechRecognition.SpeechRecognition speechRecognition;
+        public SpeechService.SpeechService SpeechService { get; }
 
         public MainPage()
         {
@@ -23,6 +24,8 @@ namespace SmartMirror
             CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
             speechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
+
+            SpeechService = new SpeechService.SpeechService();
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

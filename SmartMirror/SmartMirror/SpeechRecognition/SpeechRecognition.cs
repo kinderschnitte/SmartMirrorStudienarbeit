@@ -119,6 +119,22 @@ namespace SmartMirror.SpeechRecognition
                     else
                         return Message.UNKNOWN;
 
+                case Type.SPEECH:
+                    if (recognizedSpeech.RawText.Contains("uhr"))
+                        return Message.SPEECH_TIME;
+                    else if (recognizedSpeech.RawText.Contains("wetter morgen"))
+                        return Message.SPEECH_WEATHER_TOMORROW;
+                    else if (recognizedSpeech.RawText.Contains("wetter übermorgen"))
+                        return Message.SPEECH_WEATHER_DAYAFTERTOMORROW;
+                    else if (recognizedSpeech.RawText.Contains("warm") || recognizedSpeech.RawText.Contains("temperatur"))
+                        return Message.SPEECH_WEATHER_TEMPERATURE;
+                    else if (recognizedSpeech.RawText.Contains("uhr sonne auf"))
+                        return Message.SPEECH_SUNRISE;
+                    else if (recognizedSpeech.RawText.Contains("uhr sonne unter"))
+                        return Message.SPEECH_SUNSET;
+                    else
+                        return Message.UNKNOWN;
+
                 case Type.UNKNOWN:
                     return Message.UNKNOWN;
 
@@ -132,6 +148,7 @@ namespace SmartMirror.SpeechRecognition
             StringBuilder stringBuilder = new StringBuilder(message);
 
             stringBuilder.Replace("spiegel", "");
+            stringBuilder.Replace("james", "");
             stringBuilder.Replace(" zeige", "");
             stringBuilder.Replace(" scrolle", "");
             stringBuilder.Replace(" bitte", "");
@@ -141,6 +158,13 @@ namespace SmartMirror.SpeechRecognition
             stringBuilder.Replace(" einen", "");
             stringBuilder.Replace(" eine", "");
             stringBuilder.Replace(" ein", "");
+            stringBuilder.Replace(" um", "");
+            stringBuilder.Replace(" viel", "");
+            stringBuilder.Replace(" ist", "");
+            stringBuilder.Replace(" es", "");
+            stringBuilder.Replace(" geht", "");
+            stringBuilder.Replace(" hat", "");
+            stringBuilder.Replace(" wird", "");
             stringBuilder.Replace(" aktuelle", "");
             stringBuilder.Replace(" Seite", "");
 
@@ -227,6 +251,15 @@ namespace SmartMirror.SpeechRecognition
                 case "erneut laden":
                 case "neu laden":
                     return Type.RELOAD;
+
+                case "wie uhr":
+                case "wie wetter morgen":
+                case "wie wetter übermorgen":
+                case "wie warm":
+                case "wie temperatur":
+                case "wie uhr sonne auf":
+                case "wie uhr sonne unter":
+                    return Type.SPEECH;
 
                 default:
                     return Type.UNKNOWN;
@@ -342,10 +375,31 @@ namespace SmartMirror.SpeechRecognition
                     if (recognizedSpeech.Message != Message.SCROLL_UP)
                     {
                         if (recognizedSpeech.Message == Message.SCROLL_DOWN)
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, -50);" }); });
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, -50);" }); }); // TODO testen
                     }
                     else
-                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, 50);" }); });
+                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, 50);" }); }); // TODO testen
+                    break;
+
+                case Type.SPEECH:
+                    switch (recognizedSpeech.Message)
+                    {
+                        case Message.SPEECH_TIME:
+                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.SpeechService.SayTime(); });
+                            break;
+                        case Message.SPEECH_WEATHER_TOMORROW:
+                            break;
+                        case Message.SPEECH_WEATHER_DAYAFTERTOMORROW:
+                            break;
+                        case Message.SPEECH_WEATHER_TEMPERATURE:
+                            break;
+                        case Message.SPEECH_SUNRISE:
+                            break;
+                        case Message.SPEECH_SUNSET:
+                            break;
+                        case Message.UNKNOWN:
+                            break;
+                    }
                     break;
 
                 case Type.UNKNOWN:

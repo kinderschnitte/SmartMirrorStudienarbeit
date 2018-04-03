@@ -40,6 +40,9 @@
       <item>
         <ruleref uri="#reload"/>
       </item>
+      <item>
+        <ruleref uri="#speech"/>
+      </item>
     </one-of>
   </rule>
   
@@ -81,7 +84,9 @@
     <example> spiegel bitte zeige die hauptseite </example>
     <example> spiegel hauptseite </example>
 
-    <item> spiegel </item>
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -188,8 +193,10 @@
     <example> spiegel bitte zeige jahr </example>
     <example> spiegel bitte zeige das jahr </example>
     <example> spiegel jahr </example>
-    
-    <item> spiegel </item>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -240,8 +247,10 @@
     <example> spiegel bitte zeige licht </example>
     <example> spiegel bitte zeige das licht </example>
     <example> spiegel licht </example>
-    
-    <item> spiegel </item>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -287,8 +296,10 @@
     <example> spiegel bitte zeige aktuelles wetter </example>
     <example> spiegel bitte zeige das aktuelles wetter </example>
     <example> spiegel aktuelles wetter </example>
-    
-    <item> spiegel </item>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -355,8 +366,10 @@
     <example> spiegel bitte zeige wetter übermorgen </example>
     <example> spiegel bitte zeige das wetter übermorgen </example>
     <example> spiegel wetter übermorgen </example>
-    
-    <item> spiegel </item>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -603,8 +616,10 @@
     <example> spiegel bitte zeige technik news </example>
     <example> spiegel bitte zeige die technik news </example>
     <example> spiegel technik news </example>
-    
-    <item> spiegel </item>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -704,8 +719,10 @@
     <example> spiegel bitte zeige den spruch </example>
     <example> spiegel bitte zeige einen spruch </example>
     <example> spiegel spruch </example>
-    
-    <item> spiegel </item>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
@@ -756,7 +773,9 @@
     <example> spiegel bitte herrunter </example>
     <example> spiegel bitte nach unten </example>
 
-    <item> spiegel </item>
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> scrolle </item>
     <ruleref uri="#ScrollPossibilities"/>
@@ -804,7 +823,9 @@
     <example> spiegel vorwärts </example>
     <example> spiegel vorwärtsblättern</example>
 
-    <item> spiegel </item>
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> eine Seite </item>
     <ruleref uri="#NavigatePossibilities"/>
@@ -843,7 +864,9 @@
     <example> spiegel neu laden </example>
     <example> spiegel erneut laden </example>
 
-    <item> spiegel </item>
+    <item>
+      <ruleref uri="#name"/>
+    </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> aktuelle </item>
     <item repeat="0-1"> Seite </item>
@@ -856,4 +879,42 @@
     <item> laden </item>
   </rule>
 
+  <!--Vorlesen-->
+  <rule id="speech">
+    <example> spiegel wie viel uhr ist es </example>
+    <example> spiegel wie wird das wetter morgen </example>
+    <example> spiegel wie wird das wetter übermorgen </example>
+    <example> spiegel wie warm ist es </example>
+    <example> spiegel wie viel temperatur hat es </example>
+    <example> spiegel um wie viel uhr geht die sonne auf </example>
+    <example> spiegel um wie viel uhr geht die sonne unter </example>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
+    <item>
+      <one-of>
+        <item> wie viel uhr ist es </item>
+        <item> wie wird das wetter morgen </item>
+        <item> wie wird das wetter übermorgen </item>
+        <item> wie warm ist es </item>
+        <item> wie viel temperatur hat es </item>
+        <item> um wie viel uhr geht die sonne auf </item>
+        <item> um wie viel uhr geht die sonne unter </item>
+      </one-of>
+    </item>
+  </rule>
+  
+  <!--Spiegel Namen-->
+  <rule id="name">
+    <example> spiegel </example>
+    <example> james </example>
+
+    <item>
+      <one-of>
+        <item> spiegel </item>
+        <item> mira </item>
+      </one-of>
+    </item>
+  </rule>
 </grammar>

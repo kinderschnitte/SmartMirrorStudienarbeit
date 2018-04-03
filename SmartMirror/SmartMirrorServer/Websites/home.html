@@ -56,14 +56,12 @@
             </div>
 	    </main>
 	    <script type="text/javascript">
-		    function clock()
-		    {
-			    var time = new Date(),
-				    hours = time.getHours(),
-				    minutes = time.getMinutes(),
-				    seconds = time.getSeconds();
+		    function clock() {
+		        var time = new Date(),
+		            hours = time.getHours(),
+		            minutes = time.getMinutes();
 
-			    document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+			    document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes);
   
 			    function harold(standIn)
 			    {

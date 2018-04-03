@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<weatherdata>
+  <location>
+    <name>Karlsruhe</name>
+    <country>DE</country>
+    <location latitude="49.0141" longitude="8.4044"/>
+  </location>
+  <sun rise="2018-04-02T05:00:14" set="2018-04-02T18:00:04"/>
+  <forecast>
+    <time from="2018-04-02T21:00:00" to="2018-04-03T00:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.49" type="rain"/>
+      <windDirection deg="203.501" code="SSW" name="South-southwest"/>
+      <windSpeed mps="5.61" name="Moderate breeze"/>
+      <temperature unit="celsius" value="8.57" min="8.57" max="9.8"/>
+      <pressure unit="hPa" value="999.71"/>
+      <humidity value="85" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="80" unit="%"/>
+    </time>
+    <time from="2018-04-03T00:00:00" to="2018-04-03T03:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.035" type="rain"/>
+      <windDirection deg="213.5" code="SSW" name="South-southwest"/>
+      <windSpeed mps="5.12" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="9.22" min="9.22" max="10.15"/>
+      <pressure unit="hPa" value="999.06"/>
+      <humidity value="80" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="68" unit="%"/>
+    </time>
+    <time from="2018-04-03T03:00:00" to="2018-04-03T06:00:00">
+      <symbol number="803" name="Überwiegend bewölkt" var="04d"/>
+      <precipitation/>
+      <windDirection deg="215.5" code="SW" name="Southwest"/>
+      <windSpeed mps="4.31" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="8.76" min="8.76" max="9.38"/>
+      <pressure unit="hPa" value="999.78"/>
+      <humidity value="78" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="56" unit="%"/>
+    </time>
+    <time from="2018-04-03T06:00:00" to="2018-04-03T09:00:00">
+      <symbol number="802" name="Überwiegend bewölkt" var="03d"/>
+      <precipitation/>
+      <windDirection deg="211" code="SSW" name="South-southwest"/>
+      <windSpeed mps="4.66" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="13.53" min="13.53" max="13.84"/>
+      <pressure unit="hPa" value="1000.33"/>
+      <humidity value="79" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="32" unit="%"/>
+    </time>
+    <time from="2018-04-03T09:00:00" to="2018-04-03T12:00:00">
+      <symbol number="802" name="Überwiegend bewölkt" var="03d"/>
+      <precipitation/>
+      <windDirection deg="221.015" code="SW" name="Southwest"/>
+      <windSpeed mps="5.11" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="16.03" min="16.03" max="16.03"/>
+      <pressure unit="hPa" value="999.65"/>
+      <humidity value="71" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="48" unit="%"/>
+    </time>
+    <time from="2018-04-03T12:00:00" to="2018-04-03T15:00:00">
+      <symbol number="803" name="Überwiegend bewölkt" var="04d"/>
+      <precipitation/>
+      <windDirection deg="227.505" code="SW" name="Southwest"/>
+      <windSpeed mps="4.31" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="16.52" min="16.52" max="16.52"/>
+      <pressure unit="hPa" value="998.47"/>
+      <humidity value="71" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="80" unit="%"/>
+    </time>
+    <time from="2018-04-03T15:00:00" to="2018-04-03T18:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="0.025" type="rain"/>
+      <windDirection deg="181.504" code="S" name="South"/>
+      <windSpeed mps="3.11" name="Light breeze"/>
+      <temperature unit="celsius" value="13.98" min="13.98" max="13.98"/>
+      <pressure unit="hPa" value="997.85"/>
+      <humidity value="71" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="64" unit="%"/>
+    </time>
+    <time from="2018-04-03T18:00:00" to="2018-04-03T21:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.04" type="rain"/>
+      <windDirection deg="160.501" code="SSE" name="South-southeast"/>
+      <windSpeed mps="3.32" name=""/>
+      <temperature unit="celsius" value="12.33" min="12.33" max="12.33"/>
+      <pressure unit="hPa" value="997.6"/>
+      <humidity value="79" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="68" unit="%"/>
+    </time>
+    <time from="2018-04-03T21:00:00" to="2018-04-04T00:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.41" type="rain"/>
+      <windDirection deg="193.503" code="SSW" name="South-southwest"/>
+      <windSpeed mps="2.61" name="Light breeze"/>
+      <temperature unit="celsius" value="11.16" min="11.16" max="11.16"/>
+      <pressure unit="hPa" value="997.48"/>
+      <humidity value="87" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="80" unit="%"/>
+    </time>
+    <time from="2018-04-04T00:00:00" to="2018-04-04T03:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.08" type="rain"/>
+      <windDirection deg="198.5" code="SSW" name="South-southwest"/>
+      <windSpeed mps="3.86" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="10.5" min="10.5" max="10.5"/>
+      <pressure unit="hPa" value="997.93"/>
+      <humidity value="85" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="56" unit="%"/>
+    </time>
+    <time from="2018-04-04T03:00:00" to="2018-04-04T06:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="0.39" type="rain"/>
+      <windDirection deg="188.502" code="S" name="South"/>
+      <windSpeed mps="3.61" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="10.56" min="10.56" max="10.56"/>
+      <pressure unit="hPa" value="997.41"/>
+      <humidity value="91" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-04T06:00:00" to="2018-04-04T09:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="0.09" type="rain"/>
+      <windDirection deg="200.01" code="SSW" name="South-southwest"/>
+      <windSpeed mps="4.47" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="15.34" min="15.34" max="15.34"/>
+      <pressure unit="hPa" value="998.11"/>
+      <humidity value="95" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="80" unit="%"/>
+    </time>
+    <time from="2018-04-04T09:00:00" to="2018-04-04T12:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="0.45" type="rain"/>
+      <windDirection deg="236.007" code="SW" name="Southwest"/>
+      <windSpeed mps="5.97" name="Moderate breeze"/>
+      <temperature unit="celsius" value="15.22" min="15.22" max="15.22"/>
+      <pressure unit="hPa" value="997.16"/>
+      <humidity value="84" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="32" unit="%"/>
+    </time>
+    <time from="2018-04-04T12:00:00" to="2018-04-04T15:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="2.35" type="rain"/>
+      <windDirection deg="242.505" code="WSW" name="West-southwest"/>
+      <windSpeed mps="7.95" name=""/>
+      <temperature unit="celsius" value="12.17" min="12.17" max="12.17"/>
+      <pressure unit="hPa" value="997.36"/>
+      <humidity value="100" unit="%"/>
+      <clouds value="Wolkenbedeckt" all="92" unit="%"/>
+    </time>
+    <time from="2018-04-04T15:00:00" to="2018-04-04T18:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="2.86" type="rain"/>
+      <windDirection deg="205.503" code="SSW" name="South-southwest"/>
+      <windSpeed mps="6.36" name="Moderate breeze"/>
+      <temperature unit="celsius" value="10.97" min="10.97" max="10.97"/>
+      <pressure unit="hPa" value="996.65"/>
+      <humidity value="94" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="68" unit="%"/>
+    </time>
+    <time from="2018-04-04T18:00:00" to="2018-04-04T21:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.010000000000001" type="rain"/>
+      <windDirection deg="227.5" code="SW" name="Southwest"/>
+      <windSpeed mps="5.36" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="10.22" min="10.22" max="10.22"/>
+      <pressure unit="hPa" value="997.73"/>
+      <humidity value="93" unit="%"/>
+      <clouds value="Ein paar Wolken" all="20" unit="%"/>
+    </time>
+    <time from="2018-04-04T21:00:00" to="2018-04-05T00:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.02" type="rain"/>
+      <windDirection deg="226.515" code="SW" name="Southwest"/>
+      <windSpeed mps="6.16" name="Moderate breeze"/>
+      <temperature unit="celsius" value="9.17" min="9.17" max="9.17"/>
+      <pressure unit="hPa" value="998.96"/>
+      <humidity value="93" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="32" unit="%"/>
+    </time>
+    <time from="2018-04-05T00:00:00" to="2018-04-05T03:00:00">
+      <symbol number="500" name="Leichter Regen" var="10n"/>
+      <precipitation unit="3h" value="0.03" type="rain"/>
+      <windDirection deg="232.001" code="SW" name="Southwest"/>
+      <windSpeed mps="6.34" name="Moderate breeze"/>
+      <temperature unit="celsius" value="8.42" min="8.42" max="8.42"/>
+      <pressure unit="hPa" value="999.8"/>
+      <humidity value="94" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="56" unit="%"/>
+    </time>
+    <time from="2018-04-05T03:00:00" to="2018-04-05T06:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="0.35" type="rain"/>
+      <windDirection deg="229.006" code="SW" name="Southwest"/>
+      <windSpeed mps="4.86" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="8.64" min="8.64" max="8.64"/>
+      <pressure unit="hPa" value="1000.78"/>
+      <humidity value="97" unit="%"/>
+      <clouds value="Wolkenbedeckt" all="92" unit="%"/>
+    </time>
+    <time from="2018-04-05T06:00:00" to="2018-04-05T09:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="1.13" type="rain"/>
+      <windDirection deg="262.008" code="W" name="West"/>
+      <windSpeed mps="7.51" name="Moderate breeze"/>
+      <temperature unit="celsius" value="9.03" min="9.03" max="9.03"/>
+      <pressure unit="hPa" value="1004.21"/>
+      <humidity value="100" unit="%"/>
+      <clouds value="Ein paar Wolken" all="20" unit="%"/>
+    </time>
+    <time from="2018-04-05T09:00:00" to="2018-04-05T12:00:00">
+      <symbol number="500" name="Leichter Regen" var="10d"/>
+      <precipitation unit="3h" value="0.0099999999999998" type="rain"/>
+      <windDirection deg="261.501" code="W" name="West"/>
+      <windSpeed mps="8.15" name="Fresh Breeze"/>
+      <temperature unit="celsius" value="8.34" min="8.34" max="8.34"/>
+      <pressure unit="hPa" value="1007.56"/>
+      <humidity value="95" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="64" unit="%"/>
+    </time>
+    <time from="2018-04-05T12:00:00" to="2018-04-05T15:00:00">
+      <symbol number="803" name="Überwiegend bewölkt" var="04d"/>
+      <precipitation/>
+      <windDirection deg="283.003" code="WNW" name="West-northwest"/>
+      <windSpeed mps="7.18" name="Moderate breeze"/>
+      <temperature unit="celsius" value="8.34" min="8.34" max="8.34"/>
+      <pressure unit="hPa" value="1010.72"/>
+      <humidity value="87" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="80" unit="%"/>
+    </time>
+    <time from="2018-04-05T15:00:00" to="2018-04-05T18:00:00">
+      <symbol number="803" name="Überwiegend bewölkt" var="04d"/>
+      <precipitation/>
+      <windDirection deg="304.501" code="NW" name="Northwest"/>
+      <windSpeed mps="4.58" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="7.1" min="7.1" max="7.1"/>
+      <pressure unit="hPa" value="1014.34"/>
+      <humidity value="80" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="80" unit="%"/>
+    </time>
+    <time from="2018-04-05T18:00:00" to="2018-04-05T21:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01n"/>
+      <precipitation/>
+      <windDirection deg="313.002" code="NW" name="Northwest"/>
+      <windSpeed mps="1.72" name="Light breeze"/>
+      <temperature unit="celsius" value="4.1" min="4.1" max="4.1"/>
+      <pressure unit="hPa" value="1017.24"/>
+      <humidity value="83" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-05T21:00:00" to="2018-04-06T00:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01n"/>
+      <precipitation/>
+      <windDirection deg="72.5018" code="ENE" name="East-northeast"/>
+      <windSpeed mps="1.36" name="Calm"/>
+      <temperature unit="celsius" value="1.93" min="1.93" max="1.93"/>
+      <pressure unit="hPa" value="1017.76"/>
+      <humidity value="86" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-06T00:00:00" to="2018-04-06T03:00:00">
+      <symbol number="800" name="Klarer Himmel" var="02n"/>
+      <precipitation/>
+      <windDirection deg="90.5049" code="E" name="East"/>
+      <windSpeed mps="3.01" name="Light breeze"/>
+      <temperature unit="celsius" value="1.29" min="1.29" max="1.29"/>
+      <pressure unit="hPa" value="1016.95"/>
+      <humidity value="85" unit="%"/>
+      <clouds value="Klarer Himmel" all="8" unit="%"/>
+    </time>
+    <time from="2018-04-06T03:00:00" to="2018-04-06T06:00:00">
+      <symbol number="801" name="Ein paar Wolken" var="02d"/>
+      <precipitation/>
+      <windDirection deg="100.501" code="E" name="East"/>
+      <windSpeed mps="4.52" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="1.83" min="1.83" max="1.83"/>
+      <pressure unit="hPa" value="1016.47"/>
+      <humidity value="89" unit="%"/>
+      <clouds value="Ein paar Wolken" all="24" unit="%"/>
+    </time>
+    <time from="2018-04-06T06:00:00" to="2018-04-06T09:00:00">
+      <symbol number="802" name="Überwiegend bewölkt" var="03d"/>
+      <precipitation/>
+      <windDirection deg="105.506" code="ESE" name="East-southeast"/>
+      <windSpeed mps="6.22" name="Moderate breeze"/>
+      <temperature unit="celsius" value="7.04" min="7.04" max="7.04"/>
+      <pressure unit="hPa" value="1015.43"/>
+      <humidity value="90" unit="%"/>
+      <clouds value="Überwiegend bewölkt" all="36" unit="%"/>
+    </time>
+    <time from="2018-04-06T09:00:00" to="2018-04-06T12:00:00">
+      <symbol number="801" name="Ein paar Wolken" var="02d"/>
+      <precipitation/>
+      <windDirection deg="108" code="ESE" name="East-southeast"/>
+      <windSpeed mps="6.81" name="Moderate breeze"/>
+      <temperature unit="celsius" value="11.12" min="11.12" max="11.12"/>
+      <pressure unit="hPa" value="1013.21"/>
+      <humidity value="74" unit="%"/>
+      <clouds value="Ein paar Wolken" all="20" unit="%"/>
+    </time>
+    <time from="2018-04-06T12:00:00" to="2018-04-06T15:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01d"/>
+      <precipitation/>
+      <windDirection deg="118.503" code="ESE" name="East-southeast"/>
+      <windSpeed mps="6.81" name="Moderate breeze"/>
+      <temperature unit="celsius" value="13.79" min="13.79" max="13.79"/>
+      <pressure unit="hPa" value="1010.74"/>
+      <humidity value="68" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-06T15:00:00" to="2018-04-06T18:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01d"/>
+      <precipitation/>
+      <windDirection deg="117.002" code="ESE" name="East-southeast"/>
+      <windSpeed mps="5.16" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="11.48" min="11.48" max="11.48"/>
+      <pressure unit="hPa" value="1009.75"/>
+      <humidity value="64" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-06T18:00:00" to="2018-04-06T21:00:00">
+      <symbol number="800" name="Klarer Himmel" var="02n"/>
+      <precipitation/>
+      <windDirection deg="113.002" code="ESE" name="East-southeast"/>
+      <windSpeed mps="4.82" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="8.43" min="8.43" max="8.43"/>
+      <pressure unit="hPa" value="1009.71"/>
+      <humidity value="67" unit="%"/>
+      <clouds value="Klarer Himmel" all="8" unit="%"/>
+    </time>
+    <time from="2018-04-06T21:00:00" to="2018-04-07T00:00:00">
+      <symbol number="801" name="Ein paar Wolken" var="02n"/>
+      <precipitation/>
+      <windDirection deg="100" code="E" name="East"/>
+      <windSpeed mps="3.42" name="Gentle Breeze"/>
+      <temperature unit="celsius" value="6.37" min="6.37" max="6.37"/>
+      <pressure unit="hPa" value="1009.14"/>
+      <humidity value="72" unit="%"/>
+      <clouds value="Ein paar Wolken" all="24" unit="%"/>
+    </time>
+    <time from="2018-04-07T00:00:00" to="2018-04-07T03:00:00">
+      <symbol number="801" name="Ein paar Wolken" var="02n"/>
+      <precipitation/>
+      <windDirection deg="48" code="NE" name="NorthEast"/>
+      <windSpeed mps="1.26" name="Calm"/>
+      <temperature unit="celsius" value="3.86" min="3.86" max="3.86"/>
+      <pressure unit="hPa" value="1008.65"/>
+      <humidity value="80" unit="%"/>
+      <clouds value="Ein paar Wolken" all="20" unit="%"/>
+    </time>
+    <time from="2018-04-07T03:00:00" to="2018-04-07T06:00:00">
+      <symbol number="800" name="Klarer Himmel" var="02d"/>
+      <precipitation/>
+      <windDirection deg="41.0007" code="NE" name="NorthEast"/>
+      <windSpeed mps="1.27" name="Calm"/>
+      <temperature unit="celsius" value="3.56" min="3.56" max="3.56"/>
+      <pressure unit="hPa" value="1008.56"/>
+      <humidity value="82" unit="%"/>
+      <clouds value="Klarer Himmel" all="8" unit="%"/>
+    </time>
+    <time from="2018-04-07T06:00:00" to="2018-04-07T09:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01d"/>
+      <precipitation/>
+      <windDirection deg="72.0019" code="ENE" name="East-northeast"/>
+      <windSpeed mps="2.01" name="Light breeze"/>
+      <temperature unit="celsius" value="10.41" min="10.41" max="10.41"/>
+      <pressure unit="hPa" value="1008.36"/>
+      <humidity value="90" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-07T09:00:00" to="2018-04-07T12:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01d"/>
+      <precipitation/>
+      <windDirection deg="69.5014" code="ENE" name="East-northeast"/>
+      <windSpeed mps="2.41" name="Light breeze"/>
+      <temperature unit="celsius" value="15.49" min="15.49" max="15.49"/>
+      <pressure unit="hPa" value="1006.94"/>
+      <humidity value="84" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-07T12:00:00" to="2018-04-07T15:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01d"/>
+      <precipitation/>
+      <windDirection deg="74.5" code="ENE" name="East-northeast"/>
+      <windSpeed mps="2.11" name="Light breeze"/>
+      <temperature unit="celsius" value="17.56" min="17.56" max="17.56"/>
+      <pressure unit="hPa" value="1004.95"/>
+      <humidity value="75" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-07T15:00:00" to="2018-04-07T18:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01d"/>
+      <precipitation/>
+      <windDirection deg="38.0007" code="NE" name="NorthEast"/>
+      <windSpeed mps="1.37" name="Calm"/>
+      <temperature unit="celsius" value="14.46" min="14.46" max="14.46"/>
+      <pressure unit="hPa" value="1003.91"/>
+      <humidity value="71" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+    <time from="2018-04-07T18:00:00" to="2018-04-07T21:00:00">
+      <symbol number="800" name="Klarer Himmel" var="01n"/>
+      <precipitation/>
+      <windDirection deg="40.5014" code="NE" name="NorthEast"/>
+      <windSpeed mps="2.11" name="Light breeze"/>
+      <temperature unit="celsius" value="9.91" min="9.91" max="9.91"/>
+      <pressure unit="hPa" value="1003.45"/>
+      <humidity value="86" unit="%"/>
+      <clouds value="Klarer Himmel" all="0" unit="%"/>
+    </time>
+  </forecast>
+</weatherdata>

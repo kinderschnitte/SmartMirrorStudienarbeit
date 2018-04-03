@@ -12,6 +12,7 @@
         SCROLL,
         RELOAD,
         NAVIGATE,
+        SPEECH,
         UNKNOWN
     }
 }

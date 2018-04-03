@@ -186,22 +186,10 @@
     <Content Include="Images\sunset.png" />
     <Content Include="Images\thunder.png" />
     <Content Include="Images\warm.png" />
-    <Content Include="Images\Weather Icons\cloudy-icon.png" />
     <Content Include="Images\humidity.png" />
-    <Content Include="Images\Weather Icons\lightening-icon.png" />
     <Content Include="Images\location.png" />
-    <Content Include="Images\Weather Icons\mostly-cloudy-icon.png" />
-    <Content Include="Images\Weather Icons\mostly-sunny-icon.png" />
-    <Content Include="Images\Weather Icons\raining-icon.png" />
-    <Content Include="Images\Weather Icons\shower-icon-2.png" />
-    <Content Include="Images\Weather Icons\shower-icon.png" />
-    <Content Include="Images\Weather Icons\snowing-icon.png" />
-    <Content Include="Images\Weather Icons\sunny-icon-2.png" />
-    <Content Include="Images\Weather Icons\sunny-icon-3.png" />
-    <Content Include="Images\Weather Icons\sunny-icon.png" />
-    <Content Include="Images\Weather Icons\thunder-storm-icon.png" />
+    <Content Include="Images\warmsmall.png" />
     <Content Include="Images\windspeed.png" />
-    <Content Include="Images\Weather Icons\windy-icon.png" />
     <Content Include="Images\windy.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
@@ -233,6 +221,8 @@
     <Content Include="Websites\light.html" />
     <Content Include="Websites\settings.html" />
     <Content Include="Websites\home.html" />
+    <Content Include="XML\weather.xml" />
+    <Content Include="XML\weatherforecast.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="lightbuzz-smtp">

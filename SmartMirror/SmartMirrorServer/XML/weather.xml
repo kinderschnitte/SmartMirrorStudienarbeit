@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<current>
+  <city id="2892794" name="Karlsruhe">
+    <coord lon="8.4" lat="49.01"/>
+    <country>DE</country>
+    <sun rise="2018-04-02T05:00:16" set="2018-04-02T18:00:04"/>
+  </city>
+  <temperature value="9" min="9" max="9" unit="metric"/>
+  <humidity value="81" unit="%"/>
+  <pressure value="1004" unit="hPa"/>
+  <wind>
+    <speed value="1" name="Calm"/>
+    <direction value="0" code="N" name="North"/>
+  </wind>
+  <clouds value="80" name="Überwiegend bewölkt"/>
+  <precipitation value="0.49" mode="rain" unit="3h"/>
+  <weather number="500" value="Leichter Regen" icon="10n"/>
+</current>
