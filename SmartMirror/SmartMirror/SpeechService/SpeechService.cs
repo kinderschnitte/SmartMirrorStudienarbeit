@@ -95,13 +95,13 @@ namespace SmartMirror.SpeechService
             {
                 if (i == 0)
                 {
-                    countdownString.AppendLine($"<prosody rate =\"-30%\">{await numberToWords(i)}</prosody>.");
+                    countdownString.AppendLine($"<prosody rate =\"-30%\">{numberToWords(i)}</prosody>.");
                     countdownString.AppendLine("<break time='500ms'/>");
                     countdownString.AppendLine("Die Zeit ist abgelaufen. Countdown beendet.");
                 }
                 else
                 {
-                    countdownString.AppendLine(await numberToWords(i));
+                    countdownString.AppendLine(numberToWords(i));
                     countdownString.AppendLine("<break time='1000ms'/>");
                 }
             }
@@ -132,7 +132,40 @@ namespace SmartMirror.SpeechService
             await sayAsyncSsml(nameString.ToString());
         }
 
-        private static async Task<string> numberToWords(int number)
+        public async Task SayLook()
+        {
+
+            StringBuilder nameString = new StringBuilder();
+
+            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            nameString.AppendLine(@"<sentence>");
+
+            //nameString.AppendLine("Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum-Zeit-Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind.");
+            nameString.AppendLine("Mal schauen. <break time='500ms'/> Dacht ich mir's doch, das gleiche wie gestern.");
+
+            nameString.AppendLine(@"</sentence>");
+            nameString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(nameString.ToString());
+        }
+
+        public async Task SayGender()
+        {
+
+            StringBuilder genderString = new StringBuilder();
+
+            genderString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            genderString.AppendLine(@"<sentence>");
+
+            genderString.AppendLine("Mir wurde kein Geschlecht zugewiesen.");
+
+            genderString.AppendLine(@"</sentence>");
+            genderString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(genderString.ToString());
+        }
+
+        private static string numberToWords(int number)
         {
             if (number == 0)
                 return "null";
