@@ -52,14 +52,15 @@ namespace SmartMirror.SpeechRecognition
             RecognizedSpeech recognizedSpeech = new RecognizedSpeech
             {
                 RawText = argsResult.Text,
-                Confidence = argsResult.Confidence,
-                Message = getSpeechInputMessage(argsResult.SemanticInterpretation)
+                Confidence = argsResult.Confidence
             };
+
+            recognizedSpeech.Message = getSpeechInputMessage(argsResult.SemanticInterpretation, recognizedSpeech);
 
             return recognizedSpeech;
         }
 
-        private static Message getSpeechInputMessage(SpeechRecognitionSemanticInterpretation speechRecognitionSemanticInterpretation)
+        private static Message getSpeechInputMessage(SpeechRecognitionSemanticInterpretation speechRecognitionSemanticInterpretation, RecognizedSpeech recognizedSpeech)
         {
             string home = speechRecognitionSemanticInterpretation.GetInterpretation("home");
             string time = speechRecognitionSemanticInterpretation.GetInterpretation("time");
@@ -72,98 +73,184 @@ namespace SmartMirror.SpeechRecognition
             string navigate = speechRecognitionSemanticInterpretation.GetInterpretation("navigate");
             string reload = speechRecognitionSemanticInterpretation.GetInterpretation("reload");
             string speech = speechRecognitionSemanticInterpretation.GetInterpretation("speech");
+            string numbers = speechRecognitionSemanticInterpretation.GetInterpretation("numbers");
 
             if (home != null)
+            {
+                recognizedSpeech.SemanticText = home;
                 return Message.HOME;
+            }
 
             if (time != null)
+            {
+                recognizedSpeech.SemanticText = time;
                 return Message.TIME;
+            }
 
             if (light != null)
+            {
+                recognizedSpeech.SemanticText = light;
                 return Message.LIGHT;
+            }
 
             if (weather != null)
+            {
+                recognizedSpeech.SemanticText = weather;
                 return Message.WEATHER;
+            }
 
             if (weatherforecast != null)
+            {
+                recognizedSpeech.SemanticText = weatherforecast;
                 return Message.WEATHERFORECAST;
+            }
 
             if (news != null)
             {
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (news == "sport")
+                {
+                    recognizedSpeech.SemanticText = news;
                     return Message.NEWS_SPORTS;
+                }
 
                 if (news == "business")
+                {
+                    recognizedSpeech.SemanticText = news;
                     return Message.NEWS_BUSINESS;
+                }
 
                 if (news == "entertainment")
+                {
+                    recognizedSpeech.SemanticText = news;
                     return Message.NEWS_ENTERTAINMENT;
+                }
 
                 if (news == "health")
+                {
+                    recognizedSpeech.SemanticText = news;
                     return Message.NEWS_HEALTH;
+                }
 
                 if (news == "science")
+                {
+                    recognizedSpeech.SemanticText = news;
                     return Message.NEWS_SCIENCE;
+                }
 
                 if (news == "technology")
+                {
+                    recognizedSpeech.SemanticText = news;
                     return Message.NEWS_TECHNOLOGY;
+                }
             }
 
             if (quote != null)
+            {
+                recognizedSpeech.SemanticText = quote;
                 return Message.QUOTE;
+            }
 
             if (scroll != null)
             {
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (scroll == "up")
+                {
+                    recognizedSpeech.SemanticText = scroll;
                     return Message.SCROLL_UP;
+                }
+
                 if (scroll == "down")
+                {
+                    recognizedSpeech.SemanticText = scroll;
                     return Message.SCROLL_DOWN;
+                }
             }
 
             if (navigate != null)
             {
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (navigate == "back")
+                {
+                    recognizedSpeech.SemanticText = navigate;
                     return Message.NAVIGATE_BACKWARDS;
+                }
 
                 if (navigate == "forward")
+                {
+                    recognizedSpeech.SemanticText = navigate;
                     return Message.NAVIGATE_FOREWARDS;
+                }
             }
 
             if (reload != null)
+            {
+                recognizedSpeech.SemanticText = reload;
                 return Message.RELOAD;
+            }
 
             if (speech != null)
             {
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (speech == "clock")
+                {
+                    recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_TIME;
-
-                if (speech == "weather today")
-                    return Message.SPEECH_WEATHER_TOMORROW;
+                }
 
                 if (speech == "weather tomorrow")
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_WEATHER_TOMORROW;
+                }
+
+                if (speech == "weather after tomorrow")
+                {
+                    recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_WEATHER_DAYAFTERTOMORROW;
+                }
 
                 if (speech == "temperature")
+                {
+                    recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_WEATHER_TEMPERATURE;
+                }
 
                 if (speech == "sunrise")
+                {
+                    recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_SUNRISE;
+                }
 
                 if (speech == "sunset")
+                {
+                    recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_SUNSET;
+                }
 
                 if (speech == "name")
+                {
+                    recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_NAME;
+                }
 
                 if (speech == "look")
-                    return Message.SPEECH_NAME;
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_LOOK;
+                }
 
                 if (speech == "gender")
-                    return Message.SPEECH_NAME;
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_GENDER;
+                }
+
+                if (speech == "mirror")
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_MIRROR;
+                }
             }
 
             return Message.UNKNOWN;
@@ -214,30 +301,35 @@ namespace SmartMirror.SpeechRecognition
                         mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Sports"));
                     });
                     break;
+
                 case Message.NEWS_BUSINESS:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Business"));
                     });
                     break;
+
                 case Message.NEWS_ENTERTAINMENT:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Entertainment"));
                     });
                     break;
+
                 case Message.NEWS_HEALTH:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Health"));
                     });
                     break;
+
                 case Message.NEWS_SCIENCE:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Science"));
                     });
                     break;
+
                 case Message.NEWS_TECHNOLOGY:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
@@ -314,6 +406,38 @@ namespace SmartMirror.SpeechRecognition
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         await mainPage.SpeechService.SayGender();
+                    });
+                    break;
+
+                case Message.SPEECH_MIRROR:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayMirror();
+                    });
+                    break;
+
+                case Message.SPEECH_COUNT:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        int.TryParse(recognizedSpeech.SemanticText, out int number);
+                        await mainPage.SpeechService.CountTo(number);
+                    });
+                    break;
+
+                case Message.SPEECH_COUNTDOWN:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        int.TryParse(recognizedSpeech.SemanticText, out int number);
+                        await mainPage.SpeechService.CountDown(number);
+                    });
+                    break;
+
+                case Message.SPEECH_RANDOM:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        int.TryParse(recognizedSpeech.SemanticText.Split(' ')[0], out int from);
+                        int.TryParse(recognizedSpeech.SemanticText.Split(' ')[1], out int to);
+                        await mainPage.SpeechService.SayRandom(from, to);
                     });
                     break;
 

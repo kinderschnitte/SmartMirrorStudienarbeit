@@ -28,6 +28,10 @@
         SPEECH_NAME,
         SPEECH_LOOK,
         SPEECH_GENDER,
+        SPEECH_MIRROR,
+        SPEECH_COUNTDOWN,
+        SPEECH_COUNT,
+        SPEECH_RANDOM,
         UNKNOWN
     }
 }

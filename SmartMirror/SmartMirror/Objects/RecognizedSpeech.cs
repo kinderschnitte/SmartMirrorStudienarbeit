@@ -10,5 +10,7 @@ namespace SmartMirror.Objects
         public SpeechRecognitionConfidence Confidence { get; set; }
 
         public Message Message { get; set; }
+
+        public string SemanticText { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,7 +84,7 @@ namespace SmartMirror.SpeechService
         {
             DateTime now = DateTime.Now;
 
-            string time = $"Es ist {now.Hour} Uhr und {now.Minute}.";
+            string time = $"Es ist {now.Hour} Uhr und {now.Minute} Minuten.";
 
             await sayAsync(time);
         }
@@ -189,7 +190,7 @@ namespace SmartMirror.SpeechService
             genderString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             genderString.AppendLine(@"<sentence>");
 
-            genderString.AppendLine("Mir wurde kein Geschlecht zugewiesen.");
+            genderString.AppendLine("Das ist eine gute Frage. Ich muss gestehen, ich weiß es selber nicht einmal so genau.");
 
             genderString.AppendLine(@"</sentence>");
             genderString.AppendLine(@"</speak>");
@@ -218,19 +219,14 @@ namespace SmartMirror.SpeechService
         public async Task SayMirror()
         {
             Random randi = new Random();
-            int randomNumber = randi.Next(1);
-
+            int randomNumber = randi.Next(2);
+            Debug.WriteLine(randomNumber);
             StringBuilder nameString = new StringBuilder();
 
             nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             nameString.AppendLine(@"<sentence>");
 
-            if(randomNumber == 0)
-                nameString.AppendLine("<prosody rate=\"-25%\">ist <break time='300ms'/> mir doch</prosody> <prosody rate=\"-40%\">scheißegal</prosody>.");
-            else if (randomNumber == 1)
-                nameString.AppendLine("Geh mal zur Seite, <break time='300ms'/>ich kann nichts sehen!");
-            else
-                nameString.AppendLine("Hier ein Tipp unter Freunden: <break time='500ms'/> Frag heute einfach mal nicht!");
+            nameString.AppendLine(randomNumber == 0 ? "Geh mal zur Seite, <break time='300ms'/>ich kann nichts sehen!" : "Hier ein Tipp unter Freunden: <break time='500ms'/> Frag heute einfach mal nicht!");
 
             nameString.AppendLine(@"</sentence>");
             nameString.AppendLine(@"</speak>");
