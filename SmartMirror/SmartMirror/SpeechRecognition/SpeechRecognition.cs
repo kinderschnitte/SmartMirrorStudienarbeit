@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Text;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
 using SmartMirror.Enums;
 using SmartMirror.Objects;
 using SmartMirror.SpeechRecognitionManager;
-using Type = SmartMirror.Enums.Type;
 
 namespace SmartMirror.SpeechRecognition
 {
@@ -55,355 +53,282 @@ namespace SmartMirror.SpeechRecognition
             {
                 RawText = argsResult.Text,
                 Confidence = argsResult.Confidence,
-                MessageType = getSpeechInputMessageType(argsResult.Text)
+                Message = getSpeechInputMessage(argsResult.SemanticInterpretation)
             };
-
-            recognizedSpeech.Message = getSpeechInputMessage(recognizedSpeech);
 
             return recognizedSpeech;
         }
 
-        private static Message getSpeechInputMessage(RecognizedSpeech recognizedSpeech)
+        private static Message getSpeechInputMessage(SpeechRecognitionSemanticInterpretation speechRecognitionSemanticInterpretation)
         {
-            switch (recognizedSpeech.MessageType)
+            string home = speechRecognitionSemanticInterpretation.GetInterpretation("home");
+            string time = speechRecognitionSemanticInterpretation.GetInterpretation("time");
+            string light = speechRecognitionSemanticInterpretation.GetInterpretation("light");
+            string weather = speechRecognitionSemanticInterpretation.GetInterpretation("weather");
+            string weatherforecast = speechRecognitionSemanticInterpretation.GetInterpretation("weatherforecast");
+            string news = speechRecognitionSemanticInterpretation.GetInterpretation("news");
+            string quote = speechRecognitionSemanticInterpretation.GetInterpretation("quote");
+            string scroll = speechRecognitionSemanticInterpretation.GetInterpretation("scroll");
+            string navigate = speechRecognitionSemanticInterpretation.GetInterpretation("navigate");
+            string reload = speechRecognitionSemanticInterpretation.GetInterpretation("reload");
+            string speech = speechRecognitionSemanticInterpretation.GetInterpretation("speech");
+
+            if (home != null)
+                return Message.HOME;
+
+            if (time != null)
+                return Message.TIME;
+
+            if (light != null)
+                return Message.LIGHT;
+
+            if (weather != null)
+                return Message.WEATHER;
+
+            if (weatherforecast != null)
+                return Message.WEATHERFORECAST;
+
+            if (news != null)
             {
-                case Type.HOME:
-                    return Message.HOME;
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                if (news == "sport")
+                    return Message.NEWS_SPORTS;
 
-                case Type.TIME:
-                    return Message.TIME;
+                if (news == "business")
+                    return Message.NEWS_BUSINESS;
 
-                case Type.WEATHER:
-                    return Message.WEATHER;
+                if (news == "entertainment")
+                    return Message.NEWS_ENTERTAINMENT;
 
-                case Type.WEATHERFORECAST:
-                    return Message.WEATHERFORECAST;
+                if (news == "health")
+                    return Message.NEWS_HEALTH;
 
-                case Type.LIGHT:
-                    return Message.LIGHT;
+                if (news == "science")
+                    return Message.NEWS_SCIENCE;
 
-                case Type.NEWS:
-                    if (recognizedSpeech.RawText.Contains("sport"))
-                        return Message.NEWS_SPORTS;
-                    else if (recognizedSpeech.RawText.Contains("branchen") || recognizedSpeech.RawText.Contains("unternehmens") || recognizedSpeech.RawText.Contains("geschäfts") || recognizedSpeech.RawText.Contains("handels"))
-                        return Message.NEWS_BUSINESS;
-                    else if (recognizedSpeech.RawText.Contains("unterhaltungs") || recognizedSpeech.RawText.Contains("entertainment"))
-                        return Message.NEWS_ENTERTAINMENT;
-                    else if (recognizedSpeech.RawText.Contains("gesundheits"))
-                        return Message.NEWS_HEALTH;
-                    else if (recognizedSpeech.RawText.Contains("wissenschafts") || recognizedSpeech.RawText.Contains("naturwissenschafts"))
-                        return Message.NEWS_SCIENCE;
-                    else if (recognizedSpeech.RawText.Contains("technologie") || recognizedSpeech.RawText.Contains("technik"))
-                        return Message.NEWS_TECHNOLOGY;
-                    else return Message.UNKNOWN;
-
-                case Type.QUOTE:
-                    return Message.QUOTE;
-
-                case Type.RELOAD:
-                    return Message.RELOAD;
-
-                case Type.NAVIGATE:
-                    if (recognizedSpeech.RawText.Contains("zurück") || recognizedSpeech.RawText.Contains("zurückblättern"))
-                        return Message.NAVIGATE_BACKWARDS;
-                    else if (recognizedSpeech.RawText.Contains("vor") || recognizedSpeech.RawText.Contains("vorwärts") || recognizedSpeech.RawText.Contains("vorwärtsblättern"))
-                        return Message.NAVIGATE_FOREWARDS;
-                    else
-                        return Message.UNKNOWN;
-
-                case Type.SCROLL:
-                    if (recognizedSpeech.RawText.Contains("hoch") || recognizedSpeech.RawText.Contains("nach oben"))
-                        return Message.SCROLL_UP;
-                    else if (recognizedSpeech.RawText.Contains("runter") || recognizedSpeech.RawText.Contains("herrunter") || recognizedSpeech.RawText.Contains("nach unten"))
-                        return Message.SCROLL_DOWN;
-                    else
-                        return Message.UNKNOWN;
-
-                case Type.SPEECH:
-                    if (recognizedSpeech.RawText.Contains("uhr"))
-                        return Message.SPEECH_TIME;
-                    else if (recognizedSpeech.RawText.Contains("wetter morgen"))
-                        return Message.SPEECH_WEATHER_TOMORROW;
-                    else if (recognizedSpeech.RawText.Contains("wetter übermorgen"))
-                        return Message.SPEECH_WEATHER_DAYAFTERTOMORROW;
-                    else if (recognizedSpeech.RawText.Contains("warm") || recognizedSpeech.RawText.Contains("temperatur"))
-                        return Message.SPEECH_WEATHER_TEMPERATURE;
-                    else if (recognizedSpeech.RawText.Contains("uhr sonne auf"))
-                        return Message.SPEECH_SUNRISE;
-                    else if (recognizedSpeech.RawText.Contains("uhr sonne unter"))
-                        return Message.SPEECH_SUNSET;
-                    else
-                        return Message.UNKNOWN;
-
-                case Type.UNKNOWN:
-                    return Message.UNKNOWN;
-
-                default:
-                    return Message.UNKNOWN;
+                if (news == "technology")
+                    return Message.NEWS_TECHNOLOGY;
             }
-        }
 
-        private static Type getSpeechInputMessageType(string message)
-        {
-            StringBuilder stringBuilder = new StringBuilder(message);
+            if (quote != null)
+                return Message.QUOTE;
 
-            stringBuilder.Replace("spiegel", "");
-            stringBuilder.Replace("james", "");
-            stringBuilder.Replace(" zeige", "");
-            stringBuilder.Replace(" scrolle", "");
-            stringBuilder.Replace(" bitte", "");
-            stringBuilder.Replace(" die", "");
-            stringBuilder.Replace(" das", "");
-            stringBuilder.Replace(" den", "");
-            stringBuilder.Replace(" einen", "");
-            stringBuilder.Replace(" eine", "");
-            stringBuilder.Replace(" ein", "");
-            stringBuilder.Replace(" um", "");
-            stringBuilder.Replace(" viel", "");
-            stringBuilder.Replace(" ist", "");
-            stringBuilder.Replace(" es", "");
-            stringBuilder.Replace(" geht", "");
-            stringBuilder.Replace(" hat", "");
-            stringBuilder.Replace(" wird", "");
-            stringBuilder.Replace(" aktuelle", "");
-            stringBuilder.Replace(" Seite", "");
-
-            Debug.WriteLine(stringBuilder.ToString()); // TODO entfernen
-
-            switch (stringBuilder.ToString().Trim())
+            if (scroll != null)
             {
-                case "übersicht":
-                case "module":
-                case "modulübersicht":
-                case "hauptseite":
-                    return Type.HOME;
-
-                case "zeit":
-                case "uhrzeit":
-                case "sonnenaufgang":
-                case "sonnenuntergang":
-                case "sonne":
-                case "datum":
-                case "jahr":
-                case "monat":
-                case "tag":
-                    return Type.TIME;
-
-                case "licht":
-                    return Type.LIGHT;
-
-                case "wetter":
-                case "temperatur":
-                case "wetter heute":
-                case "aktuelles wetter":
-                    return Type.WEATHER;
-
-                case "wettervorhersage":
-                case "vorhersage":
-                case "wetter morgen":
-                case "wetter übermorgen":
-                    return Type.WEATHERFORECAST;
-
-                case "sport nachrichten":
-                case "sport news":
-                case "branchen nachrichten":
-                case "branchen news":
-                case "unternehmens nachrichten":
-                case "unternehmens news":
-                case "geschäfts nachrichten":
-                case "geschäfts news":
-                case "handels nachrichten":
-                case "handels news":
-                case "unterhaltungs nachrichten":
-                case "unterhaltungs news":
-                case "entertainment nachrichten":
-                case "entertainment news":
-                case "gesundheits nachrichten":
-                case "gesundheits news":
-                case "wissenschafts nachrichten":
-                case "wissenschafts news":
-                case "naturwissenschafts nachrichten":
-                case "naturwissenschafts news":
-                case "technologie nachrichten":
-                case "technologie news":
-                case "technik nachrichten":
-                case "technik news":
-                    return Type.NEWS;
-
-                case "zitat":
-                case "spruch":
-                    return Type.QUOTE;
-
-                case "hoch":
-                case "nach oben":
-                case "runter":
-                case "herrunter":
-                case "nach unten":
-                    return Type.SCROLL;
-
-                case "zurück":
-                case "zurückblättern":
-                case "vor":
-                case "vorwärts":
-                case "vorwärtsblättern":
-                    return Type.NAVIGATE;
-
-                case "erneut laden":
-                case "neu laden":
-                    return Type.RELOAD;
-
-                case "wie uhr":
-                case "wie wetter morgen":
-                case "wie wetter übermorgen":
-                case "wie warm":
-                case "wie temperatur":
-                case "wie uhr sonne auf":
-                case "wie uhr sonne unter":
-                    return Type.SPEECH;
-
-                default:
-                    return Type.UNKNOWN;
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                if (scroll == "up")
+                    return Message.SCROLL_UP;
+                if (scroll == "down")
+                    return Message.SCROLL_DOWN;
             }
+
+            if (navigate != null)
+            {
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                if (navigate == "back")
+                    return Message.NAVIGATE_BACKWARDS;
+
+                if (navigate == "forward")
+                    return Message.NAVIGATE_FOREWARDS;
+            }
+
+            if (reload != null)
+                return Message.RELOAD;
+
+            if (speech != null)
+            {
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                if (speech == "clock")
+                    return Message.SPEECH_TIME;
+
+                if (speech == "weather today")
+                    return Message.SPEECH_WEATHER_TOMORROW;
+
+                if (speech == "weather tomorrow")
+                    return Message.SPEECH_WEATHER_DAYAFTERTOMORROW;
+
+                if (speech == "temperature")
+                    return Message.SPEECH_WEATHER_TEMPERATURE;
+
+                if (speech == "sunrise")
+                    return Message.SPEECH_SUNRISE;
+
+                if (speech == "sunset")
+                    return Message.SPEECH_SUNSET;
+
+                if (speech == "name")
+                    return Message.SPEECH_NAME;
+
+                if (speech == "look")
+                    return Message.SPEECH_NAME;
+
+                if (speech == "gender")
+                    return Message.SPEECH_NAME;
+            }
+
+            return Message.UNKNOWN;
         }
 
         private async void handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
         {
-            switch (recognizedSpeech.MessageType)
+            switch (recognizedSpeech.Message)
             {
-                case Type.HOME:
+                case Message.HOME:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/home.html"));
                     });
                     break;
 
-                case Type.TIME:
+                case Message.TIME:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/time.html"));
                     });
                     break;
 
-                case Type.WEATHER:
+                case Message.WEATHER:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/weather.html"));
                     });
                     break;
 
-                case Type.WEATHERFORECAST:
+                case Message.WEATHERFORECAST:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/weatherforecast.html"));
                     });
                     break;
 
-                case Type.LIGHT:
+                case Message.LIGHT:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/light.html"));
                     });
                     break;
 
-                case Type.NEWS:
-                    switch (recognizedSpeech.Message)
+                case Message.NEWS_SPORTS:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        case Message.NEWS_SPORTS:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Sports"));
-                            });
-                            break;
-                        case Message.NEWS_BUSINESS:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Business"));
-                            });
-                            break;
-                        case Message.NEWS_ENTERTAINMENT:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Entertainment"));
-                            });
-                            break;
-                        case Message.NEWS_HEALTH:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Health"));
-                            });
-                            break;
-                        case Message.NEWS_SCIENCE:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Science"));
-                            });
-                            break;
-                        case Message.NEWS_TECHNOLOGY:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Technology"));
-                            });
-                            break;
-                    }
+                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Sports"));
+                    });
+                    break;
+                case Message.NEWS_BUSINESS:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Business"));
+                    });
+                    break;
+                case Message.NEWS_ENTERTAINMENT:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Entertainment"));
+                    });
+                    break;
+                case Message.NEWS_HEALTH:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Health"));
+                    });
+                    break;
+                case Message.NEWS_SCIENCE:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Science"));
+                    });
+                    break;
+                case Message.NEWS_TECHNOLOGY:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Technology"));
+                    });
                     break;
 
-                case Type.QUOTE:
+                case Message.QUOTE:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/quote.html"));
                     });
                     break;
 
-                case Type.RELOAD:
+                case Message.RELOAD:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Refresh();
                     });
                     break;
 
-                case Type.NAVIGATE:
-                    if (recognizedSpeech.Message != Message.NAVIGATE_FOREWARDS)
+                case Message.NAVIGATE_FOREWARDS:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        if (recognizedSpeech.Message == Message.NAVIGATE_BACKWARDS)
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { mainPage.Browser.GoBack(); });
-                    }
-                    else
-                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { mainPage.Browser.GoForward(); });
+                        if (mainPage.Browser.CanGoForward)
+                            mainPage.Browser.GoForward();
+                    });
                     break;
 
-                case Type.SCROLL:
-                    if (recognizedSpeech.Message != Message.SCROLL_UP)
+                case Message.NAVIGATE_BACKWARDS:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        if (recognizedSpeech.Message == Message.SCROLL_DOWN)
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, -50);" }); }); // TODO testen
-                    }
-                    else
-                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, 50);" }); }); // TODO testen
+                        if (mainPage.Browser.CanGoBack)
+                            mainPage.Browser.GoBack();
+                    });
                     break;
 
-                case Type.SPEECH:
-                    switch (recognizedSpeech.Message)
+                case Message.SCROLL_UP:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
-                        case Message.SPEECH_TIME:
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await mainPage.SpeechService.SayTime(); });
-                            break;
-                        case Message.SPEECH_WEATHER_TOMORROW:
-                            break;
-                        case Message.SPEECH_WEATHER_DAYAFTERTOMORROW:
-                            break;
-                        case Message.SPEECH_WEATHER_TEMPERATURE:
-                            break;
-                        case Message.SPEECH_SUNRISE:
-                            break;
-                        case Message.SPEECH_SUNSET:
-                            break;
-                        case Message.UNKNOWN:
-                            break;
-                    }
+                        await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, 50);" });
+                    });
                     break;
 
-                case Type.UNKNOWN:
-                    return;
+                case Message.SCROLL_DOWN:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, -50);" });
+                    });
+                    break;
+
+                case Message.SPEECH_TIME:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayTime();
+                    });
+                    break;
+
+                case Message.SPEECH_NAME:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayName();
+                    });
+                    break;
+
+                case Message.SPEECH_LOOK:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayLook();
+                    });
+                    break;
+
+                case Message.SPEECH_GENDER:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayGender();
+                    });
+                    break;
+
+                case Message.SPEECH_WEATHER_TOMORROW:
+                    break;
+                case Message.SPEECH_WEATHER_DAYAFTERTOMORROW:
+                    break;
+                case Message.SPEECH_WEATHER_TEMPERATURE:
+                    break;
+                case Message.SPEECH_SUNRISE:
+                    break;
+                case Message.SPEECH_SUNSET:
+                    break;
+                case Message.UNKNOWN:
+                    break;
             }
         }
     }

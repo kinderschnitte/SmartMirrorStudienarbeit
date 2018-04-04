@@ -20,7 +20,7 @@ namespace SmartMirror.SpeechService
             speechPlayer = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.Speech, AutoPlay = false };
 
             #pragma warning disable 4014
-            startup();
+            //startup(); // TODO auskommentieren
             #pragma warning restore 4014
         }
 
@@ -60,19 +60,23 @@ namespace SmartMirror.SpeechService
         // ReSharper disable once UnusedMethodReturnValue.Local
         private async Task startup()
         {
-            const string ssml = @"<speak version='1.0' " +
-                                "xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>" +
-                                "<sentence>" +
-                                "Darf ich mich vorstellen? " +
-                                "<break time='500ms'/>" +
-                                "Mein Name ist <prosody rate=\"-30%\">Mira</prosody>." +
-                                "<break time='300ms'/>" +
-                                "Wie kann ich dir behilflich <prosody pitch=\"high\">sein</prosody>?" +
-                                "<break time='1000ms'/>" +
-                                "Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen." +
-                                "</sentence>" +
-                                "</speak>";
-            await sayAsyncSsml(ssml);
+            StringBuilder startupString = new StringBuilder();
+
+            startupString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            startupString.AppendLine(@"<sentence>");
+
+            startupString.AppendLine("Darf ich mich vorstellen ?");
+            startupString.AppendLine("<break time='500ms'/>");
+            startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
+            startupString.AppendLine("<break time='300ms'/>");
+            startupString.AppendLine("Wie kann ich dir behilflich <prosody pitch=\"high\">sein</prosody>?");
+            startupString.AppendLine("<break time='1000ms'/>");
+            startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
+
+            startupString.AppendLine(@"</sentence>");
+            startupString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(startupString.ToString());
         }
 
         public async Task SayTime()
@@ -110,6 +114,34 @@ namespace SmartMirror.SpeechService
             countdownString.AppendLine(@"</speak>");
 
             await sayAsyncSsml(countdownString.ToString());
+        }
+
+        public async Task CountTo(int toNumber)
+        {
+            StringBuilder countToString = new StringBuilder();
+
+            countToString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            countToString.AppendLine(@"<sentence>");
+
+            for (int i = 0; i >= toNumber; i--)
+            {
+                if (i == toNumber)
+                {
+                    countToString.AppendLine($"<prosody rate =\"-30%\">{numberToWords(i)}</prosody>.");
+                    countToString.AppendLine("<break time='500ms'/>");
+                    countToString.AppendLine("Zielnummer erreicht.");
+                }
+                else
+                {
+                    countToString.AppendLine(numberToWords(i));
+                    countToString.AppendLine("<break time='1000ms'/>");
+                }
+            }
+
+            countToString.AppendLine(@"</sentence>");
+            countToString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(countToString.ToString());
         }
 
         public async Task SayName()
@@ -163,6 +195,47 @@ namespace SmartMirror.SpeechService
             genderString.AppendLine(@"</speak>");
 
             await sayAsyncSsml(genderString.ToString());
+        }
+
+        public async Task SayRandom(int from, int to)
+        {
+            Random randi = new Random();
+            int randomNumber = randi.Next(from, to);
+
+            StringBuilder nameString = new StringBuilder();
+
+            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            nameString.AppendLine(@"<sentence>");
+
+            nameString.AppendLine($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{numberToWords(randomNumber)}</prosody>.");
+
+            nameString.AppendLine(@"</sentence>");
+            nameString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(nameString.ToString());
+        }
+
+        public async Task SayMirror()
+        {
+            Random randi = new Random();
+            int randomNumber = randi.Next(1);
+
+            StringBuilder nameString = new StringBuilder();
+
+            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            nameString.AppendLine(@"<sentence>");
+
+            if(randomNumber == 0)
+                nameString.AppendLine("<prosody rate=\"-25%\">ist <break time='300ms'/> mir doch</prosody> <prosody rate=\"-40%\">scheißegal</prosody>.");
+            else if (randomNumber == 1)
+                nameString.AppendLine("Geh mal zur Seite, <break time='300ms'/>ich kann nichts sehen!");
+            else
+                nameString.AppendLine("Hier ein Tipp unter Freunden: <break time='500ms'/> Frag heute einfach mal nicht!");
+
+            nameString.AppendLine(@"</sentence>");
+            nameString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(nameString.ToString());
         }
 
         private static string numberToWords(int number)

@@ -1,88 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<grammar
-  version="1.0"
-  xml:lang="de-DE"
-  mode="voice"
-  root="rootRule"
-  xmlns="http://www.w3.org/2001/06/grammar"
-  tag-format="semantics/1.0">
+<grammar version="1.0" xml:lang="de-DE" mode="voice" root="rootRule" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   
   <!--Root-->
   <rule id="rootRule" scope="public">
-    <one-of>
-      <item>
-        <ruleref uri="#home"/>
-      </item>
-      <item>
-        <ruleref uri="#time"/>
-      </item>
-      <item>
-        <ruleref uri="#light"/>
-      </item>
-      <item>
-        <ruleref uri="#weather"/>
-      </item>
-      <item>
-        <ruleref uri="#weatherforecast"/>
-      </item>
-      <item>
-        <ruleref uri="#news"/>
-      </item>
-      <item>
-        <ruleref uri="#quote"/>
-      </item>
-      <item>
-        <ruleref uri="#scroll"/>
-      </item>
-      <item>
-        <ruleref uri="#navigate"/>
-      </item>
-      <item>
-        <ruleref uri="#reload"/>
-      </item>
-      <item>
-        <ruleref uri="#speech"/>
-      </item>
-    </one-of>
+    <item>
+      <one-of>
+        <item>
+          <ruleref uri="#home"/>
+          <tag> out.home=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#time"/>
+          <tag> out.time=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#light"/>
+          <tag> out.light=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#weather"/>
+          <tag> out.weather=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#weatherforecast"/>
+          <tag> out.weatherforecast=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#news"/>
+          <tag> out.news=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#quote"/>
+          <tag> out.quote=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#scroll"/>
+          <tag> out.scroll=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#navigate"/>
+          <tag> out.navigate=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#reload"/>
+          <tag> out.reload=rules.latest(); </tag>
+        </item>
+        <item>
+          <ruleref uri="#speech"/>
+          <tag> out.speech=rules.latest(); </tag>
+        </item>
+      </one-of>
+    </item>
   </rule>
   
   <!--Home-->
   <rule id="home">
-    <example> spiegel zeige bitte die übersicht </example>
-    <example> spiegel zeige die übersicht </example>
-    <example> spiegel zeige bitte übersicht </example>
-    <example> spiegel zeige übersicht </example>
-    <example> spiegel zeige übersicht bitte </example>
-    <example> spiegel bitte zeige übersicht </example>
-    <example> spiegel bitte zeige die übersicht </example>
-    <example> spiegel übersicht </example>
+    <example> mira zeige bitte die übersicht </example>
+    <example> mira zeige die übersicht </example>
+    <example> mira zeige bitte übersicht </example>
+    <example> mira zeige übersicht </example>
+    <example> mira zeige übersicht bitte </example>
+    <example> mira bitte zeige übersicht </example>
+    <example> mira bitte zeige die übersicht </example>
+    <example> mira übersicht </example>
     
-    <example> spiegel zeige bitte die module </example>
-    <example> spiegel zeige die module </example>
-    <example> spiegel zeige bitte module </example>
-    <example> spiegel zeige module </example>
-    <example> spiegel zeige module bitte </example>
-    <example> spiegel bitte zeige module </example>
-    <example> spiegel bitte zeige die module </example>
-    <example> spiegel module </example>
+    <example> mira zeige bitte die module </example>
+    <example> mira zeige die module </example>
+    <example> mira zeige bitte module </example>
+    <example> mira zeige module </example>
+    <example> mira zeige module bitte </example>
+    <example> mira bitte zeige module </example>
+    <example> mira bitte zeige die module </example>
+    <example> mira module </example>
 
-    <example> spiegel zeige bitte die modulübersicht </example>
-    <example> spiegel zeige die modulübersicht </example>
-    <example> spiegel zeige bitte modulübersicht </example>
-    <example> spiegel zeige modulübersicht </example>
-    <example> spiegel zeige modulübersicht bitte </example>
-    <example> spiegel bitte zeige modulübersicht </example>
-    <example> spiegel bitte zeige die modulübersicht </example>
-    <example> spiegel modulübersicht </example>
+    <example> mira zeige bitte die modulübersicht </example>
+    <example> mira zeige die modulübersicht </example>
+    <example> mira zeige bitte modulübersicht </example>
+    <example> mira zeige modulübersicht </example>
+    <example> mira zeige modulübersicht bitte </example>
+    <example> mira bitte zeige modulübersicht </example>
+    <example> mira bitte zeige die modulübersicht </example>
+    <example> mira modulübersicht </example>
 
-    <example> spiegel zeige bitte die hauptseite </example>
-    <example> spiegel zeige die hauptseite </example>
-    <example> spiegel zeige bitte hauptseite </example>
-    <example> spiegel zeige hauptseite </example>
-    <example> spiegel zeige hauptseite bitte </example>
-    <example> spiegel bitte zeige hauptseite </example>
-    <example> spiegel bitte zeige die hauptseite </example>
-    <example> spiegel hauptseite </example>
+    <example> mira zeige bitte die hauptseite </example>
+    <example> mira zeige die hauptseite </example>
+    <example> mira zeige bitte hauptseite </example>
+    <example> mira zeige hauptseite </example>
+    <example> mira zeige hauptseite bitte </example>
+    <example> mira bitte zeige hauptseite </example>
+    <example> mira bitte zeige die hauptseite </example>
+    <example> mira hauptseite </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -102,6 +109,7 @@
     <example> hauptseite </example>
 
     <item>
+      <tag> out="home"; </tag>
       <one-of>
         <item> übersicht </item>
         <item> module </item>
@@ -113,86 +121,86 @@
   
   <!--Time-->
   <rule id="time">
-    <example> spiegel zeige bitte die zeit </example>
-    <example> spiegel zeige die zeit </example>
-    <example> spiegel zeige bitte zeit </example>
-    <example> spiegel zeige zeit </example>
-    <example> spiegel zeige zeit bitte </example>
-    <example> spiegel bitte zeige zeit </example>
-    <example> spiegel bitte zeige die zeit </example>
-    <example> spiegel zeit </example>
+    <example> mira zeige bitte die zeit </example>
+    <example> mira zeige die zeit </example>
+    <example> mira zeige bitte zeit </example>
+    <example> mira zeige zeit </example>
+    <example> mira zeige zeit bitte </example>
+    <example> mira bitte zeige zeit </example>
+    <example> mira bitte zeige die zeit </example>
+    <example> mira zeit </example>
     
-    <example> spiegel zeige bitte die uhrzeit </example>
-    <example> spiegel zeige die uhrzeit </example>
-    <example> spiegel zeige bitte uhrzeit </example>
-    <example> spiegel zeige uhrzeit </example>
-    <example> spiegel zeige uhrzeit bitte </example>
-    <example> spiegel bitte zeige uhrzeit </example>
-    <example> spiegel bitte zeige die uhrzeit </example>
-    <example> spiegel uhrzeit </example>
+    <example> mira zeige bitte die uhrzeit </example>
+    <example> mira zeige die uhrzeit </example>
+    <example> mira zeige bitte uhrzeit </example>
+    <example> mira zeige uhrzeit </example>
+    <example> mira zeige uhrzeit bitte </example>
+    <example> mira bitte zeige uhrzeit </example>
+    <example> mira bitte zeige die uhrzeit </example>
+    <example> mira uhrzeit </example>
       
-    <example> spiegel zeige bitte den sonnenaufgang </example>
-    <example> spiegel zeige den sonnenaufgang </example>
-    <example> spiegel zeige bitte sonnenaufgang </example>
-    <example> spiegel zeige sonnenaufgang </example>
-    <example> spiegel zeige sonnenaufgang bitte </example>
-    <example> spiegel bitte zeige sonnenaufgang </example>
-    <example> spiegel bitte zeige den sonnenaufgang </example>
-    <example> spiegel sonnenaufgang </example>
+    <example> mira zeige bitte den sonnenaufgang </example>
+    <example> mira zeige den sonnenaufgang </example>
+    <example> mira zeige bitte sonnenaufgang </example>
+    <example> mira zeige sonnenaufgang </example>
+    <example> mira zeige sonnenaufgang bitte </example>
+    <example> mira bitte zeige sonnenaufgang </example>
+    <example> mira bitte zeige den sonnenaufgang </example>
+    <example> mira sonnenaufgang </example>
   
-    <example> spiegel zeige bitte den sonnenuntergang </example>
-    <example> spiegel zeige den sonnenuntergang </example>
-    <example> spiegel zeige bitte sonnenuntergang </example>
-    <example> spiegel zeige sonnenuntergang </example>
-    <example> spiegel zeige sonnenuntergang bitte </example>
-    <example> spiegel bitte zeige sonnenuntergang </example>
-    <example> spiegel bitte zeige den sonnenuntergang </example>
-    <example> spiegel sonnenuntergang </example>
+    <example> mira zeige bitte den sonnenuntergang </example>
+    <example> mira zeige den sonnenuntergang </example>
+    <example> mira zeige bitte sonnenuntergang </example>
+    <example> mira zeige sonnenuntergang </example>
+    <example> mira zeige sonnenuntergang bitte </example>
+    <example> mira bitte zeige sonnenuntergang </example>
+    <example> mira bitte zeige den sonnenuntergang </example>
+    <example> mira sonnenuntergang </example>
     
-    <example> spiegel zeige bitte die sonne </example>
-    <example> spiegel zeige die sonne </example>
-    <example> spiegel zeige bitte sonne </example>
-    <example> spiegel zeige sonne </example>
-    <example> spiegel zeige sonne bitte </example>
-    <example> spiegel bitte zeige sonne </example>
-    <example> spiegel bitte zeige die sonne </example>
-    <example> spiegel sonne </example>
+    <example> mira zeige bitte die sonne </example>
+    <example> mira zeige die sonne </example>
+    <example> mira zeige bitte sonne </example>
+    <example> mira zeige sonne </example>
+    <example> mira zeige sonne bitte </example>
+    <example> mira bitte zeige sonne </example>
+    <example> mira bitte zeige die sonne </example>
+    <example> mira sonne </example>
       
-    <example> spiegel zeige bitte das datum </example>
-    <example> spiegel zeige das datum </example>
-    <example> spiegel zeige bitte datum </example>
-    <example> spiegel zeige datum </example>
-    <example> spiegel zeige datum bitte </example>
-    <example> spiegel bitte zeige datum </example>
-    <example> spiegel bitte zeige das datum </example>
-    <example> spiegel datum </example>
+    <example> mira zeige bitte das datum </example>
+    <example> mira zeige das datum </example>
+    <example> mira zeige bitte datum </example>
+    <example> mira zeige datum </example>
+    <example> mira zeige datum bitte </example>
+    <example> mira bitte zeige datum </example>
+    <example> mira bitte zeige das datum </example>
+    <example> mira datum </example>
   
-    <example> spiegel zeige bitte den tag </example>
-    <example> spiegel zeige den tag </example>
-    <example> spiegel zeige bitte tag </example>
-    <example> spiegel zeige tag </example>
-    <example> spiegel zeige tag bitte </example>
-    <example> spiegel bitte zeige tag </example>
-    <example> spiegel bitte zeige den tag </example>
-    <example> spiegel tag </example>
+    <example> mira zeige bitte den tag </example>
+    <example> mira zeige den tag </example>
+    <example> mira zeige bitte tag </example>
+    <example> mira zeige tag </example>
+    <example> mira zeige tag bitte </example>
+    <example> mira bitte zeige tag </example>
+    <example> mira bitte zeige den tag </example>
+    <example> mira tag </example>
   
-    <example> spiegel zeige bitte den monat </example>
-    <example> spiegel zeige den monat </example>
-    <example> spiegel zeige bitte monat </example>
-    <example> spiegel zeige monat </example>
-    <example> spiegel zeige monat bitte </example>
-    <example> spiegel bitte zeige monat </example>
-    <example> spiegel bitte zeige den monat </example>
-    <example> spiegel monat </example>
+    <example> mira zeige bitte den monat </example>
+    <example> mira zeige den monat </example>
+    <example> mira zeige bitte monat </example>
+    <example> mira zeige monat </example>
+    <example> mira zeige monat bitte </example>
+    <example> mira bitte zeige monat </example>
+    <example> mira bitte zeige den monat </example>
+    <example> mira monat </example>
   
-    <example> spiegel zeige bitte das jahr </example>
-    <example> spiegel zeige das jahr </example>
-    <example> spiegel zeige bitte jahr </example>
-    <example> spiegel zeige jahr </example>
-    <example> spiegel zeige jahr bitte </example>
-    <example> spiegel bitte zeige jahr </example>
-    <example> spiegel bitte zeige das jahr </example>
-    <example> spiegel jahr </example>
+    <example> mira zeige bitte das jahr </example>
+    <example> mira zeige das jahr </example>
+    <example> mira zeige bitte jahr </example>
+    <example> mira zeige jahr </example>
+    <example> mira zeige jahr bitte </example>
+    <example> mira bitte zeige jahr </example>
+    <example> mira bitte zeige das jahr </example>
+    <example> mira jahr </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -223,6 +231,7 @@
     <example> jahr </example>
 
     <item>
+      <tag> out="time"; </tag>
       <one-of>
         <item>zeit</item>
         <item>uhrzeit</item>
@@ -239,14 +248,14 @@
   
   <!--Light-->
   <rule id="light">
-    <example> spiegel zeige bitte das licht </example>
-    <example> spiegel zeige das licht </example>
-    <example> spiegel zeige bitte licht </example>
-    <example> spiegel zeige licht </example>
-    <example> spiegel zeige licht bitte </example>
-    <example> spiegel bitte zeige licht </example>
-    <example> spiegel bitte zeige das licht </example>
-    <example> spiegel licht </example>
+    <example> mira zeige bitte das licht </example>
+    <example> mira zeige das licht </example>
+    <example> mira zeige bitte licht </example>
+    <example> mira zeige licht </example>
+    <example> mira zeige licht bitte </example>
+    <example> mira bitte zeige licht </example>
+    <example> mira bitte zeige das licht </example>
+    <example> mira licht </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -255,47 +264,47 @@
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> das </item>
-    <item> licht </item>
+    <item> licht <tag> out="light"; </tag></item>
     <item repeat="0-1"> bitte </item>
   </rule>
 
   <!--Weather-->
   <rule id="weather">
-    <example> spiegel zeige bitte das wetter </example>
-    <example> spiegel zeige das wetter </example>
-    <example> spiegel zeige bitte wetter </example>
-    <example> spiegel zeige wetter </example>
-    <example> spiegel zeige wetter bitte </example>
-    <example> spiegel bitte zeige wetter </example>
-    <example> spiegel bitte zeige das wetter </example>
-    <example> spiegel wetter </example>
+    <example> mira zeige bitte das wetter </example>
+    <example> mira zeige das wetter </example>
+    <example> mira zeige bitte wetter </example>
+    <example> mira zeige wetter </example>
+    <example> mira zeige wetter bitte </example>
+    <example> mira bitte zeige wetter </example>
+    <example> mira bitte zeige das wetter </example>
+    <example> mira wetter </example>
     
-    <example> spiegel zeige bitte die temperatur </example>
-    <example> spiegel zeige die temperatur </example>
-    <example> spiegel zeige bitte temperatur </example>
-    <example> spiegel zeige temperatur </example>
-    <example> spiegel zeige temperatur bitte </example>
-    <example> spiegel bitte zeige temperatur </example>
-    <example> spiegel bitte zeige die temperatur </example>
-    <example> spiegel temperatur </example>
+    <example> mira zeige bitte die temperatur </example>
+    <example> mira zeige die temperatur </example>
+    <example> mira zeige bitte temperatur </example>
+    <example> mira zeige temperatur </example>
+    <example> mira zeige temperatur bitte </example>
+    <example> mira bitte zeige temperatur </example>
+    <example> mira bitte zeige die temperatur </example>
+    <example> mira temperatur </example>
       
-    <example> spiegel zeige bitte das wetter heute </example>
-    <example> spiegel zeige das wetter heute </example>
-    <example> spiegel zeige bitte wetter heute </example>
-    <example> spiegel zeige wetter heute </example>
-    <example> spiegel zeige wetter heute bitte </example>
-    <example> spiegel bitte zeige wetter heute </example>
-    <example> spiegel bitte zeige das wetter heute </example>
-    <example> spiegel wetter heute </example>
+    <example> mira zeige bitte das wetter heute </example>
+    <example> mira zeige das wetter heute </example>
+    <example> mira zeige bitte wetter heute </example>
+    <example> mira zeige wetter heute </example>
+    <example> mira zeige wetter heute bitte </example>
+    <example> mira bitte zeige wetter heute </example>
+    <example> mira bitte zeige das wetter heute </example>
+    <example> mira wetter heute </example>
       
-    <example> spiegel zeige bitte das aktuelles wetter </example>
-    <example> spiegel zeige das aktuelles wetter </example>
-    <example> spiegel zeige bitte aktuelles wetter </example>
-    <example> spiegel zeige aktuelles wetter </example>
-    <example> spiegel zeige aktuelles wetter bitte </example>
-    <example> spiegel bitte zeige aktuelles wetter </example>
-    <example> spiegel bitte zeige das aktuelles wetter </example>
-    <example> spiegel aktuelles wetter </example>
+    <example> mira zeige bitte das aktuelles wetter </example>
+    <example> mira zeige das aktuelles wetter </example>
+    <example> mira zeige bitte aktuelles wetter </example>
+    <example> mira zeige aktuelles wetter </example>
+    <example> mira zeige aktuelles wetter bitte </example>
+    <example> mira bitte zeige aktuelles wetter </example>
+    <example> mira bitte zeige das aktuelles wetter </example>
+    <example> mira aktuelles wetter </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -320,52 +329,52 @@
     <example> temperatur </example>
 
     <item>
+      <tag> out="weather"; </tag>
       <one-of>
         <item>wetter</item>
         <item>aktuelles wetter</item>
         <item>wetter heute</item>
-        <item>temperatur</item>
       </one-of>
     </item>
   </rule>
 
   <!--Weatherforecast-->
   <rule id="weatherforecast">
-    <example> spiegel zeige bitte die wettervorhersage </example>
-    <example> spiegel zeige die wettervorhersage </example>
-    <example> spiegel zeige bitte wettervorhersage </example>
-    <example> spiegel zeige wettervorhersage </example>
-    <example> spiegel zeige wettervorhersage bitte </example>
-    <example> spiegel bitte zeige wettervorhersage </example>
-    <example> spiegel bitte zeige die wettervorhersage </example>
-    <example> spiegel wettervorhersage </example>
+    <example> mira zeige bitte die wettervorhersage </example>
+    <example> mira zeige die wettervorhersage </example>
+    <example> mira zeige bitte wettervorhersage </example>
+    <example> mira zeige wettervorhersage </example>
+    <example> mira zeige wettervorhersage bitte </example>
+    <example> mira bitte zeige wettervorhersage </example>
+    <example> mira bitte zeige die wettervorhersage </example>
+    <example> mira wettervorhersage </example>
     
-    <example> spiegel zeige bitte die vorhersage </example>
-    <example> spiegel zeige die vorhersage </example>
-    <example> spiegel zeige bitte vorhersage </example>
-    <example> spiegel zeige vorhersage </example>
-    <example> spiegel zeige vorhersage bitte </example>
-    <example> spiegel bitte zeige vorhersage </example>
-    <example> spiegel bitte zeige die vorhersage </example>
-    <example> spiegel vorhersage </example>
+    <example> mira zeige bitte die vorhersage </example>
+    <example> mira zeige die vorhersage </example>
+    <example> mira zeige bitte vorhersage </example>
+    <example> mira zeige vorhersage </example>
+    <example> mira zeige vorhersage bitte </example>
+    <example> mira bitte zeige vorhersage </example>
+    <example> mira bitte zeige die vorhersage </example>
+    <example> mira vorhersage </example>
       
-    <example> spiegel zeige bitte das wetter morgen </example>
-    <example> spiegel zeige das wetter morgen </example>
-    <example> spiegel zeige bitte wetter morgen </example>
-    <example> spiegel zeige wetter morgen </example>
-    <example> spiegel zeige wetter morgen bitte </example>
-    <example> spiegel bitte zeige wetter morgen </example>
-    <example> spiegel bitte zeige das wetter morgen </example>
-    <example> spiegel wetter morgen </example>
+    <example> mira zeige bitte das wetter morgen </example>
+    <example> mira zeige das wetter morgen </example>
+    <example> mira zeige bitte wetter morgen </example>
+    <example> mira zeige wetter morgen </example>
+    <example> mira zeige wetter morgen bitte </example>
+    <example> mira bitte zeige wetter morgen </example>
+    <example> mira bitte zeige das wetter morgen </example>
+    <example> mira wetter morgen </example>
       
-    <example> spiegel zeige bitte das wetter übermorgen </example>
-    <example> spiegel zeige das wetter übermorgen </example>
-    <example> spiegel zeige bitte wetter übermorgen </example>
-    <example> spiegel zeige wetter übermorgen </example>
-    <example> spiegel zeige wetter übermorgen bitte </example>
-    <example> spiegel bitte zeige wetter übermorgen </example>
-    <example> spiegel bitte zeige das wetter übermorgen </example>
-    <example> spiegel wetter übermorgen </example>
+    <example> mira zeige bitte das wetter übermorgen </example>
+    <example> mira zeige das wetter übermorgen </example>
+    <example> mira zeige bitte wetter übermorgen </example>
+    <example> mira zeige wetter übermorgen </example>
+    <example> mira zeige wetter übermorgen bitte </example>
+    <example> mira bitte zeige wetter übermorgen </example>
+    <example> mira bitte zeige das wetter übermorgen </example>
+    <example> mira wetter übermorgen </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -390,232 +399,231 @@
     <example> wetter übermorgen </example>
 
     <item>
+      <tag> out="weatherforecast"; </tag>
       <one-of>
         <item>wettervorhersage</item>
         <item>vorhersage</item>
-        <item>wetter morgen</item>
-        <item>wetter übermorgen</item>
       </one-of>
     </item>
   </rule>
 
   <!--News-->
   <rule id="news">
-    <example> spiegel zeige bitte die sport nachrichten </example>
-    <example> spiegel zeige die sport nachrichten </example>
-    <example> spiegel zeige bitte sport nachrichten </example>
-    <example> spiegel zeige sport nachrichten </example>
-    <example> spiegel zeige sport nachrichten bitte </example>
-    <example> spiegel bitte zeige sport nachrichten </example>
-    <example> spiegel bitte zeige die sport nachrichten </example>
-    <example> spiegel sport nachrichten </example>
+    <example> mira zeige bitte die sport nachrichten </example>
+    <example> mira zeige die sport nachrichten </example>
+    <example> mira zeige bitte sport nachrichten </example>
+    <example> mira zeige sport nachrichten </example>
+    <example> mira zeige sport nachrichten bitte </example>
+    <example> mira bitte zeige sport nachrichten </example>
+    <example> mira bitte zeige die sport nachrichten </example>
+    <example> mira sport nachrichten </example>
     
-    <example> spiegel zeige bitte die sport news </example>
-    <example> spiegel zeige die sport news </example>
-    <example> spiegel zeige bitte sport news </example>
-    <example> spiegel zeige sport news </example>
-    <example> spiegel zeige sport news bitte </example>
-    <example> spiegel bitte zeige sport news </example>
-    <example> spiegel bitte zeige die sport news </example>
-    <example> spiegel sport news </example>
+    <example> mira zeige bitte die sport news </example>
+    <example> mira zeige die sport news </example>
+    <example> mira zeige bitte sport news </example>
+    <example> mira zeige sport news </example>
+    <example> mira zeige sport news bitte </example>
+    <example> mira bitte zeige sport news </example>
+    <example> mira bitte zeige die sport news </example>
+    <example> mira sport news </example>
     
-    <example> spiegel zeige bitte die branchen nachrichten </example>
-    <example> spiegel zeige die branchen nachrichten </example>
-    <example> spiegel zeige bitte branchen nachrichten </example>
-    <example> spiegel zeige branchen nachrichten </example>
-    <example> spiegel zeige branchen nachrichten bitte </example>
-    <example> spiegel bitte zeige branchen nachrichten </example>
-    <example> spiegel bitte zeige die branchen nachrichten </example>
-    <example> spiegel branchen nachrichten </example>
+    <example> mira zeige bitte die branchen nachrichten </example>
+    <example> mira zeige die branchen nachrichten </example>
+    <example> mira zeige bitte branchen nachrichten </example>
+    <example> mira zeige branchen nachrichten </example>
+    <example> mira zeige branchen nachrichten bitte </example>
+    <example> mira bitte zeige branchen nachrichten </example>
+    <example> mira bitte zeige die branchen nachrichten </example>
+    <example> mira branchen nachrichten </example>
     
-    <example> spiegel zeige bitte die branchen news </example>
-    <example> spiegel zeige die branchen news </example>
-    <example> spiegel zeige bitte branchen news </example>
-    <example> spiegel zeige branchen news </example>
-    <example> spiegel zeige branchen news bitte </example>
-    <example> spiegel bitte zeige branchen news </example>
-    <example> spiegel bitte zeige die branchen news </example>
-    <example> spiegel branchen news </example>
+    <example> mira zeige bitte die branchen news </example>
+    <example> mira zeige die branchen news </example>
+    <example> mira zeige bitte branchen news </example>
+    <example> mira zeige branchen news </example>
+    <example> mira zeige branchen news bitte </example>
+    <example> mira bitte zeige branchen news </example>
+    <example> mira bitte zeige die branchen news </example>
+    <example> mira branchen news </example>
     
-    <example> spiegel zeige bitte die unternehmens nachrichten </example>
-    <example> spiegel zeige die unternehmens nachrichten </example>
-    <example> spiegel zeige bitte unternehmens nachrichten </example>
-    <example> spiegel zeige unternehmens nachrichten </example>
-    <example> spiegel zeige unternehmens nachrichten bitte </example>
-    <example> spiegel bitte zeige unternehmens nachrichten </example>
-    <example> spiegel bitte zeige die unternehmens nachrichten </example>
-    <example> spiegel unternehmens nachrichten </example>
+    <example> mira zeige bitte die unternehmens nachrichten </example>
+    <example> mira zeige die unternehmens nachrichten </example>
+    <example> mira zeige bitte unternehmens nachrichten </example>
+    <example> mira zeige unternehmens nachrichten </example>
+    <example> mira zeige unternehmens nachrichten bitte </example>
+    <example> mira bitte zeige unternehmens nachrichten </example>
+    <example> mira bitte zeige die unternehmens nachrichten </example>
+    <example> mira unternehmens nachrichten </example>
     
-    <example> spiegel zeige bitte die unternehmens news </example>
-    <example> spiegel zeige die unternehmens news </example>
-    <example> spiegel zeige bitte unternehmens news </example>
-    <example> spiegel zeige unternehmens news </example>
-    <example> spiegel zeige unternehmens news bitte </example>
-    <example> spiegel bitte zeige unternehmens news </example>
-    <example> spiegel bitte zeige die unternehmens news </example>
-    <example> spiegel unternehmens news </example>
+    <example> mira zeige bitte die unternehmens news </example>
+    <example> mira zeige die unternehmens news </example>
+    <example> mira zeige bitte unternehmens news </example>
+    <example> mira zeige unternehmens news </example>
+    <example> mira zeige unternehmens news bitte </example>
+    <example> mira bitte zeige unternehmens news </example>
+    <example> mira bitte zeige die unternehmens news </example>
+    <example> mira unternehmens news </example>
     
-    <example> spiegel zeige bitte die geschäfts nachrichten </example>
-    <example> spiegel zeige die geschäfts nachrichten </example>
-    <example> spiegel zeige bitte geschäfts nachrichten </example>
-    <example> spiegel zeige geschäfts nachrichten </example>
-    <example> spiegel zeige geschäfts nachrichten bitte </example>
-    <example> spiegel bitte zeige geschäfts nachrichten </example>
-    <example> spiegel bitte zeige die geschäfts nachrichten </example>
-    <example> spiegel geschäfts nachrichten </example>
+    <example> mira zeige bitte die geschäfts nachrichten </example>
+    <example> mira zeige die geschäfts nachrichten </example>
+    <example> mira zeige bitte geschäfts nachrichten </example>
+    <example> mira zeige geschäfts nachrichten </example>
+    <example> mira zeige geschäfts nachrichten bitte </example>
+    <example> mira bitte zeige geschäfts nachrichten </example>
+    <example> mira bitte zeige die geschäfts nachrichten </example>
+    <example> mira geschäfts nachrichten </example>
     
-    <example> spiegel zeige bitte die geschäfts news </example>
-    <example> spiegel zeige die geschäfts news </example>
-    <example> spiegel zeige bitte geschäfts news </example>
-    <example> spiegel zeige geschäfts news </example>
-    <example> spiegel zeige geschäfts news bitte </example>
-    <example> spiegel bitte zeige geschäfts news </example>
-    <example> spiegel bitte zeige die geschäfts news </example>
-    <example> spiegel geschäfts news </example>
+    <example> mira zeige bitte die geschäfts news </example>
+    <example> mira zeige die geschäfts news </example>
+    <example> mira zeige bitte geschäfts news </example>
+    <example> mira zeige geschäfts news </example>
+    <example> mira zeige geschäfts news bitte </example>
+    <example> mira bitte zeige geschäfts news </example>
+    <example> mira bitte zeige die geschäfts news </example>
+    <example> mira geschäfts news </example>
     
-    <example> spiegel zeige bitte die handels nachrichten </example>
-    <example> spiegel zeige die handels nachrichten </example>
-    <example> spiegel zeige bitte handels nachrichten </example>
-    <example> spiegel zeige handels nachrichten </example>
-    <example> spiegel zeige handels nachrichten bitte </example>
-    <example> spiegel bitte zeige handels nachrichten </example>
-    <example> spiegel bitte zeige die handels nachrichten </example>
-    <example> spiegel handels nachrichten </example>
+    <example> mira zeige bitte die handels nachrichten </example>
+    <example> mira zeige die handels nachrichten </example>
+    <example> mira zeige bitte handels nachrichten </example>
+    <example> mira zeige handels nachrichten </example>
+    <example> mira zeige handels nachrichten bitte </example>
+    <example> mira bitte zeige handels nachrichten </example>
+    <example> mira bitte zeige die handels nachrichten </example>
+    <example> mira handels nachrichten </example>
     
-    <example> spiegel zeige bitte die handels news </example>
-    <example> spiegel zeige die handels news </example>
-    <example> spiegel zeige bitte handels news </example>
-    <example> spiegel zeige handels news </example>
-    <example> spiegel zeige handels news bitte </example>
-    <example> spiegel bitte zeige handels news </example>
-    <example> spiegel bitte zeige die handels news </example>
-    <example> spiegel handels news </example>
+    <example> mira zeige bitte die handels news </example>
+    <example> mira zeige die handels news </example>
+    <example> mira zeige bitte handels news </example>
+    <example> mira zeige handels news </example>
+    <example> mira zeige handels news bitte </example>
+    <example> mira bitte zeige handels news </example>
+    <example> mira bitte zeige die handels news </example>
+    <example> mira handels news </example>
     
-    <example> spiegel zeige bitte die unterhaltungs nachrichten </example>
-    <example> spiegel zeige die unterhaltungs nachrichten </example>
-    <example> spiegel zeige bitte unterhaltungs nachrichten </example>
-    <example> spiegel zeige unterhaltungs nachrichten </example>
-    <example> spiegel zeige unterhaltungs nachrichten bitte </example>
-    <example> spiegel bitte zeige unterhaltungs nachrichten </example>
-    <example> spiegel bitte zeige die unterhaltungs nachrichten </example>
-    <example> spiegel unterhaltungs nachrichten </example>
+    <example> mira zeige bitte die unterhaltungs nachrichten </example>
+    <example> mira zeige die unterhaltungs nachrichten </example>
+    <example> mira zeige bitte unterhaltungs nachrichten </example>
+    <example> mira zeige unterhaltungs nachrichten </example>
+    <example> mira zeige unterhaltungs nachrichten bitte </example>
+    <example> mira bitte zeige unterhaltungs nachrichten </example>
+    <example> mira bitte zeige die unterhaltungs nachrichten </example>
+    <example> mira unterhaltungs nachrichten </example>
     
-    <example> spiegel zeige bitte die unterhaltungs news </example>
-    <example> spiegel zeige die unterhaltungs news </example>
-    <example> spiegel zeige bitte unterhaltungs news </example>
-    <example> spiegel zeige unterhaltungs news </example>
-    <example> spiegel zeige unterhaltungs news bitte </example>
-    <example> spiegel bitte zeige unterhaltungs news </example>
-    <example> spiegel bitte zeige die unterhaltungs news </example>
-    <example> spiegel unterhaltungs news </example>
+    <example> mira zeige bitte die unterhaltungs news </example>
+    <example> mira zeige die unterhaltungs news </example>
+    <example> mira zeige bitte unterhaltungs news </example>
+    <example> mira zeige unterhaltungs news </example>
+    <example> mira zeige unterhaltungs news bitte </example>
+    <example> mira bitte zeige unterhaltungs news </example>
+    <example> mira bitte zeige die unterhaltungs news </example>
+    <example> mira unterhaltungs news </example>
     
-    <example> spiegel zeige bitte die entertainment nachrichten </example>
-    <example> spiegel zeige die entertainment nachrichten </example>
-    <example> spiegel zeige bitte entertainment nachrichten </example>
-    <example> spiegel zeige entertainment nachrichten </example>
-    <example> spiegel zeige entertainment nachrichten bitte </example>
-    <example> spiegel bitte zeige entertainment nachrichten </example>
-    <example> spiegel bitte zeige die entertainment nachrichten </example>
-    <example> spiegel entertainment nachrichten </example>
+    <example> mira zeige bitte die entertainment nachrichten </example>
+    <example> mira zeige die entertainment nachrichten </example>
+    <example> mira zeige bitte entertainment nachrichten </example>
+    <example> mira zeige entertainment nachrichten </example>
+    <example> mira zeige entertainment nachrichten bitte </example>
+    <example> mira bitte zeige entertainment nachrichten </example>
+    <example> mira bitte zeige die entertainment nachrichten </example>
+    <example> mira entertainment nachrichten </example>
     
-    <example> spiegel zeige bitte die entertainment news </example>
-    <example> spiegel zeige die entertainment news </example>
-    <example> spiegel zeige bitte entertainment news </example>
-    <example> spiegel zeige entertainment news </example>
-    <example> spiegel zeige entertainment news bitte </example>
-    <example> spiegel bitte zeige entertainment news </example>
-    <example> spiegel bitte zeige die entertainment news </example>
-    <example> spiegel entertainment news </example>
+    <example> mira zeige bitte die entertainment news </example>
+    <example> mira zeige die entertainment news </example>
+    <example> mira zeige bitte entertainment news </example>
+    <example> mira zeige entertainment news </example>
+    <example> mira zeige entertainment news bitte </example>
+    <example> mira bitte zeige entertainment news </example>
+    <example> mira bitte zeige die entertainment news </example>
+    <example> mira entertainment news </example>
     
-    <example> spiegel zeige bitte die gesundheits nachrichten </example>
-    <example> spiegel zeige die gesundheits nachrichten </example>
-    <example> spiegel zeige bitte gesundheits nachrichten </example>
-    <example> spiegel zeige gesundheits nachrichten </example>
-    <example> spiegel zeige gesundheits nachrichten bitte </example>
-    <example> spiegel bitte zeige gesundheits nachrichten </example>
-    <example> spiegel bitte zeige die gesundheits nachrichten </example>
-    <example> spiegel gesundheits nachrichten </example>
+    <example> mira zeige bitte die gesundheits nachrichten </example>
+    <example> mira zeige die gesundheits nachrichten </example>
+    <example> mira zeige bitte gesundheits nachrichten </example>
+    <example> mira zeige gesundheits nachrichten </example>
+    <example> mira zeige gesundheits nachrichten bitte </example>
+    <example> mira bitte zeige gesundheits nachrichten </example>
+    <example> mira bitte zeige die gesundheits nachrichten </example>
+    <example> mira gesundheits nachrichten </example>
     
-    <example> spiegel zeige bitte die gesundheits news </example>
-    <example> spiegel zeige die gesundheits news </example>
-    <example> spiegel zeige bitte gesundheits news </example>
-    <example> spiegel zeige gesundheits news </example>
-    <example> spiegel zeige gesundheits news bitte </example>
-    <example> spiegel bitte zeige gesundheits news </example>
-    <example> spiegel bitte zeige die gesundheits news </example>
-    <example> spiegel gesundheits news </example>
+    <example> mira zeige bitte die gesundheits news </example>
+    <example> mira zeige die gesundheits news </example>
+    <example> mira zeige bitte gesundheits news </example>
+    <example> mira zeige gesundheits news </example>
+    <example> mira zeige gesundheits news bitte </example>
+    <example> mira bitte zeige gesundheits news </example>
+    <example> mira bitte zeige die gesundheits news </example>
+    <example> mira gesundheits news </example>
     
-    <example> spiegel zeige bitte die wissenschafts nachrichten </example>
-    <example> spiegel zeige die wissenschafts nachrichten </example>
-    <example> spiegel zeige bitte wissenschafts nachrichten </example>
-    <example> spiegel zeige wissenschafts nachrichten </example>
-    <example> spiegel zeige wissenschafts nachrichten bitte </example>
-    <example> spiegel bitte zeige wissenschafts nachrichten </example>
-    <example> spiegel bitte zeige die wissenschafts nachrichten </example>
-    <example> spiegel wissenschafts nachrichten </example>
+    <example> mira zeige bitte die wissenschafts nachrichten </example>
+    <example> mira zeige die wissenschafts nachrichten </example>
+    <example> mira zeige bitte wissenschafts nachrichten </example>
+    <example> mira zeige wissenschafts nachrichten </example>
+    <example> mira zeige wissenschafts nachrichten bitte </example>
+    <example> mira bitte zeige wissenschafts nachrichten </example>
+    <example> mira bitte zeige die wissenschafts nachrichten </example>
+    <example> mira wissenschafts nachrichten </example>
     
-    <example> spiegel zeige bitte die wissenschafts news </example>
-    <example> spiegel zeige die wissenschafts news </example>
-    <example> spiegel zeige bitte wissenschafts news </example>
-    <example> spiegel zeige wissenschafts news </example>
-    <example> spiegel zeige wissenschafts news bitte </example>
-    <example> spiegel bitte zeige wissenschafts news </example>
-    <example> spiegel bitte zeige die wissenschafts news </example>
-    <example> spiegel wissenschafts news </example>
+    <example> mira zeige bitte die wissenschafts news </example>
+    <example> mira zeige die wissenschafts news </example>
+    <example> mira zeige bitte wissenschafts news </example>
+    <example> mira zeige wissenschafts news </example>
+    <example> mira zeige wissenschafts news bitte </example>
+    <example> mira bitte zeige wissenschafts news </example>
+    <example> mira bitte zeige die wissenschafts news </example>
+    <example> mira wissenschafts news </example>
     
-    <example> spiegel zeige bitte die naturwissenschafts nachrichten </example>
-    <example> spiegel zeige die naturwissenschafts nachrichten </example>
-    <example> spiegel zeige bitte naturwissenschafts nachrichten </example>
-    <example> spiegel zeige naturwissenschafts nachrichten </example>
-    <example> spiegel zeige naturwissenschafts nachrichten bitte </example>
-    <example> spiegel bitte zeige naturwissenschafts nachrichten </example>
-    <example> spiegel bitte zeige die naturwissenschafts nachrichten </example>
-    <example> spiegel naturwissenschafts nachrichten </example>
+    <example> mira zeige bitte die naturwissenschafts nachrichten </example>
+    <example> mira zeige die naturwissenschafts nachrichten </example>
+    <example> mira zeige bitte naturwissenschafts nachrichten </example>
+    <example> mira zeige naturwissenschafts nachrichten </example>
+    <example> mira zeige naturwissenschafts nachrichten bitte </example>
+    <example> mira bitte zeige naturwissenschafts nachrichten </example>
+    <example> mira bitte zeige die naturwissenschafts nachrichten </example>
+    <example> mira naturwissenschafts nachrichten </example>
     
-    <example> spiegel zeige bitte die naturwissenschafts news </example>
-    <example> spiegel zeige die naturwissenschafts news </example>
-    <example> spiegel zeige bitte naturwissenschafts news </example>
-    <example> spiegel zeige naturwissenschafts news </example>
-    <example> spiegel zeige naturwissenschafts news bitte </example>
-    <example> spiegel bitte zeige naturwissenschafts news </example>
-    <example> spiegel bitte zeige die naturwissenschafts news </example>
-    <example> spiegel naturwissenschafts news </example>
+    <example> mira zeige bitte die naturwissenschafts news </example>
+    <example> mira zeige die naturwissenschafts news </example>
+    <example> mira zeige bitte naturwissenschafts news </example>
+    <example> mira zeige naturwissenschafts news </example>
+    <example> mira zeige naturwissenschafts news bitte </example>
+    <example> mira bitte zeige naturwissenschafts news </example>
+    <example> mira bitte zeige die naturwissenschafts news </example>
+    <example> mira naturwissenschafts news </example>
     
-    <example> spiegel zeige bitte die technologie nachrichten </example>
-    <example> spiegel zeige die technologie nachrichten </example>
-    <example> spiegel zeige bitte technologie nachrichten </example>
-    <example> spiegel zeige technologie nachrichten </example>
-    <example> spiegel zeige technologie nachrichten bitte </example>
-    <example> spiegel bitte zeige technologie nachrichten </example>
-    <example> spiegel bitte zeige die technologie nachrichten </example>
-    <example> spiegel technologie nachrichten </example>
+    <example> mira zeige bitte die technologie nachrichten </example>
+    <example> mira zeige die technologie nachrichten </example>
+    <example> mira zeige bitte technologie nachrichten </example>
+    <example> mira zeige technologie nachrichten </example>
+    <example> mira zeige technologie nachrichten bitte </example>
+    <example> mira bitte zeige technologie nachrichten </example>
+    <example> mira bitte zeige die technologie nachrichten </example>
+    <example> mira technologie nachrichten </example>
     
-    <example> spiegel zeige bitte die technologie news </example>
-    <example> spiegel zeige die technologie news </example>
-    <example> spiegel zeige bitte technologie news </example>
-    <example> spiegel zeige technologie news </example>
-    <example> spiegel zeige technologie news bitte </example>
-    <example> spiegel bitte zeige technologie news </example>
-    <example> spiegel bitte zeige die technologie news </example>
-    <example> spiegel technologie news </example>
+    <example> mira zeige bitte die technologie news </example>
+    <example> mira zeige die technologie news </example>
+    <example> mira zeige bitte technologie news </example>
+    <example> mira zeige technologie news </example>
+    <example> mira zeige technologie news bitte </example>
+    <example> mira bitte zeige technologie news </example>
+    <example> mira bitte zeige die technologie news </example>
+    <example> mira technologie news </example>
     
-    <example> spiegel zeige bitte die technik nachrichten </example>
-    <example> spiegel zeige die technik nachrichten </example>
-    <example> spiegel zeige bitte technik nachrichten </example>
-    <example> spiegel zeige technik nachrichten </example>
-    <example> spiegel zeige technik nachrichten bitte </example>
-    <example> spiegel bitte zeige technik nachrichten </example>
-    <example> spiegel bitte zeige die technik nachrichten </example>
-    <example> spiegel technik nachrichten </example>
+    <example> mira zeige bitte die technik nachrichten </example>
+    <example> mira zeige die technik nachrichten </example>
+    <example> mira zeige bitte technik nachrichten </example>
+    <example> mira zeige technik nachrichten </example>
+    <example> mira zeige technik nachrichten bitte </example>
+    <example> mira bitte zeige technik nachrichten </example>
+    <example> mira bitte zeige die technik nachrichten </example>
+    <example> mira technik nachrichten </example>
     
-    <example> spiegel zeige bitte die technik news </example>
-    <example> spiegel zeige die technik news </example>
-    <example> spiegel zeige bitte technik news </example>
-    <example> spiegel zeige technik news </example>
-    <example> spiegel zeige technik news bitte </example>
-    <example> spiegel bitte zeige technik news </example>
-    <example> spiegel bitte zeige die technik news </example>
-    <example> spiegel technik news </example>
+    <example> mira zeige bitte die technik news </example>
+    <example> mira zeige die technik news </example>
+    <example> mira zeige bitte technik news </example>
+    <example> mira zeige technik news </example>
+    <example> mira zeige technik news bitte </example>
+    <example> mira bitte zeige technik news </example>
+    <example> mira bitte zeige die technik news </example>
+    <example> mira technik news </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -661,64 +669,89 @@
 
     <item>
       <one-of>
-        <item>sport nachrichten</item>
-        <item>sport news</item>
-      
-        <item>branchen nachrichten</item>
-        <item>branchen news</item>
-        <item>unternehmens nachrichten</item>
-        <item>unternehmens news</item>
-        <item>geschäfts nachrichten</item>
-        <item>geschäfts news</item>
-        <item>handels nachrichten</item>
-        <item>handels news</item>
-      
-        <item>unterhaltungs nachrichten</item>
-        <item>unterhaltungs news</item>
-        <item>entertainment nachrichten</item>
-        <item>entertainment news</item>
-
-        <item>gesundheits nachrichten</item>
-        <item>gesundheits news</item>
-
-        <item>wissenschafts nachrichten</item>
-        <item>wissenschafts news</item>
-        <item>naturwissenschafts nachrichten</item>
-        <item>naturwissenschafts news</item>
-
-        <item>technologie nachrichten</item>
-        <item>technologie news</item>
-        <item>technik nachrichten</item>
-        <item>technik news</item>
+        <item>
+          <tag> out="sport"; </tag>
+          <one-of>
+            <item>sport nachrichten</item>
+            <item>sport news</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="business"; </tag>
+          <one-of>
+            <item>branchen nachrichten</item>
+            <item>branchen news</item>
+            <item>unternehmens nachrichten</item>
+            <item>unternehmens news</item>
+            <item>geschäfts nachrichten</item>
+            <item>geschäfts news</item>
+            <item>handels nachrichten</item>
+            <item>handels news</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="entertainment"; </tag>
+          <one-of>
+            <item>unterhaltungs nachrichten</item>
+            <item>unterhaltungs news</item>
+            <item>entertainment nachrichten</item>
+            <item>entertainment news</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="health"; </tag>
+          <one-of>
+            <item>gesundheits nachrichten</item>
+            <item>gesundheits news</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="science"; </tag>
+          <one-of>
+            <item>wissenschafts nachrichten</item>
+            <item>wissenschafts news</item>
+            <item>naturwissenschafts nachrichten</item>
+            <item>naturwissenschafts news</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="technology"; </tag>
+          <one-of>
+            <item>technologie nachrichten</item>
+            <item>technologie news</item>
+            <item>technik nachrichten</item>
+            <item>technik news</item>
+          </one-of>
+        </item>
       </one-of>
     </item>
   </rule>
 
   <!--Quote-->
   <rule id="quote">
-    <example> spiegel zeige bitte das zitat </example>
-    <example> spiegel zeige bitte ein zitat </example>
-    <example> spiegel zeige das zitat </example>
-    <example> spiegel zeige ein zitat </example>
-    <example> spiegel zeige bitte zitat </example>
-    <example> spiegel zeige zitat </example>
-    <example> spiegel zeige zitat bitte </example>
-    <example> spiegel bitte zeige zitat </example>
-    <example> spiegel bitte zeige das zitat </example>
-    <example> spiegel bitte zeige ein zitat </example>
-    <example> spiegel zitat </example>
+    <example> mira zeige bitte das zitat </example>
+    <example> mira zeige bitte ein zitat </example>
+    <example> mira zeige das zitat </example>
+    <example> mira zeige ein zitat </example>
+    <example> mira zeige bitte zitat </example>
+    <example> mira zeige zitat </example>
+    <example> mira zeige zitat bitte </example>
+    <example> mira bitte zeige zitat </example>
+    <example> mira bitte zeige das zitat </example>
+    <example> mira bitte zeige ein zitat </example>
+    <example> mira zitat </example>
     
-    <example> spiegel zeige bitte den spruch </example>
-    <example> spiegel zeige bitte einen spruch </example>
-    <example> spiegel zeige den spruch </example>
-    <example> spiegel zeige einen spruch </example>
-    <example> spiegel zeige bitte spruch </example>
-    <example> spiegel zeige spruch </example>
-    <example> spiegel zeige spruch bitte </example>
-    <example> spiegel bitte zeige spruch </example>
-    <example> spiegel bitte zeige den spruch </example>
-    <example> spiegel bitte zeige einen spruch </example>
-    <example> spiegel spruch </example>
+    <example> mira zeige bitte den spruch </example>
+    <example> mira zeige bitte einen spruch </example>
+    <example> mira zeige den spruch </example>
+    <example> mira zeige einen spruch </example>
+    <example> mira zeige bitte spruch </example>
+    <example> mira zeige spruch </example>
+    <example> mira zeige spruch bitte </example>
+    <example> mira bitte zeige spruch </example>
+    <example> mira bitte zeige den spruch </example>
+    <example> mira bitte zeige einen spruch </example>
+    <example> mira spruch </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -743,6 +776,7 @@
     <example> spruch </example>
 
     <item>
+      <tag> out="quote"; </tag>
       <one-of>
         <item>zitat</item>
         <item>spruch</item>
@@ -752,26 +786,26 @@
 
   <!--WebView scrollen-->
   <rule id="scroll">
-    <example> spiegel bitte scrolle hoch </example>
-    <example> spiegel bitte scrolle nach oben </example>
-    <example> spiegel bitte scrolle runter </example>
-    <example> spiegel bitte scrolle herrunter </example>
-    <example> spiegel bitte scrolle nach unten </example>
-    <example> spiegel scrolle hoch </example>
-    <example> spiegel scrolle nach oben </example>
-    <example> spiegel scrolle runter </example>
-    <example> spiegel scrolle herrunter </example>
-    <example> spiegel scrolle nach unten </example>
-    <example> spiegel hoch </example>
-    <example> spiegel nach oben </example>
-    <example> spiegel runter </example>
-    <example> spiegel herrunter </example>
-    <example> spiegel nach unten </example>
-    <example> spiegel bitte hoch </example>
-    <example> spiegel bitte nach oben </example>
-    <example> spiegel bitte runter </example>
-    <example> spiegel bitte herrunter </example>
-    <example> spiegel bitte nach unten </example>
+    <example> mira bitte scrolle hoch </example>
+    <example> mira bitte scrolle nach oben </example>
+    <example> mira bitte scrolle runter </example>
+    <example> mira bitte scrolle herrunter </example>
+    <example> mira bitte scrolle nach unten </example>
+    <example> mira scrolle hoch </example>
+    <example> mira scrolle nach oben </example>
+    <example> mira scrolle runter </example>
+    <example> mira scrolle herrunter </example>
+    <example> mira scrolle nach unten </example>
+    <example> mira hoch </example>
+    <example> mira nach oben </example>
+    <example> mira runter </example>
+    <example> mira herrunter </example>
+    <example> mira nach unten </example>
+    <example> mira bitte hoch </example>
+    <example> mira bitte nach oben </example>
+    <example> mira bitte runter </example>
+    <example> mira bitte herrunter </example>
+    <example> mira bitte nach unten </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -790,45 +824,57 @@
 
     <item>
       <one-of>
-        <item>hoch</item>
-        <item>nach oben</item>
-        <item>runter</item>
-        <item>herrunter</item>
-        <item>nach unten</item>
+        <item>
+          <tag> out="up"; </tag>
+          <one-of>
+            <item>hoch</item>
+            <item>nach oben</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="down"; </tag>
+          <one-of>
+            <item>runter</item>
+            <item>herrunter</item>
+            <item>nach unten</item>
+          </one-of>
+        </item>
       </one-of>
     </item>
   </rule>
 
   <!--WebView navigieren-->
   <rule id="navigate">
-    <example> spiegel bitte eine Seite zurück </example>
-    <example> spiegel bitte eine Seite zurückblättern </example>
-    <example> spiegel eine Seite zurück </example>
-    <example> spiegel eine Seite zurückblättern </example>
-    <example> spiegel bitte zurück </example>
-    <example> spiegel bitte zurückblättern </example>
-    <example> spiegel zurück </example>
-    <example> spiegel zurückblättern </example>
+    <example> mira bitte eine Seite zurück </example>
+    <example> mira bitte eine Seite zurückblättern </example>
+    <example> mira eine Seite zurück </example>
+    <example> mira eine Seite zurückblättern </example>
+    <example> mira bitte zurück </example>
+    <example> mira bitte zurückblättern </example>
+    <example> mira zurück </example>
+    <example> mira zurückblättern </example>
 
-    <example> spiegel bitte eine Seite vor </example>
-    <example> spiegel bitte eine Seite vorwärts </example>
-    <example> spiegel bitte eine Seite vorwärtsblättern</example>
-    <example> spiegel eine Seite vor </example>
-    <example> spiegel eine Seite vorwärts </example>
-    <example> spiegel eine Seite vorwärtsblättern</example>
-    <example> spiegel bitte vor </example>
-    <example> spiegel bitte vorwärts </example>
-    <example> spiegel bitte vorwärtsblättern</example>
-    <example> spiegel vor </example>
-    <example> spiegel vorwärts </example>
-    <example> spiegel vorwärtsblättern</example>
+    <example> mira bitte eine Seite vor </example>
+    <example> mira bitte eine Seite vorwärts </example>
+    <example> mira bitte eine Seite vorwärtsblättern</example>
+    <example> mira eine Seite vor </example>
+    <example> mira eine Seite vorwärts </example>
+    <example> mira eine Seite vorwärtsblättern</example>
+    <example> mira bitte vor </example>
+    <example> mira bitte vorwärts </example>
+    <example> mira bitte vorwärtsblättern</example>
+    <example> mira vor </example>
+    <example> mira vorwärts </example>
+    <example> mira vorwärtsblättern</example>
 
     <item>
       <ruleref uri="#name"/>
     </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> eine Seite </item>
-    <ruleref uri="#NavigatePossibilities"/>
+    <item>
+      <ruleref uri="#NavigatePossibilities"/>
+    </item>
   </rule>
 
   <rule id="NavigatePossibilities">
@@ -840,81 +886,150 @@
 
     <item>
       <one-of>
-        <item>zurück</item>
-        <item>zurückblättern</item>
-        <item>vor</item>
-        <item>vorwärts</item>
-        <item>vorwärtsblättern</item>
+        <item>
+          <tag> out="back"; </tag>
+          <one-of>
+            <item>zurück</item>
+            <item>zurückblättern</item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="forward"; </tag>
+          <one-of>
+            <item>vor</item>
+            <item>vorwärts</item>
+            <item>vorwärtsblättern</item>
+          </one-of>
+        </item>
       </one-of>
     </item>
   </rule>
 
   <!--WebView neu laden-->
   <rule id="reload">
-    <example> spiegel bitte aktuelle Seite neu laden </example>
-    <example> spiegel bitte aktuelle Seite erneut laden </example>
-    <example> spiegel aktuelle Seite neu laden </example>
-    <example> spiegel aktuelle Seite erneut laden </example>
-    <example> spiegel bitte Seite neu laden </example>
-    <example> spiegel bitte Seite erneut laden </example>
-    <example> spiegel bitte neu laden </example>
-    <example> spiegel bitte erneut laden </example>
-    <example> spiegel Seite neu laden </example>
-    <example> spiegel Seite erneut laden </example>
-    <example> spiegel neu laden </example>
-    <example> spiegel erneut laden </example>
+    <example> mira bitte aktuelle Seite neu laden </example>
+    <example> mira bitte aktuelle Seite erneut laden </example>
+    <example> mira aktuelle Seite neu laden </example>
+    <example> mira aktuelle Seite erneut laden </example>
+    <example> mira bitte Seite neu laden </example>
+    <example> mira bitte Seite erneut laden </example>
+    <example> mira bitte neu laden </example>
+    <example> mira bitte erneut laden </example>
+    <example> mira Seite neu laden </example>
+    <example> mira Seite erneut laden </example>
+    <example> mira neu laden </example>
+    <example> mira erneut laden </example>
 
     <item>
       <ruleref uri="#name"/>
+      <tag> out=""; </tag>
     </item>
-    <item repeat="0-1"> bitte </item>
-    <item repeat="0-1"> aktuelle </item>
-    <item repeat="0-1"> Seite </item>
+    <item repeat="0-1"> bitte <tag> out=""; </tag></item>
+    <item repeat="0-1"> aktuelle <tag> out=""; </tag></item>
+    <item repeat="0-1"> Seite <tag> out=""; </tag></item>
     <item>
+      <tag> out=""; </tag>
       <one-of>
         <item> neu </item>
         <item> erneut </item>
       </one-of>
     </item>
-    <item> laden </item>
+    <item> laden <tag> out="reload"; </tag></item>
   </rule>
 
   <!--Vorlesen-->
   <rule id="speech">
-    <example> spiegel wie viel uhr ist es </example>
-    <example> spiegel wie wird das wetter morgen </example>
-    <example> spiegel wie wird das wetter übermorgen </example>
-    <example> spiegel wie warm ist es </example>
-    <example> spiegel wie viel temperatur hat es </example>
-    <example> spiegel um wie viel uhr geht die sonne auf </example>
-    <example> spiegel um wie viel uhr geht die sonne unter </example>
+    <example> mira wie viel uhr ist es </example>
+    <example> mira wie wird das wetter morgen </example>
+    <example> mira wie wird das wetter übermorgen </example>
+    <example> mira wie warm ist es </example>
+    <example> mira wie viel temperatur hat es </example>
+    <example> mira um wie viel uhr geht die sonne auf </example>
+    <example> mira um wie viel uhr geht die sonne unter </example>
+    <example> mira wer bist du </example>
 
-    <item>
+    <item repeat="0-1">
       <ruleref uri="#name"/>
+      <tag> out=""; </tag>
     </item>
     <item>
       <one-of>
-        <item> wie viel uhr ist es </item>
-        <item> wie wird das wetter morgen </item>
-        <item> wie wird das wetter übermorgen </item>
-        <item> wie warm ist es </item>
-        <item> wie viel temperatur hat es </item>
-        <item> um wie viel uhr geht die sonne auf </item>
-        <item> um wie viel uhr geht die sonne unter </item>
+        <item>
+          <tag> out="name"; </tag>
+          <one-of>
+            <item> wie heißt du </item>
+            <item> wer bist du </item>
+            <item> name </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="look"; </tag>
+          <one-of>
+            <item> wie siehst du aus </item>
+            <item> was trägst du </item>
+            <item> was hast du an </item>
+            <item> welche kleidung trägst du </item>
+            <item> welche kleidung hast du an </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="clock"; </tag>
+          <one-of>
+            <item> wie viel uhr ist es </item>
+            <item> wie viel uhr </item>
+            <item> uhr </item>
+            <item> uhrzeit </item>
+            <item> zeit </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="weather today"; </tag>
+          <one-of>
+            <item> wie wird das wetter morgen </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="weather tomorrow"; </tag>
+          <one-of>
+            <item> wie wird das wetter übermorgen </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="temperature"; </tag>
+          <one-of>
+            <item> wie warm ist es </item>
+            <item> wie viel temperatur hat es </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="sunrise"; </tag>
+          <one-of>
+            <item> um wie viel uhr geht die sonne auf </item>
+            <item> sonnenaufgang </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="sunset"; </tag>
+          <one-of>
+            <item> um wie viel uhr geht die sonne unter </item>
+            <item> sonnenuntergang </item>
+          </one-of>
+        </item>
       </one-of>
     </item>
   </rule>
   
-  <!--Spiegel Namen-->
+  <!--mira Namen-->
   <rule id="name">
+    <example> mira </example>
     <example> spiegel </example>
-    <example> james </example>
 
     <item>
       <one-of>
-        <item> spiegel </item>
         <item> mira </item>
+        <item> spiegel </item>
       </one-of>
     </item>
   </rule>
+
 </grammar>

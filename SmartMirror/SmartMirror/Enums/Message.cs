@@ -25,6 +25,9 @@
         SPEECH_WEATHER_TEMPERATURE,
         SPEECH_SUNRISE,
         SPEECH_SUNSET,
+        SPEECH_NAME,
+        SPEECH_LOOK,
+        SPEECH_GENDER,
         UNKNOWN
     }
 }
