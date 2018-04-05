@@ -198,16 +198,16 @@ namespace SmartMirror.SpeechRecognition
                     return Message.SPEECH_TIME;
                 }
 
-                if (speech == "weather tomorrow")
+                if (speech == "weather")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_WEATHER_TOMORROW;
+                    return Message.SPEECH_WEATHER;
                 }
 
-                if (speech == "weather after tomorrow")
+                if (speech.Contains("weatherforecast"))
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_WEATHER_DAYAFTERTOMORROW;
+                    return Message.SPEECH_WEATHERFORECAST;
                 }
 
                 if (speech == "temperature")
@@ -467,10 +467,16 @@ namespace SmartMirror.SpeechRecognition
                     });
                     break;
 
-                case Message.SPEECH_WEATHER_TOMORROW:
+                case Message.SPEECH_WEATHER:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayWeatherToday();
+                    });
                     break;
-                case Message.SPEECH_WEATHER_DAYAFTERTOMORROW:
+
+                case Message.SPEECH_WEATHERFORECAST:
                     break;
+
                 case Message.SPEECH_WEATHER_TEMPERATURE:
                     break;
                 case Message.SPEECH_SUNRISE:

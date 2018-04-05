@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using SmartMirrorServer.Objects;
 using SmartMirrorServer.SerializableClasses;
@@ -27,8 +26,6 @@ namespace SmartMirrorServer
             WeatherApiKey = "4ce3d25d1b8cb5953ba718abd11bd07a";
 
             NewsApiKey = "9d6d50c70043491ba1aa1a2048b4197a";
-
-            QuoteOfDay = "https://taeglicheszit.at//zitat-api.php?format=csv";
 
             loadData();
 
@@ -60,8 +57,6 @@ namespace SmartMirrorServer
         /// Aktivitätsnachrichten
         /// </summary>
         public static Notifications Notifications { get; }
-
-        public static string QuoteOfDay { get; }
 
         public static string WeatherApiUrl { get; }
 

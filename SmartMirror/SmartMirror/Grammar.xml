@@ -1002,16 +1002,18 @@
           </one-of>
         </item>
         <item>
-          <tag> out="weather tomorrow"; </tag>
+          <tag> out="weather"; </tag>
           <one-of>
-            <item> wie wird das wetter morgen </item>
+            <item> wie wird das wetter heute </item>
+            <item> wie wird das wetter </item>
+            <item> wie ist das wetter heute </item>
+            <item> wie ist das wetter </item>
           </one-of>
         </item>
         <item>
-          <tag> out="weather after tomorrow"; </tag>
-          <one-of>
-            <item> wie wird das wetter übermorgen </item>
-          </one-of>
+          <tag> out="weatherforecast+out.day"; </tag>
+          <item> wie wird das wetter </item>
+          <item> <ruleref uri="#day"/> </item>
         </item>
         <item>
           <tag> out="temperature"; </tag>
@@ -1322,6 +1324,26 @@
         <item>
           neunzig <tag> out="9"; </tag>
         </item>
+      </one-of>
+    </item>
+  </rule>
+
+  <!--Wochentage-->
+  <rule id="day">
+    <example> morgen </example>
+    <example> dienstag </example>
+
+    <item>
+      <one-of>
+        <item> morgen <tag> out.day="tomorrow" </tag> </item>
+        <item> übermorgen <tag> out.day="day after tomorrow" </tag> </item>
+        <item> montag <tag> out.day="monday" </tag> </item>
+        <item> dienstag <tag> out.day="tuesday" </tag> </item>
+        <item> mittwoch <tag> out.day="wednesday" </tag> </item>
+        <item> donnerstag <tag> out.day="thursday" </tag> </item>
+        <item> freitag <tag> out.day="friday" </tag> </item>
+        <item> samstag <tag> out.day="saturday" </tag> </item>
+        <item> sonntag <tag> out.day="sonday" </tag> </item>
       </one-of>
     </item>
   </rule>

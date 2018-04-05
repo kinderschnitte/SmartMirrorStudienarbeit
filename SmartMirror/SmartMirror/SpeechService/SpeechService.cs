@@ -2,10 +2,15 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-using SmartMirror.HelperClasses;
+
+using SmartMirror.Objects;
+
+using SmartMirrorServer;
+using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirror.SpeechService
 {
@@ -237,7 +242,7 @@ namespace SmartMirror.SpeechService
 
         public async Task SayQuote()
         {
-            Objects.QuoteOfDay quote = QuoteOfDay.GetQuoteOfDay();
+            QuoteOfDay quote = HelperClasses.QuoteOfDay.GetQuoteOfDay();
 
             StringBuilder quoteString = new StringBuilder();
 
@@ -254,7 +259,7 @@ namespace SmartMirror.SpeechService
 
         public async Task SayJoke()
         {
-            Objects.Joke joke = Joke.GetJoke();
+            Joke joke = HelperClasses.Joke.GetJoke();
 
             StringBuilder jokeString = new StringBuilder();
 
@@ -267,6 +272,80 @@ namespace SmartMirror.SpeechService
             jokeString.AppendLine(@"</speak>");
 
             await sayAsyncSsml(jokeString.ToString());
+        }
+
+        public async Task SayWeatherToday()
+        {
+            if (!Application.Data.TryGetValue(Application.StorageData.WeatherModul, out dynamic r))
+                return;
+
+            SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>)r;
+
+            StringBuilder weatherTodayString = new StringBuilder();
+
+            weatherTodayString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            weatherTodayString.AppendLine(@"<sentence>");
+
+            weatherTodayString.AppendLine($"Das Wetter heute in {result.Item.City} ist {result.Item.Description}. Momentan werden {result.Item.Temp} Grad Celcius Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent, gemessen.");
+            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {result.Item.WindSpeed} Metern pro Sekunde weht aus Richtung {getDirection(result.Item.WindDegree)}");
+
+            weatherTodayString.AppendLine(@"</sentence>");
+            weatherTodayString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(weatherTodayString.ToString());
+        }
+
+        private static string getDirection(double windDegree)
+        {
+            if (windDegree >= 348.75 && windDegree <= 11.25)
+                return "Nord";
+
+            if (windDegree > 11.25 && windDegree < 33.75)
+                return "Nord Nord Ost";
+
+            if (windDegree >= 33.75 && windDegree <= 56.25)
+                return "Nord Ost";
+
+            if (windDegree > 56.25 && windDegree < 78.75)
+                return "Ost Nord Ost";
+
+            if (windDegree >= 78.75 && windDegree <= 101.25)
+                return "Ost";
+
+            if (windDegree > 101.25 && windDegree < 123.75)
+                return "Ost Süd Ost";
+
+            if (windDegree >= 123.75 && windDegree <= 146.25)
+                return "Süd Ost";
+
+            if (windDegree > 146.25 && windDegree < 168.75)
+                return "Süd Süd Ost";
+
+            if (windDegree >= 168.75 && windDegree <= 191.25)
+                return "Süd";
+
+            if (windDegree > 191.25 && windDegree < 213.75)
+                return "Süd Süd West";
+
+            if (windDegree >= 213.75 && windDegree <= 236.25)
+                return "Süd West";
+
+            if (windDegree > 236.25 && windDegree < 258.75)
+                return "West Süd West";
+
+            if (windDegree >= 258.75 && windDegree <= 291.25)
+                return "West";
+
+            if (windDegree > 291.25 && windDegree < 303.75)
+                return "West Nord West";
+
+            if (windDegree >= 303.75 && windDegree <= 326.25)
+                return "Nord West";
+
+            if (windDegree > 326.25 && windDegree < 348.75)
+                return "Nord Nord West";
+
+            return "Unknown";
         }
 
         private static string numberToWords(int number)
