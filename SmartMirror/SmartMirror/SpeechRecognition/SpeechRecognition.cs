@@ -251,6 +251,18 @@ namespace SmartMirror.SpeechRecognition
                     recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_MIRROR;
                 }
+
+                if (speech == "quote")
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_QUOTE;
+                }
+
+                if (speech == "joke")
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_JOKE;
+                }
             }
 
             return Message.UNKNOWN;
@@ -438,6 +450,20 @@ namespace SmartMirror.SpeechRecognition
                         int.TryParse(recognizedSpeech.SemanticText.Split(' ')[0], out int from);
                         int.TryParse(recognizedSpeech.SemanticText.Split(' ')[1], out int to);
                         await mainPage.SpeechService.SayRandom(from, to);
+                    });
+                    break;
+
+                case Message.SPEECH_JOKE:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayJoke();
+                    });
+                    break;
+
+                case Message.SPEECH_QUOTE:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayQuote();
                     });
                     break;
 

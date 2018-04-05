@@ -757,7 +757,7 @@
       <ruleref uri="#name"/>
     </item>
     <item repeat="0-1"> bitte </item>
-    <item repeat="0-1"> zeige </item>
+    <item> zeige </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1">
       <one-of>
@@ -1040,6 +1040,32 @@
             <item>
               <ruleref uri="#number"/>
             </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="quote"; </tag>
+          <one-of>
+            <item> sage einen Spruch </item>
+            <item> erzähle einen Spruch </item>
+            <item> sage bitte einen Spruch </item>
+            <item> erzähle bitte einen Spruch </item>
+            <item> Spruch </item>
+            <item> kluger Spruch </item>
+            <item> schlauer Spruch </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="joke"; </tag>
+          <one-of>
+            <item> sage einen Witz </item>
+            <item> erzähle einen Witz </item>
+            <item> sage bitte einen Witz </item>
+            <item> erzähle bitte einen Witz </item>
+            <item> Witz </item>
+            <item> lustiger Witz </item>
+            <item> erzähle einen lustigen Witz </item>
+            <item> erzähle lustigen Witz </item>
+            <item> Witz zum totlachen </item>
           </one-of>
         </item>
       </one-of>

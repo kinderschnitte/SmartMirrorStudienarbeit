@@ -32,6 +32,8 @@
         SPEECH_COUNTDOWN,
         SPEECH_COUNT,
         SPEECH_RANDOM,
+        SPEECH_JOKE,
+        SPEECH_QUOTE,
         UNKNOWN
     }
 }

@@ -97,9 +97,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\Message.cs" />
+    <Compile Include="HelperClasses\Joke.cs" />
+    <Compile Include="HelperClasses\QuoteOfDay.cs" />
+    <Compile Include="HelperClasses\SpeechHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Joke.cs" />
+    <Compile Include="Objects\QuoteOfDay.cs" />
     <Compile Include="Objects\RecognizedSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpeechRecognitionManager\SpeechRecognitionExtensions.cs" />

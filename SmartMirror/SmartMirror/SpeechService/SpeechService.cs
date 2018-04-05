@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using SmartMirror.HelperClasses;
 
 namespace SmartMirror.SpeechService
 {
@@ -21,7 +21,7 @@ namespace SmartMirror.SpeechService
             speechPlayer = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.Speech, AutoPlay = false };
 
             #pragma warning disable 4014
-            //startup(); // TODO auskommentieren
+            startup(); // TODO auskommentieren
             #pragma warning restore 4014
         }
 
@@ -167,14 +167,15 @@ namespace SmartMirror.SpeechService
 
         public async Task SayLook()
         {
+            Random randi = new Random();
+            int randomNumber = randi.Next(2);
 
             StringBuilder nameString = new StringBuilder();
 
             nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             nameString.AppendLine(@"<sentence>");
 
-            //nameString.AppendLine("Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum-Zeit-Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind.");
-            nameString.AppendLine("Mal schauen. <break time='500ms'/> Dacht ich mir's doch, das gleiche wie gestern.");
+            nameString.AppendLine(randomNumber == 0 ? "Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum - Zeit - Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind." : "Mal schauen. <break time='500ms'/> Dacht ich mir's doch, das gleiche wie gestern.");
 
             nameString.AppendLine(@"</sentence>");
             nameString.AppendLine(@"</speak>");
@@ -220,7 +221,7 @@ namespace SmartMirror.SpeechService
         {
             Random randi = new Random();
             int randomNumber = randi.Next(2);
-            Debug.WriteLine(randomNumber);
+
             StringBuilder nameString = new StringBuilder();
 
             nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
@@ -232,6 +233,40 @@ namespace SmartMirror.SpeechService
             nameString.AppendLine(@"</speak>");
 
             await sayAsyncSsml(nameString.ToString());
+        }
+
+        public async Task SayQuote()
+        {
+            Objects.QuoteOfDay quote = QuoteOfDay.GetQuoteOfDay();
+
+            StringBuilder quoteString = new StringBuilder();
+
+            quoteString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            quoteString.AppendLine(@"<sentence>");
+
+            quoteString.AppendLine($"{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
+
+            quoteString.AppendLine(@"</sentence>");
+            quoteString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(quoteString.ToString());
+        }
+
+        public async Task SayJoke()
+        {
+            Objects.Joke joke = Joke.GetJoke();
+
+            StringBuilder jokeString = new StringBuilder();
+
+            jokeString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            jokeString.AppendLine(@"<sentence>");
+
+            jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
+
+            jokeString.AppendLine(@"</sentence>");
+            jokeString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(jokeString.ToString());
         }
 
         private static string numberToWords(int number)
