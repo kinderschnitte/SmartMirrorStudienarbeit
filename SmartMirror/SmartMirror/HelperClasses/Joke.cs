@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace SmartMirror.HelperClasses
 {

@@ -2,13 +2,10 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-
 using SmartMirror.Objects;
-
 using SmartMirrorServer;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
@@ -26,7 +23,7 @@ namespace SmartMirror.SpeechService
             speechPlayer = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.Speech, AutoPlay = false };
 
             #pragma warning disable 4014
-            startup(); // TODO auskommentieren
+            //startup(); // TODO auskommentieren
             #pragma warning restore 4014
         }
 
@@ -276,17 +273,17 @@ namespace SmartMirror.SpeechService
 
         public async Task SayWeatherToday()
         {
-            if (!Application.Data.TryGetValue(Application.StorageData.WeatherModul, out dynamic r))
-                return;
+            SingleResult<CurrentWeatherResult> result = CurrentWeather.GetByCityName(Application.StorageData.WeatherModul.City, Application.StorageData.WeatherModul.Country, Application.StorageData.WeatherModul.Language, "metric");
 
-            SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>)r;
+            if (!result.Success)
+                return;
 
             StringBuilder weatherTodayString = new StringBuilder();
 
             weatherTodayString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             weatherTodayString.AppendLine(@"<sentence>");
 
-            weatherTodayString.AppendLine($"Das Wetter heute in {result.Item.City} ist {result.Item.Description}. Momentan werden {result.Item.Temp} Grad Celcius Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent, gemessen.");
+            weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp} Grad Celzius Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
             weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {result.Item.WindSpeed} Metern pro Sekunde weht aus Richtung {getDirection(result.Item.WindDegree)}");
 
             weatherTodayString.AppendLine(@"</sentence>");

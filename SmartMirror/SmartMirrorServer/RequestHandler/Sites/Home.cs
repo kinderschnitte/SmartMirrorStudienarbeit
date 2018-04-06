@@ -122,7 +122,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             stringBuilder.Append("<table style=\"width: 100%; height: 60%; padding: 2.5%;\">");
 
-            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.75em; text-align: left; display: block;\">{result.Text}</label> <label style=\"font-size: 1.25em; text-align: center; display: block; padding-top: 2.5%;\">- {result.Author} -</label></td> </tr>");
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em; text-align: left; display: block;\">{result.Text}</label> <label style=\"font-size: 1.25em; text-align: center; display: block; padding-top: 2.5%;\">- {result.Author} -</label></td> </tr>");
 
             stringBuilder.Append(" </table>");
 
