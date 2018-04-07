@@ -73,7 +73,6 @@ namespace SmartMirror.SpeechRecognition
             string navigate = speechRecognitionSemanticInterpretation.GetInterpretation("navigate");
             string reload = speechRecognitionSemanticInterpretation.GetInterpretation("reload");
             string speech = speechRecognitionSemanticInterpretation.GetInterpretation("speech");
-            string numbers = speechRecognitionSemanticInterpretation.GetInterpretation("numbers");
 
             if (home != null)
             {
@@ -262,6 +261,12 @@ namespace SmartMirror.SpeechRecognition
                 {
                     recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_JOKE;
+                }
+
+                if (speech == "creator")
+                {
+                    recognizedSpeech.SemanticText = speech;
+                    return Message.SPEECH_CREATOR;
                 }
             }
 
@@ -474,15 +479,37 @@ namespace SmartMirror.SpeechRecognition
                     });
                     break;
 
+                case Message.SPEECH_CREATOR:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayCreator();
+                    });
+                    break;
+
                 case Message.SPEECH_WEATHERFORECAST:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SayWeatherforecast(recognizedSpeech);
+                    });
                     break;
 
                 case Message.SPEECH_WEATHER_TEMPERATURE:
                     break;
+
                 case Message.SPEECH_SUNRISE:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SaySunrise();
+                    });
                     break;
+
                 case Message.SPEECH_SUNSET:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await mainPage.SpeechService.SaySunset();
+                    });
                     break;
+
                 case Message.UNKNOWN:
                     break;
             }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,14 +9,22 @@ using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
 using SmartMirror.Objects;
 using SmartMirrorServer;
+using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirror.SpeechService
 {
     internal class SpeechService
     {
-        private readonly SpeechSynthesizer speechSynthesizer;
+
+        #region Private Fields
+
         private readonly MediaPlayer speechPlayer;
+        private readonly SpeechSynthesizer speechSynthesizer;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public SpeechService()
         {
@@ -27,69 +37,9 @@ namespace SmartMirror.SpeechService
             #pragma warning restore 4014
         }
 
-        private static SpeechSynthesizer createSpeechSynthesizer()
-        {
-            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+        #endregion Public Constructors
 
-            VoiceInformation voice = SpeechSynthesizer.AllVoices.SingleOrDefault(i => i.DisplayName == "Microsoft Katja") ?? SpeechSynthesizer.DefaultVoice;
-
-            synthesizer.Voice = voice;
-
-            return synthesizer;
-        }
-
-        private async Task sayAsync(string text)
-        {
-            using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeTextToStreamAsync(text))
-            {
-                MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
-                speechPlayer.Source = mediaSource;
-            }
-
-            speechPlayer.Play();
-        }
-
-        private async Task sayAsyncSsml(string ssml)
-        {
-            using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(ssml))
-            {
-                MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
-                speechPlayer.Source = mediaSource;
-            }
-
-            speechPlayer.Play();
-        }
-
-        // ReSharper disable once UnusedMethodReturnValue.Local
-        private async Task startup()
-        {
-            StringBuilder startupString = new StringBuilder();
-
-            startupString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
-            startupString.AppendLine(@"<sentence>");
-
-            startupString.AppendLine("Darf ich mich vorstellen ?");
-            startupString.AppendLine("<break time='500ms'/>");
-            startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
-            startupString.AppendLine("<break time='300ms'/>");
-            startupString.AppendLine("Wie kann ich dir behilflich <prosody pitch=\"high\">sein</prosody>?");
-            startupString.AppendLine("<break time='1000ms'/>");
-            startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
-
-            startupString.AppendLine(@"</sentence>");
-            startupString.AppendLine(@"</speak>");
-
-            await sayAsyncSsml(startupString.ToString());
-        }
-
-        public async Task SayTime()
-        {
-            DateTime now = DateTime.Now;
-
-            string time = $"Es ist {now.Hour} Uhr und {now.Minute} Minuten.";
-
-            await sayAsync(time);
-        }
+        #region Public Methods
 
         public async Task CountDown(int fromNumber)
         {
@@ -98,7 +48,7 @@ namespace SmartMirror.SpeechService
             countdownString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             countdownString.AppendLine(@"<sentence>");
 
-            for (int i = fromNumber ; i >= 0 ; i--)
+            for (int i = fromNumber; i >= 0; i--)
             {
                 if (i == 0)
                 {
@@ -147,42 +97,19 @@ namespace SmartMirror.SpeechService
             await sayAsyncSsml(countToString.ToString());
         }
 
-        public async Task SayName()
+        public async Task SayCreator()
         {
+            StringBuilder weatherTodayString = new StringBuilder();
 
-            StringBuilder nameString = new StringBuilder();
+            weatherTodayString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            weatherTodayString.AppendLine(@"<sentence>");
 
-            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
-            nameString.AppendLine(@"<sentence>");
+            weatherTodayString.AppendLine("Gute Frage, das wüsste ich auch gerne. Ich sehe das wie Winston Churchill, er sagte einst: <break time='300ms'/> Ich bin bereit, meinem Schöpfer gegenüberzutreten. Ob mein Schöpfer ebenso bereit ist, diese Begegnung über sich ergehen zu lassen, ist eine andere Sache.");
 
-            nameString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
-            nameString.AppendLine("<break time='300ms'/>");
-            nameString.AppendLine("Aus dem lateinischen heraus übersetzt, bedeutet mein Name soviel wie <prosody rate=\"-30%\">wunderbar</prosody>, <prosody rate=\"-30%\">die Wunderbare</prosody>.");
-            nameString.AppendLine("<break time='300ms'/>");
-            nameString.AppendLine("Eine hinduistische Legende erzählt die Geschichte von Mirabai, <break time='200ms'/>einer Prinzessin aus dem 16. Jahrhundert, die sich als Geliebte Krishnas betrachtete. <break time='200ms'/>Mirabai gilt als geistliche Liebesdichterin.");
+            weatherTodayString.AppendLine(@"</sentence>");
+            weatherTodayString.AppendLine(@"</speak>");
 
-            nameString.AppendLine(@"</sentence>");
-            nameString.AppendLine(@"</speak>");
-
-            await sayAsyncSsml(nameString.ToString());
-        }
-
-        public async Task SayLook()
-        {
-            Random randi = new Random();
-            int randomNumber = randi.Next(2);
-
-            StringBuilder nameString = new StringBuilder();
-
-            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
-            nameString.AppendLine(@"<sentence>");
-
-            nameString.AppendLine(randomNumber == 0 ? "Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum - Zeit - Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind." : "Mal schauen. <break time='500ms'/> Dacht ich mir's doch, das gleiche wie gestern.");
-
-            nameString.AppendLine(@"</sentence>");
-            nameString.AppendLine(@"</speak>");
-
-            await sayAsyncSsml(nameString.ToString());
+            await sayAsyncSsml(weatherTodayString.ToString());
         }
 
         public async Task SayGender()
@@ -201,17 +128,34 @@ namespace SmartMirror.SpeechService
             await sayAsyncSsml(genderString.ToString());
         }
 
-        public async Task SayRandom(int from, int to)
+        public async Task SayJoke()
+        {
+            Joke joke = HelperClasses.Joke.GetJoke();
+
+            StringBuilder jokeString = new StringBuilder();
+
+            jokeString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            jokeString.AppendLine(@"<sentence>");
+
+            jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
+
+            jokeString.AppendLine(@"</sentence>");
+            jokeString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(jokeString.ToString());
+        }
+
+        public async Task SayLook()
         {
             Random randi = new Random();
-            int randomNumber = randi.Next(from, to);
+            int randomNumber = randi.Next(2);
 
             StringBuilder nameString = new StringBuilder();
 
             nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             nameString.AppendLine(@"<sentence>");
 
-            nameString.AppendLine($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{numberToWords(randomNumber)}</prosody>.");
+            nameString.AppendLine(randomNumber == 0 ? "Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum - Zeit - Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind." : "Mal schauen. <break time='500ms'/> Dacht ich mir's doch, das gleiche wie gestern.");
 
             nameString.AppendLine(@"</sentence>");
             nameString.AppendLine(@"</speak>");
@@ -237,6 +181,26 @@ namespace SmartMirror.SpeechService
             await sayAsyncSsml(nameString.ToString());
         }
 
+        public async Task SayName()
+        {
+
+            StringBuilder nameString = new StringBuilder();
+
+            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            nameString.AppendLine(@"<sentence>");
+
+            nameString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
+            nameString.AppendLine("<break time='300ms'/>");
+            nameString.AppendLine("Aus dem lateinischen heraus übersetzt, bedeutet mein Name soviel wie <prosody rate=\"-30%\">wunderbar</prosody>, <prosody rate=\"-30%\">die Wunderbare</prosody>.");
+            nameString.AppendLine("<break time='300ms'/>");
+            nameString.AppendLine("Eine hinduistische Legende erzählt die Geschichte von Mirabai, <break time='200ms'/>einer Prinzessin aus dem 16. Jahrhundert, die sich als Geliebte Krishnas betrachtete. <break time='200ms'/>Mirabai gilt als geistliche Liebesdichterin.");
+
+            nameString.AppendLine(@"</sentence>");
+            nameString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(nameString.ToString());
+        }
+
         public async Task SayQuote()
         {
             QuoteOfDay quote = HelperClasses.QuoteOfDay.GetQuoteOfDay();
@@ -254,21 +218,187 @@ namespace SmartMirror.SpeechService
             await sayAsyncSsml(quoteString.ToString());
         }
 
-        public async Task SayJoke()
+        public async Task SayRandom(int from, int to)
         {
-            Joke joke = HelperClasses.Joke.GetJoke();
+            Random randi = new Random();
+            int randomNumber = randi.Next(from, to);
 
-            StringBuilder jokeString = new StringBuilder();
+            StringBuilder nameString = new StringBuilder();
 
-            jokeString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
-            jokeString.AppendLine(@"<sentence>");
+            nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            nameString.AppendLine(@"<sentence>");
 
-            jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
+            nameString.AppendLine($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{numberToWords(randomNumber)}</prosody>.");
 
-            jokeString.AppendLine(@"</sentence>");
-            jokeString.AppendLine(@"</speak>");
+            nameString.AppendLine(@"</sentence>");
+            nameString.AppendLine(@"</speak>");
 
-            await sayAsyncSsml(jokeString.ToString());
+            await sayAsyncSsml(nameString.ToString());
+        }
+
+        public async Task SaySunrise()
+        {
+            Sun sun = new Sun(Application.StorageData.TimeModul);
+
+            StringBuilder sunriseString = new StringBuilder();
+
+            sunriseString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            sunriseString.AppendLine(@"<sentence>");
+
+            int time = DateTime.Compare(DateTime.ParseExact(sun.Sunrise, "H:mm", null, System.Globalization.DateTimeStyles.None), DateTime.Now);
+
+            if (time != -1)
+            {
+                if (time != 0)
+                {
+                    if (time == 1)
+                        sunriseString.AppendLine($"Um {sun.Sunrise} geht die Sonne auf.");
+                }
+                else
+                    sunriseString.AppendLine("In diesem Moment geht die Sonne auf.");
+            }
+            else
+                sunriseString.AppendLine($"Um {sun.Sunrise} ist die Sonne aufgegangen.");
+
+
+            sunriseString.AppendLine(@"</sentence>");
+            sunriseString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(sunriseString.ToString());
+        }
+
+        public async Task SaySunset()
+        {
+            Sun sun = new Sun(Application.StorageData.TimeModul);
+
+            StringBuilder sunsetString = new StringBuilder();
+
+            sunsetString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            sunsetString.AppendLine(@"<sentence>");
+
+            int time = DateTime.Compare(DateTime.ParseExact(sun.Sunset, "H:mm", null, System.Globalization.DateTimeStyles.None), DateTime.Now);
+
+            if (time != -1)
+            {
+                if (time != 0)
+                {
+                    if (time == 1)
+                        sunsetString.AppendLine($"Um {sun.Sunset} geht die Sonne unter.");
+                }
+                else
+                    sunsetString.AppendLine("In diesem Moment geht die Sonne unter.");
+            }
+            else
+                sunsetString.AppendLine($"Um {sun.Sunset} ist die Sonne untergegangen.");
+
+            sunsetString.AppendLine(@"</sentence>");
+            sunsetString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(sunsetString.ToString());
+        }
+
+        public async Task SayTime()
+        {
+            DateTime now = DateTime.Now;
+
+            string time = $"Es ist {now.Hour} Uhr und {now.Minute} Minuten.";
+
+            await sayAsync(time);
+        }
+
+        public async Task SayWeatherforecast(RecognizedSpeech recognizedSpeech)
+        {
+            List<List<FiveDaysForecastResult>> result = FiveDaysForecast.GetByCityName(Application.StorageData.WeatherModul.City, Application.StorageData.WeatherModul.Country, Application.StorageData.WeatherModul.Language, "metric");
+
+            if (result.Count == 0)
+                return;
+
+            // Infos zu heutigen Tag löschen
+            if (result.Count > 5)
+                result.RemoveAt(0);
+
+            StringBuilder weatherforecastString = new StringBuilder();
+
+            weatherforecastString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            weatherforecastString.AppendLine(@"<sentence>");
+
+            switch (recognizedSpeech.SemanticText.Split(' ')[1])
+            {
+                case "tomorrow":
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {result[0][0].City} morgens {result[0][3].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(2).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Mittags {result[0][5].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(4).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Abends {result[0][7].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(6).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    break;
+
+                case "dayaftertomorrow":
+                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter in {result[1][0].City} morgens {result[1][3].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(2).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Mittags {result[1][5].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(4).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Abends {result[1][7].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(6).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    break;
+
+                case "monday":
+                case "tuesday":
+                case "wednesday":
+                case "thursday":
+                case "friday":
+                case "saturday":
+                case "sunday":
+                    int weekDay = result.IndexOf(result.First(x => x[0].Date.DayOfWeek == getNextWeekday(DateTime.Now, getDayOfWeek(recognizedSpeech.SemanticText.Split(' ')[1])).DayOfWeek));
+
+                    if (result[weekDay].Count < 4)
+                    {
+                        weatherforecastString.AppendLine($"Über den {result[weekDay][0].Date:dddd} liegen leider zu wenig Information vor.");
+                        break;
+                    }
+
+                    weatherforecastString.AppendLine($"Am {result[weekDay][0].Date:dddd} wird das Wetter in {result[1][0].City} morgens {result[weekDay][3].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(2).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+
+                    if (result[weekDay].Count < 6)
+                    {
+                        weatherforecastString.AppendLine($"Weitere Informationen über den {result[weekDay][0].Date:dddd} liegen nicht vor.");
+                        break;
+                    }
+
+                    weatherforecastString.AppendLine($"Mittags {result[weekDay][5].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(4).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+
+                    if (result[weekDay].Count < 8)
+                    {
+                        weatherforecastString.AppendLine($"Weitere Informationen über den {result[weekDay][0].Date:dddd} liegen nicht vor.");
+                        break;
+                    }
+
+                    weatherforecastString.AppendLine($"Abends {result[weekDay][7].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(6).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    break;
+
+                case "all":
+                    List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key, Description = fiveDaysForecastResult.GroupBy(x => x.Description).OrderByDescending(x => x.Count()).First().Key }).ToList();
+
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {forecastDays[0].City} überwiegend {forecastDays[0].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[0].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {forecastDays[1].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[1].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Am {forecastDays[2].Date:dddd} wird das Wetter überwiegend {forecastDays[2].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[2].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Am {forecastDays[3].Date:dddd} wird das Wetter überwiegend {forecastDays[3].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[3].Temperature} Grad ist zu erwarten.");
+
+                    if (forecastDays.Count >= 5)
+                        weatherforecastString.AppendLine($"Am {forecastDays[4].Date:dddd} wird das Wetter überwiegend {forecastDays[4].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[4].Temperature} Grad ist zu erwarten.");
+                    break;
+
+                default:
+                    List<ForecastDays> allDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key, Description = fiveDaysForecastResult.GroupBy(x => x.Description).OrderByDescending(x => x.Count()).First().Key }).ToList();
+
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {allDays[0].City} überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {allDays[1].Description}. Eine durchschnittliche Tagestemperatur von {allDays[1].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Am {allDays[2].Date:dddd} wird das Wetter überwiegend {allDays[2].Description}. Eine durchschnittliche Tagestemperatur von {allDays[2].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Am {allDays[3].Date:dddd} wird das Wetter überwiegend {allDays[3].Description}. Eine durchschnittliche Tagestemperatur von {allDays[3].Temperature} Grad ist zu erwarten.");
+
+                    if (allDays.Count >= 5)
+                        weatherforecastString.AppendLine($"Am {allDays[4].Date:dddd} wird das Wetter überwiegend {allDays[4].Description}. Eine durchschnittliche Tagestemperatur von {allDays[4].Temperature} Grad ist zu erwarten.");
+                    break;
+            }
+
+            weatherforecastString.AppendLine(@"</sentence>");
+            weatherforecastString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(weatherforecastString.ToString());
         }
 
         public async Task SayWeatherToday()
@@ -283,8 +413,8 @@ namespace SmartMirror.SpeechService
             weatherTodayString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             weatherTodayString.AppendLine(@"<sentence>");
 
-            weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp} Grad Celzius Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
-            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {result.Item.WindSpeed} Metern pro Sekunde weht aus Richtung {getDirection(result.Item.WindDegree)}");
+            weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
+            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture))} Meter pro Sekunde weht aus Richtung {getDirection(result.Item.WindDegree)}");
 
             weatherTodayString.AppendLine(@"</sentence>");
             weatherTodayString.AppendLine(@"</speak>");
@@ -292,9 +422,54 @@ namespace SmartMirror.SpeechService
             await sayAsyncSsml(weatherTodayString.ToString());
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private static SpeechSynthesizer createSpeechSynthesizer()
+        {
+            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+
+            VoiceInformation voice = SpeechSynthesizer.AllVoices.SingleOrDefault(i => i.DisplayName == "Microsoft Katja") ?? SpeechSynthesizer.DefaultVoice;
+
+            synthesizer.Voice = voice;
+
+            return synthesizer;
+        }
+
+        private static DayOfWeek getDayOfWeek(string dayString)
+        {
+            switch (dayString)
+            {
+                case "monday":
+                    return DayOfWeek.Monday;
+
+                case "tuesday":
+                    return DayOfWeek.Tuesday;
+
+                case "wednesday":
+                    return DayOfWeek.Wednesday;
+
+                case "thursday":
+                    return DayOfWeek.Thursday;
+
+                case "friday":
+                    return DayOfWeek.Friday;
+
+                case "saturday":
+                    return DayOfWeek.Saturday;
+
+                case "sunday":
+                    return DayOfWeek.Sunday;
+
+                default:
+                    return DayOfWeek.Monday;
+            }
+        }
+
         private static string getDirection(double windDegree)
         {
-            if (windDegree >= 348.75 && windDegree <= 11.25)
+            if (windDegree >= 348.75 && windDegree <= 360 || windDegree >= 0 && windDegree <= 11.25)
                 return "Nord";
 
             if (windDegree > 11.25 && windDegree < 33.75)
@@ -345,6 +520,11 @@ namespace SmartMirror.SpeechService
             return "Unknown";
         }
 
+        private static DateTime getNextWeekday(DateTime start, DayOfWeek day)
+        {
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
+        }
         private static string numberToWords(int number)
         {
             if (number == 0)
@@ -393,5 +573,52 @@ namespace SmartMirror.SpeechService
 
             return words;
         }
+
+        private async Task sayAsync(string text)
+        {
+            using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeTextToStreamAsync(text))
+            {
+                MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
+                speechPlayer.Source = mediaSource;
+            }
+
+            speechPlayer.Play();
+        }
+
+        private async Task sayAsyncSsml(string ssml)
+        {
+            using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(ssml))
+            {
+                MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
+                speechPlayer.Source = mediaSource;
+            }
+
+            speechPlayer.Play();
+        }
+
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private async Task startup()
+        {
+            StringBuilder startupString = new StringBuilder();
+
+            startupString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            startupString.AppendLine(@"<sentence>");
+
+            startupString.AppendLine("Darf ich mich vorstellen ?");
+            startupString.AppendLine("<break time='500ms'/>");
+            startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
+            startupString.AppendLine("<break time='300ms'/>");
+            startupString.AppendLine("Wie kann ich dir behilflich <prosody pitch=\"high\">sein</prosody>?");
+            startupString.AppendLine("<break time='1000ms'/>");
+            startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
+
+            startupString.AppendLine(@"</sentence>");
+            startupString.AppendLine(@"</speak>");
+
+            await sayAsyncSsml(startupString.ToString());
+        }
+
+        #endregion Private Methods
+
     }
 }

@@ -1011,9 +1011,46 @@
           </one-of>
         </item>
         <item>
-          <tag> out="weatherforecast+out.day"; </tag>
           <item> wie wird das wetter </item>
-          <item> <ruleref uri="#day"/> </item>
+          <item>
+            <one-of>
+              <item>
+                morgen <tag> out = "weatherforecast tomorrow"; </tag>
+              </item>
+              <item>
+                übermorgen <tag> out = "weatherforecast dayaftertomorrow"; </tag>
+              </item>
+              <item>
+                montag <tag> out ="weatherforecast monday"; </tag>
+              </item>
+              <item>
+                dienstag <tag> out = "weatherforecast tuesday"; </tag>
+              </item>
+              <item>
+                mittwoch <tag> out = "weatherforecast wednesday"; </tag>
+              </item>
+              <item>
+                donnerstag <tag> out = "weatherforecast thursday"; </tag>
+              </item>
+              <item>
+                freitag <tag> out = " weatherforecast friday"; </tag>
+              </item>
+              <item>
+                samstag <tag> out = "weatherforecast saturday"; </tag>
+              </item>
+              <item>
+                sonntag <tag> out = "weatherforecast sonday"; </tag>
+              </item>
+              <item>
+                <tag> out = "weatherforecast all"; </tag>
+                <one-of>
+                  <item> die nächsten 5 tage </item>
+                  <item> die nächsten tage </item>
+                  <item></item>
+                </one-of>
+              </item>
+            </one-of>
+          </item>
         </item>
         <item>
           <tag> out="temperature"; </tag>
@@ -1026,6 +1063,12 @@
           <tag> out="sunrise"; </tag>
           <one-of>
             <item> um wie viel uhr geht die sonne auf </item>
+            <item> um wie viel uhr ist die sonne aufgegangen </item>
+            <item> wann geht die sonne auf </item>
+            <item> wann ging die sonne auf </item>
+            <item> wann ist die sonne aufgegangen </item>
+            <item> wann ist die sonne heute morgen aufgegangen </item>
+            <item> wann ist die sonne heute aufgegangen </item>
             <item> sonnenaufgang </item>
           </one-of>
         </item>
@@ -1033,16 +1076,18 @@
           <tag> out="sunset"; </tag>
           <one-of>
             <item> um wie viel uhr geht die sonne unter </item>
+            <item> um wie viel uhr ist die sonne untergegangen </item>
+            <item> wann geht die sonne unter </item>
+            <item> wann ging die sonne unter </item>
             <item> sonnenuntergang </item>
           </one-of>
         </item>
         <item>
-          <one-of>
-            <item> zähle bis </item>
-            <item>
-              <ruleref uri="#number"/>
-            </item>
-          </one-of>
+          <tag> out = "counter " + rules.number; </tag>
+          <item> zähle bis </item>
+          <item>
+            <ruleref uri="#number"/>
+          </item>
         </item>
         <item>
           <tag> out="quote"; </tag>
@@ -1054,6 +1099,13 @@
             <item> Spruch </item>
             <item> kluger Spruch </item>
             <item> schlauer Spruch </item>
+            <item> sage ein Zitat </item>
+            <item> erzähle ein Zitat </item>
+            <item> sage bitte ein Zitat </item>
+            <item> erzähle bitte ein Zitat </item>
+            <item> Zitat </item>
+            <item> kluges Zitat </item>
+            <item> schlaues Zitat </item>
           </one-of>
         </item>
         <item>
@@ -1068,6 +1120,18 @@
             <item> erzähle einen lustigen Witz </item>
             <item> erzähle lustigen Witz </item>
             <item> Witz zum totlachen </item>
+          </one-of>
+        </item>
+        <item>
+          <tag> out="creator"; </tag>
+          <one-of>
+            <item> wer ist dein schaffer </item>
+            <item> wer ist dein erschöpfer </item>
+            <item> wer ist dein schöpfer </item>
+            <item> wer hat dich erschaffen </item>
+            <item> wer erschaffte dich einst </item>
+            <item> wer ist dein Vater </item>
+            <item> wer sind deine Eltern </item>
           </one-of>
         </item>
       </one-of>
@@ -1091,176 +1155,71 @@
   <rule id="number">
     <example> zehn </example>
     <example> sieben und vierzig </example>
-    <example> acht hundert vierzig </example>
-    <example> acht hundert und vierzig </example>
-    <example> vier hundert sieben und dreißig </example>
+    <example> hundert </example>
 
     <item>
       <one-of>
-        <!--Zahlen von 0-20, 30, 40, 50, 60, 70, 80, 90, 100, 1000-->
+        <!--Zahlen von 0-20, 30, 40, 50, 60, 70, 80, 90, 100-->
         <item>
+          <tag> out.number = rules.singlenumbers; </tag>
           <ruleref uri="#singlenumbers"/>
-          <tag> out.numbers="rules.latest()"; </tag>
         </item>
         <!--Zahlen von 21-99-->
         <item>
+          <tag> out = rules.tenners + rules.singlecharacter; </tag>
           <item>
             <ruleref uri="#singlecharacter"/>
-            <tag> out.end="rules.latest()"; </tag>
           </item>
           <item repeat="0-1"> und </item>
           <item>
             <ruleref uri="#tenners"/>
-            <tag> out.start="rules.latest()"; </tag>
           </item>
-          <tag> out.numbers="out.start+out.end"; </tag>
-        </item>
-        <!--Zahlen von 100-999-->
-        <item>
-          <one-of>
-            <!--Zahlen von 101-109, 201-209, 301-309, 401-409, 501-509, 601-609, 701-709, 801-809, 901-909 -->
-            <item>
-              <item>
-                <ruleref uri="#singlecharacter"/>
-                <tag> out.start="rules.latest()"; </tag>
-              </item>
-              <item> hundert </item>
-              <item repeat="0-1"> und </item>
-              <item>
-                <ruleref uri="#singlecharacter"/>
-                <tag> out.end="rules.latest()"; </tag>
-              </item>
-              <tag> out.numbers="out.start+0+out.end" </tag>
-            </item>
-            <!--Zahlen 100, 200, 300, 400, 500, 600, 700, 800, 900 -->
-            <item>
-              <item>
-                <ruleref uri="#singlecharacter"/>
-                <tag> out.start="rules.latest()"; </tag>
-              </item>
-              <item> hundert </item>
-              <tag> out.numbers="out.start+00"; </tag>
-            </item>
-            <!--Zahlen von 110-199, 210-299, ..., 910-999,-->
-            <item>
-              <item>
-                <ruleref uri="#singlecharacter"/>
-                <tag> out.start="rules.latest()"; </tag>
-              </item>
-              <item> hundert </item>
-              <item repeat="0-1"> und </item>
-              <one-of>
-                <!--Zahlen von 10-20 -->
-                <item>
-                  <ruleref uri="#strippedsinglenumbers"/>
-                  <tag> out.last="rules.latest()"; </tag>
-                </item>
-                <!--Zahlen von 21-99-->
-                <item>
-                  <item>
-                    <ruleref uri="#singlecharacter"/>
-                    <tag> out.end="rules.latest()"; </tag>
-                  </item>
-                  <item repeat="0-1"> und </item>
-                  <item>
-                    <ruleref uri="#tenners"/>
-                    <tag> out.begin="rules.latest()"; </tag>
-                  </item>
-                  <tag> out.last="out.begin+out.end"; </tag>
-                </item>
-              </one-of>
-              <tag> out.numbers="out.start+out.last"; </tag>
-            </item>
-          </one-of>
         </item>
       </one-of>
     </item>
   </rule>
   
   <rule id="singlenumbers">
+    <example> null </example>
     <example> eins </example>
 
     <item>
       <one-of>
-        <item> null <tag> out="0"; </tag></item>
-        <item> eins <tag> out="1"; </tag></item>
-        <item> ein <tag> out="1"; </tag></item>
-        <item> zwei <tag> out="2"; </tag></item>
-        <item> drei <tag> out="3"; </tag></item>
-        <item> vier <tag> out="4"; </tag></item>
-        <item> fünf <tag> out="5"; </tag></item>
-        <item> sechs <tag> out="6"; </tag></item>
-        <item> sieben <tag> out="7"; </tag></item>
-        <item> acht <tag> out="8"; </tag></item>
-        <item> neun <tag> out="9"; </tag></item>
-        <item> zehn <tag> out="10"; </tag></item>
-        <item> elf <tag> out="11"; </tag></item>
-        <item> zwölf <tag> out="12"; </tag></item>
-        <item> dreizehn <tag> out="13"; </tag></item>
-        <item> vierzehn <tag> out="14"; </tag></item>
-        <item> fünfzehn <tag> out="15"; </tag></item>
-        <item> sechzehn <tag> out="16"; </tag></item>
-        <item> siebzehn <tag> out="17"; </tag></item>
-        <item> achtzehn <tag> out="18"; </tag></item>
-        <item> neunzehn <tag> out="19"; </tag></item>
-        <item> zwanzig <tag> out="20"; </tag></item>
-        <item> dreißig <tag> out="30"; </tag></item>
-        <item> vierzig <tag> out="40"; </tag></item>
-        <item> fünfzig <tag> out="50"; </tag></item>
-        <item> sechzig <tag> out="60"; </tag></item>
-        <item> siebzig <tag> out="70"; </tag></item>
-        <item> achtzig <tag> out="80"; </tag></item>
-        <item> neunzig <tag> out="90"; </tag></item>
-        <item> hundert <tag> out="100"; </tag></item>
-        <item> tausend <tag> out="1000"; </tag></item>
-      </one-of>
-    </item>
-  </rule>
-
-  <rule id="strippedsinglenumbers">
-    <example> zehn </example>
-
-    <item>
-      <one-of>
-        <item>
-          zehn <tag> out="10"; </tag>
-        </item>
-        <item>
-          elf <tag> out="11"; </tag>
-        </item>
-        <item>
-          zwölf <tag> out="12"; </tag>
-        </item>
-        <item>
-          dreizehn <tag> out="13"; </tag>
-        </item>
-        <item>
-          vierzehn <tag> out="14"; </tag>
-        </item>
-        <item>
-          fünfzehn <tag> out="15"; </tag>
-        </item>
-        <item>
-          sechzehn <tag> out="16"; </tag>
-        </item>
-        <item>
-          siebzehn <tag> out="17"; </tag>
-        </item>
-        <item>
-          achtzehn <tag> out="18"; </tag>
-        </item>
-        <item>
-          neunzehn <tag> out="19"; </tag>
-        </item>
-        <item>
-          zwanzig <tag> out="20"; </tag>
-        </item>
+        <item> null <tag> out.singlenumbers = "0"; </tag></item>
+        <item> eins <tag> out = "1"; </tag></item>
+        <item> zwei <tag> out = "2"; </tag></item>
+        <item> drei <tag> out.numbers="3"; </tag></item>
+        <item> vier <tag> out.numbers="4"; </tag></item>
+        <item> fünf <tag> out.numbers="5"; </tag></item>
+        <item> sechs <tag> out.numbers="6"; </tag></item>
+        <item> sieben <tag> out.numbers="7"; </tag></item>
+        <item> acht <tag> out.numbers="8"; </tag></item>
+        <item> neun <tag> out.numbers="9"; </tag></item>
+        <item> zehn <tag> out.numbers="10"; </tag></item>
+        <item> elf <tag> out.numbers="11"; </tag></item>
+        <item> zwölf <tag> out.numbers="12"; </tag></item>
+        <item> dreizehn <tag> out.numbers="13"; </tag></item>
+        <item> vierzehn <tag> out.numbers="14"; </tag></item>
+        <item> fünfzehn <tag> out.numbers="15"; </tag></item>
+        <item> sechzehn <tag> out.numbers="16"; </tag></item>
+        <item> siebzehn <tag> out.numbers="17"; </tag></item>
+        <item> achtzehn <tag> out.numbers="18"; </tag></item>
+        <item> neunzehn <tag> out.numbers="19"; </tag></item>
+        <item> zwanzig <tag> out.numbers="20"; </tag></item>
+        <item> dreißig <tag> out.numbers="30"; </tag></item>
+        <item> vierzig <tag> out.numbers="40"; </tag></item>
+        <item> fünfzig <tag> out.numbers="50"; </tag></item>
+        <item> sechzig <tag> out.numbers="60"; </tag></item>
+        <item> siebzig <tag> out.numbers="70"; </tag></item>
+        <item> achtzig <tag> out.numbers="80"; </tag></item>
+        <item> neunzig <tag> out.numbers="90"; </tag></item>
+        <item> hundert <tag> out.numbers="100"; </tag></item>
       </one-of>
     </item>
   </rule>
 
   <rule id="singlecharacter">
-    <example> eins </example>
+    <example> ein </example>
 
     <item>
       <one-of>
@@ -1324,26 +1283,6 @@
         <item>
           neunzig <tag> out="9"; </tag>
         </item>
-      </one-of>
-    </item>
-  </rule>
-
-  <!--Wochentage-->
-  <rule id="day">
-    <example> morgen </example>
-    <example> dienstag </example>
-
-    <item>
-      <one-of>
-        <item> morgen <tag> out.day="tomorrow" </tag> </item>
-        <item> übermorgen <tag> out.day="day after tomorrow" </tag> </item>
-        <item> montag <tag> out.day="monday" </tag> </item>
-        <item> dienstag <tag> out.day="tuesday" </tag> </item>
-        <item> mittwoch <tag> out.day="wednesday" </tag> </item>
-        <item> donnerstag <tag> out.day="thursday" </tag> </item>
-        <item> freitag <tag> out.day="friday" </tag> </item>
-        <item> samstag <tag> out.day="saturday" </tag> </item>
-        <item> sonntag <tag> out.day="sonday" </tag> </item>
       </one-of>
     </item>
   </rule>

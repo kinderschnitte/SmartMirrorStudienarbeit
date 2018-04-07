@@ -34,6 +34,7 @@
         SPEECH_RANDOM,
         SPEECH_JOKE,
         SPEECH_QUOTE,
+        SPEECH_CREATOR,
         UNKNOWN
     }
 }

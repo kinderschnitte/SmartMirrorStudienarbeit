@@ -10,6 +10,8 @@ namespace SmartMirrorServer.Objects.Moduls.Weather
 
         public DateTime Date { get; set; }
 
+        public string Description { get; set; }
+
         public double Temperature { get; set; }
 
         public double MinTemp { get; set; }
