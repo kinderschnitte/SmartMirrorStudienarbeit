@@ -26,5 +26,12 @@ namespace SmartMirror.Features.FootballResults
         public Team TeamOne { get; set; }
 
         public Team TeamTwo { get; set; }
+
+        public Match()
+        {
+            Goals = new List<Goal>();
+
+            MatchResults = new List<MatchResult>();
+        }
     }
 }
