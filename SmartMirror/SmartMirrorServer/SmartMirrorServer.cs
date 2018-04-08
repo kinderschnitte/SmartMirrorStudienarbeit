@@ -15,9 +15,10 @@ using NewsAPI.Models;
 using SmartMirrorServer.Enums;
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Extensions;
+using SmartMirrorServer.Features.Quote;
+using SmartMirrorServer.Features.SunTimes;
+using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.Objects;
-using SmartMirrorServer.Objects.Moduls;
-using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirrorServer
 {
@@ -150,9 +151,9 @@ namespace SmartMirrorServer
             return topheadlines;
         }
 
-        private static QuoteOfDay getQuoteOfDay()
+        private static Quote getQuoteOfDay()
         {
-            return HelperMethods.QuoteOfDay.GetQuoteOfDay();
+            return QuoteHelper.GetQuoteOfDay();
         }
 
         private static void newsModul(Module module)

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperMethods;
-using SmartMirrorServer.Objects.Moduls.Weather;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {

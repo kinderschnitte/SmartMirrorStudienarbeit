@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.HelperMethods;
-using SmartMirrorServer.Objects.Moduls;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {

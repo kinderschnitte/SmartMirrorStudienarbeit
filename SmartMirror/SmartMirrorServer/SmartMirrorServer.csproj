@@ -112,21 +112,34 @@
     <Compile Include="Extensions\RequestExtensionClass.cs" />
     <Compile Include="Extensions\StringBuilderExtensionClass.cs" />
     <Compile Include="Extensions\StringExtensionClass.cs" />
-    <Compile Include="HelperMethods\CalcSunTimes.cs" />
+    <Compile Include="Features\FootballResults\FootballMatchdayResults.cs" />
+    <Compile Include="Features\FootballResults\FootballMatchResult.cs" />
+    <Compile Include="Features\FootballResults\FootballTable.cs" />
+    <Compile Include="Features\FootballResults\FootballXmlDeserializer.cs" />
+    <Compile Include="Features\FootballResults\Goal.cs" />
+    <Compile Include="Features\FootballResults\GoalGetter.cs" />
+    <Compile Include="Features\FootballResults\Group.cs" />
+    <Compile Include="Features\FootballResults\Location.cs" />
+    <Compile Include="Features\FootballResults\Match.cs" />
+    <Compile Include="Features\FootballResults\Matchday.cs" />
+    <Compile Include="Features\FootballResults\MatchResult.cs" />
+    <Compile Include="Features\FootballResults\TableTeam.cs" />
+    <Compile Include="Features\FootballResults\Team.cs" />
+    <Compile Include="Features\SunTimes\CalcSunTimes.cs" />
     <Compile Include="HelperMethods\FileHelperClass.cs" />
-    <Compile Include="HelperMethods\QuoteOfDay.cs" />
+    <Compile Include="Features\Quote\QuoteHelper.cs" />
     <Compile Include="HelperMethods\WeatherHelperClass.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Objects\Module.cs" />
-    <Compile Include="Objects\Moduls\Sun.cs" />
-    <Compile Include="Objects\Moduls\Weather\ForecastDays.cs" />
+    <Compile Include="Features\SunTimes\Sun.cs" />
+    <Compile Include="Features\Weather\ForecastDays.cs" />
     <Compile Include="Objects\Notifications.cs" />
     <Compile Include="Objects\Query.cs" />
-    <Compile Include="Objects\QuoteOfDay.cs" />
+    <Compile Include="Features\Quote\Quote.cs" />
     <Compile Include="Objects\Request.cs" />
-    <Compile Include="Objects\Sun\Coords.cs" />
-    <Compile Include="Objects\Sun\LatitudeCoords.cs" />
-    <Compile Include="Objects\Sun\LongitudeCoords.cs" />
+    <Compile Include="Features\SunTimes\Coords.cs" />
+    <Compile Include="Features\SunTimes\LatitudeCoords.cs" />
+    <Compile Include="Features\SunTimes\LongitudeCoords.cs" />
     <Compile Include="RequestHandler\Site.cs" />
     <Compile Include="RequestHandler\Sites\News.cs" />
     <Compile Include="RequestHandler\Sites\Settings.cs" />
@@ -144,15 +157,15 @@
     <Compile Include="SmartMirrorServer.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Objects\Moduls\Weather\ApiClient.cs" />
-    <Compile Include="Objects\Moduls\Weather\CurrentWeather.cs" />
-    <Compile Include="Objects\Moduls\Weather\CurrentWeatherResult.cs" />
-    <Compile Include="Objects\Moduls\Weather\Deserializer.cs" />
-    <Compile Include="Objects\Moduls\Weather\FiveDaysForecast.cs" />
-    <Compile Include="Objects\Moduls\Weather\FiveDaysForecastResult.cs" />
-    <Compile Include="Objects\Moduls\Weather\Result.cs" />
-    <Compile Include="Objects\Moduls\Weather\TimeHelper.cs" />
-    <Compile Include="Objects\Moduls\Weather\WeatherResult.cs" />
+    <Compile Include="Features\Weather\ApiClient.cs" />
+    <Compile Include="Features\Weather\CurrentWeather.cs" />
+    <Compile Include="Features\Weather\CurrentWeatherResult.cs" />
+    <Compile Include="Features\Weather\Deserializer.cs" />
+    <Compile Include="Features\Weather\FiveDaysForecast.cs" />
+    <Compile Include="Features\Weather\FiveDaysForecastResult.cs" />
+    <Compile Include="Features\Weather\Result.cs" />
+    <Compile Include="Features\Weather\TimeHelper.cs" />
+    <Compile Include="Features\Weather\WeatherResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SmartMirrorServer_TemporaryKey.pfx" />
@@ -221,8 +234,6 @@
     <Content Include="Websites\light.html" />
     <Content Include="Websites\settings.html" />
     <Content Include="Websites\home.html" />
-    <Content Include="XML\weather.xml" />
-    <Content Include="XML\weatherforecast.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="lightbuzz-smtp">
@@ -241,7 +252,9 @@
       <Version>3.1.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Features\News\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>

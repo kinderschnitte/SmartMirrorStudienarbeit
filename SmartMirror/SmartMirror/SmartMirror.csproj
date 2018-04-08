@@ -96,16 +96,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\FootballResults\FootballMatchdayResults.cs" />
-    <Compile Include="Features\FootballResults\FootballMatchResult.cs" />
-    <Compile Include="Features\FootballResults\FootballTable.cs" />
-    <Compile Include="Features\FootballResults\FootballXmlDeserializer.cs" />
-    <Compile Include="Features\FootballResults\Goal.cs" />
-    <Compile Include="Features\FootballResults\Group.cs" />
-    <Compile Include="Features\FootballResults\Location.cs" />
-    <Compile Include="Features\FootballResults\Match.cs" />
-    <Compile Include="Features\FootballResults\MatchResult.cs" />
-    <Compile Include="Features\FootballResults\Team.cs" />
     <Compile Include="HelperClasses\DateTimeHelper.cs" />
     <Compile Include="HelperClasses\DayOfWeekHelper.cs" />
     <Compile Include="HelperClasses\NumberHelper.cs" />

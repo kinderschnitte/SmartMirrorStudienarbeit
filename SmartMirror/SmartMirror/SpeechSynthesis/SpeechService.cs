@@ -12,8 +12,8 @@ using SmartMirror.Features.Quote;
 using SmartMirror.HelperClasses;
 using SmartMirror.SpeechRecognition;
 using SmartMirrorServer;
-using SmartMirrorServer.Objects.Moduls;
-using SmartMirrorServer.Objects.Moduls.Weather;
+using SmartMirrorServer.Features.SunTimes;
+using SmartMirrorServer.Features.Weather;
 
 namespace SmartMirror.SpeechSynthesis
 {

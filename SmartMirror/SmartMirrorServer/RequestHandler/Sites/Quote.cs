@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using SmartMirrorServer.HelperMethods;
-using QuoteOfDay = SmartMirrorServer.Objects.QuoteOfDay;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -26,7 +25,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 if (!Application.Data.TryGetValue(Application.StorageData.QuoteModul, out dynamic r))
                     return Encoding.UTF8.GetBytes(page);
 
-                QuoteOfDay result = (QuoteOfDay)r;
+                Features.Quote.Quote result = (Features.Quote.Quote)r;
 
                 foreach (string line in file)
                 {

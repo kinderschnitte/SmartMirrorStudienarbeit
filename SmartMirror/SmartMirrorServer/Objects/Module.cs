@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using NewsAPI.Constants;
 using SmartMirrorServer.Enums;
-using SmartMirrorServer.Objects.Sun;
+using SmartMirrorServer.Features.SunTimes;
 
 namespace SmartMirrorServer.Objects
 {

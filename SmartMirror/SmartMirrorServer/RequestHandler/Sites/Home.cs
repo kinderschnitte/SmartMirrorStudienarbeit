@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using NewsAPI.Models;
 using SmartMirrorServer.Enums;
+using SmartMirrorServer.Features.SunTimes;
+using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperMethods;
 using SmartMirrorServer.Objects;
-using SmartMirrorServer.Objects.Moduls;
-using SmartMirrorServer.Objects.Moduls.Weather;
-using QuoteOfDay = SmartMirrorServer.Objects.QuoteOfDay;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -116,7 +115,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             if (!Application.Data.TryGetValue(module, out dynamic r))
                 return string.Empty;
 
-            QuoteOfDay result = (QuoteOfDay) r;
+            Features.Quote.Quote result = (Features.Quote.Quote) r;
 
             StringBuilder stringBuilder = new StringBuilder();
 

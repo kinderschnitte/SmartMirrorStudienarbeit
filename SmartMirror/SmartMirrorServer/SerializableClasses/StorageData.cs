@@ -2,8 +2,8 @@
 using System.Runtime.Serialization;
 using NewsAPI.Constants;
 using SmartMirrorServer.Enums;
+using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.Objects;
-using SmartMirrorServer.Objects.Sun;
 
 namespace SmartMirrorServer.SerializableClasses
 {
