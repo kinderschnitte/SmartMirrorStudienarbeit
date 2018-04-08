@@ -5,7 +5,7 @@ using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
 using Windows.Storage;
 
-namespace SmartMirror.SpeechRecognitionManager
+namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
 {
     public class SpeechRecognitionManager
     {

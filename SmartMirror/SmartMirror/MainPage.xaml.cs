@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using SmartMirror.SpeechSynthesis;
 
 namespace SmartMirror
 {
@@ -11,7 +12,7 @@ namespace SmartMirror
     internal partial class MainPage
     {
         private readonly SpeechRecognition.SpeechRecognition speechRecognition;
-        public SpeechService.SpeechService SpeechService { get; }
+        public SpeechService SpeechService { get; }
 
         public MainPage()
         {
@@ -25,7 +26,7 @@ namespace SmartMirror
 
             speechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
 
-            SpeechService = new SpeechService.SpeechService();
+            SpeechService = new SpeechService();
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

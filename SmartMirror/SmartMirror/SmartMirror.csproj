@@ -96,21 +96,34 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\Message.cs" />
-    <Compile Include="HelperClasses\Joke.cs" />
-    <Compile Include="HelperClasses\QuoteOfDay.cs" />
-    <Compile Include="HelperClasses\SpeechHelper.cs" />
+    <Compile Include="Features\FootballResults\FootballMatchdayResults.cs" />
+    <Compile Include="Features\FootballResults\FootballMatchResult.cs" />
+    <Compile Include="Features\FootballResults\FootballTable.cs" />
+    <Compile Include="Features\FootballResults\FootballXmlDeserializer.cs" />
+    <Compile Include="Features\FootballResults\Goal.cs" />
+    <Compile Include="Features\FootballResults\Group.cs" />
+    <Compile Include="Features\FootballResults\Location.cs" />
+    <Compile Include="Features\FootballResults\Match.cs" />
+    <Compile Include="Features\FootballResults\MatchResult.cs" />
+    <Compile Include="Features\FootballResults\Team.cs" />
+    <Compile Include="HelperClasses\DateTimeHelper.cs" />
+    <Compile Include="HelperClasses\DayOfWeekHelper.cs" />
+    <Compile Include="HelperClasses\NumberHelper.cs" />
+    <Compile Include="HelperClasses\WindDirectionHelper.cs" />
+    <Compile Include="SpeechRecognition\Message.cs" />
+    <Compile Include="Features\Joke\JokeHelper.cs" />
+    <Compile Include="Features\Quote\QuoteHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Joke.cs" />
-    <Compile Include="Objects\QuoteOfDay.cs" />
-    <Compile Include="Objects\RecognizedSpeech.cs" />
+    <Compile Include="Features\Joke\Joke.cs" />
+    <Compile Include="Features\Quote\Quote.cs" />
+    <Compile Include="SpeechRecognition\RecognizedSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpeechRecognitionManager\SpeechRecognitionExtensions.cs" />
-    <Compile Include="SpeechRecognitionManager\SpeechRecognitionManager.cs" />
+    <Compile Include="SpeechRecognition\SpeechRecognitionManager\SpeechRecognitionExtensions.cs" />
+    <Compile Include="SpeechRecognition\SpeechRecognitionManager\SpeechRecognitionManager.cs" />
     <Compile Include="SpeechRecognition\SpeechRecognition.cs" />
-    <Compile Include="SpeechService\SpeechService.cs" />
+    <Compile Include="SpeechSynthesis\SpeechService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -154,6 +167,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

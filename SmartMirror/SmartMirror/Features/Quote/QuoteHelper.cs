@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
-namespace SmartMirror.HelperClasses
+namespace SmartMirror.Features.Quote
 {
-    internal static class QuoteOfDay
+    internal static class QuoteHelper
     {
-        public static Objects.QuoteOfDay GetQuoteOfDay()
+        public static Quote GetQuoteOfDay()
         {
             string fileList = getCsv();
 
@@ -15,7 +15,7 @@ namespace SmartMirror.HelperClasses
 
             List<string> splitted = tempStr.Where(item => !string.IsNullOrWhiteSpace(item)).ToList();
 
-            return splitted.Count > 1 ? new Objects.QuoteOfDay {Author = splitted[1], Text = splitted[0]} : new Objects.QuoteOfDay {Author = "", Text = splitted[0]};
+            return splitted.Count > 1 ? new Quote {Author = splitted[1], Text = splitted[0]} : new Quote {Author = "", Text = splitted[0]};
         }
 
         private static string getCsv()

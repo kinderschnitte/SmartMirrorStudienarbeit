@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-using SmartMirror.Objects;
+using SmartMirror.Features.Joke;
+using SmartMirror.Features.Quote;
+using SmartMirror.HelperClasses;
+using SmartMirror.SpeechRecognition;
 using SmartMirrorServer;
 using SmartMirrorServer.Objects.Moduls;
 using SmartMirrorServer.Objects.Moduls.Weather;
 
-namespace SmartMirror.SpeechService
+namespace SmartMirror.SpeechSynthesis
 {
     internal class SpeechService
     {
@@ -52,13 +55,13 @@ namespace SmartMirror.SpeechService
             {
                 if (i == 0)
                 {
-                    countdownString.AppendLine($"<prosody rate =\"-30%\">{numberToWords(i)}</prosody>.");
+                    countdownString.AppendLine($"<prosody rate =\"-30%\">{NumberHelper.NumberToWords(i)}</prosody>.");
                     countdownString.AppendLine("<break time='500ms'/>");
                     countdownString.AppendLine("Die Zeit ist abgelaufen. Countdown beendet.");
                 }
                 else
                 {
-                    countdownString.AppendLine(numberToWords(i));
+                    countdownString.AppendLine(NumberHelper.NumberToWords(i));
                     countdownString.AppendLine("<break time='1000ms'/>");
                 }
             }
@@ -80,13 +83,13 @@ namespace SmartMirror.SpeechService
             {
                 if (i == toNumber)
                 {
-                    countToString.AppendLine($"<prosody rate =\"-30%\">{numberToWords(i)}</prosody>.");
+                    countToString.AppendLine($"<prosody rate =\"-30%\">{NumberHelper.NumberToWords(i)}</prosody>.");
                     countToString.AppendLine("<break time='500ms'/>");
                     countToString.AppendLine("Zielnummer erreicht.");
                 }
                 else
                 {
-                    countToString.AppendLine(numberToWords(i));
+                    countToString.AppendLine(NumberHelper.NumberToWords(i));
                     countToString.AppendLine("<break time='1000ms'/>");
                 }
             }
@@ -130,7 +133,7 @@ namespace SmartMirror.SpeechService
 
         public async Task SayJoke()
         {
-            Joke joke = HelperClasses.Joke.GetJoke();
+            Joke joke = JokeHelper.GetJoke();
 
             StringBuilder jokeString = new StringBuilder();
 
@@ -203,7 +206,7 @@ namespace SmartMirror.SpeechService
 
         public async Task SayQuote()
         {
-            QuoteOfDay quote = HelperClasses.QuoteOfDay.GetQuoteOfDay();
+            Quote quote = QuoteHelper.GetQuoteOfDay();
 
             StringBuilder quoteString = new StringBuilder();
 
@@ -228,7 +231,7 @@ namespace SmartMirror.SpeechService
             nameString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             nameString.AppendLine(@"<sentence>");
 
-            nameString.AppendLine($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{numberToWords(randomNumber)}</prosody>.");
+            nameString.AppendLine($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{NumberHelper.NumberToWords(randomNumber)}</prosody>.");
 
             nameString.AppendLine(@"</sentence>");
             nameString.AppendLine(@"</speak>");
@@ -245,7 +248,7 @@ namespace SmartMirror.SpeechService
             sunriseString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             sunriseString.AppendLine(@"<sentence>");
 
-            int time = DateTime.Compare(DateTime.ParseExact(sun.Sunrise, "H:mm", null, System.Globalization.DateTimeStyles.None), DateTime.Now);
+            int time = DateTime.Compare(DateTime.ParseExact(sun.Sunrise, "H:mm", null, DateTimeStyles.None), DateTime.Now);
 
             if (time != -1)
             {
@@ -276,7 +279,7 @@ namespace SmartMirror.SpeechService
             sunsetString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             sunsetString.AppendLine(@"<sentence>");
 
-            int time = DateTime.Compare(DateTime.ParseExact(sun.Sunset, "H:mm", null, System.Globalization.DateTimeStyles.None), DateTime.Now);
+            int time = DateTime.Compare(DateTime.ParseExact(sun.Sunset, "H:mm", null, DateTimeStyles.None), DateTime.Now);
 
             if (time != -1)
             {
@@ -343,7 +346,7 @@ namespace SmartMirror.SpeechService
                 case "friday":
                 case "saturday":
                 case "sunday":
-                    int weekDay = result.IndexOf(result.First(x => x[0].Date.DayOfWeek == getNextWeekday(DateTime.Now, getDayOfWeek(recognizedSpeech.SemanticText.Split(' ')[1])).DayOfWeek));
+                    int weekDay = result.IndexOf(result.First(x => x[0].Date.DayOfWeek == DateTimeHelper.GetNextWeekday(DateTime.Now, DayOfWeekHelper.GetDayOfWeek(recognizedSpeech.SemanticText.Split(' ')[1])).DayOfWeek));
 
                     if (result[weekDay].Count < 4)
                     {
@@ -414,7 +417,7 @@ namespace SmartMirror.SpeechService
             weatherTodayString.AppendLine(@"<sentence>");
 
             weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
-            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture))} Meter pro Sekunde weht aus Richtung {getDirection(result.Item.WindDegree)}");
+            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
 
             weatherTodayString.AppendLine(@"</sentence>");
             weatherTodayString.AppendLine(@"</speak>");
@@ -435,143 +438,6 @@ namespace SmartMirror.SpeechService
             synthesizer.Voice = voice;
 
             return synthesizer;
-        }
-
-        private static DayOfWeek getDayOfWeek(string dayString)
-        {
-            switch (dayString)
-            {
-                case "monday":
-                    return DayOfWeek.Monday;
-
-                case "tuesday":
-                    return DayOfWeek.Tuesday;
-
-                case "wednesday":
-                    return DayOfWeek.Wednesday;
-
-                case "thursday":
-                    return DayOfWeek.Thursday;
-
-                case "friday":
-                    return DayOfWeek.Friday;
-
-                case "saturday":
-                    return DayOfWeek.Saturday;
-
-                case "sunday":
-                    return DayOfWeek.Sunday;
-
-                default:
-                    return DayOfWeek.Monday;
-            }
-        }
-
-        private static string getDirection(double windDegree)
-        {
-            if (windDegree >= 348.75 && windDegree <= 360 || windDegree >= 0 && windDegree <= 11.25)
-                return "Nord";
-
-            if (windDegree > 11.25 && windDegree < 33.75)
-                return "Nord Nord Ost";
-
-            if (windDegree >= 33.75 && windDegree <= 56.25)
-                return "Nord Ost";
-
-            if (windDegree > 56.25 && windDegree < 78.75)
-                return "Ost Nord Ost";
-
-            if (windDegree >= 78.75 && windDegree <= 101.25)
-                return "Ost";
-
-            if (windDegree > 101.25 && windDegree < 123.75)
-                return "Ost Süd Ost";
-
-            if (windDegree >= 123.75 && windDegree <= 146.25)
-                return "Süd Ost";
-
-            if (windDegree > 146.25 && windDegree < 168.75)
-                return "Süd Süd Ost";
-
-            if (windDegree >= 168.75 && windDegree <= 191.25)
-                return "Süd";
-
-            if (windDegree > 191.25 && windDegree < 213.75)
-                return "Süd Süd West";
-
-            if (windDegree >= 213.75 && windDegree <= 236.25)
-                return "Süd West";
-
-            if (windDegree > 236.25 && windDegree < 258.75)
-                return "West Süd West";
-
-            if (windDegree >= 258.75 && windDegree <= 291.25)
-                return "West";
-
-            if (windDegree > 291.25 && windDegree < 303.75)
-                return "West Nord West";
-
-            if (windDegree >= 303.75 && windDegree <= 326.25)
-                return "Nord West";
-
-            if (windDegree > 326.25 && windDegree < 348.75)
-                return "Nord Nord West";
-
-            return "Unknown";
-        }
-
-        private static DateTime getNextWeekday(DateTime start, DayOfWeek day)
-        {
-            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
-            return start.AddDays(daysToAdd);
-        }
-        private static string numberToWords(int number)
-        {
-            if (number == 0)
-                return "null";
-
-            if (number < 0)
-                return "minus " + numberToWords(Math.Abs(number));
-
-            string words = "";
-
-            if (number / 1000000 > 0)
-            {
-                words += numberToWords(number / 1000000) + " millionen ";
-                number %= 1000000;
-            }
-
-            if (number / 1000 > 0)
-            {
-                words += numberToWords(number / 1000) + " tausend ";
-                number %= 1000;
-            }
-
-            if (number / 100 > 0)
-            {
-                words += numberToWords(number / 100) + " hundert ";
-                number %= 100;
-            }
-
-            if (number <= 0)
-                return words;
-
-            if (words != "")
-                words += "und ";
-
-            string[] unitsMap = { "null", "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf", "dreizehn", "vierzehn", "fünfzehn", "sechzehn", "siebzehn", "achtzehn", "neunzehn" };
-            string[] tensMap = { "null", "zehn", "zwanzig", "dreißig", "vierzig", "fünfzig", "sechzig", "siebzig", "achtzig", "neunzig" };
-
-            if (number < 20)
-                words += unitsMap[number];
-            else
-            {
-                words += tensMap[number / 10];
-                if (number % 10 > 0)
-                    words += "-" + unitsMap[number % 10];
-            }
-
-            return words;
         }
 
         private async Task sayAsync(string text)

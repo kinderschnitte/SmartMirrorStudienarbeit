@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Media.SpeechRecognition;
 
-namespace SmartMirror.SpeechRecognitionManager
+namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
 {
     public static class SpeechRecognitionExtensions
     {

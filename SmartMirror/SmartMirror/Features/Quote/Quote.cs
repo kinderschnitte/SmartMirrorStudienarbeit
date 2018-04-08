@@ -1,6 +1,6 @@
-﻿namespace SmartMirror.Objects
+﻿namespace SmartMirror.Features.Quote
 {
-    internal class QuoteOfDay
+    internal class Quote
     {
         public string Author { get; set; }
 

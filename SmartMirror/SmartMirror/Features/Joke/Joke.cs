@@ -1,4 +1,4 @@
-﻿namespace SmartMirror.Objects
+﻿namespace SmartMirror.Features.Joke
 {
     internal class Joke
     {

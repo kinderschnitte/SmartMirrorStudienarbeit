@@ -1,4 +1,4 @@
-﻿namespace SmartMirror.Enums
+﻿namespace SmartMirror.SpeechRecognition
 {
     public enum Message
     {

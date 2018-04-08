@@ -2,9 +2,7 @@
 using System.Diagnostics;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
-using SmartMirror.Enums;
-using SmartMirror.Objects;
-using SmartMirror.SpeechRecognitionManager;
+using SmartMirror.SpeechRecognition.SpeechRecognitionManager;
 
 namespace SmartMirror.SpeechRecognition
 {
@@ -26,7 +24,7 @@ namespace SmartMirror.SpeechRecognition
 
         public async void StopRecognizing()
         {
-            await speechRecognizer.Dispose();
+            await SpeechRecognitionExtensions.Dispose(speechRecognizer);
         }
 
         public async void StartRecognizing()

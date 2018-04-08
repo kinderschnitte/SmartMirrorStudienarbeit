@@ -2,18 +2,18 @@
 using System.Net.Http;
 using System.Xml;
 
-namespace SmartMirror.HelperClasses
+namespace SmartMirror.Features.Joke
 {
-    internal static class Joke
+    internal static class JokeHelper
     {
-        public static Objects.Joke GetJoke()
+        public static Joke GetJoke()
         {
             string fileList = getXml();
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(fileList);
 
-            Objects.Joke joke = new Objects.Joke
+            Joke joke = new Joke
             {
                 Title = xmlDocument.GetElementsByTagName("item").Item(0).ChildNodes.Item(0).InnerText,
                 Description = xmlDocument.GetElementsByTagName("item").Item(0).ChildNodes.Item(1).InnerText.Replace("<br>", "").Replace("</br>", " ").Replace(@"\n", " ").Replace("\"", " ").Replace(@"\", "").Trim()

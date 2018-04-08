@@ -1,7 +1,6 @@
 ﻿using Windows.Media.SpeechRecognition;
-using SmartMirror.Enums;
 
-namespace SmartMirror.Objects
+namespace SmartMirror.SpeechRecognition
 {
     internal class RecognizedSpeech
     {
