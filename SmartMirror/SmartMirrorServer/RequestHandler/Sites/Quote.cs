@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
 using SmartMirrorServer.HelperMethods;
 
 namespace SmartMirrorServer.RequestHandler.Sites
@@ -22,7 +24,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\quote.html");
 
-                if (!Application.Data.TryGetValue(Application.StorageData.QuoteModul, out dynamic r))
+                if (!Application.Data.TryGetValue(DataAccess.GetModule(Modules.QUOTE), out dynamic r))
                     return Encoding.UTF8.GetBytes(page);
 
                 Features.Quote.Quote result = (Features.Quote.Quote)r;

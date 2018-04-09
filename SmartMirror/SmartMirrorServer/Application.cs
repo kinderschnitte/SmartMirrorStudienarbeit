@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using DataAccessLibrary.Module;
 using SmartMirrorServer.Objects;
-using SmartMirrorServer.SerializableClasses;
 
 namespace SmartMirrorServer
 {
@@ -27,16 +27,9 @@ namespace SmartMirrorServer
 
             NewsApiKey = "9d6d50c70043491ba1aa1a2048b4197a";
 
-            loadData();
-
             Data = new ConcurrentDictionary<Module, dynamic>();
 
             DataUpdateMinutes = 30;
-        }
-
-        private static async void loadData()
-        {
-            StorageData = await SerializableStorage<StorageData>.Load("StorageData.dat");
         }
 
         #endregion Public Constructors
@@ -64,16 +57,9 @@ namespace SmartMirrorServer
 
         public static string NewsApiKey { get; }
 
-        public static StorageData StorageData { get; private set; }
-
         public static ConcurrentDictionary<Module, dynamic> Data { get; }
 
         public static int DataUpdateMinutes { get; }
-
-        public static void SaveStorageData()
-        {
-            SerializableStorage<StorageData>.Save("StorageData.dat", StorageData);
-        }
 
         #endregion Public Properties
     }

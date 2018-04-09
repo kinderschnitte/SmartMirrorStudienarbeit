@@ -10,9 +10,10 @@ using Windows.ApplicationModel.Core;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Windows.System.Threading;
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
 using NewsAPI;
 using NewsAPI.Models;
-using SmartMirrorServer.Enums;
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Extensions;
 using SmartMirrorServer.Features.Quote;
@@ -59,6 +60,8 @@ namespace SmartMirrorServer
                 await listener.BindServiceNameAsync("80");
 
                 CoreApplication.Properties.Add("listener", listener);
+
+                DataAccess.InitializeDatabase();
 
                 if (Application.Notifications.SystemStartNotifications)
                     Notification.Notification.SendPushNotification("System wurde gestartet.", "Das Smart Mirror System wurde erfolgreich gestartet.");
@@ -175,50 +178,50 @@ namespace SmartMirrorServer
         {
             Task upperLeftModuleTask = Task.Run(() =>
             {
-                if (Application.StorageData.UpperLeftModule == null)
+                if (DataAccess.ModuleExists(Modules.UPPERLEFT))
                     return;
 
-                buildModul(Application.StorageData.UpperLeftModule);
+                buildModul(DataAccess.GetModule(Modules.UPPERLEFT));
             });
 
             Task upperRightModuleTask = Task.Run(() =>
             {
-                if (Application.StorageData.UpperRightModule == null)
+                if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
                     return;
 
-                buildModul(Application.StorageData.UpperRightModule);
+                buildModul(DataAccess.GetModule(Modules.UPPERRIGHT));
             });
 
             Task middleLeftModuleTask = Task.Run(() =>
             {
-                if (Application.StorageData.MiddleLeftModule == null)
+                if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
                     return;
 
-                buildModul(Application.StorageData.MiddleLeftModule);
+                buildModul(DataAccess.GetModule(Modules.MIDDLELEFT));
             });
 
             Task middleRightModuleTask = Task.Run(() =>
             {
-                if (Application.StorageData.MiddleRightModule == null)
+                if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
                     return;
 
-                buildModul(Application.StorageData.MiddleRightModule);
+                buildModul(DataAccess.GetModule(Modules.MIDDLERIGHT));
             });
 
             Task lowerLeftModuleTask = Task.Run(() =>
             {
-                if (Application.StorageData.LowerLeftModule == null)
+                if (DataAccess.ModuleExists(Modules.LOWERLEFT))
                     return;
 
-                buildModul(Application.StorageData.LowerLeftModule);
+                buildModul(DataAccess.GetModule(Modules.LOWERLEFT));
             });
 
             Task lowerrightModuleTask = Task.Run(() =>
             {
-                if (Application.StorageData.LowerRightModule == null)
+                if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
                     return;
 
-                buildModul(Application.StorageData.LowerRightModule);
+                buildModul(DataAccess.GetModule(Modules.LOWERRIGHT));
             });
 
             await Task.WhenAny(Task.WhenAll(upperLeftModuleTask, upperRightModuleTask, middleLeftModuleTask, middleRightModuleTask, lowerLeftModuleTask, lowerrightModuleTask), Task.Delay(TimeSpan.FromSeconds(10)));
@@ -226,82 +229,83 @@ namespace SmartMirrorServer
             #pragma warning disable 4014
             Task.Run(() =>
             {
-                if (Application.StorageData.WeatherModul == null)
+                if (DataAccess.ModuleExists(Modules.WEATHER))
                     return;
 
-                weatherModul(Application.StorageData.WeatherModul);
+                weatherModul(DataAccess.GetModule(Modules.WEATHER));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.TimeModul == null)
+                if (DataAccess.ModuleExists(Modules.TIME))
                     return;
 
-                timeModul(Application.StorageData.TimeModul);
+                timeModul(DataAccess.GetModule(Modules.TIME));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.WeatherforecastModul == null)
+                if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
                     return;
 
-                Application.Data.AddOrUpdate(Application.StorageData.WeatherforecastModul, getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul), (key, value) => getFiveDaysForecastByCityName(Application.StorageData.WeatherforecastModul));
+                Module weatherforecastModule = DataAccess.GetModule(Modules.WEATHERFORECAST);
+                Application.Data.AddOrUpdate(weatherforecastModule, getFiveDaysForecastByCityName(weatherforecastModule), (key, value) => getFiveDaysForecastByCityName(weatherforecastModule));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.QuoteModul == null)
+                if (DataAccess.ModuleExists(Modules.QUOTE))
                     return;
 
-                quoteOfDayModul(Application.StorageData.QuoteModul);
+                quoteOfDayModul(DataAccess.GetModule(Modules.QUOTE));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.NewsScienceModule == null)
+                if (DataAccess.ModuleExists(Modules.NEWSSCIENCE))
                     return;
 
-                newsModul(Application.StorageData.NewsScienceModule);
+                newsModul(DataAccess.GetModule(Modules.NEWSSCIENCE));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.NewsEntertainmentModule == null)
+                if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
                     return;
 
-                newsModul(Application.StorageData.NewsEntertainmentModule);
+                newsModul(DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.NewsHealthModule == null)
+                if (DataAccess.ModuleExists(Modules.NEWSHEALTH))
                     return;
 
-                newsModul(Application.StorageData.NewsHealthModule);
+                newsModul(DataAccess.GetModule(Modules.NEWSHEALTH));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.NewsSportsModule == null)
+                if (DataAccess.ModuleExists(Modules.NEWSSPORT))
                     return;
 
-                newsModul(Application.StorageData.NewsSportsModule);
+                newsModul(DataAccess.GetModule(Modules.NEWSSPORT));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.NewsTechnologyModule == null)
+                if (DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
                     return;
 
-                newsModul(Application.StorageData.NewsTechnologyModule);
+                newsModul(DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
             });
 
             Task.Run(() =>
             {
-                if (Application.StorageData.NewsBusinessModule == null)
+                if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
                     return;
 
-                newsModul(Application.StorageData.NewsBusinessModule);
+                newsModul(DataAccess.GetModule(Modules.NEWSBUSINESS));
             });
             #pragma warning restore 4014
         }

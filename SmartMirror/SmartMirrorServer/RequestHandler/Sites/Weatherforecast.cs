@@ -4,6 +4,9 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
+
 using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperMethods;
 
@@ -46,7 +49,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
         private static string getForecastString()
         {
-            if (!Application.Data.TryGetValue(Application.StorageData.WeatherforecastModul, out dynamic r))
+            if (!Application.Data.TryGetValue(DataAccess.GetModule(Modules.WEATHERFORECAST), out dynamic r))
                 return string.Empty;
 
             List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>) r;

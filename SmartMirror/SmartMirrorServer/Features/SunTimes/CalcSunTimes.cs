@@ -1,4 +1,5 @@
 ﻿using System;
+using DataAccessLibrary.Module;
 
 namespace SmartMirrorServer.Features.SunTimes
 {

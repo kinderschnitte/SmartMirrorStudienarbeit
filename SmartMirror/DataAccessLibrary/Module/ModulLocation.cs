@@ -1,4 +1,4 @@
-﻿namespace SmartMirrorServer.Enums
+﻿namespace DataAccessLibrary.Module
 {
     public enum ModulLocation
     {

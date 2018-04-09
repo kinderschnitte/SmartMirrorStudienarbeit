@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
 using SmartMirror.Features.Joke;
 using SmartMirror.Features.Quote;
 using SmartMirror.HelperClasses;
 using SmartMirror.SpeechRecognition;
-using SmartMirrorServer;
 using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.Features.Weather;
 
@@ -241,7 +242,7 @@ namespace SmartMirror.SpeechSynthesis
 
         public async Task SaySunrise()
         {
-            Sun sun = new Sun(Application.StorageData.TimeModul);
+            Sun sun = new Sun(DataAccess.GetModule(Modules.TIME));
 
             StringBuilder sunriseString = new StringBuilder();
 
@@ -272,7 +273,7 @@ namespace SmartMirror.SpeechSynthesis
 
         public async Task SaySunset()
         {
-            Sun sun = new Sun(Application.StorageData.TimeModul);
+            Sun sun = new Sun(DataAccess.GetModule(Modules.TIME));
 
             StringBuilder sunsetString = new StringBuilder();
 
@@ -311,7 +312,9 @@ namespace SmartMirror.SpeechSynthesis
 
         public async Task SayWeatherforecast(RecognizedSpeech recognizedSpeech)
         {
-            List<List<FiveDaysForecastResult>> result = FiveDaysForecast.GetByCityName(Application.StorageData.WeatherModul.City, Application.StorageData.WeatherModul.Country, Application.StorageData.WeatherModul.Language, "metric");
+            Module weatherModule = DataAccess.GetModule(Modules.WEATHERFORECAST);
+
+            List<List<FiveDaysForecastResult>> result = FiveDaysForecast.GetByCityName(weatherModule.City, weatherModule.Country, weatherModule.Language, "metric");
 
             if (result.Count == 0)
                 return;
@@ -328,15 +331,15 @@ namespace SmartMirror.SpeechSynthesis
             switch (recognizedSpeech.SemanticText.Split(' ')[1])
             {
                 case "tomorrow":
-                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {result[0][0].City} morgens {result[0][3].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(2).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
-                    weatherforecastString.AppendLine($"Mittags {result[0][5].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(4).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
-                    weatherforecastString.AppendLine($"Abends {result[0][7].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(6).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {result[0][0].City} morgens {result[0][3].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Mittags {result[0][5].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(4).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Abends {result[0][7].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(6).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     break;
 
                 case "dayaftertomorrow":
-                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter in {result[1][0].City} morgens {result[1][3].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(2).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
-                    weatherforecastString.AppendLine($"Mittags {result[1][5].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(4).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
-                    weatherforecastString.AppendLine($"Abends {result[1][7].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(6).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter in {result[1][0].City} morgens {result[1][3].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Mittags {result[1][5].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(4).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Abends {result[1][7].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(6).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     break;
 
                 case "monday":
@@ -354,7 +357,7 @@ namespace SmartMirror.SpeechSynthesis
                         break;
                     }
 
-                    weatherforecastString.AppendLine($"Am {result[weekDay][0].Date:dddd} wird das Wetter in {result[1][0].City} morgens {result[weekDay][3].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(2).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Am {result[weekDay][0].Date:dddd} wird das Wetter in {result[1][0].City} morgens {result[weekDay][3].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
 
                     if (result[weekDay].Count < 6)
                     {
@@ -362,7 +365,7 @@ namespace SmartMirror.SpeechSynthesis
                         break;
                     }
 
-                    weatherforecastString.AppendLine($"Mittags {result[weekDay][5].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(4).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Mittags {result[weekDay][5].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(4).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
 
                     if (result[weekDay].Count < 8)
                     {
@@ -370,7 +373,7 @@ namespace SmartMirror.SpeechSynthesis
                         break;
                     }
 
-                    weatherforecastString.AppendLine($"Abends {result[weekDay][7].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(6).Take(2).Average(innerList => innerList.Temp), 1)} Grad.");
+                    weatherforecastString.AppendLine($"Abends {result[weekDay][7].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(6).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     break;
 
                 case "all":
@@ -388,13 +391,13 @@ namespace SmartMirror.SpeechSynthesis
                 default:
                     List<ForecastDays> allDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key, Description = fiveDaysForecastResult.GroupBy(x => x.Description).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
-                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {allDays[0].City} überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature} Grad ist zu erwarten.");
-                    weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {allDays[1].Description}. Eine durchschnittliche Tagestemperatur von {allDays[1].Temperature} Grad ist zu erwarten.");
-                    weatherforecastString.AppendLine($"Am {allDays[2].Date:dddd} wird das Wetter überwiegend {allDays[2].Description}. Eine durchschnittliche Tagestemperatur von {allDays[2].Temperature} Grad ist zu erwarten.");
-                    weatherforecastString.AppendLine($"Am {allDays[3].Date:dddd} wird das Wetter überwiegend {allDays[3].Description}. Eine durchschnittliche Tagestemperatur von {allDays[3].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {allDays[0].City} überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {allDays[1].Description}. Eine durchschnittliche Tagestemperatur von {allDays[1].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Am {allDays[2].Date:dddd} wird das Wetter überwiegend {allDays[2].Description}. Eine durchschnittliche Tagestemperatur von {allDays[2].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Am {allDays[3].Date:dddd} wird das Wetter überwiegend {allDays[3].Description}. Eine durchschnittliche Tagestemperatur von {allDays[3].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
 
                     if (allDays.Count >= 5)
-                        weatherforecastString.AppendLine($"Am {allDays[4].Date:dddd} wird das Wetter überwiegend {allDays[4].Description}. Eine durchschnittliche Tagestemperatur von {allDays[4].Temperature} Grad ist zu erwarten.");
+                        weatherforecastString.AppendLine($"Am {allDays[4].Date:dddd} wird das Wetter überwiegend {allDays[4].Description}. Eine durchschnittliche Tagestemperatur von {allDays[4].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     break;
             }
 
@@ -406,7 +409,9 @@ namespace SmartMirror.SpeechSynthesis
 
         public async Task SayWeatherToday()
         {
-            SingleResult<CurrentWeatherResult> result = CurrentWeather.GetByCityName(Application.StorageData.WeatherModul.City, Application.StorageData.WeatherModul.Country, Application.StorageData.WeatherModul.Language, "metric");
+            Module weatherModule = DataAccess.GetModule(Modules.WEATHER);
+
+            SingleResult<CurrentWeatherResult> result = CurrentWeather.GetByCityName(weatherModule.City, weatherModule.Country, weatherModule.Language, "metric");
 
             if (!result.Success)
                 return;
@@ -416,8 +421,8 @@ namespace SmartMirror.SpeechSynthesis
             weatherTodayString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             weatherTodayString.AppendLine(@"<sentence>");
 
-            weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
-            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
+            weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
+            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
 
             weatherTodayString.AppendLine(@"</sentence>");
             weatherTodayString.AppendLine(@"</speak>");

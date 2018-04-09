@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
 using NewsAPI.Models;
 using SmartMirrorServer.HelperMethods;
 using SmartMirrorServer.Objects;
@@ -51,7 +53,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             if (request.Query.Parameters.Contains("Business"))
             {
-                module = Application.StorageData.NewsBusinessModule;
+                module = DataAccess.GetModule(Modules.NEWSBUSINESS);
 
                 if (!Application.Data.TryGetValue(module, out dynamic r))
                     return string.Empty;
@@ -60,7 +62,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
             else if (request.Query.CompleteQuery.Contains("Entertainment"))
             {
-                module = Application.StorageData.NewsEntertainmentModule;
+                module = DataAccess.GetModule(Modules.NEWSENTERTAINMENT);
 
                 if (!Application.Data.TryGetValue(module, out dynamic r))
                     return string.Empty;
@@ -69,7 +71,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
             else if (request.Query.CompleteQuery.Contains("Health"))
             {
-                module = Application.StorageData.NewsHealthModule;
+                module = DataAccess.GetModule(Modules.NEWSHEALTH);
 
                 if (!Application.Data.TryGetValue(module, out dynamic r))
                     return string.Empty;
@@ -78,7 +80,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
             else if (request.Query.CompleteQuery.Contains("Science"))
             {
-                module = Application.StorageData.NewsScienceModule;
+                module = DataAccess.GetModule(Modules.NEWSSCIENCE);
 
                 if (!Application.Data.TryGetValue(module, out dynamic r))
                     return string.Empty;
@@ -87,7 +89,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
             else if (request.Query.CompleteQuery.Contains("Sports"))
             {
-                module = Application.StorageData.NewsSportsModule;
+                module = DataAccess.GetModule(Modules.NEWSSPORT);
 
                 if (!Application.Data.TryGetValue(module, out dynamic r))
                     return string.Empty;
@@ -96,7 +98,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             }
             else if (request.Query.CompleteQuery.Contains("Technology"))
             {
-                module = Application.StorageData.NewsTechnologyModule;
+                module = DataAccess.GetModule(Modules.NEWSTECHNOLOGY);
 
                 if (!Application.Data.TryGetValue(module, out dynamic r))
                     return string.Empty;

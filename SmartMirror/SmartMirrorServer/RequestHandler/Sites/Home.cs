@@ -4,12 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
 using NewsAPI.Models;
-using SmartMirrorServer.Enums;
 using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperMethods;
-using SmartMirrorServer.Objects;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -63,22 +63,22 @@ namespace SmartMirrorServer.RequestHandler.Sites
             switch (modulLocation)
             {
                 case ModulLocation.UPPERLEFT:
-                    return buildModul(Application.StorageData.UpperLeftModule);
+                    return buildModul(DataAccess.GetModule(Modules.UPPERLEFT));
 
                 case ModulLocation.UPPERRIGHT:
-                    return buildModul(Application.StorageData.UpperRightModule);
+                    return buildModul(DataAccess.GetModule(Modules.UPPERRIGHT));
 
                 case ModulLocation.MIDDLELEFT:
-                    return buildModul(Application.StorageData.MiddleLeftModule);
+                    return buildModul(DataAccess.GetModule(Modules.MIDDLELEFT));
 
                 case ModulLocation.MIDDLERIGHT:
-                    return buildModul(Application.StorageData.MiddleRightModule);
+                    return buildModul(DataAccess.GetModule(Modules.MIDDLERIGHT));
 
                 case ModulLocation.LOWERLEFT:
-                    return buildModul(Application.StorageData.LowerLeftModule);
+                    return buildModul(DataAccess.GetModule(Modules.LOWERLEFT));
 
                 case ModulLocation.LOWERRIGHT:
-                    return buildModul(Application.StorageData.LowerRightModule);
+                    return buildModul(DataAccess.GetModule(Modules.LOWERRIGHT));
             }
 
             return string.Empty;

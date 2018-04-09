@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLibrary;
+using DataAccessLibrary.Module;
 using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.HelperMethods;
 
@@ -23,7 +25,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\time.html");
 
-                if (!Application.Data.TryGetValue(Application.StorageData.TimeModul, out dynamic r))
+                if (!Application.Data.TryGetValue(DataAccess.GetModule(Modules.TIME), out dynamic r))
                     return Encoding.UTF8.GetBytes(page);
 
                 Sun sun = (Sun)r;
