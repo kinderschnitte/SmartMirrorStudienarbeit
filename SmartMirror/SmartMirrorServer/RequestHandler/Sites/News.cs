@@ -48,59 +48,46 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
         private static string getNews(Request request)
         {
-            Module module;
             ArticlesResult result = null;
 
             if (request.Query.Parameters.Contains("Business"))
             {
-                module = DataAccess.GetModule(Modules.NEWSBUSINESS);
-
-                if (!Application.Data.TryGetValue(module, out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.NEWSBUSINESS, out dynamic r))
                     return string.Empty;
 
                 result = (ArticlesResult)r;
             }
             else if (request.Query.CompleteQuery.Contains("Entertainment"))
             {
-                module = DataAccess.GetModule(Modules.NEWSENTERTAINMENT);
-
-                if (!Application.Data.TryGetValue(module, out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.NEWSENTERTAINMENT, out dynamic r))
                     return string.Empty;
 
                 result = (ArticlesResult)r;
             }
             else if (request.Query.CompleteQuery.Contains("Health"))
             {
-                module = DataAccess.GetModule(Modules.NEWSHEALTH);
-
-                if (!Application.Data.TryGetValue(module, out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.NEWSHEALTH, out dynamic r))
                     return string.Empty;
 
                 result = (ArticlesResult)r;
             }
             else if (request.Query.CompleteQuery.Contains("Science"))
             {
-                module = DataAccess.GetModule(Modules.NEWSSCIENCE);
-
-                if (!Application.Data.TryGetValue(module, out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.NEWSSCIENCE, out dynamic r))
                     return string.Empty;
 
                 result = (ArticlesResult)r;
             }
             else if (request.Query.CompleteQuery.Contains("Sports"))
             {
-                module = DataAccess.GetModule(Modules.NEWSSPORT);
-
-                if (!Application.Data.TryGetValue(module, out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.NEWSSPORT, out dynamic r))
                     return string.Empty;
 
                 result = (ArticlesResult)r;
             }
             else if (request.Query.CompleteQuery.Contains("Technology"))
             {
-                module = DataAccess.GetModule(Modules.NEWSTECHNOLOGY);
-
-                if (!Application.Data.TryGetValue(module, out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.NEWSTECHNOLOGY, out dynamic r))
                     return string.Empty;
 
                 result = (ArticlesResult)r;

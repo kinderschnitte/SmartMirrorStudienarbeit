@@ -37,7 +37,7 @@ namespace SmartMirror.SpeechSynthesis
             speechPlayer = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.Speech, AutoPlay = false };
 
             #pragma warning disable 4014
-            //startup(); // TODO auskommentieren
+            startup();
             #pragma warning restore 4014
         }
 
@@ -214,7 +214,7 @@ namespace SmartMirror.SpeechSynthesis
             quoteString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             quoteString.AppendLine(@"<sentence>");
 
-            quoteString.AppendLine($"{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
+            quoteString.AppendLine($"<break time='1500ms'/>{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
 
             quoteString.AppendLine(@"</sentence>");
             quoteString.AppendLine(@"</speak>");
@@ -314,7 +314,7 @@ namespace SmartMirror.SpeechSynthesis
         {
             Module weatherModule = DataAccess.GetModule(Modules.WEATHERFORECAST);
 
-            List<List<FiveDaysForecastResult>> result = FiveDaysForecast.GetByCityName(weatherModule.City, weatherModule.Country, weatherModule.Language, "metric");
+            List<List<FiveDaysForecastResult>> result = await FiveDaysForecast.GetByCityName(weatherModule.City, weatherModule.Country, weatherModule.Language, "metric");
 
             if (result.Count == 0)
                 return;
@@ -411,7 +411,7 @@ namespace SmartMirror.SpeechSynthesis
         {
             Module weatherModule = DataAccess.GetModule(Modules.WEATHER);
 
-            SingleResult<CurrentWeatherResult> result = CurrentWeather.GetByCityName(weatherModule.City, weatherModule.Country, weatherModule.Language, "metric");
+            SingleResult<CurrentWeatherResult> result = await CurrentWeather.GetByCityName(weatherModule.City, weatherModule.Country, weatherModule.Language, "metric");
 
             if (!result.Success)
                 return;

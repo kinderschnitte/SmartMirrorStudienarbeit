@@ -25,7 +25,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\time.html");
 
-                if (!Application.Data.TryGetValue(DataAccess.GetModule(Modules.TIME), out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
                     return Encoding.UTF8.GetBytes(page);
 
                 Sun sun = (Sun)r;

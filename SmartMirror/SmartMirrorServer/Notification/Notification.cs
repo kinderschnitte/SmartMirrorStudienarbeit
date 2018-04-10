@@ -42,25 +42,23 @@ namespace SmartMirrorServer.Notification
         /// <param name="message"></param>
         public static void SendPushNotification(string subject, string message)
         {
-            return;
-
             // TODO PushBullet Access Token von gespeicherten Einstellungen
-            PushbulletClient pushbulletClient = new PushbulletClient("");
+            //PushbulletClient pushbulletClient = new PushbulletClient("");
 
-            UserDevices devices = pushbulletClient.CurrentUsersDevices();
+            //UserDevices devices = pushbulletClient.CurrentUsersDevices();
 
-            Device device = devices.Devices.FirstOrDefault(o => o.Manufacturer.Contains("OnePlus"));
+            //Device device = devices.Devices.FirstOrDefault(o => o.Manufacturer.Contains("OnePlus"));
 
-            if (device == null) return;
+            //if (device == null) return;
 
-            PushNoteRequest request = new PushNoteRequest
-            {
-                DeviceIden = device.Iden,
-                Title = subject,
-                Body = message
-            };
+            //PushNoteRequest request = new PushNoteRequest
+            //{
+            //    DeviceIden = device.Iden,
+            //    Title = subject,
+            //    Body = message
+            //};
 
-            PushResponse response = pushbulletClient.PushNote(request);
+            //PushResponse response = pushbulletClient.PushNote(request);
         }
     }
 }

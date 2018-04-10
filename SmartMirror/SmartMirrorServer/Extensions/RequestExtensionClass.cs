@@ -226,33 +226,45 @@ namespace SmartMirrorServer.Extensions
                         query.FileName = FileName.NEWS;
                         break;
 
+                    case "help":
+                        query.FileName = FileName.HELP;
+                        break;
+
                     default:
                         query.FileName = FileName.UNKNOWN;
                         break;
                 }
 
-                switch (splittedFile[1])
+                if (splittedFile.Length > 1)
                 {
-                    case "html":
-                        query.FileType = FileType.HTML;
-                        break;
+                    switch (splittedFile[1])
+                    {
+                        case "html":
+                            query.FileType = FileType.HTML;
+                            break;
 
-                    case "jpg":
-                        query.FileType = FileType.JPEG;
-                        break;
+                        case "jpg":
+                            query.FileType = FileType.JPEG;
+                            break;
 
-                    case "png":
-                        query.FileType = FileType.PNG;
-                        break;
+                        case "png":
+                            query.FileType = FileType.PNG;
+                            break;
 
-                    case "ico":
-                        query.FileType = FileType.ICON;
-                        break;
+                        case "ico":
+                            query.FileType = FileType.ICON;
+                            break;
 
-                    default:
-                        query.FileType = FileType.UNKNOWN;
-                        request.IsInvalidRequest = true;
-                        break;
+                        default:
+                            query.FileType = FileType.UNKNOWN;
+                            request.IsInvalidRequest = true;
+                            break;
+                    }
+                }
+                else
+                {
+                    query.FileType = FileType.UNKNOWN;
+                    request.IsInvalidRequest = true;
                 }
 
                 if (splittedQuery.Length == 1)

@@ -10,6 +10,7 @@
         LIGHT,
         QUOTE,
         NEWS,
+        HELP,
         UNKNOWN
     }
 }

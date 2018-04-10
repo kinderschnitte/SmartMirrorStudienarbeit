@@ -6,21 +6,21 @@ using SmartMirrorServer.HelperMethods;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
-    internal static class Settings
+    internal static class Help
     {
         #region Public Methods
 
         /// <summary>
-        /// Bildet Home Seite und gibt diese zurück
+        /// Bildet Help Seite und gibt diese zurück
         /// </summary>
         /// <returns></returns>
-        public static async Task<byte[]> BuildSettings()
+        public static async Task<byte[]> BuildHelp()
         {
             string page = string.Empty;
 
             try
             {
-                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\settings.html");
+                IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\help.html");
                 page = string.Join("", file);
             }
             catch (Exception exception)

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using Windows.Security.ExchangeActiveSyncProvisioning;
-using DataAccessLibrary.Module;
 using SmartMirrorServer.Objects;
 
 namespace SmartMirrorServer
@@ -26,8 +24,6 @@ namespace SmartMirrorServer
             WeatherApiKey = "4ce3d25d1b8cb5953ba718abd11bd07a";
 
             NewsApiKey = "9d6d50c70043491ba1aa1a2048b4197a";
-
-            Data = new ConcurrentDictionary<Module, dynamic>();
 
             DataUpdateMinutes = 30;
         }
@@ -56,8 +52,6 @@ namespace SmartMirrorServer
         public static string WeatherApiKey { get; }
 
         public static string NewsApiKey { get; }
-
-        public static ConcurrentDictionary<Module, dynamic> Data { get; }
 
         public static int DataUpdateMinutes { get; }
 

@@ -63,28 +63,28 @@ namespace SmartMirrorServer.RequestHandler.Sites
             switch (modulLocation)
             {
                 case ModulLocation.UPPERLEFT:
-                    return buildModul(DataAccess.GetModule(Modules.UPPERLEFT));
+                    return buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
 
                 case ModulLocation.UPPERRIGHT:
-                    return buildModul(DataAccess.GetModule(Modules.UPPERRIGHT));
+                    return buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
 
                 case ModulLocation.MIDDLELEFT:
-                    return buildModul(DataAccess.GetModule(Modules.MIDDLELEFT));
+                    return buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
 
                 case ModulLocation.MIDDLERIGHT:
-                    return buildModul(DataAccess.GetModule(Modules.MIDDLERIGHT));
+                    return buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
 
                 case ModulLocation.LOWERLEFT:
-                    return buildModul(DataAccess.GetModule(Modules.LOWERLEFT));
+                    return buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
 
                 case ModulLocation.LOWERRIGHT:
-                    return buildModul(DataAccess.GetModule(Modules.LOWERRIGHT));
+                    return buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
             }
 
             return string.Empty;
         }
 
-        private static string buildModul(Module module)
+        private static string buildModul(Modules modules, Module module)
         {
             switch (module.ModuleType)
             {
@@ -92,27 +92,27 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     return string.Empty;
 
                 case ModuleType.TIME:
-                    return getTimeModul(module);
+                    return getTimeModul(modules);
 
                 case ModuleType.WEATHER:
-                    return getWeatherModul(module);
+                    return getWeatherModul(modules);
 
                 case ModuleType.WEATHERFORECAST:
-                    return getWeatherforecastModul(module);
+                    return getWeatherforecastModul(modules);
 
                 case ModuleType.NEWS:
-                    return getNewsModul(module);
+                    return getNewsModul(modules);
 
                 case ModuleType.QUOTEOFDAY:
-                    return getQuoteOfDayModul(module);
+                    return getQuoteOfDayModul(modules);
             }
 
             return string.Empty;
         }
 
-        private static string getQuoteOfDayModul(Module module)
+        private static string getQuoteOfDayModul(Modules modules)
         {
-            if (!Application.Data.TryGetValue(module, out dynamic r))
+            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
                 return string.Empty;
 
             Features.Quote.Quote result = (Features.Quote.Quote) r;
@@ -128,12 +128,12 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getNewsModul(Module module)
+        private static string getNewsModul(Modules modules)
         {
-            if (!Application.Data.TryGetValue(module, out dynamic r))
+            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
                 return string.Empty;
 
-            ArticlesResult result = (ArticlesResult) r;
+            ArticlesResult result = (ArticlesResult)r;
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -148,12 +148,12 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getWeatherforecastModul(Module module)
+        private static string getWeatherforecastModul(Modules modules)
         {
-            if (!Application.Data.TryGetValue(module, out dynamic r))
+            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
                 return string.Empty;
 
-            List<ForecastDays> result = (List<ForecastDays>) r;
+            List<ForecastDays> result = (List<ForecastDays>)r;
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -172,12 +172,12 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getWeatherModul(Module module)
+        private static string getWeatherModul(Modules modules)
         {
-            if (!Application.Data.TryGetValue(module, out dynamic r))
+            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
                 return string.Empty;
 
-            SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>) r;
+            SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>)r;
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -192,12 +192,12 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getTimeModul(Module module)
+        private static string getTimeModul(Modules modules)
         {
-            if (!Application.Data.TryGetValue(module, out dynamic r))
+            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
                 return string.Empty;
 
-            Sun sun = (Sun) r;
+            Sun sun = (Sun)r;
 
             StringBuilder stringBuilder = new StringBuilder();
 

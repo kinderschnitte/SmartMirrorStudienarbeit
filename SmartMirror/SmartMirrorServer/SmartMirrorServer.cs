@@ -44,15 +44,12 @@ namespace SmartMirrorServer
         {
             try
             {
-                #pragma warning disable 4014
-                Task.Run(() =>
-                {
-                    updateModules();
-                });
-                #pragma warning restore 4014
+                DataAccess.InitializeDatabase();
+
+                await updateModules();
 
                 TimeSpan period = TimeSpan.FromMinutes(Application.DataUpdateMinutes);
-                ThreadPoolTimer.CreatePeriodicTimer(source => { updateModules(); }, period);
+                ThreadPoolTimer.CreatePeriodicTimer(async source => { await updateModules(); }, period);
 
                 StreamSocketListener listener = new StreamSocketListener();
                 listener.ConnectionReceived += listener_ConnectionReceived;
@@ -60,8 +57,6 @@ namespace SmartMirrorServer
                 await listener.BindServiceNameAsync("80");
 
                 CoreApplication.Properties.Add("listener", listener);
-
-                DataAccess.InitializeDatabase();
 
                 if (Application.Notifications.SystemStartNotifications)
                     Notification.Notification.SendPushNotification("System wurde gestartet.", "Das Smart Mirror System wurde erfolgreich gestartet.");
@@ -77,36 +72,36 @@ namespace SmartMirrorServer
 
         #region Private Methods
 
-        private static void buildModul(Module module)
+        private static async Task buildModul(Modules modules, Module module)
         {
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (module.ModuleType)
             {
                 case ModuleType.TIME:
-                    timeModul(module);
+                    timeModul(modules, module);
                     break;
 
                 case ModuleType.WEATHER:
-                    weatherModul(module);
+                    await weatherModul(modules, module);
                     break;
 
                 case ModuleType.WEATHERFORECAST:
-                    weatherforecastModul(module);
+                    await weatherforecastModul(modules, module);
                     break;
 
                 case ModuleType.NEWS:
-                    newsModul(module);
+                    await newsModul(modules, module);
                     break;
 
                 case ModuleType.QUOTEOFDAY:
-                    quoteOfDayModul(module);
+                    await quoteOfDayModul(modules);
                     break;
             }
         }
 
-        private static List<ForecastDays> getcalculatedForecast(Module module)
+        private static async Task<List<ForecastDays>> getcalculatedForecast(Module module)
         {
-            IEnumerable<List<FiveDaysForecastResult>> result = getFiveDaysForecastByCityName(module);
+            IEnumerable<List<FiveDaysForecastResult>> result = await getFiveDaysForecastByCityName(module);
 
             List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1) , MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
@@ -117,211 +112,131 @@ namespace SmartMirrorServer
             return forecastDays;
         }
 
-        private static SingleResult<CurrentWeatherResult> getCurrentWeatherByCityName(Module module)
+        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)
         {
-            return CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
+            return await CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
 
-        private static List<List<FiveDaysForecastResult>> getFiveDaysForecastByCityName(Module module)
+        private static async Task<List<List<FiveDaysForecastResult>>> getFiveDaysForecastByCityName(Module module)
         {
-            return FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
+            return await FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
 
-        private static ArticlesResult getNewsByCategory(Module module)
+        private static async Task<ArticlesResult> getNewsByCategory(Module module)
         {
             NewsApiClient newsApiClient = new NewsApiClient(Application.NewsApiKey);
 
-            ArticlesResult topheadlines = newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+            ArticlesResult topheadlines = await newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
             {
                 Category = module.NewsCategory,
                 Country = module.NewsCountry,
                 Language = module.NewsLanguage
-            }).Result;
+            });
 
             return topheadlines;
         }
 
-        private static ArticlesResult getNewsBySource(Module module)
+        private static async Task<ArticlesResult> getNewsBySource(Module module)
         {
             NewsApiClient newsApiClient = new NewsApiClient(Application.NewsApiKey);
 
-            ArticlesResult topheadlines = newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+            ArticlesResult topheadlines = await newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
             {
                 Language = module.NewsLanguage,
                 Sources = module.NewsSources
-            }).Result;
+            });
 
             return topheadlines;
         }
 
-        private static Quote getQuoteOfDay()
+        private static async Task<Quote> getQuoteOfDay()
         {
-            return QuoteHelper.GetQuoteOfDay();
+            return await QuoteHelper.GetQuoteOfDay();
         }
 
-        private static void newsModul(Module module)
+        private static async Task newsModul(Modules modules, Module module)
         {
-            Application.Data.AddOrUpdate(module, module.NewsSources == null ? getNewsByCategory(module) : getNewsBySource(module), (key, value) => module.NewsSources == null ? getNewsByCategory(module) : getNewsBySource(module));
+            ArticlesResult result = module.NewsSources == null ? await getNewsByCategory(module) : await getNewsBySource(module);
+            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
 
-        private static void quoteOfDayModul(Module module)
+        private static async Task quoteOfDayModul(Modules modules)
         {
-            Application.Data.AddOrUpdate(module, getQuoteOfDay(), (key, value) => getQuoteOfDay());
+            Quote result = await getQuoteOfDay();
+            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
 
-        private static void timeModul(Module module)
+        private static void timeModul(Modules modules, Module module)
         {
-            Application.Data.AddOrUpdate(module, new Sun(module), (key, value) => new Sun(module));
+            ModuleData.Data.AddOrUpdate(modules, new Sun(module), (key, value) => new Sun(module));
         }
 
-        private static async void updateModules()
+        private static async Task updateModules()
         {
-            Task upperLeftModuleTask = Task.Run(() =>
+            if (DataAccess.ModuleExists(Modules.UPPERLEFT))
+                await buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
+
+            if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
+                await buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
+
+            if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
+                await buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
+
+            if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
+                await buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
+
+            if (DataAccess.ModuleExists(Modules.LOWERLEFT))
+                await buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
+
+            if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
+                await buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
+
+
+            if (DataAccess.ModuleExists(Modules.WEATHER))
+                await weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
+
+            if (DataAccess.ModuleExists(Modules.TIME))
+                timeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
+
+            if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
             {
-                if (DataAccess.ModuleExists(Modules.UPPERLEFT))
-                    return;
-
-                buildModul(DataAccess.GetModule(Modules.UPPERLEFT));
-            });
-
-            Task upperRightModuleTask = Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
-                    return;
-
-                buildModul(DataAccess.GetModule(Modules.UPPERRIGHT));
-            });
-
-            Task middleLeftModuleTask = Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
-                    return;
-
-                buildModul(DataAccess.GetModule(Modules.MIDDLELEFT));
-            });
-
-            Task middleRightModuleTask = Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
-                    return;
-
-                buildModul(DataAccess.GetModule(Modules.MIDDLERIGHT));
-            });
-
-            Task lowerLeftModuleTask = Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.LOWERLEFT))
-                    return;
-
-                buildModul(DataAccess.GetModule(Modules.LOWERLEFT));
-            });
-
-            Task lowerrightModuleTask = Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
-                    return;
-
-                buildModul(DataAccess.GetModule(Modules.LOWERRIGHT));
-            });
-
-            await Task.WhenAny(Task.WhenAll(upperLeftModuleTask, upperRightModuleTask, middleLeftModuleTask, middleRightModuleTask, lowerLeftModuleTask, lowerrightModuleTask), Task.Delay(TimeSpan.FromSeconds(10)));
-
-            #pragma warning disable 4014
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.WEATHER))
-                    return;
-
-                weatherModul(DataAccess.GetModule(Modules.WEATHER));
-            });
-
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.TIME))
-                    return;
-
-                timeModul(DataAccess.GetModule(Modules.TIME));
-            });
-
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
-                    return;
-
                 Module weatherforecastModule = DataAccess.GetModule(Modules.WEATHERFORECAST);
-                Application.Data.AddOrUpdate(weatherforecastModule, getFiveDaysForecastByCityName(weatherforecastModule), (key, value) => getFiveDaysForecastByCityName(weatherforecastModule));
-            });
+                List<List<FiveDaysForecastResult>> result = await getFiveDaysForecastByCityName(weatherforecastModule);
+                ModuleData.Data.AddOrUpdate(Modules.WEATHERFORECAST, result, (key, value) => result);
+            }
 
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.QUOTE))
-                    return;
+            if (DataAccess.ModuleExists(Modules.QUOTE))
+                await quoteOfDayModul(Modules.QUOTE);
 
-                quoteOfDayModul(DataAccess.GetModule(Modules.QUOTE));
-            });
+            if (DataAccess.ModuleExists(Modules.NEWSSCIENCE))
+                await newsModul(Modules.NEWSSCIENCE, DataAccess.GetModule(Modules.NEWSSCIENCE));
 
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.NEWSSCIENCE))
-                    return;
+            if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
+                await newsModul(Modules.NEWSENTERTAINMENT, DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
 
-                newsModul(DataAccess.GetModule(Modules.NEWSSCIENCE));
-            });
+            if (!DataAccess.ModuleExists(Modules.NEWSHEALTH))
+                await newsModul(Modules.NEWSHEALTH, DataAccess.GetModule(Modules.NEWSHEALTH));
 
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
-                    return;
+            if (!DataAccess.ModuleExists(Modules.NEWSSPORT))
+                await newsModul(Modules.NEWSSPORT, DataAccess.GetModule(Modules.NEWSSPORT));
 
-                newsModul(DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
-            });
+            if (!DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
+                await newsModul(Modules.NEWSTECHNOLOGY, DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
 
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.NEWSHEALTH))
-                    return;
-
-                newsModul(DataAccess.GetModule(Modules.NEWSHEALTH));
-            });
-
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.NEWSSPORT))
-                    return;
-
-                newsModul(DataAccess.GetModule(Modules.NEWSSPORT));
-            });
-
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
-                    return;
-
-                newsModul(DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
-            });
-
-            Task.Run(() =>
-            {
-                if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
-                    return;
-
-                newsModul(DataAccess.GetModule(Modules.NEWSBUSINESS));
-            });
-            #pragma warning restore 4014
+            if (!DataAccess.ModuleExists(Modules.NEWSBUSINESS))
+                await newsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
         }
 
-        private static void weatherforecastModul(Module module)
+        private static async Task weatherforecastModul(Modules modules, Module module)
         {
-            List<ForecastDays> result = getcalculatedForecast(module);
-
-            Application.Data.AddOrUpdate(module, result, (key, value) => result);
+            List<ForecastDays> result = await getcalculatedForecast(module);
+            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
 
-        private static void weatherModul(Module module)
+        private static async Task weatherModul(Modules modules, Module module)
         {
-            SingleResult<CurrentWeatherResult> result = getCurrentWeatherByCityName(module);
-
-            Application.Data.AddOrUpdate(module, result, (key, value) => result);
+            SingleResult<CurrentWeatherResult> result = await getCurrentWeatherByCityName(module);
+            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
 
         /// <summary>
@@ -454,13 +369,20 @@ namespace SmartMirrorServer
         /// <returns></returns>
         private static async Task sendWebsite(Stream responseStream, byte[] file)
         {
-            using (MemoryStream bodyStream = new MemoryStream(file))
+            try
             {
-                string header = $"HTTP/1.1 200 OK\r\nContent-Length: {bodyStream.Length}\r\nConnection: close\r\nContent-MicrocontrollerType: text/html; charset=utf-8\r\n\r\n";
-                byte[] headerArray = Encoding.UTF8.GetBytes(header);
-                await responseStream.WriteAsync(headerArray, 0, headerArray.Length);
-                await bodyStream.CopyToAsync(responseStream);
-                await responseStream.FlushAsync();
+                using (MemoryStream bodyStream = new MemoryStream(file))
+                {
+                    string header = $"HTTP/1.1 200 OK\r\nContent-Length: {bodyStream.Length}\r\nConnection: close\r\nContent-MicrocontrollerType: text/html; charset=utf-8\r\n\r\n";
+                    byte[] headerArray = Encoding.UTF8.GetBytes(header);
+                    await responseStream.WriteAsync(headerArray, 0, headerArray.Length);
+                    await bodyStream.CopyToAsync(responseStream);
+                    await responseStream.FlushAsync();
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
 

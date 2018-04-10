@@ -45,5 +45,10 @@ namespace SmartMirrorServer.RequestHandler
         {
             return await News.BuildNews(request);
         }
+
+        public static async Task<byte[]> BuildHelp()
+        {
+            return await Help.BuildHelp();
+        }
     }
 }

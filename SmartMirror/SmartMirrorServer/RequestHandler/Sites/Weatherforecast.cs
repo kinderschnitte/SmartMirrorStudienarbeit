@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
-
 using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperMethods;
 
@@ -49,12 +47,12 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
         private static string getForecastString()
         {
-            if (!Application.Data.TryGetValue(DataAccess.GetModule(Modules.WEATHERFORECAST), out dynamic r))
+            if (!ModuleData.Data.TryGetValue(Modules.WEATHERFORECAST, out dynamic r))
                 return string.Empty;
 
-            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>) r;
+            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>)r;
 
-            // Infos zu heutigen Tag löschen
+            //Infos zu heutigen Tag löschen
             if (result.Count > 5)
                 result.RemoveAt(0);
 

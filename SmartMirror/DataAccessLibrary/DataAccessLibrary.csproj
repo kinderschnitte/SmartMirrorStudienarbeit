@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
+    <Compile Include="ModuleData.cs" />
     <Compile Include="Module\LatitudeCoords.cs" />
     <Compile Include="Module\LongitudeCoords.cs" />
     <Compile Include="Module\Module.cs" />

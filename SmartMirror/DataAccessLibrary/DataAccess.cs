@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -6,6 +7,7 @@ using DataAccessLibrary.Module;
 using DataAccessLibrary.Tables;
 using NewsAPI.Constants;
 using SQLite.Net;
+using SQLite.Net.Interop;
 using SQLite.Net.Platform.WinRT;
 
 namespace DataAccessLibrary
@@ -25,11 +27,10 @@ namespace DataAccessLibrary
         {
             InitializeDatabase();
 
-            // TODO TestData erntfernen
-            addTestData();
+            addDefaultModuleConfigs();
         }
 
-        private static void addTestData()
+        private static void addDefaultModuleConfigs()
         {
             AddOrReplaceModule(Modules.UPPERLEFT, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
             AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
@@ -56,36 +57,58 @@ namespace DataAccessLibrary
 
         public static void AddOrReplaceModule(Modules moduleName, Module.Module module)
         {
-            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+            try
             {
-                ModuleTable newRow = new ModuleTable
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                 {
-                    ModuleName = moduleName,
-                    ModuleData = serializeModule(module)
-                };
+                    ModuleTable newRow = new ModuleTable
+                    {
+                        ModuleName = moduleName,
+                        ModuleConfig = serializeModule(module)
+                    };
 
-                // ReSharper disable once AccessToDisposedClosure
-                dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
+                    // ReSharper disable once AccessToDisposedClosure
+                    dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
         public static Module.Module GetModule(Modules modulename)
         {
-            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+            try
             {
-                TableQuery<ModuleTable> query = dbConn.Table<ModuleTable>();
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                {
+                    TableQuery<ModuleTable> query = dbConn.Table<ModuleTable>();
 
-                return deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleData);
+                    return (Module.Module) deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
         public static void InitializeDatabase()
         {
-            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
-                dbConn.CreateTable<ModuleTable>();
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                    dbConn.CreateTable<ModuleTable>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
-        public static void UpdateModule(Modules moduleName, Module.Module module)
+        public static void UpdateModuleConfig(Modules moduleName, Module.Module module)
         {
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
             {
@@ -94,7 +117,7 @@ namespace DataAccessLibrary
                 if (moduleTable == null)
                     return;
 
-                moduleTable.ModuleData = serializeModule(module);
+                moduleTable.ModuleConfig = serializeModule(module);
 
                 // ReSharper disable once AccessToDisposedClosure
                 dbConn.RunInTransaction(() => { dbConn.Update(moduleTable); });
@@ -103,20 +126,28 @@ namespace DataAccessLibrary
 
         public static bool ModuleExists(Modules module)
         {
-            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
-                return dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex))
+                    return dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                throw;
+            }
         }
 
         #endregion Public Methods
 
         #region Private Methods
 
-        private static Module.Module deserializeModule(string moduleString)
+        private static dynamic deserializeModule(string moduleString)
         {
             XmlSerializer deserializer = new XmlSerializer(typeof(Module.Module));
 
             using (TextReader tr = new StringReader(moduleString))
-                return (Module.Module)deserializer.Deserialize(tr);
+                return deserializer.Deserialize(tr);
         }
 
         private static string serializeModule(Module.Module module)

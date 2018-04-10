@@ -8,6 +8,6 @@ namespace DataAccessLibrary.Tables
         [PrimaryKey]
         public Modules ModuleName { get; set; }
 
-        public string ModuleData { get; set; }
+        public string ModuleConfig { get; set; }
     }
 }

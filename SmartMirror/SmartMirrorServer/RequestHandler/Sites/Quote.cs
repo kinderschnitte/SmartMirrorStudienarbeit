@@ -24,7 +24,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\quote.html");
 
-                if (!Application.Data.TryGetValue(DataAccess.GetModule(Modules.QUOTE), out dynamic r))
+                if (!ModuleData.Data.TryGetValue(Modules.QUOTE, out dynamic r))
                     return Encoding.UTF8.GetBytes(page);
 
                 Features.Quote.Quote result = (Features.Quote.Quote)r;

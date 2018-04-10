@@ -39,6 +39,9 @@ namespace SmartMirrorServer.RequestHandler
                 case FileName.NEWS:
                     return await Site.BuildNews(request);
 
+                case FileName.HELP:
+                    return await Site.BuildHelp();
+
                 default:
                     return new byte[0];
             }
