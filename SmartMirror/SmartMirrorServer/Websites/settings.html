@@ -13,8 +13,7 @@
     </head>
     <body>
         <!-- Simple header with fixed tabs. -->
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
-                        mdl-layout--fixed-tabs">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
                     <!-- Title -->
@@ -47,7 +46,26 @@
                         <div class="page-content">
                             <div class="mdl-grid">
                                 <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-
+                                    <div class="mdl-cell mdl-cell--12-col">
+                                        <div class="mdl-layout-title" style="font-size: 2em; text-align: center;">Uhrzeit Einstellungen</div>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--12-col">
+                                        <p style="font-size: 1.25em; text-align: center;">
+                                            Festlegung der Standortkoordinaten für die Berechung der Sonnenauf- & Sonnenuntergangszeiten.
+                                        </p>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--12-col" style="align-content: center; text-align: center;">
+                                        <form action="#">
+                                            <div class="mdl-textfield mdl-js-textfield">
+                                                <input class="mdl-textfield__input" type="text" id="City" style="text-align: center;">
+                                                <label class="mdl-textfield__label" for="city" style="text-align: center;">Wohnort</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield">
+                                                <input class="mdl-textfield__input" type="text" id="Country" style="text-align: center;">
+                                                <label class="mdl-textfield__label" for="Country" style="text-align: center;">Land</label>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

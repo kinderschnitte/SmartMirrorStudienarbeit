@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Enums.RequestEnums;
 using SmartMirrorServer.Objects;
