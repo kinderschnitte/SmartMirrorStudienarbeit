@@ -33,6 +33,16 @@ namespace SmartMirror.SpeechRecognition
 
             speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += continuousRecognitionSessionOnResultGenerated;
 
+            speechRecognizer.SpeechRecognizer.RecognitionQualityDegrading += (sender, args) =>
+            {
+                Debug.WriteLine(args.Problem.ToString());
+            };
+
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Completed += (sender, args) =>
+            {
+                Debug.WriteLine(args.Status.ToString());
+            };
+
             await speechRecognizer.CompileGrammar();
         }
 

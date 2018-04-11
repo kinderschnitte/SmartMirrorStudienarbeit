@@ -131,6 +131,7 @@
     <Compile Include="Features\SunTimes\Sun.cs" />
     <Compile Include="Features\Weather\ForecastDays.cs" />
     <Compile Include="Objects\Notifications.cs" />
+    <Compile Include="Objects\PostQuery.cs" />
     <Compile Include="Objects\Query.cs" />
     <Compile Include="Features\Quote\Quote.cs" />
     <Compile Include="Objects\Request.cs" />

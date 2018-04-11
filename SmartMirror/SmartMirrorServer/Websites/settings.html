@@ -55,14 +55,17 @@
                                         </p>
                                     </div>
                                     <div class="mdl-cell mdl-cell--12-col" style="align-content: center; text-align: center;">
-                                        <form action="#">
-                                            <div class="mdl-textfield mdl-js-textfield">
-                                                <input class="mdl-textfield__input" type="text" id="City" style="text-align: center;">
-                                                <label class="mdl-textfield__label" for="city" style="text-align: center;">Wohnort</label>
+                                        <form method="post">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <input class="mdl-textfield__input" type="text" id="City" style="text-align: center;" name="City">
+                                                <label class="mdl-textfield__label" for="City" style="text-align: center;">Wohnort</label>
                                             </div>
-                                            <div class="mdl-textfield mdl-js-textfield">
-                                                <input class="mdl-textfield__input" type="text" id="Country" style="text-align: center;">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <input class="mdl-textfield__input" type="text" id="Country" style="text-align: center;" name="Country">
                                                 <label class="mdl-textfield__label" for="Country" style="text-align: center;">Land</label>
+                                            </div>
+                                            <div class="mdl-card__actions">
+                                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Speichern</button>
                                             </div>
                                         </form>
                                     </div>

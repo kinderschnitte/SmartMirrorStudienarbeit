@@ -70,6 +70,35 @@ namespace SmartMirrorServer.Extensions
         }
 
         /// <summary>
+        /// Setzt den Post Query des Requests
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="query"></param>
+        public static void SetPostQuery(this Request request, string query)
+        {
+            string realPostQuery = query.Replace("\0", "");
+
+            PostQuery postQuery = new PostQuery();
+
+            if (realPostQuery == "")
+                postQuery.CompleteQuery = "";
+            else
+            {
+                string[] splittedPostQuery = realPostQuery.Split(new[]{ "&" }, StringSplitOptions.None);
+
+                postQuery.CompleteQuery = realPostQuery;
+
+                foreach (string parameter in splittedPostQuery)
+                {
+                    string[] splittedParameter = parameter.Split('=');
+                    postQuery.Value.Add(splittedParameter[0], splittedParameter[1]);
+                }
+            }
+
+            request.PostQuery = postQuery;
+        }
+
+        /// <summary>
         /// Setzt DO NOT TRACK des Requests
         /// </summary>
         /// <param name="request"></param>
