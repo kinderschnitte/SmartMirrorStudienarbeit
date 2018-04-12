@@ -61,7 +61,7 @@
                                                 <label class="mdl-textfield__label" for="City" style="text-align: center;">Wohnort</label>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                                <input class="mdl-textfield__input" type="text" id="Country" style="text-align: center;" name="Country">
+                                                <input class="mdl-textfield__input" type="text" id="Country" style="text-align: center;" name="Country" value="Deutschland">
                                                 <label class="mdl-textfield__label" for="Country" style="text-align: center;">Land</label>
                                             </div>
                                             <div class="mdl-card__actions">
@@ -79,7 +79,33 @@
                         <div class="page-content">
                             <div class="mdl-grid">
                                 <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-
+                                    <div class="mdl-cell mdl-cell--12-col">
+                                        <div class="mdl-layout-title" style="font-size: 2em; text-align: center;">Wetter Einstellungen</div>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--12-col">
+                                        <p style="font-size: 1.25em; text-align: center;">
+                                            Festlegung des Wohnortes für die Abfragen der heutigen Wetterdaten.
+                                        </p>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--12-col" style="align-content: center; text-align: center;">
+                                        <form method="post">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <input class="mdl-textfield__input" type="text" id="City" style="text-align: center;" name="City">
+                                                <label class="mdl-textfield__label" for="City" style="text-align: center;">Wohnort</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <input class="mdl-textfield__input" type="text" id="Country" style="text-align: center;" name="Country" value="Deutschland">
+                                                <label class="mdl-textfield__label" for="Country" style="text-align: center;">Land</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <input class="mdl-textfield__input" type="text" id="Language" style="text-align: center;" name="Language" value="de">
+                                                <label class="mdl-textfield__label" for="Language" style="text-align: center;">Sprache (z.B. de für Deutschland)</label>
+                                            </div>
+                                            <div class="mdl-card__actions">
+                                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Speichern</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
