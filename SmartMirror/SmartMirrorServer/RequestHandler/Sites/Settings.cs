@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using SmartMirrorServer.HelperMethods;
+using SmartMirrorServer.HelperClasses;
+using SmartMirrorServer.Objects;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
@@ -14,7 +15,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
         /// Bildet Home Seite und gibt diese zurück
         /// </summary>
         /// <returns></returns>
-        public static async Task<byte[]> BuildSettings()
+        public static async Task<byte[]> BuildSettings(Request request)
         {
             string page = string.Empty;
 

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using NewsAPI.Models;
-using SmartMirrorServer.HelperMethods;
+
+using SmartMirrorServer.HelperClasses;
 using SmartMirrorServer.Objects;
 
 namespace SmartMirrorServer.RequestHandler.Sites

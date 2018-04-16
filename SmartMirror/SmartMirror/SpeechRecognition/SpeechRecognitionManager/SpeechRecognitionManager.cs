@@ -22,18 +22,25 @@ namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
 
         public async Task CompileGrammar()
         {
-            StorageFile grammarContentFile = await Package.Current.InstalledLocation.GetFileAsync(GrammarFile);
+            try
+            {
+                StorageFile grammarContentFile = await Package.Current.InstalledLocation.GetFileAsync(GrammarFile);
 
-            SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
+                SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
 
-            SpeechRecognizer.Constraints.Add(grammarConstraint);
+                SpeechRecognizer.Constraints.Add(grammarConstraint);
 
-            SpeechRecognitionCompilationResult compilationResult = await SpeechRecognizer.CompileConstraintsAsync();
+                SpeechRecognitionCompilationResult compilationResult = await SpeechRecognizer.CompileConstraintsAsync();
 
-            if (compilationResult.Status != SpeechRecognitionResultStatus.Success)
-                return;
+                if (compilationResult.Status != SpeechRecognitionResultStatus.Success)
+                    return;
 
-            await SpeechRecognizer.ContinuousRecognitionSession.StartAsync();
+                await SpeechRecognizer.ContinuousRecognitionSession.StartAsync();
+            }
+            catch (Exception e)
+            {
+
+            }
         }
     }
 }

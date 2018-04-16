@@ -4,7 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
-using SmartMirrorServer.HelperMethods;
+
+using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {

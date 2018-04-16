@@ -6,9 +6,9 @@ namespace SmartMirrorServer.RequestHandler
 {
     internal static class Site
     {
-        public static async Task<byte[]> BuildSettings()
+        public static async Task<byte[]> BuildSettings(Request request)
         {
-            return await Settings.BuildSettings();
+            return await Settings.BuildSettings(request);
         }
 
         public static async Task<byte[]> BuildHome()

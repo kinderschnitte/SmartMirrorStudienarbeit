@@ -1,4 +1,4 @@
-﻿namespace SmartMirrorServer.HelperMethods
+﻿namespace SmartMirrorServer.HelperClasses
 {
     public static class WeatherHelperClass
     {

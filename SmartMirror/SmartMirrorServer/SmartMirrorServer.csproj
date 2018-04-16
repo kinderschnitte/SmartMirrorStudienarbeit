@@ -96,6 +96,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Enums\Api\Api.cs" />
     <Compile Include="Enums\QueryEnums\FileName.cs" />
     <Compile Include="Enums\QueryEnums\FileType.cs" />
     <Compile Include="Enums\RequestEnums\AcceptResponseEncoding.cs" />
@@ -124,9 +125,14 @@
     <Compile Include="Features\FootballResults\TableTeam.cs" />
     <Compile Include="Features\FootballResults\Team.cs" />
     <Compile Include="Features\SunTimes\CalcSunTimes.cs" />
-    <Compile Include="HelperMethods\FileHelperClass.cs" />
+    <Compile Include="HelperApis\GoogleMapsGeocoding\ApiClient.cs" />
+    <Compile Include="HelperApis\GoogleMapsGeocoding\City.cs" />
+    <Compile Include="HelperApis\GoogleMapsGeocoding\Coordinates.cs" />
+    <Compile Include="HelperApis\GoogleMapsGeocoding\Deserializer.cs" />
+    <Compile Include="HelperApis\GoogleMapsGeocoding\GoogleMapsGeocoding.cs" />
+    <Compile Include="HelperClasses\FileHelperClass.cs" />
     <Compile Include="Features\Quote\QuoteHelper.cs" />
-    <Compile Include="HelperMethods\WeatherHelperClass.cs" />
+    <Compile Include="HelperClasses\WeatherHelperClass.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Features\SunTimes\Sun.cs" />
     <Compile Include="Features\Weather\ForecastDays.cs" />
@@ -180,8 +186,10 @@
     <Content Include="Images\hot.png" />
     <Content Include="Images\hotsmall.png" />
     <Content Include="Images\new-moon.png" />
+    <Content Include="Images\newsModule.png" />
     <Content Include="Images\overcast.png" />
     <Content Include="Images\pressure.png" />
+    <Content Include="Images\quoteModule.png" />
     <Content Include="Images\rain.png" />
     <Content Include="Images\shower.png" />
     <Content Include="Images\snowflake.png" />
@@ -193,10 +201,13 @@
     <Content Include="Images\sunrise.png" />
     <Content Include="Images\sunset.png" />
     <Content Include="Images\thunder.png" />
+    <Content Include="Images\timeModule.png" />
     <Content Include="Images\warm.png" />
     <Content Include="Images\humidity.png" />
     <Content Include="Images\location.png" />
     <Content Include="Images\warmsmall.png" />
+    <Content Include="Images\weatherforecastModule.png" />
+    <Content Include="Images\weatherModule.png" />
     <Content Include="Images\windspeed.png" />
     <Content Include="Images\windy.png" />
     <Content Include="Properties\Default.rd.xml" />

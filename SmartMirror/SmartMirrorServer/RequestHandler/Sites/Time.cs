@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using SmartMirrorServer.Features.SunTimes;
-using SmartMirrorServer.HelperMethods;
+using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {

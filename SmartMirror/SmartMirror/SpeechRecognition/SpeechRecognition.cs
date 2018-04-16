@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Windows.Media.SpeechRecognition;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using SmartMirror.SpeechRecognition.SpeechRecognitionManager;
 
@@ -18,13 +19,11 @@ namespace SmartMirror.SpeechRecognition
         {
             this.mainPage = mainPage;
             this.dispatcher = dispatcher;
-
-            StartRecognizing();
         }
 
         public async void StopRecognizing()
         {
-            await SpeechRecognitionExtensions.Dispose(speechRecognizer);
+            await speechRecognizer.Dispose();
         }
 
         public async void StartRecognizing()

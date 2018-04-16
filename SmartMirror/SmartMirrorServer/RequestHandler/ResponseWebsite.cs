@@ -12,7 +12,7 @@ namespace SmartMirrorServer.RequestHandler
             {
                 case FileName.SETTINGS:
 
-                    return await Site.BuildSettings();
+                    return await Site.BuildSettings(request);
 
                 case FileName.UNKNOWN:
                     return new byte[0];

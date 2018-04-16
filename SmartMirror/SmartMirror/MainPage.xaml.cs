@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using SmartMirror.SpeechSynthesis;
@@ -11,8 +12,13 @@ namespace SmartMirror
     /// </summary>
     internal partial class MainPage
     {
+        #region Private Fields
+
         private readonly SpeechRecognition.SpeechRecognition speechRecognition;
-        public SpeechService SpeechService { get; }
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public MainPage()
         {
@@ -29,17 +35,29 @@ namespace SmartMirror
             SpeechService = new SpeechService();
         }
 
-        private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            speechRecognition.StopRecognizing();
-        }
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public SpeechService SpeechService { get; }
+
+        #endregion Public Properties
+
+        #region Private Methods
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             speechRecognition.StartRecognizing();
 
-            await Task.Delay(TimeSpan.FromSeconds(10));
+            await Task.Delay(TimeSpan.FromSeconds(60));
             Browser.Navigate(new Uri("http://localhost/home.html"));
         }
+
+        private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            speechRecognition.StopRecognizing();
+        }
+
+        #endregion Private Methods
     }
 }

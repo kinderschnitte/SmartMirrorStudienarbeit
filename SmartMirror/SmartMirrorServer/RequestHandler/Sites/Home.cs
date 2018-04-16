@@ -9,7 +9,7 @@ using DataAccessLibrary.Module;
 using NewsAPI.Models;
 using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.Features.Weather;
-using SmartMirrorServer.HelperMethods;
+using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {

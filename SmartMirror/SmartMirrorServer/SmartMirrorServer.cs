@@ -14,6 +14,7 @@ using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using NewsAPI;
 using NewsAPI.Models;
+using SmartMirrorServer.Enums.Api;
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Extensions;
 using SmartMirrorServer.Features.Quote;
@@ -44,9 +45,7 @@ namespace SmartMirrorServer
         {
             try
             {
-                DataAccess.InitializeDatabase();
-
-                await updateModules();
+                //await updateModules();
 
                 TimeSpan period = TimeSpan.FromMinutes(Application.DataUpdateMinutes);
                 ThreadPoolTimer.CreatePeriodicTimer(async source => { await updateModules(); }, period);
@@ -124,7 +123,7 @@ namespace SmartMirrorServer
 
         private static async Task<ArticlesResult> getNewsByCategory(Module module)
         {
-            NewsApiClient newsApiClient = new NewsApiClient(Application.NewsApiKey);
+            NewsApiClient newsApiClient = new NewsApiClient(Application.ApiKeys[Api.NEWSAPI]);
 
             ArticlesResult topheadlines = await newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
             {
@@ -138,7 +137,7 @@ namespace SmartMirrorServer
 
         private static async Task<ArticlesResult> getNewsBySource(Module module)
         {
-            NewsApiClient newsApiClient = new NewsApiClient(Application.NewsApiKey);
+            NewsApiClient newsApiClient = new NewsApiClient(Application.ApiKeys[Api.NEWSAPI]);
 
             ArticlesResult topheadlines = await newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
             {

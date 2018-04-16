@@ -4,24 +4,20 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using SmartMirrorServer.Enums.Api;
 
-namespace SmartMirrorServer.Features.Weather
+namespace SmartMirrorServer.HelperApis.GoogleMapsGeocoding
 {
     internal static class ApiClient
     {
-        public static async Task<JObject> GetResponse(string queryString)
+        public static async Task<JObject> GetResponse(string city, string state, string country)
         {
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    string apiKey = Application.ApiKeys[Api.OPENWEATHERMAP];
-                    string apiUrl = Application.ApiUrls[Api.OPENWEATHERMAP];
-                    string url;
+                    string apiKey = Application.ApiKeys[Api.GOOGLEMAPSGEOCODING];
+                    string apiUrl = Application.ApiUrls[Api.GOOGLEMAPSGEOCODING];
 
-                    if (!string.IsNullOrEmpty(apiKey))
-                        url = apiUrl + queryString + "&APPID=" + apiKey;
-                    else
-                        url = apiUrl + queryString;
+                    string url = apiUrl + city + "," + state + "," + country + "&key=" + apiKey;
 
                     string response = await client.GetStringAsync(url);
                     JObject parsedResponse = JObject.Parse(response);
@@ -31,7 +27,7 @@ namespace SmartMirrorServer.Features.Weather
             }
             catch (Exception)
             {
-                return await GetResponse(queryString);
+                return await GetResponse(city, state, country);
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using SmartMirrorServer.Enums.Api;
 using SmartMirrorServer.Objects;
 
 namespace SmartMirrorServer
@@ -19,13 +21,27 @@ namespace SmartMirrorServer
 
             Notifications = new Notifications();
 
-            WeatherApiUrl = "http://api.openweathermap.org/data/2.5";
+            ApiKeys = new Dictionary<Api, string>();
 
-            WeatherApiKey = "4ce3d25d1b8cb5953ba718abd11bd07a";
-
-            NewsApiKey = "9d6d50c70043491ba1aa1a2048b4197a";
+            ApiUrls = new Dictionary<Api, string>();
 
             DataUpdateMinutes = 30;
+
+            addApiParameters();
+        }
+
+        private static void addApiParameters()
+        {
+            // OpenWeatherMap
+            ApiKeys.Add(Api.OPENWEATHERMAP, "4ce3d25d1b8cb5953ba718abd11bd07a");
+            ApiUrls.Add(Api.OPENWEATHERMAP, "http://api.openweathermap.org/data/2.5");
+
+            // NewsAPI
+            ApiKeys.Add(Api.NEWSAPI, "9d6d50c70043491ba1aa1a2048b4197a");
+
+            // Google Maps Geocoding
+            ApiKeys.Add(Api.GOOGLEMAPSGEOCODING, "AIzaSyCUWewgFV1-ALfuAQpGC3S5uHlud1ucj20");
+            ApiUrls.Add(Api.GOOGLEMAPSGEOCODING, "https://maps.googleapis.com/maps/api/geocode/json?address=");
         }
 
         #endregion Public Constructors
@@ -47,13 +63,11 @@ namespace SmartMirrorServer
         /// </summary>
         public static Notifications Notifications { get; }
 
-        public static string WeatherApiUrl { get; }
-
-        public static string WeatherApiKey { get; }
-
-        public static string NewsApiKey { get; }
-
         public static int DataUpdateMinutes { get; }
+
+        public static Dictionary<Api, string> ApiKeys { get; }
+
+        public static Dictionary<Api, string> ApiUrls { get; }
 
         #endregion Public Properties
     }

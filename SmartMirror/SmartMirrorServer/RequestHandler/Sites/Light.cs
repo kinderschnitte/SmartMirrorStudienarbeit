@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using SmartMirrorServer.HelperMethods;
+
+using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites
 {
