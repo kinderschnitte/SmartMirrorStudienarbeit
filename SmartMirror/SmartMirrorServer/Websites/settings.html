@@ -56,9 +56,54 @@
             background-size: 100% 100%;
         }
 
-        .newsimage
+        .newshealth
         {
-            background: url('newsModule.png') no-repeat;
+            background: url('newshealth.png') no-repeat;
+            background-attachment: scroll;
+            background-position: center center;
+            /*background-size: cover;*/
+            background-size: 100% 100%;
+        }
+
+        .newssports
+        {
+            background: url('newssports.png') no-repeat;
+            background-attachment: scroll;
+            background-position: center center;
+            /*background-size: cover;*/
+            background-size: 100% 100%;
+        }
+
+        .newsbusiness
+        {
+            background: url('newsbusiness.png') no-repeat;
+            background-attachment: scroll;
+            background-position: center center;
+            /*background-size: cover;*/
+            background-size: 100% 100%;
+        }
+
+        .newsentertainment
+        {
+            background: url('newsentertainment.png') no-repeat;
+            background-attachment: scroll;
+            background-position: center center;
+            /*background-size: cover;*/
+            background-size: 100% 100%;
+        }
+
+        .newsscience
+        {
+            background: url('newsscience.png') no-repeat;
+            background-attachment: scroll;
+            background-position: center center;
+            /*background-size: cover;*/
+            background-size: 100% 100%;
+        }
+
+        .newstechnology
+        {
+            background: url('newstechnology.png') no-repeat;
             background-attachment: scroll;
             background-position: center center;
             /*background-size: cover;*/
@@ -120,16 +165,39 @@
             {
                 nodeCopy.className += " weatherforecastimage";
             }
-            else if (document.getElementById(data).id === "news")
-            {
-                nodeCopy.className += " newsimage";
-            }
             else if (document.getElementById(data).id === "quote")
             {
                 nodeCopy.className += " quoteimage";
             }
+            else if (document.getElementById(data).id === "newshealth")
+            {
+                nodeCopy.className += " newshealth";
+            }
+            else if (document.getElementById(data).id === "newssports")
+            {
+                nodeCopy.className += " newssports";
+            }
+            else if (document.getElementById(data).id === "newsbusiness")
+            {
+                nodeCopy.className += " newsbusiness";
+            }
+            else if (document.getElementById(data).id === "newsentertainment")
+            {
+                nodeCopy.className += " newsentertainment";
+            }
+            else if (document.getElementById(data).id === "newsscience")
+            {
+                nodeCopy.className += " newsscience";
+            }
+            else if (document.getElementById(data).id === "newstechnology")
+            {
+                nodeCopy.className += " newstechnology";
+            }
 
             target.appendChild(nodeCopy);
+
+            var inputfield = document.getElementsByName(target.id)[0];
+            inputfield.value = nodeCopy.id;
 
             uniqueId++;
         }
@@ -174,75 +242,131 @@
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-layout-title" style="font-size: 1.5em; text-align: center; padding-bottom: 1em;">Spiegel Ansicht</div>
+                                <form action="#" method="post">
+                                    <div class="mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp mdl-grid" style="background-color: #ff4081 !important;">
+                                        <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="topleft" ondragover="dragover(event)" ondrop="drop(event)"></div>
+                                        <input type="hidden" value="" name="topleft" id="hiddenfieldtopleft"/>
+                                        <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="topright" ondragover="dragover(event)" ondrop="drop(event)"></div>
+                                        <input type="hidden" value="" name="topright" id="hiddenfieldright"/>
+                                        <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="middleleft" ondragover="dragover(event)" ondrop="drop(event)"></div>
+                                        <input type="hidden" value="" name="middleleft" id="hiddenfieldmiddleleft"/>
+                                        <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="middleright" ondragover="dragover(event)" ondrop="drop(event)"></div>
+                                        <input type="hidden" value="" name="middleright" id="hiddenfieldmiddleright"/>
+                                        <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="bottomleft" ondragover="dragover(event)" ondrop="drop(event)"></div>
+                                        <input type="hidden" value="" name="bottomleft" id="hiddenfieldbottomleft"/>
+                                        <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="bottomright" ondragover="dragover(event)" ondrop="drop(event)"></div>
+                                        <input type="hidden" value="" name="bottomright" id="hiddenfieldbottomright"/>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet" style="text-align: center;">
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Speichern</button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-layout-title" style="font-size: 1.5em; text-align: center; padding-bottom: 1em;">Modulauswahl</div>
-                            </div>
-                            <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp mdl-grid" style="background-color: #ff4081 !important;">
-                                <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="topleft" ondragover="dragover(event)" ondrop="drop(event)"></div>
-                                <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="topright" ondragover="dragover(event)" ondrop="drop(event)"></div>
-                                <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="middleleft" ondragover="dragover(event)" ondrop="drop(event)"></div>
-                                <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="middleright" ondragover="dragover(event)" ondrop="drop(event)"></div>
-                                <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="bottomleft" ondragover="dragover(event)" ondrop="drop(event)"></div>
-                                <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-shadow--2dp dropzone" id="bottomright" ondragover="dragover(event)" ondrop="drop(event)"></div>
-                            </div>
-                            <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-grid" style="background-color: lightgray !important;">
-                                <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                                    <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="time" draggable="true" ondragstart="drag(event)">
-                                        <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
-                                            <h2 class="mdl-card__title-text">Uhrzeit</h2>
+                                <div class="mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-grid" style="background-color: lightgray !important;">
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="time" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
+                                                <h2 class="mdl-card__title-text">Uhrzeit</h2>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                                    <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="weather" draggable="true" ondragstart="drag(event)">
-                                        <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
-                                            <h2 class="mdl-card__title-text">Wetter</h2>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="weather" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
+                                                <h2 class="mdl-card__title-text">Wetter</h2>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                                    <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="weatherforecast" draggable="true" ondragstart="drag(event)">
-                                        <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
-                                            <h2 class="mdl-card__title-text">Wetter</h2>
-                                        </div>
-                                        <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
-                                            Vorhersage
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                                    <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="news" draggable="true" ondragstart="drag(event)">
-                                        <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
-                                            <h2 class="mdl-card__title-text">News</h2>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="weatherforecast" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">Wetter</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Vorhersage
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                                    <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="quote" draggable="true" ondragstart="drag(event)">
-                                        <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
-                                            <h2 class="mdl-card__title-text">Spruch</h2>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="quote" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center;">
+                                                <h2 class="mdl-card__title-text">Spruch</h2>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="newshealth" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">News</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Gesundheit
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="newssports" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">News</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Sport
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="newsbusiness" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">News</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Unternehmen
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="newsentertainment" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">News</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Unterhaltung
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="newsscience" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">News</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Wissenschaft
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mycard mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                                        <div class="mycard mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-shadow--2dp hover" id="newstechnology" draggable="true" ondragstart="drag(event)">
+                                            <div class="mdl-card__title" style="color: #ff4081; justify-content: center; padding-bottom: 0;">
+                                                <h2 class="mdl-card__title-text">News</h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text" style="font-size: 10px; color: #ff4081; text-align: center; padding: 0; width: 100%;">
+                                                Technologie
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
+                                    <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
                                 </div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                                <div class="mycard mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet"></div>
-                            </div>
-                            <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet" style="text-align: center;">
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Speichern</button>
                             </div>
                         </div>
                     </div>

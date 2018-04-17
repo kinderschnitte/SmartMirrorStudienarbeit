@@ -186,7 +186,12 @@
     <Content Include="Images\hot.png" />
     <Content Include="Images\hotsmall.png" />
     <Content Include="Images\new-moon.png" />
-    <Content Include="Images\newsModule.png" />
+    <Content Include="Images\newsbusiness.png" />
+    <Content Include="Images\newsentertainment.png" />
+    <Content Include="Images\newshealth.png" />
+    <Content Include="Images\newsscience.png" />
+    <Content Include="Images\newssports.png" />
+    <Content Include="Images\newstechnology.png" />
     <Content Include="Images\overcast.png" />
     <Content Include="Images\pressure.png" />
     <Content Include="Images\quoteModule.png" />

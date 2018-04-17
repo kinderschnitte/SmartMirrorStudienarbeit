@@ -45,7 +45,7 @@ namespace SmartMirrorServer
         {
             try
             {
-                //await updateModules();
+                updateModules();
 
                 TimeSpan period = TimeSpan.FromMinutes(Application.DataUpdateMinutes);
                 ThreadPoolTimer.CreatePeriodicTimer(async source => { await updateModules(); }, period);
@@ -155,7 +155,7 @@ namespace SmartMirrorServer
 
         private static async Task newsModul(Modules modules, Module module)
         {
-            ArticlesResult result = module.NewsSources == null ? await getNewsByCategory(module) : await getNewsBySource(module);
+            ArticlesResult result = module.NewsSources.Count == 0 ? await getNewsByCategory(module) : await getNewsBySource(module);
             ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
 
