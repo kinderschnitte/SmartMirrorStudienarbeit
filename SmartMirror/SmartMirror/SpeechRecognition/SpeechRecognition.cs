@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using Windows.Media.SpeechRecognition;
-using Windows.System.Threading;
 using Windows.UI.Core;
 using SmartMirror.SpeechRecognition.SpeechRecognitionManager;
 

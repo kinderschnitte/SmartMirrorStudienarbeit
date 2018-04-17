@@ -37,9 +37,9 @@ namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
 
                 await SpeechRecognizer.ContinuousRecognitionSession.StartAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
+                // ignored
             }
         }
     }

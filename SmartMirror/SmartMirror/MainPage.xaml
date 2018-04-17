@@ -10,5 +10,6 @@
             <SolidColorBrush>Black</SolidColorBrush>
         </Grid.Background>
         <WebView x:Name="Browser" x:FieldModifier="public"/>
+        <MediaElement x:Name="AudioPlayer" x:FieldModifier="public" Visibility="Collapsed" AutoPlay="False"/>
     </Grid>
 </Page>

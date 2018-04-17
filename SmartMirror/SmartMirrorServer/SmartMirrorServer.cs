@@ -45,7 +45,7 @@ namespace SmartMirrorServer
         {
             try
             {
-                updateModules();
+                await updateModules();
 
                 TimeSpan period = TimeSpan.FromMinutes(Application.DataUpdateMinutes);
                 ThreadPoolTimer.CreatePeriodicTimer(async source => { await updateModules(); }, period);
@@ -329,13 +329,20 @@ namespace SmartMirrorServer
                     break;
             }
 
-            using (MemoryStream bodyStream = new MemoryStream(file))
+            try
             {
-                string header = $"HTTP/1.1 200 OK\r\nContent-Length: {bodyStream.Length}\r\nConnection: close\r\nContent-Type: image/{fileType}; charset=utf-8\r\n\r\n";
-                byte[] headerArray = Encoding.UTF8.GetBytes(header);
-                await responseStream.WriteAsync(headerArray, 0, headerArray.Length);
-                await bodyStream.CopyToAsync(responseStream);
-                await responseStream.FlushAsync();
+                using (MemoryStream bodyStream = new MemoryStream(file))
+                {
+                    string header = $"HTTP/1.1 200 OK\r\nContent-Length: {bodyStream.Length}\r\nConnection: close\r\nContent-Type: image/{fileType}; charset=utf-8\r\n\r\n";
+                    byte[] headerArray = Encoding.UTF8.GetBytes(header);
+                    await responseStream.WriteAsync(headerArray, 0, headerArray.Length);
+                    await bodyStream.CopyToAsync(responseStream);
+                    await responseStream.FlushAsync();
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
 
@@ -348,15 +355,22 @@ namespace SmartMirrorServer
         /// <returns></returns>
         private static async Task sendResponse(IOutputStream outputStream, Request request, byte[] file)
         {
-            using (IOutputStream output = outputStream)
+            try
             {
-                using (Stream responseStream = output.AsStreamForWrite())
+                using (IOutputStream output = outputStream)
                 {
-                    if (request.Query.FileType == FileType.HTML)
-                        await sendWebsite(responseStream, file);
-                    else if (request.Query.FileType != FileType.UNKNOWN)
-                        await sendPicture(responseStream, request, file);
+                    using (Stream responseStream = output.AsStreamForWrite())
+                    {
+                        if (request.Query.FileType == FileType.HTML)
+                            await sendWebsite(responseStream, file);
+                        else if (request.Query.FileType != FileType.UNKNOWN)
+                            await sendPicture(responseStream, request, file);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
 
