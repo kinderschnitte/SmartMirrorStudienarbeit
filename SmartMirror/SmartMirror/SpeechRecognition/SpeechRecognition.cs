@@ -8,7 +8,7 @@ namespace SmartMirror.SpeechRecognition
 {
     internal class SpeechRecognition
     {
-        private SpeechRecognitionManager.SpeechRecognitionManager speechRecognizer;
+        public SpeechRecognitionManager.SpeechRecognitionManager SpeechRecognizer { get; private set; }
 
         private readonly CoreDispatcher dispatcher;
 
@@ -22,26 +22,26 @@ namespace SmartMirror.SpeechRecognition
 
         public async void StopRecognizing()
         {
-            await speechRecognizer.Dispose();
+            await SpeechRecognizer.Dispose();
         }
 
         public async void StartRecognizing()
         {
-            speechRecognizer = new SpeechRecognitionManager.SpeechRecognitionManager("Grammar.xml");
+            SpeechRecognizer = new SpeechRecognitionManager.SpeechRecognitionManager("Grammar.xml");
 
-            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += continuousRecognitionSessionOnResultGenerated;
+            SpeechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += continuousRecognitionSessionOnResultGenerated;
 
-            speechRecognizer.SpeechRecognizer.RecognitionQualityDegrading += (sender, args) =>
+            SpeechRecognizer.SpeechRecognizer.RecognitionQualityDegrading += (sender, args) =>
             {
                 Debug.WriteLine(args.Problem.ToString());
             };
 
-            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Completed += (sender, args) =>
+            SpeechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Completed += (sender, args) =>
             {
                 Debug.WriteLine(args.Status.ToString());
             };
 
-            await speechRecognizer.CompileGrammar();
+            await SpeechRecognizer.CompileGrammar();
         }
 
         private void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)

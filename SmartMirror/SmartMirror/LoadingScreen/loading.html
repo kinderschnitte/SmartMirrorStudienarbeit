@@ -44,7 +44,11 @@
             {
                 text.innerHTML = 'Ein wenig Geduld bitte';
             }
-            else if (count > 1)
+            else if (count === 2)
+            {
+                text.innerHTML = 'Einen Augenblick noch';
+            }
+            else if (count > 2)
             {
                 window.clearInterval(interval);
                 return;
@@ -59,7 +63,7 @@
 <body>
     <div class="mdl-layout mdl-js-layout" style="background-color: black; justify-content: center; align-items: center;">
         <div class="mdl-spinner mdl-js-spinner is-active"></div>
-        <div id="text" class="mdl-layout-title" style="color: white; font-size: 5em; padding-top: 5%;">
+        <div id="text" class="mdl-layout-title" style="color: white; font-size: 4em; padding-top: 15%;">
             System wird vorbereitet
         </div>
     </div>

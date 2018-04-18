@@ -11,11 +11,6 @@ namespace SmartMirror
     /// </summary>
     internal partial class MainPage
     {
-        #region Private Fields
-
-        private readonly SpeechRecognition.SpeechRecognition speechRecognition;
-
-        #endregion Private Fields
 
         #region Public Constructors
 
@@ -29,7 +24,7 @@ namespace SmartMirror
 
             CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
-            speechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
+            SpeechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
 
             SpeechService = new SpeechService(this, dispatcher);
         }
@@ -37,6 +32,8 @@ namespace SmartMirror
         #endregion Public Constructors
 
         #region Public Properties
+
+        public SpeechRecognition.SpeechRecognition SpeechRecognition { get; }
 
         public SpeechService SpeechService { get; }
 
@@ -46,9 +43,9 @@ namespace SmartMirror
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            speechRecognition.StartRecognizing();
+            SpeechRecognition.StartRecognizing();
 
-            Browser.Navigate(new Uri("ms-appx-web:///loading.html"));
+            Browser.Navigate(new Uri("ms-appx-web:///LoadingScreen/loading.html"));
 
             await Task.Delay(TimeSpan.FromSeconds(60));
             Browser.Navigate(new Uri("http://localhost/home.html"));
@@ -56,9 +53,10 @@ namespace SmartMirror
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            speechRecognition.StopRecognizing();
+            SpeechRecognition.StopRecognizing();
         }
 
         #endregion Private Methods
+
     }
 }

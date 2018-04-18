@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace SmartMirror.SpeechSynthesis
         private readonly MediaPlayer speechPlayer;
         private readonly SpeechSynthesizer speechSynthesizer;
 
-        private MainPage mainPage;
+        private readonly MainPage mainPage;
         private readonly CoreDispatcher dispatcher;
 
         #endregion Private Fields
@@ -41,7 +42,7 @@ namespace SmartMirror.SpeechSynthesis
 
             speechSynthesizer = createSpeechSynthesizer();
 
-            speechPlayer = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.Speech, AutoPlay = false };
+            speechPlayer = new MediaPlayer();
 
             #pragma warning disable 4014
             Startup();
@@ -54,8 +55,6 @@ namespace SmartMirror.SpeechSynthesis
 
         public async Task CountDown(int fromNumber)
         {
-            return;
-
             StringBuilder countdownString = new StringBuilder();
 
             countdownString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
@@ -84,8 +83,6 @@ namespace SmartMirror.SpeechSynthesis
 
         public async Task CountTo(int toNumber)
         {
-            return;
-
             StringBuilder countToString = new StringBuilder();
 
             countToString.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
@@ -392,20 +389,28 @@ namespace SmartMirror.SpeechSynthesis
             stringBuilder.AppendLine(@"</sentence>");
             stringBuilder.AppendLine(@"</speak>");
 
-            //using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString()))
+            using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString()))
+            {
+                MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
+
+                if (mediaSource == null)
+                    return;
+
+                speechPlayer.Source = mediaSource;
+            }
+
+            speechPlayer.Play();
+
+            //SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString());
+
+            //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //{
-            //    //MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
+            //    MediaElement media = new MediaElement();
+            //    media.SetSource(stream, stream.ContentType);
+            //    media.Play();
+            //});
 
-            //    //if (mediaSource == null)
-            //    //    return;
-
-            //    speechPlayer.SetStreamSource(stream);
-            //    speechPlayer.Play();
-            //}
-
-            SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString());
-
-            speechPlayer.SetStreamSource(stream);
+            //speechPlayer.SetStreamSource(stream);
             //speechPlayer.Play();
         }
 
@@ -421,7 +426,7 @@ namespace SmartMirror.SpeechSynthesis
             startupString.AppendLine("<break time='1000ms'/>");
             startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
 
-            await sayAsync(startupString.ToString());
+            sayAsync(startupString.ToString());
         }
 
         #endregion Private Methods

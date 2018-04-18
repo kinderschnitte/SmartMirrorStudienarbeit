@@ -9,6 +9,8 @@ namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
 {
     public class SpeechRecognitionManager
     {
+        #region Public Constructors
+
         public SpeechRecognitionManager(string grammarFile)
         {
             SpeechRecognizer = new SpeechRecognizer(new Language("de-DE"));
@@ -16,9 +18,21 @@ namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
             GrammarFile = string.Format(grammarFile);
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
         public SpeechRecognizer SpeechRecognizer { get; set; }
 
+        #endregion Public Properties
+
+        #region Private Properties
+
         private string GrammarFile { get; }
+
+        #endregion Private Properties
+
+        #region Public Methods
 
         public async Task CompileGrammar()
         {
@@ -42,5 +56,7 @@ namespace SmartMirror.SpeechRecognition.SpeechRecognitionManager
                 // ignored
             }
         }
+
+        #endregion Public Methods
     }
 }
