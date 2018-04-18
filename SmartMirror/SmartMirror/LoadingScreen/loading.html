@@ -1,0 +1,67 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Mira Ladescreen</title>
+
+    <script src="material.min.js"></script>
+    <link rel="stylesheet" href="material.indigo-pink.min.css">
+    <link rel="stylesheet" href="material-icons.css">
+    
+    <style>
+        .mdl-spinner
+        {
+            width: 126px;
+            height: 126px;
+        }
+
+        .mdl-spinner__circle
+        {
+            border-width: 12px;
+        }
+    </style>
+    <script type="text/javascript">
+        var count = 0;
+        var interval;
+
+        function initChangeText()
+        {
+            var time = 10;
+            interval = setInterval('changeText();',time*1000);
+        }
+
+        function changeText()
+        {
+            var text = document.getElementById("text");
+
+            if (count === 0)
+            {
+                text.innerHTML = 'Daten werden geladen';
+            }
+            else if (count === 1)
+            {
+                text.innerHTML = 'Ein wenig Geduld bitte';
+            }
+            else if (count > 1)
+            {
+                window.clearInterval(interval);
+                return;
+            }
+
+            count++;
+        }
+
+        window.onload = initChangeText;
+    </script>
+</head>
+<body>
+    <div class="mdl-layout mdl-js-layout" style="background-color: black; justify-content: center; align-items: center;">
+        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+        <div id="text" class="mdl-layout-title" style="color: white; font-size: 5em; padding-top: 5%;">
+            System wird vorbereitet
+        </div>
+    </div>
+</body>
+</html>

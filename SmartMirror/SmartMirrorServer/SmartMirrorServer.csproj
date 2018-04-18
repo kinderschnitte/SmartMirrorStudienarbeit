@@ -237,6 +237,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png">
       <InProject>false</InProject>
     </Content>
+    <Content Include="Stylesheets\material-icons.css" />
+    <Content Include="Stylesheets\material.indigo-pink.min.css" />
+    <Content Include="Stylesheets\material.min.js" />
     <Content Include="Websites\settings.html" />
     <Content Include="Websites\quote.html" />
     <Content Include="Websites\news.html" />

@@ -125,6 +125,10 @@
     <Content Include="Grammar.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="LoadingScreen\loading.html" />
+    <Content Include="LoadingScreen\material-icons.css" />
+    <Content Include="LoadingScreen\material.indigo-pink.min.css" />
+    <Content Include="LoadingScreen\material.min.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

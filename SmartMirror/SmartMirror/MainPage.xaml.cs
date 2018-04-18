@@ -48,6 +48,8 @@ namespace SmartMirror
         {
             speechRecognition.StartRecognizing();
 
+            Browser.Navigate(new Uri("ms-appx-web:///loading.html"));
+
             await Task.Delay(TimeSpan.FromSeconds(60));
             Browser.Navigate(new Uri("http://localhost/home.html"));
         }
