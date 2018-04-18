@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -129,7 +130,9 @@ namespace DataAccessLibrary
             try
             {
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex))
+                {
                     return dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
+                }
             }
             catch (Exception e)
             {

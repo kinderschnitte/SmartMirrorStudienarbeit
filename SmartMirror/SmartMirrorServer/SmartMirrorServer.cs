@@ -213,16 +213,16 @@ namespace SmartMirrorServer
             if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
                 await newsModul(Modules.NEWSENTERTAINMENT, DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
 
-            if (!DataAccess.ModuleExists(Modules.NEWSHEALTH))
+            if (DataAccess.ModuleExists(Modules.NEWSHEALTH))
                 await newsModul(Modules.NEWSHEALTH, DataAccess.GetModule(Modules.NEWSHEALTH));
 
-            if (!DataAccess.ModuleExists(Modules.NEWSSPORT))
+            if (DataAccess.ModuleExists(Modules.NEWSSPORT))
                 await newsModul(Modules.NEWSSPORT, DataAccess.GetModule(Modules.NEWSSPORT));
 
-            if (!DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
+            if (DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
                 await newsModul(Modules.NEWSTECHNOLOGY, DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
 
-            if (!DataAccess.ModuleExists(Modules.NEWSBUSINESS))
+            if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
                 await newsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
         }
 

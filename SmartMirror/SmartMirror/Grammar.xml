@@ -235,6 +235,7 @@
       <one-of>
         <item>zeit</item>
         <item>uhrzeit</item>
+        <item>uhr</item>
         <item>sonnenaufgang</item>
         <item>sonnenuntergang</item>
         <item>sonne</item>
@@ -264,7 +265,12 @@
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> das </item>
-    <item> licht <tag> out="light"; </tag></item>
+    <item><tag> out="light"; </tag>
+      <one-of>
+        <item> licht </item>
+        <item> spiegel </item>
+      </one-of>
+    </item>
     <item repeat="0-1"> bitte </item>
   </rule>
 

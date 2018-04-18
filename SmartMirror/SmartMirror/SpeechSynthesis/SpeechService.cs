@@ -392,27 +392,21 @@ namespace SmartMirror.SpeechSynthesis
             stringBuilder.AppendLine(@"</sentence>");
             stringBuilder.AppendLine(@"</speak>");
 
-            //using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(ssml))
+            //using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString()))
             //{
-            //MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
+            //    //MediaSource mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
 
-            //if (mediaSource == null)
-            //    return;
+            //    //if (mediaSource == null)
+            //    //    return;
+
+            //    speechPlayer.SetStreamSource(stream);
+            //    speechPlayer.Play();
             //}
 
-            //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            //{
-            //    using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString()))
-            //        mainPage.AudioPlayer.SetSource(stream, stream.ContentType);
-
-            //    mainPage.AudioPlayer.Play();
-            //});
-
             SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString());
-            mainPage.AudioPlayer.SetSource(stream, stream.ContentType);
-            mainPage.AudioPlayer.Volume = 1;
-            mainPage.AudioPlayer.IsMuted = false;
-            mainPage.AudioPlayer.Play();
+
+            speechPlayer.SetStreamSource(stream);
+            //speechPlayer.Play();
         }
 
         public async Task Startup()
