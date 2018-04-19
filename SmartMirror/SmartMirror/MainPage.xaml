@@ -9,6 +9,6 @@
         <Grid.Background>
             <SolidColorBrush>Black</SolidColorBrush>
         </Grid.Background>
-        <WebView x:Name="Browser" x:FieldModifier="public"/>
+        <WebView x:Name="Browser" x:FieldModifier="public" Source="ms-appx-web:///LoadingScreen/loading.html"/>
     </Grid>
 </Page>

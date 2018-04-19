@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
 using SmartMirror.SpeechRecognition.SpeechRecognitionManager;
@@ -25,7 +26,7 @@ namespace SmartMirror.SpeechRecognition
             await SpeechRecognizer.Dispose();
         }
 
-        public async void StartRecognizing()
+        public async Task StartRecognizing()
         {
             SpeechRecognizer = new SpeechRecognitionManager.SpeechRecognitionManager("Grammar.xml");
 

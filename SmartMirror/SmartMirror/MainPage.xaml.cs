@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -11,7 +12,6 @@ namespace SmartMirror
     /// </summary>
     internal partial class MainPage
     {
-
         #region Public Constructors
 
         public MainPage()
@@ -43,12 +43,32 @@ namespace SmartMirror
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            SpeechRecognition.StartRecognizing();
+            await SpeechRecognition.StartRecognizing();
 
-            Browser.Navigate(new Uri("ms-appx-web:///LoadingScreen/loading.html"));
+            //await SpeechService.Startup();
 
-            await Task.Delay(TimeSpan.FromSeconds(60));
+            await waitingForServerToStart();
+
             Browser.Navigate(new Uri("http://localhost/home.html"));
+        }
+
+        private static async Task waitingForServerToStart()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                const string url = "http://localhost/light.html";
+                try
+                {
+                    string response = await client.GetStringAsync(url);
+
+                    if (string.IsNullOrEmpty(response))
+                        await Task.Delay(5000);
+                }
+                catch (Exception)
+                {
+                    await waitingForServerToStart();
+                }
+            }
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

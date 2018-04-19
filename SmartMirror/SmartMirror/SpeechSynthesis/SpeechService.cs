@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
@@ -43,10 +44,6 @@ namespace SmartMirror.SpeechSynthesis
             speechSynthesizer = createSpeechSynthesizer();
 
             speechPlayer = new MediaPlayer();
-
-            #pragma warning disable 4014
-            Startup();
-            #pragma warning restore 4014
         }
 
         #endregion Public Constructors
@@ -399,7 +396,7 @@ namespace SmartMirror.SpeechSynthesis
                 speechPlayer.Source = mediaSource;
             }
 
-            speechPlayer.Play();
+            //await ThreadPool.RunAsync(myHighPriorityBackgroundThread, WorkItemPriority.Normal);
 
             //SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString());
 
@@ -414,6 +411,11 @@ namespace SmartMirror.SpeechSynthesis
             //speechPlayer.Play();
         }
 
+        private void myHighPriorityBackgroundThread(Windows.Foundation.IAsyncAction action)
+        {
+            speechPlayer.Play();
+        }
+
         public async Task Startup()
         {
             StringBuilder startupString = new StringBuilder();
@@ -421,12 +423,10 @@ namespace SmartMirror.SpeechSynthesis
             startupString.AppendLine("Darf ich mich vorstellen ?");
             startupString.AppendLine("<break time='500ms'/>");
             startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
-            startupString.AppendLine("<break time='300ms'/>");
-            startupString.AppendLine("Wie kann ich dir behilflich <prosody pitch=\"high\">sein</prosody>?");
             startupString.AppendLine("<break time='1000ms'/>");
             startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
 
-            sayAsync(startupString.ToString());
+            await sayAsync(startupString.ToString());
         }
 
         #endregion Private Methods
