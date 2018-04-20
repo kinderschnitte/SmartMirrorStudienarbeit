@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLibrary;
+using Api;
+using Api.Weather;
 using DataAccessLibrary.Module;
-using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites

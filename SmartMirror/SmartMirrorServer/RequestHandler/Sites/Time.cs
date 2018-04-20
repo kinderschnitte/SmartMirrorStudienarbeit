@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLibrary;
+using Api;
+using Api.Sun;
 using DataAccessLibrary.Module;
-using SmartMirrorServer.Features.SunTimes;
 using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites

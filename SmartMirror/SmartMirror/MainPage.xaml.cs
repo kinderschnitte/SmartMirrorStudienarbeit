@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using SmartMirror.SpeechSynthesis;
 
 namespace SmartMirror
 {
@@ -12,6 +10,13 @@ namespace SmartMirror
     /// </summary>
     internal partial class MainPage
     {
+
+        #region Private Fields
+
+        private readonly SpeechRecognition.SpeechRecognition speechRecognition;
+
+        #endregion Private Fields
+
         #region Public Constructors
 
         public MainPage()
@@ -24,59 +29,31 @@ namespace SmartMirror
 
             CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
-            SpeechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
-
-            SpeechService = new SpeechService(this, dispatcher);
+            speechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
         }
 
         #endregion Public Constructors
-
-        #region Public Properties
-
-        public SpeechRecognition.SpeechRecognition SpeechRecognition { get; }
-
-        public SpeechService SpeechService { get; }
-
-        #endregion Public Properties
 
         #region Private Methods
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await SpeechRecognition.StartRecognizing();
+            await Task.Delay(TimeSpan.FromSeconds(30));
 
-            //await SpeechService.Startup();
+            await Speechservice.SpeechService.Startup();
 
-            await waitingForServerToStart();
+            await Task.Delay(TimeSpan.FromSeconds(10));
+
+            speechRecognition.StartRecognizing();
 
             Browser.Navigate(new Uri("http://localhost/home.html"));
         }
 
-        private static async Task waitingForServerToStart()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                const string url = "http://localhost/light.html";
-                try
-                {
-                    string response = await client.GetStringAsync(url);
-
-                    if (string.IsNullOrEmpty(response))
-                        await Task.Delay(5000);
-                }
-                catch (Exception)
-                {
-                    await waitingForServerToStart();
-                }
-            }
-        }
-
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            SpeechRecognition.StopRecognizing();
+            speechRecognition.StopRecognizing();
         }
 
         #endregion Private Methods
-
     }
 }

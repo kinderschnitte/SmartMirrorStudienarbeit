@@ -4,11 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Api;
+using Api.Sun;
+using Api.Weather;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using NewsAPI.Models;
-using SmartMirrorServer.Features.SunTimes;
-using SmartMirrorServer.Features.Weather;
 using SmartMirrorServer.HelperClasses;
 
 namespace SmartMirrorServer.RequestHandler.Sites
@@ -103,19 +104,19 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 case ModuleType.NEWS:
                     return getNewsModul(modules);
 
-                case ModuleType.QUOTEOFDAY:
-                    return getQuoteOfDayModul(modules);
+                case ModuleType.QUOTE:
+                    return getQuoteModul(modules);
             }
 
             return string.Empty;
         }
 
-        private static string getQuoteOfDayModul(Modules modules)
+        private static string getQuoteModul(Modules modules)
         {
             if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
                 return string.Empty;
 
-            Features.Quote.Quote result = (Features.Quote.Quote) r;
+            Api.Quote.Quote result = (Api.Quote.Quote) r;
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -201,7 +202,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<table style=\"width: 100%; height: 60%; table-layout: fixed; padding: 2.5%;\"> <tr> <td colspan=\"2\" style=\"font-size: 1.75em;\">{DateTime.Now:D}</td> </tr> <tr> <td colspan=\"2\" style=\"font-size: 7.5em;\" class=\"clock\">00:00:00</td> </tr> <tr> <td style=\"font-size: 1.75em; text-align: right; padding-right: 5%;\"> <img src=\"sunrise.png\" alt=\"\" style=\"height: 0.85em;\"/> {sun.Sunrise}</td> <td style=\"font-size: 1.75em;  text-align: left; padding-left: 5%;\"> <img src=\"sunset.png\" alt=\"\" style=\"height: 0.85em;\"/> {sun.Sunset}</td> </tr> </table>");
+            stringBuilder.Append($"<table style=\"width: 100%; height: 60%; table-layout: fixed; padding: 2.5%;\"> <tr> <td colspan=\"2\" style=\"font-size: 1.75em;\">{DateTime.Now:D}</td> </tr> <tr> <td colspan=\"2\" style=\"font-size: 7.5em;\" class=\"clock\"></td> </tr> <tr> <td style=\"font-size: 1.75em; text-align: right; padding-right: 5%;\"> <img src=\"sunrise.png\" alt=\"\" style=\"height: 0.85em;\"/> {sun.Sunrise}</td> <td style=\"font-size: 1.75em;  text-align: left; padding-left: 5%;\"> <img src=\"sunset.png\" alt=\"\" style=\"height: 0.85em;\"/> {sun.Sunset}</td> </tr> </table>");
 
             return stringBuilder.ToString();
         }

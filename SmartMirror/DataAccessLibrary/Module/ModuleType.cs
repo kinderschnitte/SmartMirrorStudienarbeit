@@ -7,6 +7,7 @@
         WEATHER,
         WEATHERFORECAST,
         NEWS,
-        QUOTEOFDAY
+        QUOTE,
+        JOKE
     }
 }

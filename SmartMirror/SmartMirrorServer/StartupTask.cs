@@ -25,9 +25,11 @@ namespace SmartMirrorServer
         {
             deferral = taskInstance.GetDeferral();
 
+            SmartMirrorServer smartMirrorServer = new SmartMirrorServer();
+
             await ThreadPool.RunAsync(workItem =>
             {
-                SmartMirrorServer.Start();
+                smartMirrorServer.Start();
             });
         }
 

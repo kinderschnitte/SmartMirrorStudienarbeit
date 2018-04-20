@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
 using SmartMirror.SpeechRecognition.SpeechRecognitionManager;
+using Speechservice;
 
 namespace SmartMirror.SpeechRecognition
 {
     internal class SpeechRecognition
     {
-        public SpeechRecognitionManager.SpeechRecognitionManager SpeechRecognizer { get; private set; }
+        private SpeechRecognitionManager.SpeechRecognitionManager speechRecognizer;
 
         private readonly CoreDispatcher dispatcher;
 
@@ -23,37 +24,40 @@ namespace SmartMirror.SpeechRecognition
 
         public async void StopRecognizing()
         {
-            await SpeechRecognizer.Dispose();
+            await speechRecognizer.Dispose();
         }
 
-        public async Task StartRecognizing()
+        public async void StartRecognizing()
         {
-            SpeechRecognizer = new SpeechRecognitionManager.SpeechRecognitionManager("Grammar.xml");
+            speechRecognizer = new SpeechRecognitionManager.SpeechRecognitionManager("Grammar.xml");
 
-            SpeechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += continuousRecognitionSessionOnResultGenerated;
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += continuousRecognitionSessionOnResultGenerated;
 
-            SpeechRecognizer.SpeechRecognizer.RecognitionQualityDegrading += (sender, args) =>
+            speechRecognizer.SpeechRecognizer.RecognitionQualityDegrading += (sender, args) =>
             {
-                Debug.WriteLine(args.Problem.ToString());
+                Debug.WriteLine("Quality" + args.Problem.ToString());
             };
 
-            SpeechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Completed += (sender, args) =>
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Completed += (sender, args) =>
             {
-                Debug.WriteLine(args.Status.ToString());
+                Debug.WriteLine("Completed" + args.Status.ToString());
             };
 
-            await SpeechRecognizer.CompileGrammar();
+            await speechRecognizer.CompileGrammar();
+
+            Debug.WriteLine("Speech recognition started.");
+            Debug.WriteLine(speechRecognizer.SpeechRecognizer.State);
         }
 
-        private void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
+        private async void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
         {
             Debug.WriteLine(args.Result.Confidence.ToString());
             if (args.Result.Confidence == SpeechRecognitionConfidence.Low || args.Result.Confidence == SpeechRecognitionConfidence.Medium) return;
 
+            await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
             handleRecognizedSpeech(evaluateSpeechInput(args.Result));
         }
 
-        // ReSharper disable once SuggestBaseTypeForParameter
         private static RecognizedSpeech evaluateSpeechInput(SpeechRecognitionResult argsResult)
         {
             RecognizedSpeech recognizedSpeech = new RecognizedSpeech
@@ -406,120 +410,96 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_TIME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayTime();
-                    });
+                    await SpeechService.SayTime();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_NAME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayName();
-                    });
+                    await SpeechService.SayName();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_LOOK:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayLook();
-                    });
+                    await SpeechService.SayLook();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_GENDER:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayGender();
-                    });
+                    await SpeechService.SayGender();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_MIRROR:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayMirror();
-                    });
+                    await SpeechService.SayMirror();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_COUNT:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        int.TryParse(recognizedSpeech.SemanticText, out int number);
-                        await mainPage.SpeechService.CountTo(number);
-                    });
+                    int.TryParse(recognizedSpeech.SemanticText, out int count);
+                    await SpeechService.CountTo(count);
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_COUNTDOWN:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        int.TryParse(recognizedSpeech.SemanticText, out int number);
-                        await mainPage.SpeechService.CountDown(number);
-                    });
+                    int.TryParse(recognizedSpeech.SemanticText, out int countdown);
+                    await SpeechService.CountDown(countdown);
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_RANDOM:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        int.TryParse(recognizedSpeech.SemanticText.Split(' ')[0], out int from);
-                        int.TryParse(recognizedSpeech.SemanticText.Split(' ')[1], out int to);
-                        await mainPage.SpeechService.SayRandom(from, to);
-                    });
-                    break;
+                    // TODO
+                    //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    //{
+                    //    int.TryParse(recognizedSpeech.SemanticText.Split(' ')[0], out int from);
+                    //    int.TryParse(recognizedSpeech.SemanticText.Split(' ')[1], out int to);
+                    //    //await mainPage.SpeechService.SayRandom(from, to);
+                    //});
+                    //break;
 
                 case Message.SPEECH_JOKE:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayJoke();
-                    });
+                    await SpeechService.SayJoke();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_QUOTE:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayQuote();
-                    });
+                    await SpeechService.SayQuote();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_WEATHER:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayWeatherToday();
-                    });
+                    await SpeechService.SayWeather();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_CREATOR:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayCreator();
-                    });
+                    await SpeechService.SayCreator();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_WEATHERFORECAST:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SayWeatherforecast(recognizedSpeech);
-                    });
+                    await SpeechService.SayWeatherforecast(recognizedSpeech.SemanticText.Split(' ')[1]);
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_WEATHER_TEMPERATURE:
+                    //TODO
                     break;
 
                 case Message.SPEECH_SUNRISE:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SaySunrise();
-                    });
+                    await SpeechService.SaySunrise();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_SUNSET:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await mainPage.SpeechService.SaySunset();
-                    });
+                    await SpeechService.SaySunset();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.UNKNOWN:
                     break;
             }
+
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
         }
     }
 }

@@ -96,24 +96,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HelperClasses\DateTimeHelper.cs" />
-    <Compile Include="HelperClasses\DayOfWeekHelper.cs" />
-    <Compile Include="HelperClasses\NumberHelper.cs" />
-    <Compile Include="HelperClasses\WindDirectionHelper.cs" />
     <Compile Include="SpeechRecognition\Message.cs" />
-    <Compile Include="Features\Joke\JokeHelper.cs" />
-    <Compile Include="Features\Quote\QuoteHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\Joke\Joke.cs" />
-    <Compile Include="Features\Quote\Quote.cs" />
     <Compile Include="SpeechRecognition\RecognizedSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpeechRecognition\SpeechRecognitionManager\SpeechRecognitionExtensions.cs" />
     <Compile Include="SpeechRecognition\SpeechRecognitionManager\SpeechRecognitionManager.cs" />
     <Compile Include="SpeechRecognition\SpeechRecognition.cs" />
-    <Compile Include="SpeechSynthesis\SpeechService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -160,6 +151,10 @@
     <ProjectReference Include="..\SmartMirrorServer\SmartMirrorServer.csproj">
       <Project>{178ae2bb-57da-4c57-92ee-c0aeec41e1b7}</Project>
       <Name>SmartMirrorServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speechsynthesis\SpeechService.csproj">
+      <Project>{2e0c024c-0879-4da0-85a4-e9c294ce841a}</Project>
+      <Name>SpeechService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

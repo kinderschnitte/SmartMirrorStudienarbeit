@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLibrary;
+using Api;
 using DataAccessLibrary.Module;
 using NewsAPI.Models;
-
 using SmartMirrorServer.HelperClasses;
 using SmartMirrorServer.Objects;
 
@@ -102,7 +101,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             stringBuilder.Append("<table style=\"width: 100%; height: 60%; padding: 2.5%; display: table; color: white;\"> <col width=\"20%;\"> <col width=\"80%;\">");
 
             foreach (Article article in result.Articles.Take(11))
-                stringBuilder.Append($" <tr onclick=\"window.location='{article.Url}'\"> <td style=\"padding-top: 2.5%; vertical-align: top;\"><image src=\"{article.UrlToImage}\" alt=\"\" style=\"width: 100%;\"/></td> <td style=\"vertical-align: top; padding-top: 2.5%; padding-left: 2.5%;\"> <label style=\"display: block; font-size: 1.75em; cursor: pointer; overflow: hidden; text-align: left; color: white;\"><bold>{article.Title}</bold></label> <label style=\"display: block; text-align: left; font-size: 0.75em; cursor: pointer; color: white; padding-top: 0.5%; padding-bottom: 0.5%;\">{article.PublishedAt?.ToString("f")}</label> <label style=\"display: block; text-align: left; font-size: 1.25em; cursor: pointer; color: white;\">{article.Description}</label> </td> </tr>");
+                stringBuilder.Append($" <tr onclick=\"window.location='{article.Url}'\"> <td style=\"padding-top: 2.5%; vertical-align: top;\"><image src=\"{article.UrlToImage}\" alt=\"\" style=\"width: 100%;\"/></td> <td style=\"vertical-align: top; padding-top: 2.5%; padding-left: 2.5%;\"> <label style=\"display: block; font-size: 1.25em; cursor: pointer; overflow: hidden; text-align: left; color: white;\"><bold>{article.Title}</bold></label> <label style=\"display: block; text-align: left; font-size: 0.6em; cursor: pointer; color: white; padding-top: 0.5%; padding-bottom: 0.5%;\">{article.PublishedAt?.ToString("f")}</label> <label style=\"display: block; text-align: left; font-size: 1em; cursor: pointer; color: white;\">{article.Description}</label> </td> </tr>");
 
             stringBuilder.Append(" </table>");
 

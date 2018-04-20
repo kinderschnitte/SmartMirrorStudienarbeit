@@ -17,6 +17,7 @@
         NEWSHEALTH,
         NEWSSCIENCE,
         NEWSSPORT,
-        NEWSTECHNOLOGY
+        NEWSTECHNOLOGY,
+        JOKE
     }
 }
