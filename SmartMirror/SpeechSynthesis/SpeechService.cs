@@ -87,14 +87,17 @@ namespace Speechservice
 
         public static async Task SayJoke()
         {
-            if (!ModuleData.Data.TryGetValue(Modules.JOKE, out dynamic r))
-                return;
+            //if (!ModuleData.Data.TryGetValue(Modules.JOKE, out dynamic r))
+            //    return;
 
-            Joke joke = (Joke) r;
+            //Joke joke = (Joke) r;
+
+            Joke joke = await JokeHelper.GetJoke();
 
             StringBuilder jokeString = new StringBuilder();
 
-            jokeString.AppendLine($"<break time='300ms'/> Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
+            jokeString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
+            jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
 
             await sayAsync(jokeString.ToString());
         }
@@ -140,13 +143,16 @@ namespace Speechservice
 
         public static async Task SayQuote()
         {
-            if (!ModuleData.Data.TryGetValue(Modules.QUOTE, out dynamic r))
-                return;
+            //if (!ModuleData.Data.TryGetValue(Modules.QUOTE, out dynamic r))
+            //    return;
 
-            Quote quote = (Quote) r;
+            //Quote quote = (Quote) r;
+
+            Quote quote = await ApiData.GetQuoteOfDay();
 
             StringBuilder quoteString = new StringBuilder();
 
+            quoteString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
             quoteString.Append($"{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
 
             await sayAsync(quoteString.ToString());
@@ -166,12 +172,18 @@ namespace Speechservice
 
         public static async Task SaySunrise()
         {
-            if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
-                return;
+            //if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
+            //    return;
 
-            Sun sun = (Sun)r;
+            //Sun sun = (Sun)r;
+
+            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.TIME);
+
+            Sun sun = new Sun(module);
 
             StringBuilder sunriseString = new StringBuilder();
+
+            sunriseString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
 
             int time = DateTime.Compare(DateTime.ParseExact(sun.Sunrise, "H:mm", null, DateTimeStyles.None), DateTime.Now);
 
@@ -193,12 +205,18 @@ namespace Speechservice
 
         public static async Task SaySunset()
         {
-            if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
-                return;
+            //if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
+            //    return;
 
-            Sun sun = (Sun) r;
+            //Sun sun = (Sun) r;
+
+            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.TIME);
+
+            Sun sun = new Sun(module);
 
             StringBuilder sunsetString = new StringBuilder();
+
+            sunsetString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
 
             int time = DateTime.Compare(DateTime.ParseExact(sun.Sunset, "H:mm", null, DateTimeStyles.None), DateTime.Now);
 
@@ -230,16 +248,22 @@ namespace Speechservice
 
         public static async Task SayWeatherforecast(string days)
         {
-            if (!ModuleData.Data.TryGetValue(Modules.WEATHERFORECAST, out dynamic r))
-                return;
+            //if (!ModuleData.Data.TryGetValue(Modules.WEATHERFORECAST, out dynamic r))
+            //    return;
 
-            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>) r;
+            //List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>) r;
+
+            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.WEATHERFORECAST);
+
+            List<List<FiveDaysForecastResult>> result = await ApiData.GetFiveDaysForecastByCityName(module);
 
             // Infos zu heutigen Tag löschen
             if (result.Count > 5)
                 result.RemoveAt(0);
 
             StringBuilder weatherforecastString = new StringBuilder();
+
+            weatherforecastString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
 
             switch (days)
             {
@@ -319,14 +343,19 @@ namespace Speechservice
 
         public static async Task SayWeather()
         {
-            if (!ModuleData.Data.TryGetValue(Modules.WEATHER, out dynamic r))
-                return;
+            //if (!ModuleData.Data.TryGetValue(Modules.WEATHER, out dynamic r))
+            //    return;
 
-            SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>) r;
+            //SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>) r;
+
+            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.WEATHER);
+
+            SingleResult<CurrentWeatherResult> result = await ApiData.GetCurrentWeatherByCityName(module);
 
             StringBuilder weatherTodayString = new StringBuilder();
 
-            weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
+            weatherTodayString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
+            weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
             weatherTodayString.Append(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
 
             await sayAsync(weatherTodayString.ToString());

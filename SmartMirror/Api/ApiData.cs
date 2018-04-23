@@ -47,7 +47,7 @@ namespace Api
                 buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
 
             if (DataAccess.ModuleExists(Modules.WEATHER))
-                weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
+                await weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
 
             if (DataAccess.ModuleExists(Modules.TIME))
                 timeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
@@ -55,7 +55,7 @@ namespace Api
             if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
             {
                 Module weatherforecastModule = DataAccess.GetModule(Modules.WEATHERFORECAST);
-                List<List<FiveDaysForecastResult>> result = await getFiveDaysForecastByCityName(weatherforecastModule);
+                List<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityName(weatherforecastModule);
                 ModuleData.Data.AddOrUpdate(Modules.WEATHERFORECAST, result, (key, value) => result);
             }
 
@@ -113,7 +113,7 @@ namespace Api
 
         private static async Task<List<ForecastDays>> getcalculatedForecast(Module module)
         {
-            IEnumerable<List<FiveDaysForecastResult>> result = await getFiveDaysForecastByCityName(module);
+            IEnumerable<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityName(module);
 
             List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
@@ -124,12 +124,12 @@ namespace Api
             return forecastDays;
         }
 
-        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)
+        public static async Task<SingleResult<CurrentWeatherResult>> GetCurrentWeatherByCityName(Module module)
         {
             return await CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
 
-        private static async Task<List<List<FiveDaysForecastResult>>> getFiveDaysForecastByCityName(Module module)
+        public static async Task<List<List<FiveDaysForecastResult>>> GetFiveDaysForecastByCityName(Module module)
         {
             return await FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
@@ -161,7 +161,7 @@ namespace Api
             return topheadlines;
         }
 
-        private static async Task<Quote.Quote> getQuoteOfDay()
+        public static async Task<Quote.Quote> GetQuoteOfDay()
         {
             return await QuoteHelper.GetQuoteOfDay();
         }
@@ -174,7 +174,7 @@ namespace Api
 
         private static async Task quoteModul(Modules modules)
         {
-            Quote.Quote result = await getQuoteOfDay();
+            Quote.Quote result = await GetQuoteOfDay();
             ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
 
@@ -197,7 +197,7 @@ namespace Api
 
         private static async Task weatherModul(Modules modules, Module module)
         {
-            SingleResult<CurrentWeatherResult> result = await getCurrentWeatherByCityName(module);
+            SingleResult<CurrentWeatherResult> result = await GetCurrentWeatherByCityName(module);
             ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
         }
     }
