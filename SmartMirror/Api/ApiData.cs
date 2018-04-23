@@ -29,26 +29,25 @@ namespace Api
         private static async Task updateModules()
         {
             if (DataAccess.ModuleExists(Modules.UPPERLEFT))
-                await buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
+                buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
 
             if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
-                await buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
+                buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
 
             if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
-                await buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
+                buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
 
             if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
-                await buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
+                buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
 
             if (DataAccess.ModuleExists(Modules.LOWERLEFT))
-                await buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
+                buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
 
             if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
-                await buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
-
+                buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
 
             if (DataAccess.ModuleExists(Modules.WEATHER))
-                await weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
+                weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
 
             if (DataAccess.ModuleExists(Modules.TIME))
                 timeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
@@ -85,7 +84,7 @@ namespace Api
                 await newsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
         }
 
-        private static async Task buildModul(Modules modules, Module module)
+        private static async void buildModul(Modules modules, Module module)
         {
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (module.ModuleType)

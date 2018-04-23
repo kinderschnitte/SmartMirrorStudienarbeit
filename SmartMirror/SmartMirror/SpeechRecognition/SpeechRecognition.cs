@@ -55,7 +55,14 @@ namespace SmartMirror.SpeechRecognition
             if (args.Result.Confidence == SpeechRecognitionConfidence.Low || args.Result.Confidence == SpeechRecognitionConfidence.Medium) return;
 
             await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
-            handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+
+            Debug.WriteLine("Speech Recognition stopped");
+
+            await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
+
+            Debug.WriteLine("Speech Recognition started");
         }
 
         private static RecognizedSpeech evaluateSpeechInput(SpeechRecognitionResult argsResult)
@@ -284,7 +291,7 @@ namespace SmartMirror.SpeechRecognition
             return Message.UNKNOWN;
         }
 
-        private async void handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
+        private async Task handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
         {
             switch (recognizedSpeech.Message)
             {
@@ -411,39 +418,32 @@ namespace SmartMirror.SpeechRecognition
 
                 case Message.SPEECH_TIME:
                     await SpeechService.SayTime();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_NAME:
                     await SpeechService.SayName();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_LOOK:
                     await SpeechService.SayLook();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
-                case Message.SPEECH_GENDER:
+                case Message.SPEECH_GENDER:;
                     await SpeechService.SayGender();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_MIRROR:
                     await SpeechService.SayMirror();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_COUNT:
                     int.TryParse(recognizedSpeech.SemanticText, out int count);
                     await SpeechService.CountTo(count);
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_COUNTDOWN:
                     int.TryParse(recognizedSpeech.SemanticText, out int countdown);
                     await SpeechService.CountDown(countdown);
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_RANDOM:
@@ -458,27 +458,22 @@ namespace SmartMirror.SpeechRecognition
 
                 case Message.SPEECH_JOKE:
                     await SpeechService.SayJoke();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_QUOTE:
                     await SpeechService.SayQuote();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_WEATHER:
                     await SpeechService.SayWeather();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_CREATOR:
                     await SpeechService.SayCreator();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_WEATHERFORECAST:
                     await SpeechService.SayWeatherforecast(recognizedSpeech.SemanticText.Split(' ')[1]);
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_WEATHER_TEMPERATURE:
@@ -487,19 +482,15 @@ namespace SmartMirror.SpeechRecognition
 
                 case Message.SPEECH_SUNRISE:
                     await SpeechService.SaySunrise();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.SPEECH_SUNSET:
                     await SpeechService.SaySunset();
-                    await Task.Delay(TimeSpan.FromSeconds(5));
                     break;
 
                 case Message.UNKNOWN:
                     break;
             }
-
-            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
         }
     }
 }

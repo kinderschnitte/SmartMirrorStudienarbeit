@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,23 +20,6 @@ namespace Speechservice
 {
     public static class SpeechService
     {
-
-        #region Private Fields
-
-        private static readonly MediaPlayer speechPlayer;
-        private static readonly SpeechSynthesizer speechSynthesizer;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
-        static SpeechService()
-        {
-            speechSynthesizer = createSpeechSynthesizer();
-            speechPlayer = new MediaPlayer();
-        }
-
-        #endregion Public Constructors
 
         #region Public Methods
 
@@ -87,29 +69,32 @@ namespace Speechservice
 
         public static async Task SayCreator()
         {
-            StringBuilder weatherTodayString = new StringBuilder();
+            StringBuilder creatorString = new StringBuilder();
 
-            weatherTodayString.AppendLine("Gute Frage, das wüsste ich auch gerne. Ich sehe das wie Winston Churchill, er sagte einst: <break time='300ms'/> Ich bin bereit, meinem Schöpfer gegenüberzutreten. Ob mein Schöpfer ebenso bereit ist, diese Begegnung über sich ergehen zu lassen, ist eine andere Sache.");
+            creatorString.AppendLine("Lückenfüller Lückenfüller <break time='300ms'/> Gute Frage, das wüsste ich auch gerne. Ich sehe das wie Winston Churchill, er sagte einst: <break time='300ms'/> Ich bin bereit, meinem Schöpfer gegenüberzutreten. Ob mein Schöpfer ebenso bereit ist, diese Begegnung über sich ergehen zu lassen, ist eine andere Sache.");
 
-            await sayAsync(weatherTodayString.ToString());
+            await sayAsync(creatorString.ToString());
         }
 
         public static async Task SayGender()
         {
             StringBuilder genderString = new StringBuilder();
 
-            genderString.AppendLine("Das ist eine gute Frage. Ich muss gestehen, ich weiß es selber nicht einmal so genau.");
+            genderString.AppendLine("Lückenfüller Lückenfüller <break time='300ms'/> Das ist eine gute Frage. Ich muss gestehen, ich weiß es selber nicht einmal so genau.");
 
             await sayAsync(genderString.ToString());
         }
 
         public static async Task SayJoke()
         {
-            Joke joke = (Joke) ModuleData.Data[Modules.JOKE];
+            if (!ModuleData.Data.TryGetValue(Modules.JOKE, out dynamic r))
+                return;
+
+            Joke joke = (Joke) r;
 
             StringBuilder jokeString = new StringBuilder();
 
-            jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
+            jokeString.AppendLine($"<break time='300ms'/> Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
 
             await sayAsync(jokeString.ToString());
         }
@@ -117,23 +102,25 @@ namespace Speechservice
         public static async Task SayLook()
         {
             Random randi = new Random();
-            int randomNumber = randi.Next(2);
+            int randomNumber = randi.Next(0, 2);
 
-            StringBuilder nameString = new StringBuilder();
+            StringBuilder lookString = new StringBuilder();
 
-            nameString.AppendLine(randomNumber == 0 ? "Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum - Zeit - Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind." : "Mal schauen. <break time='500ms'/> Dacht ich mir's doch, das gleiche wie gestern.");
+            lookString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
+            lookString.Append(randomNumber == 0 ? "Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum - Zeit - Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind." : "Mal schauen. <break time='500ms'/> Dacht ich mir's doch, ich trage das gleiche wie gestern.");
 
-            await sayAsync(nameString.ToString());
+            await sayAsync(lookString.ToString());
         }
 
         public static async Task SayMirror()
         {
             Random randi = new Random();
-            int randomNumber = randi.Next(2);
+            int randomNumber = randi.Next(0, 2);
 
             StringBuilder nameString = new StringBuilder();
 
-            nameString.AppendLine(randomNumber == 0 ? "Geh mal zur Seite, <break time='300ms'/>ich kann nichts sehen!" : "Hier ein Tipp unter Freunden: <break time='500ms'/> Frag heute einfach mal nicht!");
+            nameString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
+            nameString.Append(randomNumber == 0 ? "Geh mal zur Seite, <break time='300ms'/>ich kann nichts sehen!" : "Hier ein Tipp unter Freunden: <break time='500ms'/> Frag heute einfach mal nicht!");
 
             await sayAsync(nameString.ToString());
         }
@@ -142,22 +129,25 @@ namespace Speechservice
         {
             StringBuilder nameString = new StringBuilder();
 
-            nameString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
-            nameString.AppendLine("<break time='300ms'/>");
-            nameString.AppendLine("Aus dem lateinischen heraus übersetzt, bedeutet mein Name soviel wie <prosody rate=\"-30%\">wunderbar</prosody>, <prosody rate=\"-30%\">die Wunderbare</prosody>.");
-            nameString.AppendLine("<break time='300ms'/>");
-            nameString.AppendLine("Eine hinduistische Legende erzählt die Geschichte von Mirabai, <break time='200ms'/>einer Prinzessin aus dem 16. Jahrhundert, die sich als Geliebte Krishnas betrachtete. <break time='200ms'/>Mirabai gilt als geistliche Liebesdichterin.");
+            nameString.Append("Lückenfüller Lückenfüller <break time='300ms'/> Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
+            nameString.Append("<break time='300ms'/>");
+            nameString.Append("Aus dem lateinischen heraus übersetzt, bedeutet mein Name soviel wie <prosody rate=\"-30%\">wunderbar</prosody>, <prosody rate=\"-30%\">die Wunderbare</prosody>.");
+            nameString.Append("<break time='300ms'/>");
+            nameString.Append("Eine hinduistische Legende erzählt die Geschichte von Mirabai, <break time='200ms'/>einer Prinzessin aus dem 16. Jahrhundert, die sich als Geliebte Krishnas betrachtete. <break time='200ms'/>Mirabai gilt als geistliche Liebesdichterin.");
 
             await sayAsync(nameString.ToString());
         }
 
         public static async Task SayQuote()
         {
-            Quote quote = (Quote) Api.ModuleData.Data[Modules.QUOTE];
+            if (!ModuleData.Data.TryGetValue(Modules.QUOTE, out dynamic r))
+                return;
+
+            Quote quote = (Quote) r;
 
             StringBuilder quoteString = new StringBuilder();
 
-            quoteString.AppendLine($"{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
+            quoteString.Append($"{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
 
             await sayAsync(quoteString.ToString());
         }
@@ -169,7 +159,7 @@ namespace Speechservice
 
             StringBuilder nameString = new StringBuilder();
 
-            nameString.AppendLine($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{NumberHelper.NumberToWords(randomNumber)}</prosody>.");
+            nameString.Append($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{NumberHelper.NumberToWords(randomNumber)}</prosody>.");
 
             await sayAsync(nameString.ToString());
         }
@@ -190,13 +180,13 @@ namespace Speechservice
                 if (time != 0)
                 {
                     if (time == 1)
-                        sunriseString.AppendLine($"Um {sun.Sunrise} geht die Sonne auf.");
+                        sunriseString.Append($"Um {sun.Sunrise} geht die Sonne auf.");
                 }
                 else
-                    sunriseString.AppendLine("In diesem Moment geht die Sonne auf.");
+                    sunriseString.Append("In diesem Moment geht die Sonne auf.");
             }
             else
-                sunriseString.AppendLine($"Um {sun.Sunrise} ist die Sonne aufgegangen.");
+                sunriseString.Append($"Um {sun.Sunrise} ist die Sonne aufgegangen.");
 
             await sayAsync(sunriseString.ToString());
         }
@@ -217,13 +207,13 @@ namespace Speechservice
                 if (time != 0)
                 {
                     if (time == 1)
-                        sunsetString.AppendLine($"Um {sun.Sunset} geht die Sonne unter.");
+                        sunsetString.Append($"Um {sun.Sunset} geht die Sonne unter.");
                 }
                 else
-                    sunsetString.AppendLine("In diesem Moment geht die Sonne unter.");
+                    sunsetString.Append("In diesem Moment geht die Sonne unter.");
             }
             else
-                sunsetString.AppendLine($"Um {sun.Sunset} ist die Sonne untergegangen.");
+                sunsetString.Append($"Um {sun.Sunset} ist die Sonne untergegangen.");
 
             await sayAsync(sunsetString.ToString());
         }
@@ -232,7 +222,8 @@ namespace Speechservice
         {
             DateTime now = DateTime.Now;
 
-            string time = $"Es ist {now.Hour} Uhr und {now.Minute} Minuten.";
+            //string time = $"Lückenfüller Lückenfüller Es ist {now.Hour} Uhr {now.Minute}.";
+            string time = $"Lückenfüller Lückenfüller <break time='300ms'/> Meine innere Uhr sagt mir, dass es {now.Hour} Uhr {now.Minute} ist.";
 
             await sayAsync(time);
         }
@@ -335,8 +326,8 @@ namespace Speechservice
 
             StringBuilder weatherTodayString = new StringBuilder();
 
-            weatherTodayString.AppendLine($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
-            weatherTodayString.AppendLine(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
+            weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen.");
+            weatherTodayString.Append(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
 
             await sayAsync(weatherTodayString.ToString());
         }
@@ -345,47 +336,42 @@ namespace Speechservice
 
         #region Private Methods
 
-        private static SpeechSynthesizer createSpeechSynthesizer()
-        {
-            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-
-            VoiceInformation voice = SpeechSynthesizer.AllVoices.SingleOrDefault(i => i.DisplayName == "Microsoft Katja") ?? SpeechSynthesizer.DefaultVoice;
-
-            synthesizer.Voice = voice;
-
-            return synthesizer;
-        }
-
         private static async Task sayAsync(string ssml)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
-            stringBuilder.AppendLine(@"<sentence>");
-            stringBuilder.AppendLine(ssml);
-            stringBuilder.AppendLine(@"</sentence>");
-            stringBuilder.AppendLine(@"</speak>");
+            stringBuilder.Append(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
+            stringBuilder.Append(@"<sentence>");
+            stringBuilder.Append(@"<break time='500ms'/>");
+            stringBuilder.Append(ssml);
+            stringBuilder.Append(@"<break time='500ms'/>");
+            stringBuilder.Append(@"</sentence>");
+            stringBuilder.Append(@"</speak>");
 
-            MediaSource mediaSource;
-
-            using (SpeechSynthesisStream stream = await speechSynthesizer.SynthesizeSsmlToStreamAsync(stringBuilder.ToString()))
+            using (SpeechSynthesizer synth = new SpeechSynthesizer())
             {
-                mediaSource = MediaSource.CreateFromStream(stream, stream.ContentType);
+                synth.Voice = SpeechSynthesizer.AllVoices.SingleOrDefault(i => i.DisplayName == "Microsoft Katja") ?? SpeechSynthesizer.DefaultVoice;
 
-                if (mediaSource == null)
-                    return;
+                using (MediaPlayer mediaPlayer = new MediaPlayer())
+                {
+                    TaskCompletionSource<bool>[] source = { null };
 
-                speechPlayer.Source = mediaSource;
+                    mediaPlayer.MediaEnded += (s, e) =>
+                    {
+                        source[0].SetResult(true);
+                    };
+
+                    source[0] = new TaskCompletionSource<bool>();
+
+                    using (SpeechSynthesisStream speechStream = await synth.SynthesizeSsmlToStreamAsync(stringBuilder.ToString()))
+                    {
+                        mediaPlayer.Source = MediaSource.CreateFromStream(speechStream, speechStream.ContentType);
+                        mediaPlayer.Play();
+                    }
+
+                    await source[0].Task;
+                }
             }
-
-            speechPlayer.Play();
-
-            Debug.WriteLine("Sound started");
-
-            if (mediaSource.Duration != null)
-                await Task.Delay(mediaSource.Duration.Value);
-
-            Debug.WriteLine("Sound ended");
         }
 
         public static async Task Startup()
@@ -399,6 +385,15 @@ namespace Speechservice
             startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
 
             await sayAsync(startupString.ToString());
+        }
+
+        private static async Task noDataAvailable()
+        {
+            StringBuilder nodata = new StringBuilder();
+
+            nodata.AppendLine("");
+
+            await sayAsync(nodata.ToString());
         }
 
         #endregion Private Methods
