@@ -10,6 +10,10 @@
           <tag> out.home=rules.latest(); </tag>
         </item>
         <item>
+          <ruleref uri="#help"/>
+          <tag> out.help=rules.latest(); </tag>
+        </item>
+        <item>
           <ruleref uri="#time"/>
           <tag> out.time=rules.latest(); </tag>
         </item>
@@ -118,6 +122,33 @@
       </one-of>
     </item>
   </rule>
+
+  <!--Help-->
+  <rule id="help">
+    <example> mira zeige bitte die hilfe </example>
+    <example> mira zeige die hilfe </example>
+    <example> mira zeige bitte hilfe </example>
+    <example> mira zeige hilfe </example>
+    <example> mira zeige hilfe bitte </example>
+    <example> mira bitte zeige hilfe </example>
+    <example> mira bitte zeige die hilfe </example>
+    <example> mira hilfe </example>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> zeige </item>
+    <item repeat="0-1"> bitte </item>
+    <item repeat="0-1"> die </item>
+    <item>
+      <tag> out="help"; </tag>
+      <one-of>
+        <item> hilfe </item>
+      </one-of>
+    </item>
+    <item repeat="0-1"> bitte </item>
+  </rule>
   
   <!--Time-->
   <rule id="time">
@@ -139,33 +170,6 @@
     <example> mira bitte zeige die uhrzeit </example>
     <example> mira uhrzeit </example>
       
-    <example> mira zeige bitte den sonnenaufgang </example>
-    <example> mira zeige den sonnenaufgang </example>
-    <example> mira zeige bitte sonnenaufgang </example>
-    <example> mira zeige sonnenaufgang </example>
-    <example> mira zeige sonnenaufgang bitte </example>
-    <example> mira bitte zeige sonnenaufgang </example>
-    <example> mira bitte zeige den sonnenaufgang </example>
-    <example> mira sonnenaufgang </example>
-  
-    <example> mira zeige bitte den sonnenuntergang </example>
-    <example> mira zeige den sonnenuntergang </example>
-    <example> mira zeige bitte sonnenuntergang </example>
-    <example> mira zeige sonnenuntergang </example>
-    <example> mira zeige sonnenuntergang bitte </example>
-    <example> mira bitte zeige sonnenuntergang </example>
-    <example> mira bitte zeige den sonnenuntergang </example>
-    <example> mira sonnenuntergang </example>
-    
-    <example> mira zeige bitte die sonne </example>
-    <example> mira zeige die sonne </example>
-    <example> mira zeige bitte sonne </example>
-    <example> mira zeige sonne </example>
-    <example> mira zeige sonne bitte </example>
-    <example> mira bitte zeige sonne </example>
-    <example> mira bitte zeige die sonne </example>
-    <example> mira sonne </example>
-      
     <example> mira zeige bitte das datum </example>
     <example> mira zeige das datum </example>
     <example> mira zeige bitte datum </example>
@@ -174,33 +178,6 @@
     <example> mira bitte zeige datum </example>
     <example> mira bitte zeige das datum </example>
     <example> mira datum </example>
-  
-    <example> mira zeige bitte den tag </example>
-    <example> mira zeige den tag </example>
-    <example> mira zeige bitte tag </example>
-    <example> mira zeige tag </example>
-    <example> mira zeige tag bitte </example>
-    <example> mira bitte zeige tag </example>
-    <example> mira bitte zeige den tag </example>
-    <example> mira tag </example>
-  
-    <example> mira zeige bitte den monat </example>
-    <example> mira zeige den monat </example>
-    <example> mira zeige bitte monat </example>
-    <example> mira zeige monat </example>
-    <example> mira zeige monat bitte </example>
-    <example> mira bitte zeige monat </example>
-    <example> mira bitte zeige den monat </example>
-    <example> mira monat </example>
-  
-    <example> mira zeige bitte das jahr </example>
-    <example> mira zeige das jahr </example>
-    <example> mira zeige bitte jahr </example>
-    <example> mira zeige jahr </example>
-    <example> mira zeige jahr bitte </example>
-    <example> mira bitte zeige jahr </example>
-    <example> mira bitte zeige das jahr </example>
-    <example> mira jahr </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -211,7 +188,6 @@
     <item repeat="0-1">
       <one-of>
         <item> die </item>
-        <item> den </item>
         <item> das </item>
       </one-of>
     </item>
@@ -222,13 +198,8 @@
   <rule id="TimePossibilities">
     <example> zeit </example>
     <example> uhrzeit </example>
-    <example> sonnenaufgang </example>
-    <example> sonnenuntergang </example>
-    <example> sonne </example>
+    <example> uhr </example>
     <example> datum </example>
-    <example> tag </example>
-    <example> monat </example>
-    <example> jahr </example>
 
     <item>
       <tag> out="time"; </tag>
@@ -236,13 +207,7 @@
         <item>zeit</item>
         <item>uhrzeit</item>
         <item>uhr</item>
-        <item>sonnenaufgang</item>
-        <item>sonnenuntergang</item>
-        <item>sonne</item>
         <item>datum</item>
-        <item>tag</item>
-        <item>monat</item>
-        <item>jahr</item>
       </one-of>
     </item>
   </rule>
@@ -264,7 +229,12 @@
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
-    <item repeat="0-1"> das </item>
+    <item repeat="0-1">
+      <one-of>
+        <item> den </item>
+        <item> das </item>
+      </one-of>
+    </item>
     <item><tag> out="light"; </tag>
       <one-of>
         <item> licht </item>
@@ -340,6 +310,7 @@
         <item>wetter</item>
         <item>aktuelles wetter</item>
         <item>wetter heute</item>
+        <item>temperatur</item>
       </one-of>
     </item>
   </rule>
@@ -363,24 +334,6 @@
     <example> mira bitte zeige vorhersage </example>
     <example> mira bitte zeige die vorhersage </example>
     <example> mira vorhersage </example>
-      
-    <example> mira zeige bitte das wetter morgen </example>
-    <example> mira zeige das wetter morgen </example>
-    <example> mira zeige bitte wetter morgen </example>
-    <example> mira zeige wetter morgen </example>
-    <example> mira zeige wetter morgen bitte </example>
-    <example> mira bitte zeige wetter morgen </example>
-    <example> mira bitte zeige das wetter morgen </example>
-    <example> mira wetter morgen </example>
-      
-    <example> mira zeige bitte das wetter übermorgen </example>
-    <example> mira zeige das wetter übermorgen </example>
-    <example> mira zeige bitte wetter übermorgen </example>
-    <example> mira zeige wetter übermorgen </example>
-    <example> mira zeige wetter übermorgen bitte </example>
-    <example> mira bitte zeige wetter übermorgen </example>
-    <example> mira bitte zeige das wetter übermorgen </example>
-    <example> mira wetter übermorgen </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -388,12 +341,7 @@
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
-    <item repeat="0-1">
-      <one-of>
-        <item> die </item>
-        <item> das </item>
-      </one-of>
-    </item>
+    <item repeat="0-1"> die </item>
     <ruleref uri="#WeatherforecastPossibilities"/>
     <item repeat="0-1"> bitte </item>
   </rule>
@@ -401,8 +349,6 @@
   <rule id="WeatherforecastPossibilities">
     <example> wettervorhersage </example>
     <example> vorhersage </example>
-    <example> wetter morgen </example>
-    <example> wetter übermorgen </example>
 
     <item>
       <tag> out="weatherforecast"; </tag>
@@ -424,15 +370,6 @@
     <example> mira bitte zeige die sport nachrichten </example>
     <example> mira sport nachrichten </example>
     
-    <example> mira zeige bitte die sport news </example>
-    <example> mira zeige die sport news </example>
-    <example> mira zeige bitte sport news </example>
-    <example> mira zeige sport news </example>
-    <example> mira zeige sport news bitte </example>
-    <example> mira bitte zeige sport news </example>
-    <example> mira bitte zeige die sport news </example>
-    <example> mira sport news </example>
-    
     <example> mira zeige bitte die branchen nachrichten </example>
     <example> mira zeige die branchen nachrichten </example>
     <example> mira zeige bitte branchen nachrichten </example>
@@ -441,15 +378,6 @@
     <example> mira bitte zeige branchen nachrichten </example>
     <example> mira bitte zeige die branchen nachrichten </example>
     <example> mira branchen nachrichten </example>
-    
-    <example> mira zeige bitte die branchen news </example>
-    <example> mira zeige die branchen news </example>
-    <example> mira zeige bitte branchen news </example>
-    <example> mira zeige branchen news </example>
-    <example> mira zeige branchen news bitte </example>
-    <example> mira bitte zeige branchen news </example>
-    <example> mira bitte zeige die branchen news </example>
-    <example> mira branchen news </example>
     
     <example> mira zeige bitte die unternehmens nachrichten </example>
     <example> mira zeige die unternehmens nachrichten </example>
@@ -460,15 +388,6 @@
     <example> mira bitte zeige die unternehmens nachrichten </example>
     <example> mira unternehmens nachrichten </example>
     
-    <example> mira zeige bitte die unternehmens news </example>
-    <example> mira zeige die unternehmens news </example>
-    <example> mira zeige bitte unternehmens news </example>
-    <example> mira zeige unternehmens news </example>
-    <example> mira zeige unternehmens news bitte </example>
-    <example> mira bitte zeige unternehmens news </example>
-    <example> mira bitte zeige die unternehmens news </example>
-    <example> mira unternehmens news </example>
-    
     <example> mira zeige bitte die geschäfts nachrichten </example>
     <example> mira zeige die geschäfts nachrichten </example>
     <example> mira zeige bitte geschäfts nachrichten </example>
@@ -477,15 +396,6 @@
     <example> mira bitte zeige geschäfts nachrichten </example>
     <example> mira bitte zeige die geschäfts nachrichten </example>
     <example> mira geschäfts nachrichten </example>
-    
-    <example> mira zeige bitte die geschäfts news </example>
-    <example> mira zeige die geschäfts news </example>
-    <example> mira zeige bitte geschäfts news </example>
-    <example> mira zeige geschäfts news </example>
-    <example> mira zeige geschäfts news bitte </example>
-    <example> mira bitte zeige geschäfts news </example>
-    <example> mira bitte zeige die geschäfts news </example>
-    <example> mira geschäfts news </example>
     
     <example> mira zeige bitte die handels nachrichten </example>
     <example> mira zeige die handels nachrichten </example>
@@ -496,15 +406,6 @@
     <example> mira bitte zeige die handels nachrichten </example>
     <example> mira handels nachrichten </example>
     
-    <example> mira zeige bitte die handels news </example>
-    <example> mira zeige die handels news </example>
-    <example> mira zeige bitte handels news </example>
-    <example> mira zeige handels news </example>
-    <example> mira zeige handels news bitte </example>
-    <example> mira bitte zeige handels news </example>
-    <example> mira bitte zeige die handels news </example>
-    <example> mira handels news </example>
-    
     <example> mira zeige bitte die unterhaltungs nachrichten </example>
     <example> mira zeige die unterhaltungs nachrichten </example>
     <example> mira zeige bitte unterhaltungs nachrichten </example>
@@ -513,15 +414,6 @@
     <example> mira bitte zeige unterhaltungs nachrichten </example>
     <example> mira bitte zeige die unterhaltungs nachrichten </example>
     <example> mira unterhaltungs nachrichten </example>
-    
-    <example> mira zeige bitte die unterhaltungs news </example>
-    <example> mira zeige die unterhaltungs news </example>
-    <example> mira zeige bitte unterhaltungs news </example>
-    <example> mira zeige unterhaltungs news </example>
-    <example> mira zeige unterhaltungs news bitte </example>
-    <example> mira bitte zeige unterhaltungs news </example>
-    <example> mira bitte zeige die unterhaltungs news </example>
-    <example> mira unterhaltungs news </example>
     
     <example> mira zeige bitte die entertainment nachrichten </example>
     <example> mira zeige die entertainment nachrichten </example>
@@ -532,15 +424,6 @@
     <example> mira bitte zeige die entertainment nachrichten </example>
     <example> mira entertainment nachrichten </example>
     
-    <example> mira zeige bitte die entertainment news </example>
-    <example> mira zeige die entertainment news </example>
-    <example> mira zeige bitte entertainment news </example>
-    <example> mira zeige entertainment news </example>
-    <example> mira zeige entertainment news bitte </example>
-    <example> mira bitte zeige entertainment news </example>
-    <example> mira bitte zeige die entertainment news </example>
-    <example> mira entertainment news </example>
-    
     <example> mira zeige bitte die gesundheits nachrichten </example>
     <example> mira zeige die gesundheits nachrichten </example>
     <example> mira zeige bitte gesundheits nachrichten </example>
@@ -549,15 +432,6 @@
     <example> mira bitte zeige gesundheits nachrichten </example>
     <example> mira bitte zeige die gesundheits nachrichten </example>
     <example> mira gesundheits nachrichten </example>
-    
-    <example> mira zeige bitte die gesundheits news </example>
-    <example> mira zeige die gesundheits news </example>
-    <example> mira zeige bitte gesundheits news </example>
-    <example> mira zeige gesundheits news </example>
-    <example> mira zeige gesundheits news bitte </example>
-    <example> mira bitte zeige gesundheits news </example>
-    <example> mira bitte zeige die gesundheits news </example>
-    <example> mira gesundheits news </example>
     
     <example> mira zeige bitte die wissenschafts nachrichten </example>
     <example> mira zeige die wissenschafts nachrichten </example>
@@ -568,15 +442,6 @@
     <example> mira bitte zeige die wissenschafts nachrichten </example>
     <example> mira wissenschafts nachrichten </example>
     
-    <example> mira zeige bitte die wissenschafts news </example>
-    <example> mira zeige die wissenschafts news </example>
-    <example> mira zeige bitte wissenschafts news </example>
-    <example> mira zeige wissenschafts news </example>
-    <example> mira zeige wissenschafts news bitte </example>
-    <example> mira bitte zeige wissenschafts news </example>
-    <example> mira bitte zeige die wissenschafts news </example>
-    <example> mira wissenschafts news </example>
-    
     <example> mira zeige bitte die naturwissenschafts nachrichten </example>
     <example> mira zeige die naturwissenschafts nachrichten </example>
     <example> mira zeige bitte naturwissenschafts nachrichten </example>
@@ -585,15 +450,6 @@
     <example> mira bitte zeige naturwissenschafts nachrichten </example>
     <example> mira bitte zeige die naturwissenschafts nachrichten </example>
     <example> mira naturwissenschafts nachrichten </example>
-    
-    <example> mira zeige bitte die naturwissenschafts news </example>
-    <example> mira zeige die naturwissenschafts news </example>
-    <example> mira zeige bitte naturwissenschafts news </example>
-    <example> mira zeige naturwissenschafts news </example>
-    <example> mira zeige naturwissenschafts news bitte </example>
-    <example> mira bitte zeige naturwissenschafts news </example>
-    <example> mira bitte zeige die naturwissenschafts news </example>
-    <example> mira naturwissenschafts news </example>
     
     <example> mira zeige bitte die technologie nachrichten </example>
     <example> mira zeige die technologie nachrichten </example>
@@ -604,15 +460,6 @@
     <example> mira bitte zeige die technologie nachrichten </example>
     <example> mira technologie nachrichten </example>
     
-    <example> mira zeige bitte die technologie news </example>
-    <example> mira zeige die technologie news </example>
-    <example> mira zeige bitte technologie news </example>
-    <example> mira zeige technologie news </example>
-    <example> mira zeige technologie news bitte </example>
-    <example> mira bitte zeige technologie news </example>
-    <example> mira bitte zeige die technologie news </example>
-    <example> mira technologie news </example>
-    
     <example> mira zeige bitte die technik nachrichten </example>
     <example> mira zeige die technik nachrichten </example>
     <example> mira zeige bitte technik nachrichten </example>
@@ -621,15 +468,6 @@
     <example> mira bitte zeige technik nachrichten </example>
     <example> mira bitte zeige die technik nachrichten </example>
     <example> mira technik nachrichten </example>
-    
-    <example> mira zeige bitte die technik news </example>
-    <example> mira zeige die technik news </example>
-    <example> mira zeige bitte technik news </example>
-    <example> mira zeige technik news </example>
-    <example> mira zeige technik news bitte </example>
-    <example> mira bitte zeige technik news </example>
-    <example> mira bitte zeige die technik news </example>
-    <example> mira technik news </example>
 
     <item>
       <ruleref uri="#name"/>
@@ -644,34 +482,20 @@
   
   <rule id="NewsPossibilities">
     <example>sport nachrichten</example>
-    <example>sport news</example>
       
     <example>branchen nachrichten</example>
-    <example>branchen news</example>
-    <example>unternehmens nachrichten</example>
-    <example>unternehmens news</example>
-    <example>geschäfts nachrichten</example>
-    <example>geschäfts news</example>
     <example>handels nachrichten</example>
-    <example>handels news</example>
       
     <example>unterhaltungs nachrichten</example>
-    <example>unterhaltungs news</example>
     <example>entertainment nachrichten</example>
-    <example>entertainment news</example>
 
     <example>gesundheits nachrichten</example>
-    <example>gesundheits news</example>
 
     <example>wissenschafts nachrichten</example>
-    <example>wissenschafts news</example>
     <example>naturwissenschafts nachrichten</example>
-    <example>naturwissenschafts news</example>
 
     <example>technologie nachrichten</example>
-    <example>technologie news</example>
     <example>technik nachrichten</example>
-    <example>technik news</example>
 
     <item>
       <one-of>
@@ -679,54 +503,39 @@
           <tag> out="sport"; </tag>
           <one-of>
             <item>sport nachrichten</item>
-            <item>sport news</item>
           </one-of>
         </item>
         <item>
           <tag> out="business"; </tag>
           <one-of>
             <item>branchen nachrichten</item>
-            <item>branchen news</item>
-            <item>unternehmens nachrichten</item>
-            <item>unternehmens news</item>
-            <item>geschäfts nachrichten</item>
-            <item>geschäfts news</item>
             <item>handels nachrichten</item>
-            <item>handels news</item>
           </one-of>
         </item>
         <item>
           <tag> out="entertainment"; </tag>
           <one-of>
             <item>unterhaltungs nachrichten</item>
-            <item>unterhaltungs news</item>
-            <item>entertainment nachrichten</item>
-            <item>entertainment news</item>
           </one-of>
         </item>
         <item>
           <tag> out="health"; </tag>
           <one-of>
             <item>gesundheits nachrichten</item>
-            <item>gesundheits news</item>
           </one-of>
         </item>
         <item>
           <tag> out="science"; </tag>
           <one-of>
             <item>wissenschafts nachrichten</item>
-            <item>wissenschafts news</item>
             <item>naturwissenschafts nachrichten</item>
-            <item>naturwissenschafts news</item>
           </one-of>
         </item>
         <item>
           <tag> out="technology"; </tag>
           <one-of>
             <item>technologie nachrichten</item>
-            <item>technologie news</item>
             <item>technik nachrichten</item>
-            <item>technik news</item>
           </one-of>
         </item>
       </one-of>
@@ -913,10 +722,6 @@
 
   <!--WebView neu laden-->
   <rule id="reload">
-    <example> mira bitte aktuelle Seite neu laden </example>
-    <example> mira bitte aktuelle Seite erneut laden </example>
-    <example> mira aktuelle Seite neu laden </example>
-    <example> mira aktuelle Seite erneut laden </example>
     <example> mira bitte Seite neu laden </example>
     <example> mira bitte Seite erneut laden </example>
     <example> mira bitte neu laden </example>
@@ -931,7 +736,6 @@
       <tag> out=""; </tag>
     </item>
     <item repeat="0-1"> bitte <tag> out=""; </tag></item>
-    <item repeat="0-1"> aktuelle <tag> out=""; </tag></item>
     <item repeat="0-1"> Seite <tag> out=""; </tag></item>
     <item>
       <tag> out=""; </tag>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,13 @@ namespace Speechservice
     {
 
         #region Public Methods
+
+        public static async Task BadlyUnderstood()
+        {
+            const string excuse = "Lückenfüller Lückenfüller <break time='300ms'/> Entschuldigung, das habe ich akustisch nicht verstanden.";
+
+            await sayAsync(excuse);
+        }
 
         public static async Task CountDown(int fromNumber)
         {
@@ -246,6 +254,26 @@ namespace Speechservice
             await sayAsync(time);
         }
 
+        public static async Task SayWeather()
+        {
+            //if (!ModuleData.Data.TryGetValue(Modules.WEATHER, out dynamic r))
+            //    return;
+
+            //SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>) r;
+
+            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.WEATHER);
+
+            SingleResult<CurrentWeatherResult> result = await ApiData.GetCurrentWeatherByCityName(module);
+
+            StringBuilder weatherTodayString = new StringBuilder();
+
+            weatherTodayString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
+            weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
+            weatherTodayString.Append(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
+
+            await sayAsync(weatherTodayString.ToString());
+        }
+
         public static async Task SayWeatherforecast(string days)
         {
             //if (!ModuleData.Data.TryGetValue(Modules.WEATHERFORECAST, out dynamic r))
@@ -340,30 +368,31 @@ namespace Speechservice
 
             await sayAsync(weatherforecastString.ToString());
         }
-
-        public static async Task SayWeather()
+        public static async Task Startup()
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.WEATHER, out dynamic r))
-            //    return;
+            StringBuilder startupString = new StringBuilder();
 
-            //SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>) r;
+            startupString.AppendLine("Darf ich mich vorstellen ?");
+            startupString.AppendLine("<break time='500ms'/>");
+            startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
+            startupString.AppendLine("<break time='1000ms'/>");
+            startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
 
-            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.WEATHER);
-
-            SingleResult<CurrentWeatherResult> result = await ApiData.GetCurrentWeatherByCityName(module);
-
-            StringBuilder weatherTodayString = new StringBuilder();
-
-            weatherTodayString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
-            weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
-            weatherTodayString.Append(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
-
-            await sayAsync(weatherTodayString.ToString());
+            await sayAsync(startupString.ToString());
         }
 
         #endregion Public Methods
 
         #region Private Methods
+
+        private static async Task noDataAvailable()
+        {
+            StringBuilder nodata = new StringBuilder();
+
+            nodata.AppendLine("");
+
+            await sayAsync(nodata.ToString());
+        }
 
         private static async Task sayAsync(string ssml)
         {
@@ -403,29 +432,6 @@ namespace Speechservice
             }
         }
 
-        public static async Task Startup()
-        {
-            StringBuilder startupString = new StringBuilder();
-
-            startupString.AppendLine("Darf ich mich vorstellen ?");
-            startupString.AppendLine("<break time='500ms'/>");
-            startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
-            startupString.AppendLine("<break time='1000ms'/>");
-            startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
-
-            await sayAsync(startupString.ToString());
-        }
-
-        private static async Task noDataAvailable()
-        {
-            StringBuilder nodata = new StringBuilder();
-
-            nodata.AppendLine("");
-
-            await sayAsync(nodata.ToString());
-        }
-
         #endregion Private Methods
-
     }
 }

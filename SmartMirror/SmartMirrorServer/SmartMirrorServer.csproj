@@ -110,19 +110,6 @@
     <Compile Include="Extensions\RequestExtensionClass.cs" />
     <Compile Include="Extensions\StringBuilderExtensionClass.cs" />
     <Compile Include="Extensions\StringExtensionClass.cs" />
-    <Compile Include="Features\FootballResults\FootballMatchdayResults.cs" />
-    <Compile Include="Features\FootballResults\FootballMatchResult.cs" />
-    <Compile Include="Features\FootballResults\FootballTable.cs" />
-    <Compile Include="Features\FootballResults\FootballXmlDeserializer.cs" />
-    <Compile Include="Features\FootballResults\Goal.cs" />
-    <Compile Include="Features\FootballResults\GoalGetter.cs" />
-    <Compile Include="Features\FootballResults\Group.cs" />
-    <Compile Include="Features\FootballResults\Location.cs" />
-    <Compile Include="Features\FootballResults\Match.cs" />
-    <Compile Include="Features\FootballResults\Matchday.cs" />
-    <Compile Include="Features\FootballResults\MatchResult.cs" />
-    <Compile Include="Features\FootballResults\TableTeam.cs" />
-    <Compile Include="Features\FootballResults\Team.cs" />
     <Compile Include="HelperClasses\FileHelperClass.cs" />
     <Compile Include="HelperClasses\WeatherHelperClass.cs" />
     <Compile Include="Notification\Notification.cs" />
@@ -249,7 +236,9 @@
       <Version>3.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Features\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Api\Api.csproj">
       <Project>{70e5ea8c-d553-4bad-99a8-2f272a218216}</Project>

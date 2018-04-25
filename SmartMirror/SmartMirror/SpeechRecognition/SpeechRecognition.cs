@@ -10,11 +10,15 @@ namespace SmartMirror.SpeechRecognition
 {
     internal class SpeechRecognition
     {
-        private SpeechRecognitionManager.SpeechRecognitionManager speechRecognizer;
+        #region Private Fields
 
         private readonly CoreDispatcher dispatcher;
-
         private readonly MainPage mainPage;
+        private SpeechRecognitionManager.SpeechRecognitionManager speechRecognizer;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public SpeechRecognition(MainPage mainPage, CoreDispatcher dispatcher)
         {
@@ -22,10 +26,9 @@ namespace SmartMirror.SpeechRecognition
             this.dispatcher = dispatcher;
         }
 
-        public async void StopRecognizing()
-        {
-            await speechRecognizer.Dispose();
-        }
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public async void StartRecognizing()
         {
@@ -49,21 +52,14 @@ namespace SmartMirror.SpeechRecognition
             Debug.WriteLine(speechRecognizer.SpeechRecognizer.State);
         }
 
-        private async void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
+        public async void StopRecognizing()
         {
-            Debug.WriteLine(args.Result.Confidence.ToString());
-            if (args.Result.Confidence == SpeechRecognitionConfidence.Low || args.Result.Confidence == SpeechRecognitionConfidence.Medium) return;
-
-            await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
-
-            Debug.WriteLine("Speech Recognition stopped");
-
-            await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
-
-            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
-
-            Debug.WriteLine("Speech Recognition started");
+            await speechRecognizer.Dispose();
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private static RecognizedSpeech evaluateSpeechInput(SpeechRecognitionResult argsResult)
         {
@@ -81,6 +77,7 @@ namespace SmartMirror.SpeechRecognition
         private static Message getSpeechInputMessage(SpeechRecognitionSemanticInterpretation speechRecognitionSemanticInterpretation, RecognizedSpeech recognizedSpeech)
         {
             string home = speechRecognitionSemanticInterpretation.GetInterpretation("home");
+            string help = speechRecognitionSemanticInterpretation.GetInterpretation("help");
             string time = speechRecognitionSemanticInterpretation.GetInterpretation("time");
             string light = speechRecognitionSemanticInterpretation.GetInterpretation("light");
             string weather = speechRecognitionSemanticInterpretation.GetInterpretation("weather");
@@ -96,6 +93,12 @@ namespace SmartMirror.SpeechRecognition
             {
                 recognizedSpeech.SemanticText = home;
                 return Message.HOME;
+            }
+
+            if (help != null)
+            {
+                recognizedSpeech.SemanticText = help;
+                return Message.HELP;
             }
 
             if (time != null)
@@ -291,6 +294,30 @@ namespace SmartMirror.SpeechRecognition
             return Message.UNKNOWN;
         }
 
+        private async void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
+        {
+            Debug.WriteLine(args.Result.Confidence.ToString());
+
+            if (args.Result.Confidence == SpeechRecognitionConfidence.Low) return;
+
+            await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
+
+            Debug.WriteLine("Speech Recognition stopped");
+
+            if (args.Result.Confidence != SpeechRecognitionConfidence.Medium)
+            {
+                if (args.Result.Confidence == SpeechRecognitionConfidence.High)
+                    await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+            }
+            else
+            {
+                await SpeechService.BadlyUnderstood();
+            }
+
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
+
+            Debug.WriteLine("Speech Recognition started");
+        }
         private async Task handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
         {
             switch (recognizedSpeech.Message)
@@ -299,6 +326,13 @@ namespace SmartMirror.SpeechRecognition
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Navigate(new Uri("http://localhost/home.html"));
+                    });
+                    break;
+
+                case Message.HELP:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/help.html"));
                     });
                     break;
 
@@ -492,5 +526,7 @@ namespace SmartMirror.SpeechRecognition
                     break;
             }
         }
+
+        #endregion Private Methods
     }
 }

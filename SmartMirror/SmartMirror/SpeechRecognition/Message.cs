@@ -35,6 +35,7 @@
         SPEECH_JOKE,
         SPEECH_QUOTE,
         SPEECH_CREATOR,
+        HELP,
         UNKNOWN
     }
 }
