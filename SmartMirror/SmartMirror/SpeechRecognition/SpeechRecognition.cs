@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Media.SpeechRecognition;
+using Windows.UI;
 using Windows.UI.Core;
 using SmartMirror.SpeechRecognition.SpeechRecognitionManager;
 using Speechservice;
@@ -304,20 +305,24 @@ namespace SmartMirror.SpeechRecognition
 
             Debug.WriteLine("Speech Recognition stopped");
 
-            if (args.Result.Confidence != SpeechRecognitionConfidence.Medium)
+            if (args.Result.Confidence == SpeechRecognitionConfidence.Medium)
             {
-                if (args.Result.Confidence == SpeechRecognitionConfidence.High)
-                    await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+                //await SpeechService.BadlyUnderstood();
+                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 4);
+            }
+            else if(args.Result.Confidence == SpeechRecognitionConfidence.High)
+            {
+                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 2);
+                await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
             }
             else
-            {
-                await SpeechService.BadlyUnderstood();
-            }
+                return;
 
             speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
 
             Debug.WriteLine("Speech Recognition started");
         }
+
         private async Task handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
         {
             switch (recognizedSpeech.Message)

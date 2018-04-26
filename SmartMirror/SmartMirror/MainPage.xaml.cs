@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace SmartMirror
 {
@@ -13,6 +15,7 @@ namespace SmartMirror
 
         #region Private Fields
 
+        private readonly CoreDispatcher dispatcher;
         private readonly SpeechRecognition.SpeechRecognition speechRecognition;
 
         #endregion Private Fields
@@ -27,12 +30,34 @@ namespace SmartMirror
 
             Unloaded += onUnloaded;
 
-            CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+            dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
             speechRecognition = new SpeechRecognition.SpeechRecognition(this, dispatcher);
         }
 
         #endregion Public Constructors
+
+        #region Public Methods
+
+        public async void StartColorAnimation(DependencyObject control, string property, Color from, Color to, double timeSpanInSecond = 1)
+        {
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ColorAnimation opacityAnimation = new ColorAnimation { From = from, To = to, AutoReverse = true };
+
+                TimeSpan timeSpan = TimeSpan.FromSeconds(timeSpanInSecond);
+                opacityAnimation.Duration = timeSpan;
+
+                Storyboard storyboard = new Storyboard();
+                storyboard.Children.Add(opacityAnimation);
+
+                Storyboard.SetTargetProperty(opacityAnimation, property);
+                Storyboard.SetTarget(storyboard, control);
+                storyboard.Begin();
+            });
+        }
+
+        #endregion Public Methods
 
         #region Private Methods
 
