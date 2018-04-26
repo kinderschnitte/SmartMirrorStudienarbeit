@@ -6,6 +6,8 @@
         JPEG,
         PNG,
         ICON,
+        CSS,
+        JS,
         UNKNOWN
     }
 }

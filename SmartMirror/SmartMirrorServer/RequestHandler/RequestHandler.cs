@@ -6,6 +6,7 @@ namespace SmartMirrorServer.RequestHandler
 {
     internal static class RequestHandler
     {
+
         #region Public Methods
 
         /// <summary>
@@ -29,16 +30,32 @@ namespace SmartMirrorServer.RequestHandler
         /// <returns></returns>
         private static async Task<byte[]> buildResponse(Request request)
         {
-            if (request.IsInvalidRequest)
+            if (request.IsInvalidRequest || request.Query.FileType == FileType.UNKNOWN)
                 return new byte[0];
 
-            // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (request.Query.FileType != FileType.HTML)
-                return ResponseImage.LoadImage(request);
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (request.Query.FileType)
+            {
+                case FileType.HTML:
+                    return await ResponseWebsite.BuildResponseWebsite(request);
 
-            return await ResponseWebsite.BuildResponseWebsite(request);
+                case FileType.ICON:
+                case FileType.JPEG:
+                case FileType.PNG:
+                    return ResponseImage.LoadImage(request);
+
+                case FileType.CSS:
+                case FileType.JS:
+                    return ResponseStylesheet.LoadStylesheet(request);
+
+                case FileType.UNKNOWN:
+                    break;
+            }
+
+            return new byte[0];
         }
 
         #endregion Private Methods
+
     }
 }

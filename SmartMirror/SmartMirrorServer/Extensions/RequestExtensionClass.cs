@@ -218,79 +218,96 @@ namespace SmartMirrorServer.Extensions
                 string path = splittedQuery[0].Trim();
                 query.FilePath = path;
 
-                string[] splittedFile = splittedQuery[0].Trim().Split('.');
+                int pointindex = path.LastIndexOf('.');
 
-                switch (splittedFile[0])
+                if (pointindex != -1)
                 {
-                    case "settings":
-                        query.FileName = FileName.SETTINGS;
-                        break;
-
-                    case "home":
-                        query.FileName = FileName.HOME;
-                        break;
-
-                    case "time":
-                        query.FileName = FileName.TIME;
-                        break;
-
-                    case "weather":
-                        query.FileName = FileName.WEATHER;
-                        break;
-
-                    case "weatherforecast":
-                        query.FileName = FileName.WEATHERFORECAST;
-                        break;
-
-                    case "light":
-                        query.FileName = FileName.LIGHT;
-                        break;
-
-                    case "quote":
-                        query.FileName = FileName.QUOTE;
-                        break;
-
-                    case "news":
-                        query.FileName = FileName.NEWS;
-                        break;
-
-                    case "help":
-                        query.FileName = FileName.HELP;
-                        break;
-
-                    default:
-                        query.FileName = FileName.UNKNOWN;
-                        break;
-                }
-
-                if (splittedFile.Length > 1)
-                {
-                    switch (splittedFile[1])
+                    switch (path.Substring(0, pointindex))
                     {
-                        case "html":
-                            query.FileType = FileType.HTML;
+                        case "settings":
+                            query.FileName = FileName.SETTINGS;
                             break;
 
-                        case "jpg":
-                            query.FileType = FileType.JPEG;
+                        case "home":
+                            query.FileName = FileName.HOME;
                             break;
 
-                        case "png":
-                            query.FileType = FileType.PNG;
+                        case "time":
+                            query.FileName = FileName.TIME;
                             break;
 
-                        case "ico":
-                            query.FileType = FileType.ICON;
+                        case "weather":
+                            query.FileName = FileName.WEATHER;
+                            break;
+
+                        case "weatherforecast":
+                            query.FileName = FileName.WEATHERFORECAST;
+                            break;
+
+                        case "light":
+                            query.FileName = FileName.LIGHT;
+                            break;
+
+                        case "quote":
+                            query.FileName = FileName.QUOTE;
+                            break;
+
+                        case "news":
+                            query.FileName = FileName.NEWS;
+                            break;
+
+                        case "help":
+                            query.FileName = FileName.HELP;
                             break;
 
                         default:
-                            query.FileType = FileType.UNKNOWN;
-                            request.IsInvalidRequest = true;
+                            query.FileName = FileName.UNKNOWN;
                             break;
+                    }
+
+                    if (path.Substring(pointindex + 1).Length > 1)
+                    {
+                        switch (path.Substring(pointindex + 1))
+                        {
+                            case "html":
+                                query.FileType = FileType.HTML;
+                                break;
+
+                            case "jpg":
+                                query.FileType = FileType.JPEG;
+                                break;
+
+                            case "png":
+                                query.FileType = FileType.PNG;
+                                break;
+
+                            case "ico":
+                                query.FileType = FileType.ICON;
+                                break;
+
+                            case "css":
+                                query.FileType = FileType.CSS;
+                                break;
+
+                            case "js":
+                                query.FileType = FileType.JS;
+                                break;
+
+                            default:
+                                query.FileType = FileType.UNKNOWN;
+                                request.IsInvalidRequest = true;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        query.FileType = FileType.UNKNOWN;
+                        request.IsInvalidRequest = true;
                     }
                 }
                 else
                 {
+                    query.FileName = FileName.UNKNOWN;
                     query.FileType = FileType.UNKNOWN;
                     request.IsInvalidRequest = true;
                 }

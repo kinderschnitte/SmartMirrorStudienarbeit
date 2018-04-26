@@ -758,7 +758,7 @@
     <example> mira um wie viel uhr geht die sonne unter </example>
     <example> mira wer bist du </example>
 
-    <item repeat="0-1">
+    <item>
       <ruleref uri="#name"/>
       <tag> out=""; </tag>
     </item>

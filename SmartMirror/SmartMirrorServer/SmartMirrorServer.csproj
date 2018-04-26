@@ -117,6 +117,7 @@
     <Compile Include="Objects\PostQuery.cs" />
     <Compile Include="Objects\Query.cs" />
     <Compile Include="Objects\Request.cs" />
+    <Compile Include="RequestHandler\ResponseStylesheet.cs" />
     <Compile Include="RequestHandler\Site.cs" />
     <Compile Include="RequestHandler\Sites\News.cs" />
     <Compile Include="RequestHandler\Sites\Settings.cs" />

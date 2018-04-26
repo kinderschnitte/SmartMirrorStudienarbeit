@@ -451,6 +451,10 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_TIME:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/time.html"));
+                    });
                     await SpeechService.SayTime();
                     break;
 
@@ -495,10 +499,18 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_QUOTE:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/quote.html"));
+                    });
                     await SpeechService.SayQuote();
                     break;
 
                 case Message.SPEECH_WEATHER:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/weather.html"));
+                    });
                     await SpeechService.SayWeather();
                     break;
 
@@ -507,6 +519,10 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_WEATHERFORECAST:
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        mainPage.Browser.Navigate(new Uri("http://localhost/weatherforecast.html"));
+                    });
                     await SpeechService.SayWeatherforecast(recognizedSpeech.SemanticText.Split(' ')[1]);
                     break;
 
