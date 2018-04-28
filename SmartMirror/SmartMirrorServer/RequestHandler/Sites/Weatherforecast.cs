@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Api;
 using Api.Weather;
+using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using SmartMirrorServer.HelperClasses;
 
@@ -31,7 +31,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     string tag = line;
 
                     if (tag.Contains("Forecast"))
-                        tag = tag.Replace("Forecast", getForecastString());
+                        tag = tag.Replace("Forecast", await getForecastString());
 
                     page += tag;
                 }
@@ -45,12 +45,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return Encoding.UTF8.GetBytes(page);
         }
 
-        private static string getForecastString()
+        private static async Task<string> getForecastString()
         {
-            if (!ModuleData.Data.TryGetValue(Modules.WEATHERFORECAST, out dynamic r))
-                return string.Empty;
-
-            List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>)r;
+            List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
 
             //Infos zu heutigen Tag löschen
             if (result.Count > 5)

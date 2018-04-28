@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -8,12 +7,12 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-using Api;
 using Api.HelperClasses;
 using Api.Joke;
 using Api.Quote;
 using Api.Sun;
 using Api.Weather;
+using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using Speechservice.HelperClasses;
 
@@ -95,12 +94,7 @@ namespace Speechservice
 
         public static async Task SayJoke()
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.JOKE, out dynamic r))
-            //    return;
-
-            //Joke joke = (Joke) r;
-
-            Joke joke = await JokeHelper.GetJoke();
+            Joke joke = DataAccess.DeserializeModuleData(typeof(Joke), await DataAccess.GetModuleData(Modules.JOKE));
 
             StringBuilder jokeString = new StringBuilder();
 
@@ -151,12 +145,7 @@ namespace Speechservice
 
         public static async Task SayQuote()
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.QUOTE, out dynamic r))
-            //    return;
-
-            //Quote quote = (Quote) r;
-
-            Quote quote = await ApiData.GetQuoteOfDay();
+            Quote quote = DataAccess.DeserializeModuleData(typeof(Quote), await DataAccess.GetModuleData(Modules.QUOTE));
 
             StringBuilder quoteString = new StringBuilder();
 
@@ -180,12 +169,7 @@ namespace Speechservice
 
         public static async Task SaySunrise()
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
-            //    return;
-
-            //Sun sun = (Sun)r;
-
-            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.TIME);
+            Module module = DataAccess.GetModule(Modules.TIME);
 
             Sun sun = new Sun(module);
 
@@ -213,12 +197,7 @@ namespace Speechservice
 
         public static async Task SaySunset()
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
-            //    return;
-
-            //Sun sun = (Sun) r;
-
-            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.TIME);
+            Module module = DataAccess.GetModule(Modules.TIME);
 
             Sun sun = new Sun(module);
 
@@ -256,14 +235,7 @@ namespace Speechservice
 
         public static async Task SayWeather()
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.WEATHER, out dynamic r))
-            //    return;
-
-            //SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>) r;
-
-            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.WEATHER);
-
-            SingleResult<CurrentWeatherResult> result = await ApiData.GetCurrentWeatherByCityName(module);
+            SingleResult<CurrentWeatherResult> result = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(Modules.WEATHER));
 
             StringBuilder weatherTodayString = new StringBuilder();
 
@@ -276,14 +248,7 @@ namespace Speechservice
 
         public static async Task SayWeatherforecast(string days)
         {
-            //if (!ModuleData.Data.TryGetValue(Modules.WEATHERFORECAST, out dynamic r))
-            //    return;
-
-            //List<List<FiveDaysForecastResult>> result = (List<List<FiveDaysForecastResult>>) r;
-
-            Module module = DataAccessLibrary.DataAccess.GetModule(Modules.WEATHERFORECAST);
-
-            List<List<FiveDaysForecastResult>> result = await ApiData.GetFiveDaysForecastByCityName(module);
+            List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
 
             // Infos zu heutigen Tag löschen
             if (result.Count > 5)
@@ -368,6 +333,7 @@ namespace Speechservice
 
             await sayAsync(weatherforecastString.ToString());
         }
+
         public static async Task Startup()
         {
             StringBuilder startupString = new StringBuilder();
@@ -433,5 +399,6 @@ namespace Speechservice
         }
 
         #endregion Private Methods
+
     }
 }

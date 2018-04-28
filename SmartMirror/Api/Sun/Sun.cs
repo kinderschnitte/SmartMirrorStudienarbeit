@@ -3,11 +3,16 @@ using DataAccessLibrary.Module;
 
 namespace Api.Sun
 {
+    [Serializable]
     public class Sun
     {
-        public string Sunrise { get; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+        public string Sunrise { get; set; }
 
-        public string Sunset { get; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+        public string Sunset { get; set; }
 
         public Sun(Module module)
         {
@@ -20,5 +25,8 @@ namespace Api.Sun
             Sunrise = sunrise.ToString("HH:mm");
             Sunset = sunset.ToString("HH:mm");
         }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        public Sun() { }
     }
 }

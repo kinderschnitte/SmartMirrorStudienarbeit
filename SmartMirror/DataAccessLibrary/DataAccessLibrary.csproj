@@ -114,6 +114,7 @@
     <Compile Include="Module\ModuleType.cs" />
     <Compile Include="Module\ModulLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tables\ModuleDataTable.cs" />
     <Compile Include="Tables\ModuleTable.cs" />
     <EmbeddedResource Include="Properties\DataAccessLibrary.rd.xml" />
   </ItemGroup>

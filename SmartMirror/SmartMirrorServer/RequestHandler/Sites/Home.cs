@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Api;
 using Api.Sun;
 using Api.Weather;
 using DataAccessLibrary;
@@ -35,17 +34,17 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     string tag = line;
 
                     if (tag.Contains("Modul0"))
-                        tag = tag.Replace("Modul0", getModul(ModulLocation.UPPERLEFT));
+                        tag = tag.Replace("Modul0", await getModul(ModulLocation.UPPERLEFT));
                     else if (tag.Contains("Modul1"))
-                        tag = tag.Replace("Modul1", getModul(ModulLocation.UPPERRIGHT));
+                        tag = tag.Replace("Modul1", await getModul(ModulLocation.UPPERRIGHT));
                     else if (tag.Contains("Modul2"))
-                        tag = tag.Replace("Modul2", getModul(ModulLocation.MIDDLELEFT));
+                        tag = tag.Replace("Modul2", await getModul(ModulLocation.MIDDLELEFT));
                     else if (tag.Contains("Modul3"))
-                        tag = tag.Replace("Modul3", getModul(ModulLocation.MIDDLERIGHT));
+                        tag = tag.Replace("Modul3", await getModul(ModulLocation.MIDDLERIGHT));
                     else if (tag.Contains("Modul4"))
-                        tag = tag.Replace("Modul4", getModul(ModulLocation.LOWERLEFT));
+                        tag = tag.Replace("Modul4", await getModul(ModulLocation.LOWERLEFT));
                     else if (tag.Contains("Modul5"))
-                        tag = tag.Replace("Modul5", getModul(ModulLocation.LOWERRIGHT));
+                        tag = tag.Replace("Modul5", await getModul(ModulLocation.LOWERRIGHT));
 
                     page += tag;
                 }
@@ -59,33 +58,33 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return Encoding.UTF8.GetBytes(page);
         }
 
-        private static string getModul(ModulLocation modulLocation)
+        private static async Task<string> getModul(ModulLocation modulLocation)
         {
             switch (modulLocation)
             {
                 case ModulLocation.UPPERLEFT:
-                    return buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
+                    return await buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
 
                 case ModulLocation.UPPERRIGHT:
-                    return buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
+                    return await buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
 
                 case ModulLocation.MIDDLELEFT:
-                    return buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
+                    return await buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
 
                 case ModulLocation.MIDDLERIGHT:
-                    return buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
+                    return await buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
 
                 case ModulLocation.LOWERLEFT:
-                    return buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
+                    return await buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
 
                 case ModulLocation.LOWERRIGHT:
-                    return buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
+                    return await buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
             }
 
             return string.Empty;
         }
 
-        private static string buildModul(Modules modules, Module module)
+        private static async Task<string> buildModul(Modules modules, Module module)
         {
             switch (module.ModuleType)
             {
@@ -93,30 +92,27 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     return string.Empty;
 
                 case ModuleType.TIME:
-                    return getTimeModul(modules);
+                    return await getTimeModul(modules);
 
                 case ModuleType.WEATHER:
-                    return getWeatherModul(modules);
+                    return await getWeatherModul(modules);
 
                 case ModuleType.WEATHERFORECAST:
-                    return getWeatherforecastModul(modules);
+                    return await getWeatherforecastModul(modules);
 
                 case ModuleType.NEWS:
-                    return getNewsModul(modules);
+                    return await getNewsModul(modules);
 
                 case ModuleType.QUOTE:
-                    return getQuoteModul(modules);
+                    return await getQuoteModul(modules);
             }
 
             return string.Empty;
         }
 
-        private static string getQuoteModul(Modules modules)
+        private static async Task<string> getQuoteModul(Modules modules)
         {
-            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
-                return string.Empty;
-
-            Api.Quote.Quote result = (Api.Quote.Quote) r;
+            Api.Quote.Quote result = DataAccess.DeserializeModuleData(typeof(Api.Quote.Quote), await DataAccess.GetModuleData(modules));
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -129,12 +125,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getNewsModul(Modules modules)
+        private static async Task<string> getNewsModul(Modules modules)
         {
-            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
-                return string.Empty;
-
-            ArticlesResult result = (ArticlesResult)r;
+            ArticlesResult result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(modules));
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -149,12 +142,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getWeatherforecastModul(Modules modules)
+        private static async Task<string> getWeatherforecastModul(Modules modules)
         {
-            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
-                return string.Empty;
-
-            List<ForecastDays> result = (List<ForecastDays>)r;
+            List<ForecastDays> result = DataAccess.DeserializeModuleData(typeof(List<ForecastDays>), await DataAccess.GetModuleData(modules));
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -173,12 +163,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getWeatherModul(Modules modules)
+        private static async Task<string> getWeatherModul(Modules modules)
         {
-            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
-                return string.Empty;
-
-            SingleResult<CurrentWeatherResult> result = (SingleResult<CurrentWeatherResult>)r;
+            SingleResult<CurrentWeatherResult> result = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(modules));
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -193,12 +180,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return stringBuilder.ToString();
         }
 
-        private static string getTimeModul(Modules modules)
+        private static async Task<string> getTimeModul(Modules modules)
         {
-            if (!ModuleData.Data.TryGetValue(modules, out dynamic r))
-                return string.Empty;
-
-            Sun sun = (Sun)r;
+            Sun sun = DataAccess.DeserializeModuleData(typeof(Sun), await DataAccess.GetModuleData(modules));
 
             StringBuilder stringBuilder = new StringBuilder();
 

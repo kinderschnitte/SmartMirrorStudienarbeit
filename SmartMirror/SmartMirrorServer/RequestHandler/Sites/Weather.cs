@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Api;
 using Api.Weather;
+using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using SmartMirrorServer.HelperClasses;
 
@@ -26,10 +26,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\weather.html");
 
-                if (!ModuleData.Data.TryGetValue(Modules.WEATHER, out dynamic r))
-                    return Encoding.UTF8.GetBytes(page);
-
-                SingleResult<CurrentWeatherResult> currentResult = (SingleResult<CurrentWeatherResult>)r;
+                SingleResult<CurrentWeatherResult> currentResult = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(Modules.WEATHER));
 
                 foreach (string line in file)
                 {

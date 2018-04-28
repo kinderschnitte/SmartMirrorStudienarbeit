@@ -53,11 +53,9 @@ namespace Api
                 timeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
 
             if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
-            {
-                Module weatherforecastModule = DataAccess.GetModule(Modules.WEATHERFORECAST);
-                List<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityName(weatherforecastModule);
-                ModuleData.Data.AddOrUpdate(Modules.WEATHERFORECAST, result, (key, value) => result);
-            }
+                #pragma warning disable 4014
+                DataAccess.AddOrReplaceModuleData(Modules.WEATHERFORECAST, await GetFiveDaysForecastByCityName(DataAccess.GetModule(Modules.WEATHERFORECAST)));
+                #pragma warning restore 4014
 
             if (DataAccess.ModuleExists(Modules.QUOTE))
                 await quoteModul(Modules.QUOTE);
@@ -168,37 +166,44 @@ namespace Api
 
         private static async Task newsModul(Modules modules, Module module)
         {
-            ArticlesResult result = module.NewsSources.Count == 0 ? await getNewsByCategory(module) : await getNewsBySource(module);
-            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, module.NewsSources.Count == 0 ? await getNewsByCategory(module) : await getNewsBySource(module));
+            #pragma warning restore 4014
         }
 
         private static async Task quoteModul(Modules modules)
         {
-            Quote.Quote result = await GetQuoteOfDay();
-            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, await GetQuoteOfDay());
+            #pragma warning restore 4014
         }
 
         private static async Task jokeModul(Modules modules)
         {
-            Joke.Joke result = await JokeHelper.GetJoke();
-            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, await JokeHelper.GetJoke());
+            #pragma warning restore 4014
         }
 
         private static void timeModul(Modules modules, Module module)
         {
-            ModuleData.Data.AddOrUpdate(modules, new Sun.Sun(module), (key, value) => new Sun.Sun(module));
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, new Sun.Sun(module));
+            #pragma warning restore 4014
         }
 
         private static async Task weatherforecastModul(Modules modules, Module module)
         {
-            List<ForecastDays> result = await getcalculatedForecast(module);
-            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, await getcalculatedForecast(module));
+            #pragma warning restore 4014
         }
 
         private static async Task weatherModul(Modules modules, Module module)
         {
-            SingleResult<CurrentWeatherResult> result = await GetCurrentWeatherByCityName(module);
-            ModuleData.Data.AddOrUpdate(modules, result, (key, value) => result);
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, await GetCurrentWeatherByCityName(module));
+            #pragma warning restore 4014
         }
     }
 }

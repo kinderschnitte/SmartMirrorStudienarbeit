@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Api;
+using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using SmartMirrorServer.HelperClasses;
 
@@ -24,10 +24,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\quote.html");
 
-                if (!ModuleData.Data.TryGetValue(Modules.QUOTE, out dynamic r))
-                    return Encoding.UTF8.GetBytes(page);
-
-                Api.Quote.Quote result = (Api.Quote.Quote)r;
+                Api.Quote.Quote result = DataAccess.DeserializeModuleData(typeof(Api.Quote.Quote), await DataAccess.GetModuleData(Modules.QUOTE));
 
                 foreach (string line in file)
                 {

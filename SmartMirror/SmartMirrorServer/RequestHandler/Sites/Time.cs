@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Api;
 using Api.Sun;
+using DataAccessLibrary;
 using DataAccessLibrary.Module;
 using SmartMirrorServer.HelperClasses;
 
@@ -25,10 +25,10 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\time.html");
 
-                if (!ModuleData.Data.TryGetValue(Modules.TIME, out dynamic r))
-                    return Encoding.UTF8.GetBytes(page);
+                //Sun sun = DataAccess.DeserializeModuleData(typeof(Sun), await DataAccess.GetModuleData(Modules.TIME));
 
-                Sun sun = (Sun)r;
+                Module sunModule = DataAccess.GetModule(Modules.TIME);
+                Sun sun = new Sun(sunModule);
 
                 foreach (string line in file)
                 {

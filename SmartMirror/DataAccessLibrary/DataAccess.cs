@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using DataAccessLibrary.Module;
 using DataAccessLibrary.Tables;
@@ -25,31 +26,9 @@ namespace DataAccessLibrary
 
         static DataAccess()
         {
-            InitializeDatabase();
+            initializeDatabase();
 
             addDefaultModuleConfigs();
-        }
-
-        private static void addDefaultModuleConfigs()
-        {
-            AddOrReplaceModule(Modules.UPPERLEFT, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
-            AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.MIDDLELEFT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } });
-            AddOrReplaceModule(Modules.MIDDLERIGHT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
-            AddOrReplaceModule(Modules.LOWERLEFT, new Module.Module { ModuleType = ModuleType.QUOTE });
-            AddOrReplaceModule(Modules.LOWERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" });
-
-            AddOrReplaceModule(Modules.TIME, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
-            AddOrReplaceModule(Modules.WEATHER, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.WEATHERFORECAST, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.QUOTE, new Module.Module { ModuleType = ModuleType.QUOTE });
-            AddOrReplaceModule(Modules.JOKE, new Module.Module { ModuleType = ModuleType.JOKE });
-            AddOrReplaceModule(Modules.NEWSBUSINESS, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Business });
-            AddOrReplaceModule(Modules.NEWSENTERTAINMENT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Entertainment });
-            AddOrReplaceModule(Modules.NEWSHEALTH, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Health });
-            AddOrReplaceModule(Modules.NEWSSCIENCE, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Science });
-            AddOrReplaceModule(Modules.NEWSSPORT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
-            AddOrReplaceModule(Modules.NEWSTECHNOLOGY, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Technology });
         }
 
         #endregion Public Constructors
@@ -72,10 +51,43 @@ namespace DataAccessLibrary
                     dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                // ignored
             }
+        }
+
+        #pragma warning disable 1998
+        // ReSharper disable once UnusedMethodReturnValue.Global
+        public static async Task AddOrReplaceModuleData(Modules moduleName, dynamic moduleData)
+        #pragma warning restore 1998
+        {
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                {
+                    ModuleDataTable newRow = new ModuleDataTable
+                    {
+                        ModuleName = moduleName,
+                        ModuleData = serializeModule(moduleData)
+                    };
+
+                    // ReSharper disable once AccessToDisposedClosure
+                    dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+        public static dynamic DeserializeModuleData(Type type, string moduleString)
+        {
+            XmlSerializer deserializer = new XmlSerializer(type);
+
+            using (TextReader tr = new StringReader(moduleString))
+                return deserializer.Deserialize(tr);
         }
 
         public static Module.Module GetModule(Modules modulename)
@@ -86,7 +98,7 @@ namespace DataAccessLibrary
                 {
                     TableQuery<ModuleTable> query = dbConn.Table<ModuleTable>();
 
-                    return (Module.Module) deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig);
+                    return (Module.Module)deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig);
                 }
             }
             catch (Exception e)
@@ -96,32 +108,22 @@ namespace DataAccessLibrary
             }
         }
 
-        public static void InitializeDatabase()
+        #pragma warning disable 1998
+        public static async Task<string> GetModuleData(Modules modulename)
+        #pragma warning restore 1998
         {
             try
             {
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
-                    dbConn.CreateTable<ModuleTable>();
+                {
+                    TableQuery<ModuleDataTable> query = dbConn.Table<ModuleDataTable>();
+
+                    return query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleData;
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-            }
-        }
-
-        public static void UpdateModuleConfig(Modules moduleName, Module.Module module)
-        {
-            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
-            {
-                ModuleTable moduleTable = dbConn.Query<ModuleTable>("SELECT * FROM ModuleTable WHERE ModuleName = ?", moduleName).FirstOrDefault();
-
-                if (moduleTable == null)
-                    return;
-
-                moduleTable.ModuleConfig = serializeModule(module);
-
-                // ReSharper disable once AccessToDisposedClosure
-                dbConn.RunInTransaction(() => { dbConn.Update(moduleTable); });
+                return null;
             }
         }
 
@@ -145,12 +147,50 @@ namespace DataAccessLibrary
 
         #region Private Methods
 
+        private static void addDefaultModuleConfigs()
+        {
+            AddOrReplaceModule(Modules.UPPERLEFT, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
+            AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.MIDDLELEFT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } });
+            AddOrReplaceModule(Modules.MIDDLERIGHT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
+            AddOrReplaceModule(Modules.LOWERLEFT, new Module.Module { ModuleType = ModuleType.QUOTE });
+            AddOrReplaceModule(Modules.LOWERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" });
+
+            AddOrReplaceModule(Modules.TIME, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
+            AddOrReplaceModule(Modules.WEATHER, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.WEATHERFORECAST, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.QUOTE, new Module.Module { ModuleType = ModuleType.QUOTE });
+            AddOrReplaceModule(Modules.JOKE, new Module.Module { ModuleType = ModuleType.JOKE });
+            AddOrReplaceModule(Modules.NEWSBUSINESS, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Business });
+            AddOrReplaceModule(Modules.NEWSENTERTAINMENT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Entertainment });
+            AddOrReplaceModule(Modules.NEWSHEALTH, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Health });
+            AddOrReplaceModule(Modules.NEWSSCIENCE, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Science });
+            AddOrReplaceModule(Modules.NEWSSPORT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
+            AddOrReplaceModule(Modules.NEWSTECHNOLOGY, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Technology });
+        }
+
         private static dynamic deserializeModule(string moduleString)
         {
             XmlSerializer deserializer = new XmlSerializer(typeof(Module.Module));
 
             using (TextReader tr = new StringReader(moduleString))
                 return deserializer.Deserialize(tr);
+        }
+
+        private static void initializeDatabase()
+        {
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                {
+                    dbConn.CreateTable<ModuleTable>();
+                    dbConn.CreateTable<ModuleDataTable>();
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private static string serializeModule(Module.Module module)
@@ -160,6 +200,17 @@ namespace DataAccessLibrary
             using (StringWriter sw = new StringWriter())
             {
                 serializer.Serialize(sw, module);
+                return sw.ToString();
+            }
+        }
+
+        private static string serializeModule(dynamic moduledata)
+        {
+            XmlSerializer serializer = new XmlSerializer(moduledata.GetType());
+
+            using (StringWriter sw = new StringWriter())
+            {
+                serializer.Serialize(sw, moduledata);
                 return sw.ToString();
             }
         }

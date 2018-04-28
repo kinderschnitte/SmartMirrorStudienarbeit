@@ -132,7 +132,6 @@
     <Compile Include="HelperClasses\WindDIrectionHelper.cs" />
     <Compile Include="Joke\Joke.cs" />
     <Compile Include="Joke\JokeHelper.cs" />
-    <Compile Include="ModuleData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quote\Quote.cs" />
     <Compile Include="Quote\QuoteHelper.cs" />
