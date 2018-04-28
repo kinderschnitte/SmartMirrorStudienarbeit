@@ -16,6 +16,9 @@ namespace Api
 {
     public static class ApiData
     {
+
+        #region Public Methods
+
         public static async Task GetApiData()
         {
             Debug.WriteLine("Module werden geupdatet");
@@ -26,61 +29,9 @@ namespace Api
             ThreadPoolTimer.CreatePeriodicTimer( async source => { await updateModules(); }, period);
         }
 
-        private static async Task updateModules()
-        {
-            if (DataAccess.ModuleExists(Modules.UPPERLEFT))
-                buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
+        #endregion Public Methods
 
-            if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
-                buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
-
-            if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
-                buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
-
-            if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
-                buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
-
-            if (DataAccess.ModuleExists(Modules.LOWERLEFT))
-                buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
-
-            if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
-                buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
-
-            if (DataAccess.ModuleExists(Modules.WEATHER))
-                await weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
-
-            if (DataAccess.ModuleExists(Modules.TIME))
-                timeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
-
-            if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
-                #pragma warning disable 4014
-                DataAccess.AddOrReplaceModuleData(Modules.WEATHERFORECAST, await GetFiveDaysForecastByCityName(DataAccess.GetModule(Modules.WEATHERFORECAST)));
-                #pragma warning restore 4014
-
-            if (DataAccess.ModuleExists(Modules.QUOTE))
-                await quoteModul(Modules.QUOTE);
-
-            if (DataAccess.ModuleExists(Modules.JOKE))
-                await jokeModul(Modules.JOKE);
-
-            if (DataAccess.ModuleExists(Modules.NEWSSCIENCE))
-                await newsModul(Modules.NEWSSCIENCE, DataAccess.GetModule(Modules.NEWSSCIENCE));
-
-            if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
-                await newsModul(Modules.NEWSENTERTAINMENT, DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
-
-            if (DataAccess.ModuleExists(Modules.NEWSHEALTH))
-                await newsModul(Modules.NEWSHEALTH, DataAccess.GetModule(Modules.NEWSHEALTH));
-
-            if (DataAccess.ModuleExists(Modules.NEWSSPORT))
-                await newsModul(Modules.NEWSSPORT, DataAccess.GetModule(Modules.NEWSSPORT));
-
-            if (DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
-                await newsModul(Modules.NEWSTECHNOLOGY, DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
-
-            if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
-                await newsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
-        }
+        #region Private Methods
 
         private static async void buildModul(Modules modules, Module module)
         {
@@ -111,7 +62,7 @@ namespace Api
 
         private static async Task<List<ForecastDays>> getcalculatedForecast(Module module)
         {
-            IEnumerable<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityName(module);
+            IEnumerable<List<FiveDaysForecastResult>> result = await getFiveDaysForecastByCityName(module);
 
             List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
@@ -122,12 +73,12 @@ namespace Api
             return forecastDays;
         }
 
-        public static async Task<SingleResult<CurrentWeatherResult>> GetCurrentWeatherByCityName(Module module)
+        private static async Task<SingleResult<CurrentWeatherResult>> getCurrentWeatherByCityName(Module module)
         {
             return await CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
 
-        public static async Task<List<List<FiveDaysForecastResult>>> GetFiveDaysForecastByCityName(Module module)
+        private static async Task<List<List<FiveDaysForecastResult>>> getFiveDaysForecastByCityName(Module module)
         {
             return await FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
         }
@@ -159,9 +110,16 @@ namespace Api
             return topheadlines;
         }
 
-        public static async Task<Quote.Quote> GetQuoteOfDay()
+        private static async Task<Quote.Quote> getQuoteOfDay()
         {
             return await QuoteHelper.GetQuoteOfDay();
+        }
+
+        private static async Task jokeModul(Modules modules)
+        {
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(modules, await JokeHelper.GetJoke());
+            #pragma warning restore 4014
         }
 
         private static async Task newsModul(Modules modules, Module module)
@@ -174,14 +132,7 @@ namespace Api
         private static async Task quoteModul(Modules modules)
         {
             #pragma warning disable 4014
-            DataAccess.AddOrReplaceModuleData(modules, await GetQuoteOfDay());
-            #pragma warning restore 4014
-        }
-
-        private static async Task jokeModul(Modules modules)
-        {
-            #pragma warning disable 4014
-            DataAccess.AddOrReplaceModuleData(modules, await JokeHelper.GetJoke());
+            DataAccess.AddOrReplaceModuleData(modules, await getQuoteOfDay());
             #pragma warning restore 4014
         }
 
@@ -190,6 +141,62 @@ namespace Api
             #pragma warning disable 4014
             DataAccess.AddOrReplaceModuleData(modules, new Sun.Sun(module));
             #pragma warning restore 4014
+        }
+
+        private static async Task updateModules()
+        {
+            if (DataAccess.ModuleExists(Modules.UPPERLEFT))
+                buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
+
+            if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
+                buildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
+
+            if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
+                buildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
+
+            if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
+                buildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
+
+            if (DataAccess.ModuleExists(Modules.LOWERLEFT))
+                buildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
+
+            if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
+                buildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
+
+            if (DataAccess.ModuleExists(Modules.WEATHER))
+                await weatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
+
+            if (DataAccess.ModuleExists(Modules.TIME))
+                timeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
+
+            if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
+                #pragma warning disable 4014
+                DataAccess.AddOrReplaceModuleData(Modules.WEATHERFORECAST, await getFiveDaysForecastByCityName(DataAccess.GetModule(Modules.WEATHERFORECAST)));
+                #pragma warning restore 4014
+
+            if (DataAccess.ModuleExists(Modules.QUOTE))
+                await quoteModul(Modules.QUOTE);
+
+            if (DataAccess.ModuleExists(Modules.JOKE))
+                await jokeModul(Modules.JOKE);
+
+            if (DataAccess.ModuleExists(Modules.NEWSSCIENCE))
+                await newsModul(Modules.NEWSSCIENCE, DataAccess.GetModule(Modules.NEWSSCIENCE));
+
+            if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
+                await newsModul(Modules.NEWSENTERTAINMENT, DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
+
+            if (DataAccess.ModuleExists(Modules.NEWSHEALTH))
+                await newsModul(Modules.NEWSHEALTH, DataAccess.GetModule(Modules.NEWSHEALTH));
+
+            if (DataAccess.ModuleExists(Modules.NEWSSPORT))
+                await newsModul(Modules.NEWSSPORT, DataAccess.GetModule(Modules.NEWSSPORT));
+
+            if (DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
+                await newsModul(Modules.NEWSTECHNOLOGY, DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
+
+            if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
+                await newsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
         }
 
         private static async Task weatherforecastModul(Modules modules, Module module)
@@ -202,8 +209,11 @@ namespace Api
         private static async Task weatherModul(Modules modules, Module module)
         {
             #pragma warning disable 4014
-            DataAccess.AddOrReplaceModuleData(modules, await GetCurrentWeatherByCityName(module));
-            #pragma warning restore 4014
+            DataAccess.AddOrReplaceModuleData(modules, await getCurrentWeatherByCityName(module));
+#pragma warning restore 4014
         }
+
+        #endregion Private Methods
+
     }
 }

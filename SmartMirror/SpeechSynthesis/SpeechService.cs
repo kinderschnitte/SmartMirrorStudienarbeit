@@ -102,6 +102,11 @@ namespace Speechservice
             jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
 
             await sayAsync(jokeString.ToString());
+
+            // Neuen Joke laden
+            #pragma warning disable 4014
+            DataAccess.AddOrReplaceModuleData(Modules.JOKE, await JokeHelper.GetJoke());
+            #pragma warning restore 4014
         }
 
         public static async Task SayLook()
