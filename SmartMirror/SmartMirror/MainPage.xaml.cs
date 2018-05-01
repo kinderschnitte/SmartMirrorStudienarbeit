@@ -63,7 +63,7 @@ namespace SmartMirror
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await Task.Delay(TimeSpan.FromSeconds(40));
+            await Task.Delay(TimeSpan.FromSeconds(30));
 
             await Speechservice.SpeechService.Startup();
 

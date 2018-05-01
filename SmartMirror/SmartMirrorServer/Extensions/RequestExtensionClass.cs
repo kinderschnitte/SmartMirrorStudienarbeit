@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
+
 using SmartMirrorServer.Enums.QueryEnums;
 using SmartMirrorServer.Enums.RequestEnums;
 using SmartMirrorServer.Objects;
@@ -77,6 +79,8 @@ namespace SmartMirrorServer.Extensions
         public static void SetPostQuery(this Request request, string query)
         {
             string realPostQuery = query.Replace("\0", "");
+
+            realPostQuery = Regex.Replace(realPostQuery, @"[\d-]", string.Empty);
 
             PostQuery postQuery = new PostQuery();
 

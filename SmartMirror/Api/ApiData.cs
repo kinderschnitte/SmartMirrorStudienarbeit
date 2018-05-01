@@ -19,14 +19,17 @@ namespace Api
 
         #region Public Methods
 
+        // ReSharper disable once UnusedMethodReturnValue.Global
         public static async Task GetApiData()
         {
-            Debug.WriteLine("Module werden geupdatet");
+            Debug.WriteLine("Api Daten werden abgerufen");
 
             await updateModules();
 
             TimeSpan period = TimeSpan.FromMinutes(30);
             ThreadPoolTimer.CreatePeriodicTimer( async source => { await updateModules(); }, period);
+
+            Debug.WriteLine("Api Daten abgerufen");
         }
 
         #endregion Public Methods

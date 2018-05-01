@@ -57,6 +57,60 @@ namespace DataAccessLibrary
             }
         }
 
+        public static void AddOrReplaceLocationData(string city, string country, string language, string state)
+        {
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                {
+                    LocationTable newRow = new LocationTable
+                    {
+                        Id = 0,
+                        City = city,
+                        Country = country,
+                        Language = language,
+                        State = state
+                    };
+
+                    // ReSharper disable once AccessToDisposedClosure
+                    dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
+
+                    TableQuery<ModuleTable> query = dbConn.Table<ModuleTable>();
+
+                    foreach (ModuleTable moduleTable in query)
+                    {
+                        Module.Module module = (Module.Module)deserializeModule(moduleTable.ModuleConfig);
+
+                        module.City = city;
+                        module.Country = country;
+                        module.Language = language;
+                        module.NewsCountry = (Countries)Enum.Parse(typeof(Countries), country.ToUpper());
+                        module.NewsLanguage = (Languages)Enum.Parse(typeof(Languages), language.ToUpper());
+
+                        AddOrReplaceModule(moduleTable.ModuleName, module);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+        public static List<LocationTable> GetLocationData()
+        {
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                    return dbConn.Query<LocationTable>("SELECT * FROM LocationTable");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         #pragma warning disable 1998
         // ReSharper disable once UnusedMethodReturnValue.Global
         public static async Task AddOrReplaceModuleData(Modules moduleName, dynamic moduleData)
@@ -101,10 +155,9 @@ namespace DataAccessLibrary
                     return (Module.Module)deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-                throw;
+                return null;
             }
         }
 
@@ -132,9 +185,7 @@ namespace DataAccessLibrary
             try
             {
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex))
-                {
                     return dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
-                }
             }
             catch (Exception e)
             {
@@ -149,6 +200,9 @@ namespace DataAccessLibrary
 
         private static void addDefaultModuleConfigs()
         {
+            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                if (dbConn.Table<ModuleTable>().Any()) return;
+
             AddOrReplaceModule(Modules.UPPERLEFT, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
             AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
             AddOrReplaceModule(Modules.MIDDLELEFT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } });
@@ -185,6 +239,7 @@ namespace DataAccessLibrary
                 {
                     dbConn.CreateTable<ModuleTable>();
                     dbConn.CreateTable<ModuleDataTable>();
+                    dbConn.CreateTable<LocationTable>();
                 }
             }
             catch (Exception)

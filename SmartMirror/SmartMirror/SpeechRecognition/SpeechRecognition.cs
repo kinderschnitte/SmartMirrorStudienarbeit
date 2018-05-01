@@ -11,6 +11,7 @@ namespace SmartMirror.SpeechRecognition
 {
     internal class SpeechRecognition
     {
+
         #region Private Fields
 
         private readonly CoreDispatcher dispatcher;
@@ -308,11 +309,11 @@ namespace SmartMirror.SpeechRecognition
             if (args.Result.Confidence == SpeechRecognitionConfidence.Medium)
             {
                 //await SpeechService.BadlyUnderstood();
-                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 4);
+                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 2.5);
             }
             else if(args.Result.Confidence == SpeechRecognitionConfidence.High)
             {
-                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 2);
+                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 1.5);
                 await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
             }
             else
@@ -549,5 +550,6 @@ namespace SmartMirror.SpeechRecognition
         }
 
         #endregion Private Methods
+
     }
 }
