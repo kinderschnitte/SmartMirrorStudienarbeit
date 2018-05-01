@@ -15,6 +15,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 {
     internal static class Home
     {
+
         #region Public Methods
 
         /// <summary>
@@ -192,5 +193,6 @@ namespace SmartMirrorServer.RequestHandler.Sites
         }
 
         #endregion Public Methods
+
     }
 }
