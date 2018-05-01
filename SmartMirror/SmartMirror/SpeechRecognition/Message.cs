@@ -36,6 +36,7 @@
         SPEECH_QUOTE,
         SPEECH_CREATOR,
         HELP,
+        POWER,
         UNKNOWN
     }
 }

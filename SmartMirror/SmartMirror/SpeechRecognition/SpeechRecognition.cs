@@ -90,6 +90,7 @@ namespace SmartMirror.SpeechRecognition
             string navigate = speechRecognitionSemanticInterpretation.GetInterpretation("navigate");
             string reload = speechRecognitionSemanticInterpretation.GetInterpretation("reload");
             string speech = speechRecognitionSemanticInterpretation.GetInterpretation("speech");
+            string power = speechRecognitionSemanticInterpretation.GetInterpretation("power");
 
             if (home != null)
             {
@@ -291,6 +292,12 @@ namespace SmartMirror.SpeechRecognition
                     recognizedSpeech.SemanticText = speech;
                     return Message.SPEECH_CREATOR;
                 }
+            }
+
+            if (power != null)
+            {
+                recognizedSpeech.SemanticText = power;
+                return Message.POWER;
             }
 
             return Message.UNKNOWN;
@@ -542,6 +549,12 @@ namespace SmartMirror.SpeechRecognition
 
                 case Message.SPEECH_SUNSET:
                     await SpeechService.SaySunset();
+                    break;
+
+                case Message.POWER:
+                    #pragma warning disable 4014
+                    RaspberryPiGpio.RaspberryPiGpio.TriggerButton();
+                    #pragma warning restore 4014
                     break;
 
                 case Message.UNKNOWN:

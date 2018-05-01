@@ -53,6 +53,10 @@
           <ruleref uri="#speech"/>
           <tag> out.speech=rules.latest(); </tag>
         </item>
+        <item>
+          <ruleref uri="#power"/>
+          <tag> out.power=rules.latest(); </tag>
+        </item>
       </one-of>
     </item>
   </rule>
@@ -229,19 +233,25 @@
     <item repeat="0-1"> bitte </item>
     <item repeat="0-1"> zeige </item>
     <item repeat="0-1"> bitte </item>
-    <item repeat="0-1">
-      <one-of>
-        <item> den </item>
-        <item> das </item>
-      </one-of>
-    </item>
-    <item><tag> out="light"; </tag>
-      <one-of>
-        <item> licht </item>
-        <item> spiegel </item>
-      </one-of>
+    <item repeat="0-1"> das </item>
+    <item>
+      <tag> out="light"; </tag>
+      <item> licht </item>
     </item>
     <item repeat="0-1"> bitte </item>
+  </rule>
+
+  <!--Power-->
+  <rule id="power">
+    <example> mira spiegel </example>
+
+    <item>
+      <ruleref uri="#name"/>
+    </item>
+    <item>
+      <tag> out="power"; </tag>
+      <item> spiegel </item>
+    </item>
   </rule>
 
   <!--Weather-->
