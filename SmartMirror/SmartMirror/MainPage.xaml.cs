@@ -63,13 +63,14 @@ namespace SmartMirror
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await Task.Delay(TimeSpan.FromSeconds(30));
+            await Task.Delay(TimeSpan.FromSeconds(45));
 
-            await Speechservice.SpeechService.Startup();
-
-            speechRecognition.StartRecognizing();
+            // TODO Wieder einkommentieren
+            //await Speechservice.SpeechService.Startup();
 
             Browser.Navigate(new Uri("http://localhost/home.html"));
+
+            speechRecognition.StartRecognizing();
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

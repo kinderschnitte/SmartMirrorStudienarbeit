@@ -7,7 +7,7 @@ namespace RaspberryPiGpio
     public static class RaspberryPiGpio
     {
         // ReSharper disable once UnusedMethodReturnValue.Global
-        public static async Task TriggerButton()
+        public static async Task TriggerOnOffButton()
         {
             GpioController gpio = await GpioController.GetDefaultAsync();
 
@@ -20,7 +20,7 @@ namespace RaspberryPiGpio
 
                 gpioPin.SetDriveMode(GpioPinDriveMode.Output);
                 gpioPin.Write(GpioPinValue.Low);
-                await Task.Delay(50);
+                await Task.Delay(100);
                 gpioPin.SetDriveMode(GpioPinDriveMode.Input);
             }
         }

@@ -8,6 +8,7 @@ using Api.Sun;
 using Api.Weather;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
+using NewsAPI.Constants;
 using NewsAPI.Models;
 using SmartMirrorServer.HelperClasses;
 
@@ -130,10 +131,36 @@ namespace SmartMirrorServer.RequestHandler.Sites
         {
             ArticlesResult result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(modules));
 
+            Module module = DataAccess.GetModule(modules);
+
+            string category = string.Empty;
+
+            switch (module.NewsCategory)
+            {
+                case Categories.Business:
+                    category = "Nachrichten Wirtschaft";
+                    break;
+                case Categories.Entertainment:
+                    category = "Nachrichten Unterhaltung";
+                    break;
+                case Categories.Health:
+                    category = "Nachrichten Gesundheit";
+                    break;
+                case Categories.Science:
+                    category = "Nachrichten Wissenschaft";
+                    break;
+                case Categories.Sports:
+                    category = "Nachrichten Sport";
+                    break;
+                case Categories.Technology:
+                    category = "Nachrichten Technologie";
+                    break;
+            }
+
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.Append("<table style=\"width: 100%; height: 60%; padding: 2.5%; display: table; box-sizing:border-box;\">");
-            stringBuilder.Append(" <tr> <td colspan=\"2\" style=\"font-size: 1.5em; text-align: left; color:grey;\">News</td> </tr>");
+            stringBuilder.Append($" <tr> <td colspan=\"2\" style=\"font-size: 1.5em; text-align: left; color:grey;\">{category}</td> </tr>");
 
             foreach (Article article in result.Articles.Take(4))
                 stringBuilder.Append($" <tr> <td style=\"display: table-cell; font-size: 1.25em; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 1px; width: 80%; text-align: left;\" onclick=\"window.location='{article.Url}'\">{article.Title}</td> <td style=\"font-size: 1.25em; cursor: pointer; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 1px; width: 20%; display: table-cell;\" onclick=\"window.location='{article.Url}'\">{article.Source.Name}</td> </tr>");

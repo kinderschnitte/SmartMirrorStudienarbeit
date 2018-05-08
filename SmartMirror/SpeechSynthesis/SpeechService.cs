@@ -245,7 +245,8 @@ namespace Speechservice
             StringBuilder weatherTodayString = new StringBuilder();
 
             weatherTodayString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
-            weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
+            //weatherTodayString.Append($"{result.Item.Description} in {result.Item.City}. Momentan werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
+            weatherTodayString.Append($"Momentan {result.Item.Description} <break time='500ms'/>, es werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
             weatherTodayString.Append(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
 
             await sayAsync(weatherTodayString.ToString());
@@ -266,13 +267,15 @@ namespace Speechservice
             switch (days)
             {
                 case "tomorrow":
-                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {result[0][0].City} morgens {result[0][3].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    //weatherforecastString.AppendLine($"Morgen wird das Wetter in {result[0][0].City} morgens {result[0][3].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter morgens {result[0][3].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     weatherforecastString.AppendLine($"Mittags {result[0][5].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(4).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     weatherforecastString.AppendLine($"Abends {result[0][7].Description} mit einer mittleren Temperatur von {Math.Round(result[0].Skip(6).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     break;
 
                 case "dayaftertomorrow":
-                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter in {result[1][0].City} morgens {result[1][3].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    //weatherforecastString.AppendLine($"Übermorgen wird das Wetter in {result[1][0].City} morgens {result[1][3].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter morgens {result[1][3].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     weatherforecastString.AppendLine($"Mittags {result[1][5].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(4).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     weatherforecastString.AppendLine($"Abends {result[1][7].Description} mit einer mittleren Temperatur von {Math.Round(result[1].Skip(6).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
                     break;
@@ -292,7 +295,8 @@ namespace Speechservice
                         break;
                     }
 
-                    weatherforecastString.AppendLine($"Am {result[weekDay][0].Date:dddd} wird das Wetter in {result[1][0].City} morgens {result[weekDay][3].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    //weatherforecastString.AppendLine($"Am {result[weekDay][0].Date:dddd} wird das Wetter in {result[1][0].City} morgens {result[weekDay][3].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
+                    weatherforecastString.AppendLine($"Am {result[weekDay][0].Date:dddd} wird das Wetter morgens {result[weekDay][3].Description} mit einer mittleren Temperatur von {Math.Round(result[weekDay].Skip(2).Take(2).Average(innerList => innerList.Temp), 1).ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad.");
 
                     if (result[weekDay].Count < 6)
                     {
@@ -314,7 +318,8 @@ namespace Speechservice
                 case "all":
                     List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key, Description = fiveDaysForecastResult.GroupBy(x => x.Description).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
-                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {forecastDays[0].City} überwiegend {forecastDays[0].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[0].Temperature} Grad ist zu erwarten.");
+                    //weatherforecastString.AppendLine($"Morgen wird das Wetter in {forecastDays[0].City} überwiegend {forecastDays[0].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[0].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter überwiegend {forecastDays[0].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[0].Temperature} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {forecastDays[1].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[1].Temperature} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {forecastDays[2].Date:dddd} wird das Wetter überwiegend {forecastDays[2].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[2].Temperature} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {forecastDays[3].Date:dddd} wird das Wetter überwiegend {forecastDays[3].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[3].Temperature} Grad ist zu erwarten.");
@@ -326,7 +331,8 @@ namespace Speechservice
                 default:
                     List<ForecastDays> allDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key, Description = fiveDaysForecastResult.GroupBy(x => x.Description).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
-                    weatherforecastString.AppendLine($"Morgen wird das Wetter in {allDays[0].City} überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
+                    //weatherforecastString.AppendLine($"Morgen wird das Wetter in {allDays[0].City} überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Morgen wird das Wetter überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {allDays[1].Description}. Eine durchschnittliche Tagestemperatur von {allDays[1].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {allDays[2].Date:dddd} wird das Wetter überwiegend {allDays[2].Description}. Eine durchschnittliche Tagestemperatur von {allDays[2].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {allDays[3].Date:dddd} wird das Wetter überwiegend {allDays[3].Description}. Eine durchschnittliche Tagestemperatur von {allDays[3].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");

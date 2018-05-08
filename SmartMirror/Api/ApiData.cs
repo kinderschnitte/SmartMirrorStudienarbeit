@@ -22,14 +22,10 @@ namespace Api
         // ReSharper disable once UnusedMethodReturnValue.Global
         public static async Task GetApiData()
         {
-            Debug.WriteLine("Api Daten werden abgerufen");
-
             await updateModules();
 
             TimeSpan period = TimeSpan.FromMinutes(30);
             ThreadPoolTimer.CreatePeriodicTimer( async source => { await updateModules(); }, period);
-
-            Debug.WriteLine("Api Daten abgerufen");
         }
 
         #endregion Public Methods
@@ -38,6 +34,8 @@ namespace Api
 
         private static async void buildModul(Modules modules, Module module)
         {
+            Debug.WriteLine("Api Daten werden abgerufen");
+
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (module.ModuleType)
             {
@@ -200,6 +198,8 @@ namespace Api
 
             if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
                 await newsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
+
+            Debug.WriteLine("Api Daten abgerufen");
         }
 
         private static async Task weatherforecastModul(Modules modules, Module module)
@@ -213,7 +213,7 @@ namespace Api
         {
             #pragma warning disable 4014
             DataAccess.AddOrReplaceModuleData(modules, await getCurrentWeatherByCityName(module));
-#pragma warning restore 4014
+            #pragma warning restore 4014
         }
 
         #endregion Private Methods

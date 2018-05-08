@@ -305,30 +305,37 @@ namespace SmartMirror.SpeechRecognition
 
         private async void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
         {
-            Debug.WriteLine(args.Result.Confidence.ToString());
-
-            if (args.Result.Confidence == SpeechRecognitionConfidence.Low) return;
-
-            await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
-
-            Debug.WriteLine("Speech Recognition stopped");
-
-            if (args.Result.Confidence == SpeechRecognitionConfidence.Medium)
+            try
             {
-                //await SpeechService.BadlyUnderstood();
-                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 2.5);
+                Debug.WriteLine(args.Result.Confidence.ToString());
+
+                if (args.Result.Confidence == SpeechRecognitionConfidence.Low) return;
+
+                await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
+
+                Debug.WriteLine("Speech Recognition stopped");
+
+                if (args.Result.Confidence == SpeechRecognitionConfidence.Medium)
+                {
+                    //await SpeechService.BadlyUnderstood();
+                    mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 3.5);
+                }
+                else if(args.Result.Confidence == SpeechRecognitionConfidence.High)
+                {
+                    mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 2.5);
+                    await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+                }
+                else
+                    return;
+
+                speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
+
+                Debug.WriteLine("Speech Recognition started");
             }
-            else if(args.Result.Confidence == SpeechRecognitionConfidence.High)
+            catch (Exception)
             {
-                mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 1.5);
-                await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+                // ignored
             }
-            else
-                return;
-
-            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
-
-            Debug.WriteLine("Speech Recognition started");
         }
 
         private async Task handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
@@ -336,94 +343,55 @@ namespace SmartMirror.SpeechRecognition
             switch (recognizedSpeech.Message)
             {
                 case Message.HOME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/home.html"));
-                    });
+                    showSite("http://localhost/home.html");
                     break;
 
                 case Message.HELP:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/help.html"));
-                    });
+                    showSite("http://localhost/help.html");
                     break;
 
                 case Message.TIME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/time.html"));
-                    });
+                    showSite("http://localhost/time.html");
                     break;
 
                 case Message.WEATHER:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/weather.html"));
-                    });
+                    showSite("http://localhost/weather.html");
                     break;
 
                 case Message.WEATHERFORECAST:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/weatherforecast.html"));
-                    });
+                    showSite("http://localhost/weatherforecast.html");
                     break;
 
                 case Message.LIGHT:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/light.html"));
-                    });
+                    showSite("http://localhost/light.html");
                     break;
 
                 case Message.NEWS_SPORTS:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Sports"));
-                    });
+                    showSite("http://localhost/news.html?Sports");
                     break;
 
                 case Message.NEWS_BUSINESS:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Business"));
-                    });
+                    showSite("http://localhost/news.html?Business");
                     break;
 
                 case Message.NEWS_ENTERTAINMENT:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Entertainment"));
-                    });
+                    showSite("http://localhost/news.html?Entertainment");
                     break;
 
                 case Message.NEWS_HEALTH:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Health"));
-                    });
+                    showSite("http://localhost/news.html?Health");
                     break;
 
                 case Message.NEWS_SCIENCE:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Science"));
-                    });
+                    showSite("http://localhost/news.html?Science");
                     break;
 
                 case Message.NEWS_TECHNOLOGY:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/news.html?Technology"));
-                    });
+                    showSite("http://localhost/news.html?Technology");
                     break;
 
                 case Message.QUOTE:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/quote.html"));
-                    });
+                    showSite("http://localhost/quote.html");
                     break;
 
                 case Message.RELOAD:
@@ -464,10 +432,7 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_TIME:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/time.html"));
-                    });
+                    showSite("http://localhost/time.html");
                     await SpeechService.SayTime();
                     break;
 
@@ -512,18 +477,12 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_QUOTE:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/quote.html"));
-                    });
+                    showSite("http://localhost/quote.html");
                     await SpeechService.SayQuote();
                     break;
 
                 case Message.SPEECH_WEATHER:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/weather.html"));
-                    });
+                    showSite("http://localhost/weather.html");
                     await SpeechService.SayWeather();
                     break;
 
@@ -532,10 +491,7 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.SPEECH_WEATHERFORECAST:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        mainPage.Browser.Navigate(new Uri("http://localhost/weatherforecast.html"));
-                    });
+                    showSite("http://localhost/weatherforecast.html");
                     await SpeechService.SayWeatherforecast(recognizedSpeech.SemanticText.Split(' ')[1]);
                     break;
 
@@ -553,13 +509,24 @@ namespace SmartMirror.SpeechRecognition
 
                 case Message.POWER:
                     #pragma warning disable 4014
-                    RaspberryPiGpio.RaspberryPiGpio.TriggerButton();
+                    RaspberryPiGpio.RaspberryPiGpio.TriggerOnOffButton();
                     #pragma warning restore 4014
                     break;
 
                 case Message.UNKNOWN:
                     break;
             }
+        }
+
+        private async void showSite(string url)
+        {
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Uri uri = new Uri(url);
+
+                if (mainPage.Browser.Source.OriginalString != uri.OriginalString)
+                    mainPage.Browser.Navigate(uri);
+            });
         }
 
         #endregion Private Methods

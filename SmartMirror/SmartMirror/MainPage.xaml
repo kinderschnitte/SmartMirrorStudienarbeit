@@ -9,7 +9,7 @@
         <Grid.Background>
             <SolidColorBrush>Black</SolidColorBrush>
         </Grid.Background>
-        <WebView x:Name="Browser" x:FieldModifier="public" Source="ms-appx-web:///LoadingScreen/loading.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <WebView x:Name="Browser" x:FieldModifier="public" Source="ms-appx-web:///LoadingScreen/loading.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
         <Border x:Name="RecognitionLight" x:FieldModifier="public" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Transparent" MaxHeight="50"></Border>
     </Grid>
 </Page>
