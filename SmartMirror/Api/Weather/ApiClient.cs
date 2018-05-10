@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -30,7 +31,8 @@ namespace Api.Weather
             }
             catch (Exception)
             {
-                return await GetResponse(queryString);
+                //return await GetResponse(queryString);
+                return null;
             }
         }
     }

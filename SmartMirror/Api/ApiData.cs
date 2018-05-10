@@ -34,8 +34,6 @@ namespace Api
 
         private static async void buildModul(Modules modules, Module module)
         {
-            Debug.WriteLine("Api Daten werden abgerufen");
-
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (module.ModuleType)
             {
@@ -146,6 +144,8 @@ namespace Api
 
         private static async Task updateModules()
         {
+            Debug.WriteLine("Api Daten werden abgerufen");
+
             if (DataAccess.ModuleExists(Modules.UPPERLEFT))
                 buildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
 
@@ -205,14 +205,16 @@ namespace Api
         private static async Task weatherforecastModul(Modules modules, Module module)
         {
             #pragma warning disable 4014
-            DataAccess.AddOrReplaceModuleData(modules, await getcalculatedForecast(module));
+            List<ForecastDays> weatherforecast = await getcalculatedForecast(module);
+            DataAccess.AddOrReplaceModuleData(modules, weatherforecast);
             #pragma warning restore 4014
         }
 
         private static async Task weatherModul(Modules modules, Module module)
         {
             #pragma warning disable 4014
-            DataAccess.AddOrReplaceModuleData(modules, await getCurrentWeatherByCityName(module));
+            SingleResult<CurrentWeatherResult> weather = await getCurrentWeatherByCityName(module);
+            DataAccess.AddOrReplaceModuleData(modules, weather);
             #pragma warning restore 4014
         }
 

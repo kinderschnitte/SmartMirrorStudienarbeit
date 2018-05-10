@@ -29,33 +29,13 @@ namespace DataAccessLibrary
             initializeDatabase();
 
             addDefaultModuleConfigs();
+
+            addDefaultLocation();
         }
 
         #endregion Public Constructors
 
         #region Public Methods
-
-        public static void AddOrReplaceModule(Modules moduleName, Module.Module module)
-        {
-            try
-            {
-                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
-                {
-                    ModuleTable newRow = new ModuleTable
-                    {
-                        ModuleName = moduleName,
-                        ModuleConfig = serializeModule(module)
-                    };
-
-                    // ReSharper disable once AccessToDisposedClosure
-                    dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-        }
 
         public static void AddOrReplaceLocationData(string city, string country, string language, string state)
         {
@@ -97,17 +77,25 @@ namespace DataAccessLibrary
             }
         }
 
-        public static List<LocationTable> GetLocationData()
+        public static void AddOrReplaceModule(Modules moduleName, Module.Module module)
         {
             try
             {
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
-                    return dbConn.Query<LocationTable>("SELECT * FROM LocationTable");
+                {
+                    ModuleTable newRow = new ModuleTable
+                    {
+                        ModuleName = moduleName,
+                        ModuleConfig = serializeModule(module)
+                    };
+
+                    // ReSharper disable once AccessToDisposedClosure
+                    dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-                throw;
+                // ignored
             }
         }
 
@@ -142,6 +130,19 @@ namespace DataAccessLibrary
 
             using (TextReader tr = new StringReader(moduleString))
                 return deserializer.Deserialize(tr);
+        }
+
+        public static List<LocationTable> GetLocationData()
+        {
+            try
+            {
+                using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                    return dbConn.Query<LocationTable>("SELECT * FROM LocationTable");
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static Module.Module GetModule(Modules modulename)
@@ -187,10 +188,9 @@ namespace DataAccessLibrary
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex))
                     return dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e.StackTrace);
-                throw;
+                return false;
             }
         }
 
@@ -198,6 +198,15 @@ namespace DataAccessLibrary
 
         #region Private Methods
 
+        private static void addDefaultLocation()
+        {
+            using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
+                if (dbConn.Table<LocationTable>().Any()) return;
+
+            AddOrReplaceLocationData("Karlsruhe", "DE", "de", "BW");
+        }
+        
+        
         private static void addDefaultModuleConfigs()
         {
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))

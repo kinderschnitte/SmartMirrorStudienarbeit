@@ -244,13 +244,19 @@
   <!--Power-->
   <rule id="power">
     <example> mira spiegel </example>
+    <example> mira an </example>
+    <example> mira aus </example>
 
     <item>
       <ruleref uri="#name"/>
     </item>
     <item>
       <tag> out="power"; </tag>
-      <item> spiegel </item>
+      <one-of>
+        <item> spiegel </item>
+        <item> an </item>
+        <item> aus </item>
+      </one-of>
     </item>
   </rule>
 
