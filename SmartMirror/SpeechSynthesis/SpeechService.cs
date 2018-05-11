@@ -257,7 +257,7 @@ namespace Speechservice
             List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
 
             // Infos zu heutigen Tag löschen
-            if (result.Count > 5)
+            if (result.Count > 4)
                 result.RemoveAt(0);
 
             StringBuilder weatherforecastString = new StringBuilder();

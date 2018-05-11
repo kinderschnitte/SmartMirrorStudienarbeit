@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,8 @@ namespace SmartMirrorServer.RequestHandler.Sites
         public static async Task<byte[]> BuildHome()
         {
             string page = string.Empty;
+
+            Debug.WriteLine("Home Seite wird gebildet.");
 
             try
             {
@@ -56,6 +59,8 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 if (Application.Notifications.ExceptionNotifications)
                     Notification.Notification.SendPushNotification("Fehler aufgetreten.", $"{exception.StackTrace}");
             }
+
+            Debug.WriteLine("Home Seite fertig gebildet.");
 
             return Encoding.UTF8.GetBytes(page);
         }
@@ -120,7 +125,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             stringBuilder.Append("<table style=\"width: 100%; height: 60%; padding: 2.5%;\">");
 
-            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em; text-align: left; display: block;\">{result.Text}</label> <label style=\"font-size: 1.25em; text-align: center; display: block; padding-top: 2.5%;\">- {result.Author} -</label></td> </tr>");
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em; text-align: left; display: block;\">{result.Text}</label> <label style=\"font-size: 1.25em; text-align: center; display: block; padding-top: 5%;\">- {result.Author} -</label></td> </tr>");
 
             stringBuilder.Append(" </table>");
 
@@ -178,13 +183,15 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
             stringBuilder.Append($"<table style=\"width: 100%; height: 60%; padding: 2.5%; table-layout: fixed; cursor: pointer;\" onclick =\"window.location='https://openweathermap.org/city/{result[0].CityId}'\">");
 
-            stringBuilder.Append($"<tr> <td colspan=\"3\" style=\"font-size: 1.5em; text-align: left; color: grey; width: 60%;\">Wettervorhersage</td> <td colspan=\"2\" style=\"width: 40%; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result[0].City}</td> </tr>");
+            stringBuilder.Append(" <colgroup> <col span=\"1\" style=\"width: 25%;\"> <col span=\"1\" style=\"width: 25%;\"> <col span=\"1\" style=\"width: 25%;\"> <col span=\"1\" style=\"width: 25%;\"> </colgroup>");
 
-            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[0].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[1].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[2].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[3].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[4].Date:ddd}</label> </td> </tr>");
+            stringBuilder.Append($" <tr> <td colspan=\"2\" style=\"font-size: 1.5em; text-align: left; color: grey; width: 60%;\">Wettervorhersage</td> <td colspan=\"2\" style=\"width: 40%; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/> {result[0].City}</td> </tr>");
 
-            stringBuilder.Append($" <tr> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[0].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[1].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[2].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[3].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[4].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> </tr>");
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[0].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[1].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[2].Date:ddd}</label> </td> <td> <label style=\"font-size: 1.5em; color: grey;\">{result[3].Date:ddd}</label> </td> </tr>");
 
-            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[0].Temperature <= 10 ? "coldsmall.png" : (result[0].Temperature > 10 && result[0].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[0].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[1].Temperature <= 10 ? "coldsmall.png" : (result[1].Temperature > 10 && result[1].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[1].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[2].Temperature <= 10 ? "coldsmall.png" : (result[2].Temperature > 10 && result[2].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[2].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[3].Temperature <= 10 ? "coldsmall.png" : (result[3].Temperature > 10 && result[3].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[3].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[4].Temperature <= 10 ? "coldsmall.png" : (result[4].Temperature > 10 && result[4].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[4].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> </tr>");
+            stringBuilder.Append($" <tr> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[0].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[1].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[2].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> <td> <img src=\"{WeatherHelperClass.ChooseWeatherIcon(result[3].Icon)}\" alt=\"\" style=\"width: 100%;\"/> </td> </tr>");
+
+            stringBuilder.Append($" <tr> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[0].Temperature <= 10 ? "coldsmall.png" : (result[0].Temperature > 10 && result[0].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[0].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[1].Temperature <= 10 ? "coldsmall.png" : (result[1].Temperature > 10 && result[1].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[1].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[2].Temperature <= 10 ? "coldsmall.png" : (result[2].Temperature > 10 && result[2].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[2].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> <td> <label style=\"font-size: 1.5em;\"><img src=\"{(result[3].Temperature <= 10 ? "coldsmall.png" : (result[3].Temperature > 10 && result[3].Temperature < 20 ? "warmsmall.png" : "hotsmall.png"))}\" alt=\"\" style=\"height: 0.75em;\"/>{result[3].Temperature.ToString(CultureInfo.InvariantCulture)}</label> </td> </tr>");
 
             stringBuilder.Append("</table>");
 

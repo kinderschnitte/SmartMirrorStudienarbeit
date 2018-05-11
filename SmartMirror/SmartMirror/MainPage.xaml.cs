@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
+using Api;
 
 namespace SmartMirror
 {
-    /// <summary>
-    /// Eine leere Seite, die eigenständig verwendet oder zu der innerhalb eines Rahmens navigiert werden kann.
-    /// </summary>
     internal partial class MainPage
     {
 
@@ -63,14 +61,16 @@ namespace SmartMirror
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await Task.Delay(TimeSpan.FromSeconds(45));
+            await ApiData.GetApiData();
 
-            // TODO Wieder einkommentieren
-            //await Speechservice.SpeechService.Startup();
+            await Speechservice.SpeechService.Startup();
 
             Browser.Navigate(new Uri("http://localhost/home.html"));
 
             speechRecognition.StartRecognizing();
+
+            TimeSpan period = TimeSpan.FromMinutes(30);
+            ThreadPoolTimer.CreatePeriodicTimer(async source => { await ApiData.GetApiData(); }, period);
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

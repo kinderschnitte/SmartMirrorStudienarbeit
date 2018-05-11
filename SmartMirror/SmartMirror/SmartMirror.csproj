@@ -137,13 +137,17 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.8</Version>
+      <Version>6.2.0-Preview1-26502-02</Version>
     </PackageReference>
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Api\Api.csproj">
+      <Project>{70e5ea8c-d553-4bad-99a8-2f272a218216}</Project>
+      <Name>Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj">
       <Project>{329be34c-6396-4d03-901c-ee82778c3856}</Project>
       <Name>DataAccessLibrary</Name>

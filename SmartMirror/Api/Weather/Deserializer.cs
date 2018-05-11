@@ -50,11 +50,19 @@ namespace Api.Weather
             if (response["clouds"] != null)
                 weatherCurrent.Cloudinesss = Convert.ToInt32(response["clouds"]["all"].Value<int>());
 
-            if (response["rain"] != null)
-                weatherCurrent.Rain = Math.Round(Convert.ToDouble(response["rain"]["all"].Value<double>()), 2);
+            try
+            {
+                if (response["rain"]?["3h"] != null)
+                    weatherCurrent.Rain = Math.Round(Convert.ToDouble(response["rain"]["3h"].Value<double>()), 2);
 
-            if (response["snow"] != null)
-                weatherCurrent.Snow = Math.Round(Convert.ToDouble(response["snow"]["all"].Value<double>()), 2);
+                if (response["snow"]?["3h"] != null)
+                    weatherCurrent.Snow = Math.Round(Convert.ToDouble(response["snow"]["3h"].Value<double>()), 2);
+            }
+            catch (Exception)
+            {
+                weatherCurrent.Rain = 0;
+                weatherCurrent.Snow = 0;
+            }
 
             weatherCurrent.Date = DateTime.UtcNow;
             weatherCurrent.City = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(Convert.ToString(response["name"])));

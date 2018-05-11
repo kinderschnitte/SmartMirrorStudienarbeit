@@ -50,14 +50,14 @@ namespace SmartMirrorServer.RequestHandler.Sites
             List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
 
             //Infos zu heutigen Tag löschen
-            if (result.Count > 5)
+            if (result.Count > 4)
                 result.RemoveAt(0);
 
             StringBuilder forecastString = new StringBuilder();
 
             forecastString.Append("<table style=\"width: 100%; height: 100%; padding: 1%; color: white; text-align: center; table-layout: fixed;\">");
             forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 0.75em; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/>{result[0][0].City}</td> </tr>");
-            forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.5em; text-align: left; color: grey;\">5 Tages Wettervorhersage</td> </tr>");
+            forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.5em; text-align: left; color: grey;\">4 Tages Wettervorhersage</td> </tr>");
 
             foreach (List<FiveDaysForecastResult> fiveDaysForecastResults in result)
             {
@@ -72,7 +72,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 else
                     day = fiveDaysForecastResults[0].Date.ToString("dddd");
 
-                forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.25em; color: grey; text-align: left; padding-top: 1%;\">{day}</td> </tr>");
+                forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.25em; color: grey; text-align: left; padding-top: 5%;\">{day}</td> </tr>");
 
                 forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td colspan=\"2\" style=\"padding-top: 1%;\">{(listCount > 0 ? fiveDaysForecastResults[0].Date.ToString("t") : "")}</td>");

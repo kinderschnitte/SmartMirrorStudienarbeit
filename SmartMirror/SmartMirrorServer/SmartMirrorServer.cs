@@ -52,10 +52,6 @@ namespace SmartMirrorServer
 
                 Debug.WriteLine("Server gestartet");
 
-                #pragma warning disable 4014
-                Api.ApiData.GetApiData();
-                #pragma warning restore 4014
-
                 if (Application.Notifications.SystemStartNotifications)
                     Notification.Notification.SendPushNotification("System wurde gestartet.", "Das Smart Mirror System wurde erfolgreich gestartet.");
             }
@@ -120,7 +116,6 @@ namespace SmartMirrorServer
             await sendResponse(args.Socket.OutputStream, request, responseBytes);
         }
 
-        // ReSharper disable once UnusedMethodReturnValue.Local
         private static async Task processPostRequest(PostQuery requestPostQuery)
         {
             if (requestPostQuery.Value.Count == 0)

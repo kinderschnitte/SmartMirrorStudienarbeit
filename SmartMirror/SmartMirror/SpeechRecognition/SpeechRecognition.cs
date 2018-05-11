@@ -311,10 +311,6 @@ namespace SmartMirror.SpeechRecognition
 
                 if (args.Result.Confidence == SpeechRecognitionConfidence.Low) return;
 
-                await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
-
-                Debug.WriteLine("Speech Recognition stopped");
-
                 if (args.Result.Confidence == SpeechRecognitionConfidence.Medium)
                 {
                     //await SpeechService.BadlyUnderstood();
@@ -322,15 +318,17 @@ namespace SmartMirror.SpeechRecognition
                 }
                 else if(args.Result.Confidence == SpeechRecognitionConfidence.High)
                 {
+                    await speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.PauseAsync();
+
+                    Debug.WriteLine("Speech Recognition stopped");
+
                     mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 2.5);
                     await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+
+                    speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
+
+                    Debug.WriteLine("Speech Recognition started");
                 }
-                else
-                    return;
-
-                speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
-
-                Debug.WriteLine("Speech Recognition started");
             }
             catch (Exception)
             {
@@ -444,7 +442,7 @@ namespace SmartMirror.SpeechRecognition
                     await SpeechService.SayLook();
                     break;
 
-                case Message.SPEECH_GENDER:;
+                case Message.SPEECH_GENDER:
                     await SpeechService.SayGender();
                     break;
 
@@ -508,9 +506,7 @@ namespace SmartMirror.SpeechRecognition
                     break;
 
                 case Message.POWER:
-                    #pragma warning disable 4014
-                    RaspberryPiGpio.RaspberryPiGpio.TriggerOnOffButton();
-                    #pragma warning restore 4014
+                    await RaspberryPiGpio.RaspberryPiGpio.TriggerOnOffButton();
                     break;
 
                 case Message.UNKNOWN:

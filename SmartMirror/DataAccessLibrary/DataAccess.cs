@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,10 +100,7 @@ namespace DataAccessLibrary
             }
         }
 
-        #pragma warning disable 1998
-        // ReSharper disable once UnusedMethodReturnValue.Global
-        public static async Task AddOrReplaceModuleData(Modules moduleName, dynamic moduleData)
-        #pragma warning restore 1998
+        public static Task AddOrReplaceModuleData(Modules moduleName, dynamic moduleData)
         {
             try
             {
@@ -114,13 +112,20 @@ namespace DataAccessLibrary
                         ModuleData = serializeModule(moduleData)
                     };
 
-                    // ReSharper disable once AccessToDisposedClosure
-                    dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
+                    dbConn.RunInTransaction(() =>
+                    {
+                        // ReSharper disable once AccessToDisposedClosure
+                        dbConn.InsertOrReplace(newRow);
+                    });
                 }
+
+                Debug.WriteLine("Module " + moduleName + " gespeichert.");
+
+                return Task.CompletedTask;
             }
             catch (Exception)
             {
-                // ignored
+                return Task.CompletedTask;
             }
         }
 
@@ -185,8 +190,16 @@ namespace DataAccessLibrary
         {
             try
             {
+                bool exists;
+
+                Debug.WriteLine("ModuleExists Abfrage starten");
+
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex))
-                    return dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
+                    exists = dbConn.Table<ModuleTable>().Count(x => x.ModuleName == module) != 0;
+
+                Debug.WriteLine("ModuleExists Abfrage abeschlossen: " + exists);
+
+                return exists;
             }
             catch (Exception)
             {
