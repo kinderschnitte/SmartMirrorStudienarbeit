@@ -314,7 +314,7 @@ namespace SmartMirror.SpeechRecognition
                 if (args.Result.Confidence == SpeechRecognitionConfidence.Medium)
                 {
                     //await SpeechService.BadlyUnderstood();
-                    mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 3.5);
+                    mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Red, 2);
                 }
                 else if(args.Result.Confidence == SpeechRecognitionConfidence.High)
                 {
@@ -322,7 +322,7 @@ namespace SmartMirror.SpeechRecognition
 
                     Debug.WriteLine("Speech Recognition stopped");
 
-                    mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green, 2.5);
+                    mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green);
                     await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
 
                     speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();

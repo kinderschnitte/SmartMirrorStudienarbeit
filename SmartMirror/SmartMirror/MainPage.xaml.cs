@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
@@ -70,7 +72,20 @@ namespace SmartMirror
             speechRecognition.StartRecognizing();
 
             TimeSpan period = TimeSpan.FromMinutes(30);
-            ThreadPoolTimer.CreatePeriodicTimer(async source => { await ApiData.GetApiData(); }, period);
+            ThreadPoolTimer.CreatePeriodicTimer(async source =>
+            {
+                Debug.WriteLine("API Daten werden aktualisiert.");
+
+                await ApiData.GetApiData();
+
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    Browser.Refresh();
+                });
+
+                Debug.WriteLine("Anzeige aktualisiert.");
+
+            }, period);
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
