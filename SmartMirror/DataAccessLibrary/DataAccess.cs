@@ -218,8 +218,7 @@ namespace DataAccessLibrary
 
             AddOrReplaceLocationData("Karlsruhe", "DE", "de", "BW");
         }
-        
-        
+
         private static void addDefaultModuleConfigs()
         {
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
