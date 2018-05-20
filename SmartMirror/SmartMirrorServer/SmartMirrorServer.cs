@@ -397,7 +397,7 @@ namespace SmartMirrorServer
             {
                 using (MemoryStream bodyStream = new MemoryStream(file))
                 {
-                    string header = $"HTTP/1.1 200 OK\r\nContent-Length: {bodyStream.Length}\r\nConnection: close\r\nContent-MicrocontrollerType: text/html; charset=utf-8\r\n\r\n";
+                    string header = $"HTTP/1.1 200 OK\r\nContent-Length: {bodyStream.Length}\r\nConnection: close\r\nContent-Type: text/html; charset=utf-8\r\n\r\n";
                     byte[] headerArray = Encoding.UTF8.GetBytes(header);
                     await responseStream.WriteAsync(headerArray, 0, headerArray.Length);
                     await bodyStream.CopyToAsync(responseStream);

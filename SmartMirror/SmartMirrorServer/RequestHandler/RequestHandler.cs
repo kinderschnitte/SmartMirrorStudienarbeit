@@ -16,20 +16,6 @@ namespace SmartMirrorServer.RequestHandler
         /// <returns></returns>
         public static async Task<byte[]> BuildResponse(Request request)
         {
-            return await buildResponse(request);
-        }
-
-        #endregion Public Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Baut die Antwort für den Browser auf
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private static async Task<byte[]> buildResponse(Request request)
-        {
             if (request.IsInvalidRequest || request.Query.FileType == FileType.UNKNOWN)
                 return new byte[0];
 
@@ -55,7 +41,6 @@ namespace SmartMirrorServer.RequestHandler
             return new byte[0];
         }
 
-        #endregion Private Methods
-
+        #endregion Public Methods
     }
 }
