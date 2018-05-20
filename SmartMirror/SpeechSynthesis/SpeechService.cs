@@ -320,7 +320,7 @@ namespace Speechservice
 
                     //weatherforecastString.AppendLine($"Morgen wird das Wetter in {forecastDays[0].City} überwiegend {forecastDays[0].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[0].Temperature} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Morgen wird das Wetter überwiegend {forecastDays[0].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[0].Temperature} Grad ist zu erwarten.");
-                    weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {forecastDays[1].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[1].Temperature} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter überwiegend {forecastDays[1].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[1].Temperature} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {forecastDays[2].Date:dddd} wird das Wetter überwiegend {forecastDays[2].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[2].Temperature} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {forecastDays[3].Date:dddd} wird das Wetter überwiegend {forecastDays[3].Description}. Eine durchschnittliche Tagestemperatur von {forecastDays[3].Temperature} Grad ist zu erwarten.");
 
@@ -333,7 +333,7 @@ namespace Speechservice
 
                     //weatherforecastString.AppendLine($"Morgen wird das Wetter in {allDays[0].City} überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Morgen wird das Wetter überwiegend {allDays[0].Description}. Eine durchschnittliche Tagestemperatur von {allDays[0].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
-                    weatherforecastString.AppendLine($"übermorgen wird das Wetter überwiegend {allDays[1].Description}. Eine durchschnittliche Tagestemperatur von {allDays[1].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
+                    weatherforecastString.AppendLine($"Übermorgen wird das Wetter überwiegend {allDays[1].Description}. Eine durchschnittliche Tagestemperatur von {allDays[1].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {allDays[2].Date:dddd} wird das Wetter überwiegend {allDays[2].Description}. Eine durchschnittliche Tagestemperatur von {allDays[2].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
                     weatherforecastString.AppendLine($"Am {allDays[3].Date:dddd} wird das Wetter überwiegend {allDays[3].Description}. Eine durchschnittliche Tagestemperatur von {allDays[3].Temperature.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad ist zu erwarten.");
 
@@ -353,7 +353,7 @@ namespace Speechservice
             startupString.AppendLine("<break time='500ms'/>");
             startupString.AppendLine("Mein Name ist <prosody rate=\"-30%\">Mira</prosody>.");
             startupString.AppendLine("<break time='1000ms'/>");
-            startupString.AppendLine("Sprachbefehle, sowie weitere Information kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira zeige Hilfe</prosody> anzeigen lassen.");
+            startupString.AppendLine("Alle verfügbaren Sprachbefehle kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira Hilfe</prosody> anzeigen lassen.");
 
             await sayAsync(startupString.ToString());
         }
@@ -377,9 +377,9 @@ namespace Speechservice
 
             stringBuilder.Append(@"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='de-DE'>");
             stringBuilder.Append(@"<sentence>");
-            stringBuilder.Append(@"<break time='500ms'/>");
+            //stringBuilder.Append(@"<break time='500ms'/>");
             stringBuilder.Append(ssml);
-            stringBuilder.Append(@"<break time='500ms'/>");
+            //stringBuilder.Append(@"<break time='500ms'/>");
             stringBuilder.Append(@"</sentence>");
             stringBuilder.Append(@"</speak>");
 

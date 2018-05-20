@@ -847,32 +847,33 @@
                 übermorgen <tag> out = "weatherforecast dayaftertomorrow"; </tag>
               </item>
               <item>
-                montag <tag> out ="weatherforecast monday"; </tag>
+                am montag <tag> out ="weatherforecast monday"; </tag>
               </item>
               <item>
-                dienstag <tag> out = "weatherforecast tuesday"; </tag>
+                am dienstag <tag> out = "weatherforecast tuesday"; </tag>
               </item>
               <item>
-                mittwoch <tag> out = "weatherforecast wednesday"; </tag>
+                am mittwoch <tag> out = "weatherforecast wednesday"; </tag>
               </item>
               <item>
-                donnerstag <tag> out = "weatherforecast thursday"; </tag>
+                am donnerstag <tag> out = "weatherforecast thursday"; </tag>
               </item>
               <item>
-                freitag <tag> out = " weatherforecast friday"; </tag>
+                am freitag <tag> out = " weatherforecast friday"; </tag>
               </item>
               <item>
-                samstag <tag> out = "weatherforecast saturday"; </tag>
+                am samstag <tag> out = "weatherforecast saturday"; </tag>
               </item>
               <item>
-                sonntag <tag> out = "weatherforecast sonday"; </tag>
+                am sonntag <tag> out = "weatherforecast sonday"; </tag>
               </item>
               <item>
                 <tag> out = "weatherforecast all"; </tag>
                 <one-of>
                   <item> die nächsten 5 tage </item>
+                  <item> die nächsten 4 tage </item>
                   <item> die nächsten tage </item>
-                  <item></item>
+                  <item> die kommenden tage </item>
                 </one-of>
               </item>
             </one-of>
@@ -920,15 +921,11 @@
           <one-of>
             <item> sage einen Spruch </item>
             <item> erzähle einen Spruch </item>
-            <item> sage bitte einen Spruch </item>
-            <item> erzähle bitte einen Spruch </item>
             <item> Spruch </item>
             <item> kluger Spruch </item>
             <item> schlauer Spruch </item>
             <item> sage ein Zitat </item>
             <item> erzähle ein Zitat </item>
-            <item> sage bitte ein Zitat </item>
-            <item> erzähle bitte ein Zitat </item>
             <item> Zitat </item>
             <item> kluges Zitat </item>
             <item> schlaues Zitat </item>
@@ -938,26 +935,22 @@
           <tag> out="joke"; </tag>
           <one-of>
             <item> sage einen Witz </item>
+            <item> sage Witz </item>
             <item> erzähle einen Witz </item>
-            <item> sage bitte einen Witz </item>
-            <item> erzähle bitte einen Witz </item>
+            <item> erzähle Witz </item>
             <item> Witz </item>
             <item> lustiger Witz </item>
             <item> erzähle einen lustigen Witz </item>
+            <item> sage einen lustigen Witz </item>
             <item> erzähle lustigen Witz </item>
-            <item> Witz zum totlachen </item>
+            <item> sage lustigen Witz </item>
           </one-of>
         </item>
         <item>
           <tag> out="creator"; </tag>
           <one-of>
-            <item> wer ist dein schaffer </item>
-            <item> wer ist dein erschöpfer </item>
             <item> wer ist dein schöpfer </item>
             <item> wer hat dich erschaffen </item>
-            <item> wer erschaffte dich einst </item>
-            <item> wer ist dein Vater </item>
-            <item> wer sind deine Eltern </item>
           </one-of>
         </item>
       </one-of>
