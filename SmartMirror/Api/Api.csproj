@@ -163,6 +163,10 @@
       <Project>{329be34c-6396-4d03-901c-ee82778c3856}</Project>
       <Name>DataAccessLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Log\Log.csproj">
+      <Project>{c5282535-5087-410b-882a-082cb959c1f8}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

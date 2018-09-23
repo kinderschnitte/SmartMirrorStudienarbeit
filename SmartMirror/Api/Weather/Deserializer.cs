@@ -9,7 +9,7 @@ namespace Api.Weather
     {
         public static SingleResult<CurrentWeatherResult> GetWeatherCurrent(JObject response)
         {
-            string error = getServerErrorFromResponse(response);
+            string error = GetServerErrorFromResponse(response);
 
             if (!string.IsNullOrEmpty(error))
                 return new SingleResult<CurrentWeatherResult>(null, false, error);
@@ -73,7 +73,7 @@ namespace Api.Weather
 
         public static Result<FiveDaysForecastResult> GetWeatherForecast(JObject response)
         {
-            string error = getServerErrorFromResponse(response);
+            string error = GetServerErrorFromResponse(response);
 
             if (!string.IsNullOrEmpty(error))
                 return new Result<FiveDaysForecastResult>(null, false, error);
@@ -144,7 +144,7 @@ namespace Api.Weather
             return new Result<FiveDaysForecastResult>(weatherForecasts, true, TimeHelper.MessageSuccess);
         }
 
-        private static string getServerErrorFromResponse(JObject response)
+        private static string GetServerErrorFromResponse(JObject response)
         {
             if (response["cod"].ToString() == "200")
                 return null;

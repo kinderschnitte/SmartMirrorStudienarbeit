@@ -9,7 +9,7 @@ namespace Api.Joke
     {
         public static async Task<Joke> GetJoke()
         {
-            string fileList = await getXml();
+            string fileList = await GetXml();
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(fileList);
@@ -22,7 +22,7 @@ namespace Api.Joke
             return joke;
         }
 
-        private static async Task<string> getXml()
+        private static async Task<string> GetXml()
         {
             using (HttpClient client = new HttpClient())
             {

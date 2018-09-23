@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaspberryPiGpio", "RaspberryPiGpio\RaspberryPiGpio.csproj", "{77FAE2C3-A49D-4F8B-9757-9818134FCA31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log", "Log\Log.csproj", "{C5282535-5087-410B-882A-082CB959C1F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,7 +29,9 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|Any CPU.Build.0 = Debug|ARM
+		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|Any CPU.Deploy.0 = Debug|ARM
 		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|ARM.ActiveCfg = Debug|ARM
 		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|ARM.Build.0 = Debug|ARM
 		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -47,7 +51,8 @@ Global
 		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Release|x86.ActiveCfg = Release|x86
 		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Release|x86.Build.0 = Release|x86
 		{15F15557-EFF7-4515-84CB-EC4A06827A3D}.Release|x86.Deploy.0 = Release|x86
-		{178AE2BB-57DA-4C57-92EE-C0AEEC41E1B7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{178AE2BB-57DA-4C57-92EE-C0AEEC41E1B7}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{178AE2BB-57DA-4C57-92EE-C0AEEC41E1B7}.Debug|Any CPU.Build.0 = Debug|ARM
 		{178AE2BB-57DA-4C57-92EE-C0AEEC41E1B7}.Debug|ARM.ActiveCfg = Debug|ARM
 		{178AE2BB-57DA-4C57-92EE-C0AEEC41E1B7}.Debug|ARM.Build.0 = Debug|ARM
 		{178AE2BB-57DA-4C57-92EE-C0AEEC41E1B7}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -131,6 +136,22 @@ Global
 		{77FAE2C3-A49D-4F8B-9757-9818134FCA31}.Release|x64.Build.0 = Release|x64
 		{77FAE2C3-A49D-4F8B-9757-9818134FCA31}.Release|x86.ActiveCfg = Release|x86
 		{77FAE2C3-A49D-4F8B-9757-9818134FCA31}.Release|x86.Build.0 = Release|x86
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|ARM.Build.0 = Debug|ARM
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|x64.ActiveCfg = Debug|x64
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|x64.Build.0 = Debug|x64
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|x86.ActiveCfg = Debug|x86
+		{C5282535-5087-410B-882A-082CB959C1F8}.Debug|x86.Build.0 = Debug|x86
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|ARM.ActiveCfg = Release|ARM
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|ARM.Build.0 = Release|ARM
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|x64.ActiveCfg = Release|x64
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|x64.Build.0 = Release|x64
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|x86.ActiveCfg = Release|x86
+		{C5282535-5087-410B-882A-082CB959C1F8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

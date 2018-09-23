@@ -2,8 +2,8 @@
 {
     public enum ApiEnum
     {
-        OPENWEATHERMAP,
-        NEWSAPI,
-        GOOGLEMAPSGEOCODING
+        Openweathermap,
+        Newsapi,
+        Googlemapsgeocoding
     }
 }

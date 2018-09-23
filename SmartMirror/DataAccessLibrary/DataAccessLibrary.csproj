@@ -131,7 +131,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.23.1">
+    <ProjectReference Include="..\Log\Log.csproj">
+      <Project>{c5282535-5087-410b-882a-082cb959c1f8}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.25.1">
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>
   </ItemGroup>

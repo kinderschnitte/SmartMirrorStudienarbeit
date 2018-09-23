@@ -15,7 +15,7 @@ namespace SmartMirrorServer.Features.FootballResults
 
         public static async Task<List<GoalGetter>> GetFootballGoalGetters(string league, int season)
         {
-            string matchdayXmlString = await getXml($"https://www.openligadb.de/api/getgoalgetters/{league}/{season}");
+            string matchdayXmlString = await GetXml($"https://www.openligadb.de/api/getgoalgetters/{league}/{season}");
 
             XDocument xDocument = XDocument.Parse(matchdayXmlString);
 
@@ -26,7 +26,7 @@ namespace SmartMirrorServer.Features.FootballResults
 
         public static async Task<Matchday> GetFootballMatchdayInfo(string league)
         {
-            string matchdayXmlString = await getXml($"https://www.openligadb.de/api/getcurrentgroup/{league}");
+            string matchdayXmlString = await GetXml($"https://www.openligadb.de/api/getcurrentgroup/{league}");
 
             XDocument xDocument = XDocument.Parse(matchdayXmlString);
 
@@ -44,27 +44,27 @@ namespace SmartMirrorServer.Features.FootballResults
 
         public static async Task<FootballMatchdayResults> GetFootballMatchdayResults(string league)
         {
-            string matchdayXmlString = await getXml($"https://www.openligadb.de/api/getmatchdata/{league}");
+            string matchdayXmlString = await GetXml($"https://www.openligadb.de/api/getmatchdata/{league}");
 
-            FootballMatchdayResults footballMatchdayResults = getFootballResults(matchdayXmlString);
+            FootballMatchdayResults footballMatchdayResults = GetFootballResults(matchdayXmlString);
 
             return footballMatchdayResults;
         }
 
         public static async Task<FootballMatchdayResults> GetFootballResultsForMatchday(string league, int matchday, int season) // Season 2017/2018 --> season = 2017
         {
-            string matchdayXmlString = await getXml($"https://www.openligadb.de/api/getmatchdata/{league}/{season}/{matchday}");
+            string matchdayXmlString = await GetXml($"https://www.openligadb.de/api/getmatchdata/{league}/{season}/{matchday}");
 
-            FootballMatchdayResults footballMatchdayResults = getFootballResults(matchdayXmlString);
+            FootballMatchdayResults footballMatchdayResults = GetFootballResults(matchdayXmlString);
 
             return footballMatchdayResults;
         }
 
         public static async Task<FootballMatchdayResults> GetFootballResultsForSeason(string league, int season)
         {
-            string matchdayXmlString = await getXml($"https://www.openligadb.de/api/getmatchdata/{league}/{season}");
+            string matchdayXmlString = await GetXml($"https://www.openligadb.de/api/getmatchdata/{league}/{season}");
 
-            FootballMatchdayResults footballMatchdayResults = getFootballResults(matchdayXmlString);
+            FootballMatchdayResults footballMatchdayResults = GetFootballResults(matchdayXmlString);
 
             return footballMatchdayResults;
         }
@@ -72,7 +72,7 @@ namespace SmartMirrorServer.Features.FootballResults
         {
             List<TableTeam> table = new List<TableTeam>();
 
-            string matchdayXmlString = await getXml($"https://www.openligadb.de/api/getbltable/{league}/{season}");
+            string matchdayXmlString = await GetXml($"https://www.openligadb.de/api/getbltable/{league}/{season}");
 
             XDocument xDocument = XDocument.Parse(matchdayXmlString);
 
@@ -105,7 +105,7 @@ namespace SmartMirrorServer.Features.FootballResults
 
         #region Private Methods
 
-        private static FootballMatchdayResults getFootballResults(string xmlString)
+        private static FootballMatchdayResults GetFootballResults(string xmlString)
         {
             FootballMatchdayResults footballMatchdayResults = new FootballMatchdayResults();
 
@@ -193,7 +193,7 @@ namespace SmartMirrorServer.Features.FootballResults
             return footballMatchdayResults;
         }
 
-        private static async Task<string> getXml(string uri)
+        private static async Task<string> GetXml(string uri)
         {
             using (HttpClient client = new HttpClient())
             {

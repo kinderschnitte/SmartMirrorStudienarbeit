@@ -13,8 +13,8 @@ namespace Api.GoogleMapsGeocoding
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    string apiKey = Api.ApiKeys[ApiEnum.GOOGLEMAPSGEOCODING];
-                    string apiUrl = Api.ApiUrls[ApiEnum.GOOGLEMAPSGEOCODING];
+                    string apiKey = Api.ApiKeys[ApiEnum.Googlemapsgeocoding];
+                    string apiUrl = Api.ApiUrls[ApiEnum.Googlemapsgeocoding];
 
                     string url = apiUrl + city + "," + state + "," + country + "&key=" + apiKey;
 

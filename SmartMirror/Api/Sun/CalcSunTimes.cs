@@ -9,8 +9,8 @@ namespace Api.Sun
 
         private readonly object mLock = new object();
 
-        private const double mDr = Math.PI / 180;
-        private const double mK1 = 15 * mDr * 1.0027379;
+        private const double MDr = Math.PI / 180;
+        private const double MK1 = 15 * MDr * 1.0027379;
 
         private readonly int[] mRiseTimeArr = { 0, 0 };
         private readonly int[] mSetTimeArr = { 0, 0 };
@@ -45,7 +45,7 @@ namespace Api.Sun
         /// <param name="isSunset">Whether or not the sun sets at that day</param>
         public bool CalculateSunRiseSetTimes(LatitudeCoords lat, LongitudeCoords lon, DateTime date, ref DateTime riseTime, ref DateTime setTime, ref bool isSunrise, ref bool isSunset)
         {
-            return calculateSunRiseSetTimes(lat.ToDouble(), lon.ToDouble(), date, ref riseTime, ref setTime, ref isSunrise, ref isSunset);
+            return CalculateSunRiseSetTimes(lat.ToDouble(), lon.ToDouble(), date, ref riseTime, ref setTime, ref isSunrise, ref isSunset);
         }
 
         /// <summary>
@@ -58,30 +58,30 @@ namespace Api.Sun
         /// <param name="setTime">Sunset time (output)</param>
         /// <param name="isSunrise">Whether or not the sun rises at that day</param>
         /// <param name="isSunset">Whether or not the sun sets at that day</param>
-        private bool calculateSunRiseSetTimes(double lat, double lon, DateTime date, ref DateTime riseTime, ref DateTime setTime, ref bool isSunrise, ref bool isSunset)
+        private bool CalculateSunRiseSetTimes(double lat, double lon, DateTime date, ref DateTime riseTime, ref DateTime setTime, ref bool isSunrise, ref bool isSunset)
         {
             lock (mLock)    // lock for thread safety
             {
                 double zone = -(int)Math.Round(TimeZoneInfo.Local.GetUtcOffset(date).TotalSeconds / 3600);
-                double jd = getJulianDay(date) - 2451545;  // Julian day relative to Jan 1.5, 2000
+                double jd = GetJulianDay(date) - 2451545;  // Julian day relative to Jan 1.5, 2000
 
-                if (sign(zone) == sign(lon) && Math.Abs(zone) > 0.001)
+                if (Sign(zone) == Sign(lon) && Math.Abs(zone) > 0.001)
                     return false;
 
                 lon = lon / 360;
                 double tz = zone / 24;
                 double ct = jd / 36525 + 1;                                 // centuries since 1900.0
-                double t0 = localSiderealTimeForTimeZone(lon, jd, tz);      // local sidereal time
+                double t0 = LocalSiderealTimeForTimeZone(lon, jd, tz);      // local sidereal time
 
                 // get sun position at start of day
                 jd += tz;
-                calculateSunPosition(jd, ct);
+                CalculateSunPosition(jd, ct);
                 double ra0 = mSunPositionInSkyArr[0];
                 double dec0 = mSunPositionInSkyArr[1];
 
                 // get sun position at end of day
                 jd += 1;
-                calculateSunPosition(jd, ct);
+                CalculateSunPosition(jd, ct);
                 double ra1 = mSunPositionInSkyArr[0];
                 double dec1 = mSunPositionInSkyArr[1];
 
@@ -101,7 +101,7 @@ namespace Api.Sun
                 {
                     mRightAscentionArr[2] = ra0 + (k + 1) * (ra1 - ra0) / 24;
                     mDecensionArr[2] = dec0 + (k + 1) * (dec1 - dec0) / 24;
-                    mVHzArr[2] = testHour(k, t0, lat);
+                    mVHzArr[2] = TestHour(k, t0, lat);
 
                     // advance to next hour
                     mRightAscentionArr[0] = mRightAscentionArr[2];
@@ -140,7 +140,7 @@ namespace Api.Sun
 
         #region Private Methods
 
-        private static int sign(double value)
+        private static int Sign(double value)
         {
             int rv;
 
@@ -152,17 +152,17 @@ namespace Api.Sun
         }
 
         // Local Sidereal Time for zone
-        private static double localSiderealTimeForTimeZone(double lon, double jd, double z)
+        private static double LocalSiderealTimeForTimeZone(double lon, double jd, double z)
         {
             double s = 24110.5 + 8640184.812999999 * jd / 36525 + 86636.6 * z + 86400 * lon;
             s = s / 86400;
             s = s - Math.Floor(s);
-            return s * 360 * mDr;
+            return s * 360 * MDr;
         }
 
         // determine Julian day from calendar date
         // (Jean Meeus, "Astronomical Algorithms", Willmann-Bell, 1991)
-        private static double getJulianDay(DateTime date)
+        private static double GetJulianDay(DateTime date)
         {
             int month = date.Month;
             int day = date.Day;
@@ -193,7 +193,7 @@ namespace Api.Sun
 
         // sun's position using fundamental arguments
         // (Van Flandern & Pulkkinen, 1979)
-        private void calculateSunPosition(double jd, double ct)
+        private void CalculateSunPosition(double jd, double ct)
         {
             double g, lo, s, u, v, w;
 
@@ -230,7 +230,7 @@ namespace Api.Sun
         }
 
         // test an hour for an event
-        private double testHour(int k, double t0, double lat)
+        private double TestHour(int k, double t0, double lat)
         {
             double[] ha = new double[3];
             double a, b, c, d, e, s, z;
@@ -238,22 +238,22 @@ namespace Api.Sun
             int hr, min;
             double az, dz, hz, nz;
 
-            ha[0] = t0 - mRightAscentionArr[0] + k * mK1;
-            ha[2] = t0 - mRightAscentionArr[2] + k * mK1 + mK1;
+            ha[0] = t0 - mRightAscentionArr[0] + k * MK1;
+            ha[2] = t0 - mRightAscentionArr[2] + k * MK1 + MK1;
 
             ha[1] = (ha[2] + ha[0]) / 2;    // hour angle at half hour
             mDecensionArr[1] = (mDecensionArr[2] + mDecensionArr[0]) / 2;  // declination at half hour
 
-            s = Math.Sin(lat * mDr);
-            c = Math.Cos(lat * mDr);
-            z = Math.Cos(90.833 * mDr);    // refraction + sun semidiameter at horizon
+            s = Math.Sin(lat * MDr);
+            c = Math.Cos(lat * MDr);
+            z = Math.Cos(90.833 * MDr);    // refraction + sun semidiameter at horizon
 
             if (k <= 0)
                 mVHzArr[0] = s * Math.Sin(mDecensionArr[0]) + c * Math.Cos(mDecensionArr[0]) * Math.Cos(ha[0]) - z;
 
             mVHzArr[2] = s * Math.Sin(mDecensionArr[2]) + c * Math.Cos(mDecensionArr[2]) * Math.Cos(ha[2]) - z;
 
-            if (sign(mVHzArr[0]) == sign(mVHzArr[2]))
+            if (Sign(mVHzArr[0]) == Sign(mVHzArr[2]))
                 return mVHzArr[2];  // no event this hour
 
             mVHzArr[1] = s * Math.Sin(mDecensionArr[1]) + c * Math.Cos(mDecensionArr[1]) * Math.Cos(ha[1]) - z;
@@ -279,7 +279,7 @@ namespace Api.Sun
             hz = ha[0] + e * (ha[2] - ha[0]);                 // azimuth of the sun at the event
             nz = -Math.Cos(mDecensionArr[1]) * Math.Sin(hz);
             dz = c * Math.Sin(mDecensionArr[1]) - s * Math.Cos(mDecensionArr[1]) * Math.Cos(hz);
-            az = Math.Atan2(nz, dz) / mDr;
+            az = Math.Atan2(nz, dz) / MDr;
             if (az < 0) az = az + 360;
 
             if (mVHzArr[0] < 0 && mVHzArr[2] > 0)

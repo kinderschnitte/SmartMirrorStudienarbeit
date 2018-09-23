@@ -54,11 +54,15 @@ namespace SmartMirrorServer
 
                 if (Application.Notifications.SystemStartNotifications)
                     Notification.Notification.SendPushNotification("System wurde gestartet.", "Das Smart Mirror System wurde erfolgreich gestartet.");
+
+                Log.Log.WriteLog("Das Smart Mirror System wurde erfolgreich gestartet.");
             }
             catch (Exception exception)
             {
                 if (Application.Notifications.ExceptionNotifications)
                     Notification.Notification.SendPushNotification("Fehler aufgetreten.", $"{exception.StackTrace}");
+
+                Log.Log.WriteException(exception);
             }
         }
 
@@ -303,9 +307,9 @@ namespace SmartMirrorServer
                 // Erstellt die Antwort und sendet diese
                 await handleHttpResponse(args, requestString);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 
@@ -351,9 +355,9 @@ namespace SmartMirrorServer
                     await responseStream.FlushAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 
@@ -379,9 +383,9 @@ namespace SmartMirrorServer
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 
@@ -404,9 +408,9 @@ namespace SmartMirrorServer
                     await responseStream.FlushAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 

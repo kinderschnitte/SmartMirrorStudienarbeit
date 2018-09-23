@@ -15,12 +15,12 @@ namespace Api.GoogleMapsGeocoding
             if (c.Status != "OK")
                 return null;
 
-            Coordinates coordinates = new Coordinates { Latitude = getLatitude(c), Longitude = getLongitude(c) };
+            Coordinates coordinates = new Coordinates { Latitude = GetLatitude(c), Longitude = GetLongitude(c) };
 
             return coordinates;
         }
 
-        private static LongitudeCoords getLongitude(City city)
+        private static LongitudeCoords GetLongitude(City city)
         {
             double lng = city.Results.First().Geometry.Location.Lng;
 
@@ -31,7 +31,7 @@ namespace Api.GoogleMapsGeocoding
             return new LongitudeCoords(degrees, minutes, seconds, lng > 0 ? LongitudeCoords.LongitudeDirection.EAST : LongitudeCoords.LongitudeDirection.WEST);
         }
 
-        private static LatitudeCoords getLatitude(City city)
+        private static LatitudeCoords GetLatitude(City city)
         {
             double lat = city.Results.First().Geometry.Location.Lat;
 

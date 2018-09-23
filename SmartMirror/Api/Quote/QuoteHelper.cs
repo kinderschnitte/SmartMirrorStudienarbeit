@@ -10,7 +10,7 @@ namespace Api.Quote
     {
         public static async Task<Quote> GetQuoteOfDay()
         {
-            string fileList = await getCsv();
+            string fileList = await GetCsv();
 
             string[] tempStr = fileList.Split('|');
 
@@ -19,7 +19,7 @@ namespace Api.Quote
             return splitted.Count > 1 ? new Quote {Author = splitted[1], Text = splitted[0]} : new Quote {Author = "Unbekannt", Text = splitted[0]};
         }
 
-        private static async Task<string> getCsv()
+        private static async Task<string> GetCsv()
         {
             using (HttpClient client = new HttpClient())
             {

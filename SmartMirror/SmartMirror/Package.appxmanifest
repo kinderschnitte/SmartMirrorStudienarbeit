@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp iot uap3 uap4">
-  <Identity Name="26fb631c-74be-4ddd-9b5e-9dd87170042b" Publisher="CN=tretz" Version="1.0.0.0" />
+  <Identity Name="26fb631c-74be-4ddd-9b5e-9dd87170042b" Publisher="CN=tretz" Version="1.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="26fb631c-74be-4ddd-9b5e-9dd87170042b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>SmartMirror</DisplayName>
@@ -26,7 +26,7 @@
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="SmartMirrorServer.StartupTask" ResourceGroup="Server">
           <BackgroundTasks>
-            <iot:Task Type="startup"/>
+            <iot:Task Type="startup" />
           </BackgroundTasks>
         </Extension>
       </Extensions>

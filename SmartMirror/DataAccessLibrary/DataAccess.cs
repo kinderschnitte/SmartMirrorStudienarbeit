@@ -72,9 +72,9 @@ namespace DataAccessLibrary
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 
@@ -94,9 +94,9 @@ namespace DataAccessLibrary
                     dbConn.RunInTransaction(() => { dbConn.InsertOrReplace(newRow); });
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 
@@ -123,8 +123,9 @@ namespace DataAccessLibrary
 
                 return Task.CompletedTask;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.Log.WriteException(exception);
                 return Task.CompletedTask;
             }
         }
@@ -144,8 +145,9 @@ namespace DataAccessLibrary
                 using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                     return dbConn.Query<LocationTable>("SELECT * FROM LocationTable");
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.Log.WriteException(exception);
                 return null;
             }
         }
@@ -161,8 +163,9 @@ namespace DataAccessLibrary
                     return (Module.Module)deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig);
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.Log.WriteException(exception);
                 return null;
             }
         }
@@ -180,8 +183,9 @@ namespace DataAccessLibrary
                     return query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleData;
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.Log.WriteException(exception);
                 return null;
             }
         }
@@ -201,8 +205,9 @@ namespace DataAccessLibrary
 
                 return exists;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.Log.WriteException(exception);
                 return false;
             }
         }
@@ -263,9 +268,9 @@ namespace DataAccessLibrary
                     dbConn.CreateTable<LocationTable>();
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 

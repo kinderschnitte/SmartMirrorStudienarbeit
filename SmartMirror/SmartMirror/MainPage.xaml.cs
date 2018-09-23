@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 using Api;
+using Speechservice;
 
 namespace SmartMirror
 {
@@ -63,29 +63,36 @@ namespace SmartMirror
 
         private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await ApiData.GetApiData();
-
-            await Speechservice.SpeechService.Startup();
-
-            Browser.Navigate(new Uri("http://localhost/home.html"));
-
-            speechRecognition.StartRecognizing();
-
-            TimeSpan period = TimeSpan.FromMinutes(30);
-            ThreadPoolTimer.CreatePeriodicTimer(async source =>
+            try
             {
-                Debug.WriteLine("API Daten werden aktualisiert.");
-
                 await ApiData.GetApiData();
 
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await SpeechService.Startup();
+
+                Browser.Navigate(new Uri("http://localhost/home.html"));
+
+                speechRecognition.StartRecognizing();
+
+                TimeSpan period = TimeSpan.FromMinutes(30);
+                ThreadPoolTimer.CreatePeriodicTimer(async source =>
                 {
-                    Browser.Refresh();
-                });
+                    Debug.WriteLine("API Daten werden aktualisiert.");
 
-                Debug.WriteLine("Anzeige aktualisiert.");
+                    await ApiData.GetApiData();
 
-            }, period);
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        Browser.Refresh();
+                    });
+
+                    Debug.WriteLine("Anzeige aktualisiert.");
+
+                }, period);
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+            }
         }
 
         private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)

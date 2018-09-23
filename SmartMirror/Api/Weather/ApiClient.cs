@@ -13,8 +13,8 @@ namespace Api.Weather
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    string apiKey = Api.ApiKeys[ApiEnum.OPENWEATHERMAP];
-                    string apiUrl = Api.ApiUrls[ApiEnum.OPENWEATHERMAP];
+                    string apiKey = Api.ApiKeys[ApiEnum.Openweathermap];
+                    string apiUrl = Api.ApiUrls[ApiEnum.Openweathermap];
                     string url;
 
                     if (!string.IsNullOrEmpty(apiKey))

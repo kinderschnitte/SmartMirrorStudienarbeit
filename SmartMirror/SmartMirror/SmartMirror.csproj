@@ -19,6 +19,12 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>SmartMirror_TemporaryKey.pfx</PackageCertificateKeyFile>
     <ContainsStartupTask>true</ContainsStartupTask>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -151,6 +157,10 @@
     <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj">
       <Project>{329be34c-6396-4d03-901c-ee82778c3856}</Project>
       <Name>DataAccessLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Log\Log.csproj">
+      <Project>{c5282535-5087-410b-882a-082cb959c1f8}</Project>
+      <Name>Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\RaspberryPiGpio\RaspberryPiGpio.csproj">
       <Project>{77fae2c3-a49d-4f8b-9757-9818134fca31}</Project>
