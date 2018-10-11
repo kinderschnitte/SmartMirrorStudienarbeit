@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using Windows.Storage;
 
@@ -30,7 +31,7 @@ namespace Log
             message.AppendLine("Stacktrace: " + exception.StackTrace);
             message.AppendLine("");
 
-            await FileIO.WriteTextAsync(logFile, message.ToString());
+            await FileIO.AppendTextAsync(logFile, message.ToString());
         }
 
         public static async void WriteLog(string text)
@@ -44,7 +45,7 @@ namespace Log
             message.AppendLine(text);
             message.AppendLine("");
 
-            await FileIO.WriteTextAsync(logFile, message.ToString());
+            await FileIO.AppendTextAsync(logFile, message.ToString());
         }
     }
 }
