@@ -159,6 +159,7 @@ namespace SmartMirrorServer
                         break;
 
                     case "City":
+                    case "Postal":
                     case "State":
                     case "Country":
                     case "Language":
@@ -179,7 +180,7 @@ namespace SmartMirrorServer
         {
             try
             {
-                DataAccess.AddOrReplaceLocationData(value["City"], value["Country"], value["Language"], value["State"]);
+                DataAccess.AddOrReplaceLocationData(value["City"], value["Postal"], value["Country"], value["Language"], value["State"]);
             }
             catch (Exception)
             {
@@ -225,7 +226,7 @@ namespace SmartMirrorServer
 
                             case ModuleType.TIME:
 
-                                Coordinates coordinates = await GoogleMapsGeocoding.GetCoordinatesForCity(locationTable.City, locationTable.State, locationTable.Country);
+                                Coordinates coordinates = await GoogleMapsGeocoding.GetCoordinatesForPostal(locationTable.Postal, locationTable.Country);
                                 latitudeCoords = coordinates.Latitude;
                                 longitudeCoords = coordinates.Longitude;
                                 break;

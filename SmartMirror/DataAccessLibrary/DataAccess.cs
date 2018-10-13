@@ -38,7 +38,7 @@ namespace DataAccessLibrary
 
         #region Public Methods
 
-        public static void AddOrReplaceLocationData(string city, string country, string language, string state)
+        public static void AddOrReplaceLocationData(string city, string postal, string country, string language, string state)
         {
             try
             {
@@ -48,6 +48,7 @@ namespace DataAccessLibrary
                     {
                         Id = 0,
                         City = city,
+                        Postal = postal,
                         Country = country,
                         Language = language,
                         State = state
@@ -160,13 +161,15 @@ namespace DataAccessLibrary
                 {
                     TableQuery<ModuleTable> query = dbConn.Table<ModuleTable>();
 
-                    return (Module.Module)deserializeModule(query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig);
+                    string moduleString = query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig;
+
+                    return (Module.Module)deserializeModule(moduleString);
                 }
             }
             catch (Exception exception)
             {
                 Log.Log.WriteException(exception);
-                return null;
+                return new Module.Module();
             }
         }
 
@@ -221,7 +224,7 @@ namespace DataAccessLibrary
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                 if (dbConn.Table<LocationTable>().Any()) return;
 
-            AddOrReplaceLocationData("Karlsruhe", "DE", "de", "BW");
+            AddOrReplaceLocationData("Karlsruhe", "76131", "DE", "de", "BW");
         }
 
         private static void addDefaultModuleConfigs()
@@ -251,6 +254,9 @@ namespace DataAccessLibrary
 
         private static dynamic deserializeModule(string moduleString)
         {
+            if (moduleString == null)
+                return null;
+
             XmlSerializer deserializer = new XmlSerializer(typeof(Module.Module));
 
             using (TextReader tr = new StringReader(moduleString))

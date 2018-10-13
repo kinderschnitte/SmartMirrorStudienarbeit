@@ -20,6 +20,19 @@ namespace Api.GoogleMapsGeocoding
             return coordinates;
         }
 
+        public static async Task<Coordinates> GetCoordinatesForPostal(string postal, string country)
+        {
+            JObject jobject = await ApiClient.GetResponse(postal, country);
+            City c = Deserializer.GetCoordinatesByName(jobject);
+
+            if (c.Status != "OK")
+                return null;
+
+            Coordinates coordinates = new Coordinates { Latitude = GetLatitude(c), Longitude = GetLongitude(c) };
+
+            return coordinates;
+        }
+
         private static LongitudeCoords GetLongitude(City city)
         {
             double lng = city.Results.First().Geometry.Location.Lng;

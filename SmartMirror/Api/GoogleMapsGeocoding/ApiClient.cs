@@ -29,5 +29,28 @@ namespace Api.GoogleMapsGeocoding
                 return await GetResponse(city, state, country);
             }
         }
+
+        public static async Task<JObject> GetResponse(string postal, string country)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string apiKey = Api.ApiKeys[ApiEnum.Googlemapsgeocoding];
+                    string apiUrl = Api.ApiUrls[ApiEnum.Googlemapsgeocoding];
+
+                    string url = apiUrl + postal + "&region=" + country + "&key=" + apiKey;
+
+                    string response = await client.GetStringAsync(url);
+                    JObject parsedResponse = JObject.Parse(response);
+
+                    return parsedResponse;
+                }
+            }
+            catch (Exception)
+            {
+                return await GetResponse(postal, country);
+            }
+        }
     }
 }

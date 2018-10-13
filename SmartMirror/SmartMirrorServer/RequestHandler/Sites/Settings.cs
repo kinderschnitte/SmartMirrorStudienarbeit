@@ -49,6 +49,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     if (tag.Contains("cityValue"))
                         tag = tag.Replace("cityValue", locationData[0].City);
 
+                    if (tag.Contains("postalValue"))
+                        tag = tag.Replace("postalValue", locationData[0].Postal);
+
                     if (tag.Contains("stateValue"))
                         tag = tag.Replace("stateValue", locationData[0].State);
 
