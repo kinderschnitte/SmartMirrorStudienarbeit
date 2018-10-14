@@ -38,7 +38,7 @@ namespace DataAccessLibrary
 
         #region Public Methods
 
-        public static void AddOrReplaceLocationData(string city, string postal, string country, string language, string state)
+        public static void AddOrReplaceLocationData(string city, string postal, string cityCode, string country, string language, string state)
         {
             try
             {
@@ -49,6 +49,7 @@ namespace DataAccessLibrary
                         Id = 0,
                         City = city,
                         Postal = postal,
+                        CityCode = cityCode,
                         Country = country,
                         Language = language,
                         State = state
@@ -64,6 +65,8 @@ namespace DataAccessLibrary
                         Module.Module module = (Module.Module)deserializeModule(moduleTable.ModuleConfig);
 
                         module.City = city;
+                        module.Postal = postal;
+                        module.CityCode = cityCode;
                         module.Country = country;
                         module.Language = language;
                         module.NewsCountry = (Countries)Enum.Parse(typeof(Countries), country.ToUpper());
@@ -224,7 +227,7 @@ namespace DataAccessLibrary
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                 if (dbConn.Table<LocationTable>().Any()) return;
 
-            AddOrReplaceLocationData("Karlsruhe", "76131", "DE", "de", "BW");
+            AddOrReplaceLocationData("Karlsruhe", "76131", "2892794", "DE", "de", "BW");
         }
 
         private static void addDefaultModuleConfigs()
@@ -233,15 +236,15 @@ namespace DataAccessLibrary
                 if (dbConn.Table<ModuleTable>().Any()) return;
 
             AddOrReplaceModule(Modules.UPPERLEFT, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
-            AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
             AddOrReplaceModule(Modules.MIDDLELEFT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } });
             AddOrReplaceModule(Modules.MIDDLERIGHT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
             AddOrReplaceModule(Modules.LOWERLEFT, new Module.Module { ModuleType = ModuleType.QUOTE });
-            AddOrReplaceModule(Modules.LOWERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.LOWERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
 
             AddOrReplaceModule(Modules.TIME, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
-            AddOrReplaceModule(Modules.WEATHER, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.WEATHERFORECAST, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.WEATHER, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.WEATHERFORECAST, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
             AddOrReplaceModule(Modules.QUOTE, new Module.Module { ModuleType = ModuleType.QUOTE });
             AddOrReplaceModule(Modules.JOKE, new Module.Module { ModuleType = ModuleType.JOKE });
             AddOrReplaceModule(Modules.NEWSBUSINESS, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Business });

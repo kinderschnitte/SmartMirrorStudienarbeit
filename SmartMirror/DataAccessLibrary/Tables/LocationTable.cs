@@ -11,6 +11,8 @@ namespace DataAccessLibrary.Tables
 
         public string Postal { get; set; }
 
+        public string CityCode { get; set; }
+
         public string State { get; set; }
 
         public string Country { get; set; }

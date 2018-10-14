@@ -35,17 +35,21 @@ namespace Api.Weather
         /// <param name="language">The language of the information returned (example: English - en, Russian - ru, Italian - it, Spanish - sp, Ukrainian - ua, German - de, Portuguese - pt, Romanian - ro, Polish - pl, Finnish - fi, Dutch - nl, French - fr, Bulgarian - bg, Swedish - se, Chinese Traditional - zh_tw, Chinese Simplified - zh_cn, Turkish - tr , Czech - cz, Galician - gl, Vietnamese - vi, Arabic - ar, Macedonian - mk, Slovak - sk).</param>
         /// <param name="units">The units of the date (metric or imperial).</param>
         /// <returns> The forecast information.</returns>
-        public static async Task<Result<FiveDaysForecastResult>> GetByCityId(int id, string language, string units)
+        public static async Task<List<List<FiveDaysForecastResult>>> GetByCityId(int id, string language, string units)
         {
             try
             {
-                if (0 > id) return new Result<FiveDaysForecastResult>(null, false, "City Id must be a positive number.");
+                if (0 > id) return null;
+
                 JObject response = await ApiClient.GetResponse("/forecast?id=" + id + "&lang=" + language + "&units=" + units);
-                return Deserializer.GetWeatherForecast(response);
+
+                List<List<FiveDaysForecastResult>> forecastResults = Deserializer.GetWeatherForecast(response).Items.GroupBy(d => d.Date.DayOfYear).Select(s => s.ToList()).ToList();
+
+                return forecastResults;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new Result<FiveDaysForecastResult> { Items = null, Success = false, Message = ex.Message };
+                return null;
             }
         }
 

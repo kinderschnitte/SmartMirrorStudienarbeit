@@ -80,7 +80,7 @@ namespace SmartMirrorServer.Extensions
         {
             string realPostQuery = query.Replace("\0", "");
 
-            realPostQuery = Regex.Replace(realPostQuery, @"[\d-]", string.Empty);
+            //realPostQuery = Regex.Replace(realPostQuery, @"[\d-]", string.Empty);
 
             PostQuery postQuery = new PostQuery();
 

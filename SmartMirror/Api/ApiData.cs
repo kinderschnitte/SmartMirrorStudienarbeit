@@ -56,7 +56,7 @@ namespace Api
 
         private static async Task<List<ForecastDays>> GetcalculatedForecast(Module module)
         {
-            IEnumerable<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityName(module);
+            IEnumerable<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityCode(module);
 
             List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
 
@@ -67,14 +67,14 @@ namespace Api
             return forecastDays;
         }
 
-        private static async Task<SingleResult<CurrentWeatherResult>> GetCurrentWeatherByCityName(Module module)
+        private static async Task<SingleResult<CurrentWeatherResult>> GetCurrentWeatherByCityCode(Module module)
         {
-            return await CurrentWeather.GetByCityName(module.City, module.Country, module.Language, "metric");
+            return await CurrentWeather.GetByCityCode(module.CityCode, module.Language, "metric");
         }
 
-        private static async Task<List<List<FiveDaysForecastResult>>> GetFiveDaysForecastByCityName(Module module)
+        private static async Task<List<List<FiveDaysForecastResult>>> GetFiveDaysForecastByCityCode(Module module)
         {
-            return await FiveDaysForecast.GetByCityName(module.City, module.Country, module.Language, "metric");
+            return await FiveDaysForecast.GetByCityId(Convert.ToInt32(module.CityCode),  module.Language, "metric");
         }
 
         private static async Task<ArticlesResult> GetNewsByCategory(Module module)
@@ -168,7 +168,7 @@ namespace Api
                 TimeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
 
                 //if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
-                await DataAccess.AddOrReplaceModuleData(Modules.WEATHERFORECAST, await GetFiveDaysForecastByCityName(DataAccess.GetModule(Modules.WEATHERFORECAST)));
+                await DataAccess.AddOrReplaceModuleData(Modules.WEATHERFORECAST, await GetFiveDaysForecastByCityCode(DataAccess.GetModule(Modules.WEATHERFORECAST)));
 
                 Debug.WriteLine("Wettervorhersage Module geladen");
 
@@ -214,7 +214,7 @@ namespace Api
 
         private static async Task WeatherModul(Modules modules, Module module)
         {
-            SingleResult<CurrentWeatherResult> weather = await GetCurrentWeatherByCityName(module);
+            SingleResult<CurrentWeatherResult> weather = await GetCurrentWeatherByCityCode(module);
             await DataAccess.AddOrReplaceModuleData(modules, weather);
 
             Debug.WriteLine("Wetter Module geladen");

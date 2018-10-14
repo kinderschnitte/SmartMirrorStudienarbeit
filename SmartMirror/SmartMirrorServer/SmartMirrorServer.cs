@@ -180,7 +180,7 @@ namespace SmartMirrorServer
         {
             try
             {
-                DataAccess.AddOrReplaceLocationData(value["City"], value["Postal"], value["Country"], value["Language"], value["State"]);
+                DataAccess.AddOrReplaceLocationData(value["City"], value["Postal"], value["Citycode"], value["Country"], value["Language"], value["State"]);
             }
             catch (Exception)
             {

@@ -11,6 +11,10 @@ namespace DataAccessLibrary.Module
 
         public string City { get; set; }
 
+        public string Postal { get; set; }
+
+        public string CityCode { get; set; }
+
         public string Country { get; set; }
 
         public string Language { get; set; }
