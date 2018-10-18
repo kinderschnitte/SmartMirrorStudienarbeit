@@ -27,11 +27,11 @@ namespace DataAccessLibrary
 
         static DataAccess()
         {
-            initializeDatabase();
+            InitializeDatabase();
 
-            addDefaultModuleConfigs();
+            AddDefaultModuleConfigs();
 
-            addDefaultLocation();
+            AddDefaultLocation();
         }
 
         #endregion Public Constructors
@@ -62,7 +62,7 @@ namespace DataAccessLibrary
 
                     foreach (ModuleTable moduleTable in query)
                     {
-                        Module.Module module = (Module.Module)deserializeModule(moduleTable.ModuleConfig);
+                        Module.Module module = (Module.Module)DeserializeModule(moduleTable.ModuleConfig);
 
                         module.City = city;
                         module.Postal = postal;
@@ -136,10 +136,21 @@ namespace DataAccessLibrary
 
         public static dynamic DeserializeModuleData(Type type, string moduleString)
         {
-            XmlSerializer deserializer = new XmlSerializer(type);
+            try
+            {
+                if (string.IsNullOrEmpty(moduleString))
+                    return null;
 
-            using (TextReader tr = new StringReader(moduleString))
-                return deserializer.Deserialize(tr);
+                XmlSerializer deserializer = new XmlSerializer(type);
+
+                using (TextReader tr = new StringReader(moduleString))
+                    return deserializer.Deserialize(tr);
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+                return null;
+            }
         }
 
         public static List<LocationTable> GetLocationData()
@@ -164,9 +175,11 @@ namespace DataAccessLibrary
                 {
                     TableQuery<ModuleTable> query = dbConn.Table<ModuleTable>();
 
+                    IEnumerable<ModuleTable> test = query.Select(x => x);
+
                     string moduleString = query.FirstOrDefault(module => module.ModuleName.Equals(modulename))?.ModuleConfig;
 
-                    return (Module.Module)deserializeModule(moduleString);
+                    return (Module.Module)DeserializeModule(moduleString);
                 }
             }
             catch (Exception exception)
@@ -222,7 +235,7 @@ namespace DataAccessLibrary
 
         #region Private Methods
 
-        private static void addDefaultLocation()
+        private static void AddDefaultLocation()
         {
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                 if (dbConn.Table<LocationTable>().Any()) return;
@@ -230,7 +243,7 @@ namespace DataAccessLibrary
             AddOrReplaceLocationData("Karlsruhe", "76131", "2892794", "DE", "de", "BW");
         }
 
-        private static void addDefaultModuleConfigs()
+        private static void AddDefaultModuleConfigs()
         {
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                 if (dbConn.Table<ModuleTable>().Any()) return;
@@ -255,18 +268,26 @@ namespace DataAccessLibrary
             AddOrReplaceModule(Modules.NEWSTECHNOLOGY, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Technology });
         }
 
-        private static dynamic deserializeModule(string moduleString)
+        private static dynamic DeserializeModule(string moduleString)
         {
-            if (moduleString == null)
+            try
+            {
+                if (moduleString == null)
+                    return null;
+
+                XmlSerializer deserializer = new XmlSerializer(typeof(Module.Module));
+
+                using (TextReader tr = new StringReader(moduleString))
+                    return deserializer.Deserialize(tr);
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
                 return null;
-
-            XmlSerializer deserializer = new XmlSerializer(typeof(Module.Module));
-
-            using (TextReader tr = new StringReader(moduleString))
-                return deserializer.Deserialize(tr);
+            }
         }
 
-        private static void initializeDatabase()
+        private static void InitializeDatabase()
         {
             try
             {

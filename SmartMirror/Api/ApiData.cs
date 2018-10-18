@@ -56,13 +56,27 @@ namespace Api
 
         private static async Task<List<ForecastDays>> GetcalculatedForecast(Module module)
         {
-            IEnumerable<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityCode(module);
-
-            List<ForecastDays> forecastDays = result.Select(fiveDaysForecastResult => new ForecastDays { City = fiveDaysForecastResult[0].City, CityId = fiveDaysForecastResult[0].CityId, Date = fiveDaysForecastResult[0].Date, Temperature = Math.Round(fiveDaysForecastResult.Average(innerList => innerList.Temp), 1), MinTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMin), 1), MaxTemp = Math.Round(fiveDaysForecastResult.Min(innerList => innerList.TempMax), 1), Icon = fiveDaysForecastResult.GroupBy(x => x.Icon).OrderByDescending(x => x.Count()).First().Key }).ToList();
+            List<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityCode(module);
 
             // Infos zu heutigen Tag löschen
-            if (forecastDays.Count > 4)
-                forecastDays.RemoveAt(0);
+            result.RemoveAt(0);
+
+            List<ForecastDays> forecastDays = new List<ForecastDays>();
+
+            foreach (List<FiveDaysForecastResult> fiveDaysForecastResults in result)
+            {
+                ForecastDays forecastDay = new ForecastDays();
+
+                forecastDay.City = fiveDaysForecastResults[0].City;
+                forecastDay.CityId = fiveDaysForecastResults[0].CityId;
+                forecastDay.Date = fiveDaysForecastResults[0].Date;
+                forecastDay.MinTemp = Math.Round(fiveDaysForecastResults.Min(innerList => innerList.TempMin), 1);
+                forecastDay.MaxTemp = Math.Round(fiveDaysForecastResults.Max(innerList => innerList.TempMax), 1);
+                forecastDay.Icon = fiveDaysForecastResults.GroupBy(x => x.Icon).Where(x => !x.Key.Contains("n")).OrderByDescending(x => x.Count()).First().Key;
+                forecastDay.Temperature = double.Epsilon;
+
+                forecastDays.Add(forecastDay);
+            }
 
             return forecastDays;
         }

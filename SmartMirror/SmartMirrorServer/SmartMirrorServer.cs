@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
+using Api;
 using Api.GoogleMapsGeocoding;
 using DataAccessLibrary;
 using DataAccessLibrary.Module;
@@ -75,25 +77,33 @@ namespace SmartMirrorServer
         /// </summary>
         /// <param name="inputStream"></param>
         /// <returns></returns>
-        private static async Task<StringBuilder> handleHttpRequest(IInputStream inputStream)
+        private static async Task<StringBuilder> HandleHttpRequest(IInputStream inputStream)
         {
-            StringBuilder requestString = new StringBuilder();
-
-            using (IInputStream input = inputStream)
+            try
             {
-                byte[] data = new byte[bufferSize];
-                IBuffer buffer = data.AsBuffer();
-                uint dataRead = bufferSize;
+                StringBuilder requestString = new StringBuilder();
 
-                while (dataRead == bufferSize)
+                using (IInputStream input = inputStream)
                 {
-                    await input.ReadAsync(buffer, bufferSize, InputStreamOptions.Partial);
-                    requestString.Append(Encoding.UTF8.GetString(data, 0, data.Length));
-                    dataRead = buffer.Length;
-                }
-            }
+                    byte[] data = new byte[bufferSize];
+                    IBuffer buffer = data.AsBuffer();
+                    uint dataRead = bufferSize;
 
-            return requestString;
+                    while (dataRead == bufferSize)
+                    {
+                        await input.ReadAsync(buffer, bufferSize, InputStreamOptions.Partial);
+                        requestString.Append(Encoding.UTF8.GetString(data, 0, data.Length));
+                        dataRead = buffer.Length;
+                    }
+                }
+
+                return requestString;
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+                return new StringBuilder();
+            }
         }
 
         /// <summary>
@@ -102,195 +112,229 @@ namespace SmartMirrorServer
         /// <param name="args"></param>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        private static async Task handleHttpResponse(StreamSocketListenerConnectionReceivedEventArgs args, StringBuilder requestString)
+        private static async Task HandleHttpResponse(StreamSocketListenerConnectionReceivedEventArgs args, StringBuilder requestString)
         {
-            Debug.WriteLine(requestString.ToString()); // TODO Löschen
+            try
+            {
+                Debug.WriteLine(requestString.ToString());
 
-            // Bestimmt die Anfrage
-            Request request = requestString.GetRequest(args);
+                // Bestimmt die Anfrage
+                Request request = requestString.GetRequest(args);
 
-            #pragma warning disable 4014
-            processPostRequest(request.PostQuery);
-            #pragma warning restore 4014
+                #pragma warning disable 4014
+                ProcessPostRequest(request.PostQuery);
+                #pragma warning restore 4014
 
-            // Erstellt die Response
-            byte[] responseBytes = await RequestHandler.RequestHandler.BuildResponse(request);
+                // Erstellt die Response
+                byte[] responseBytes = await RequestHandler.RequestHandler.BuildResponse(request);
 
-            // Sendet Antwort an den Klienten
-            await sendResponse(args.Socket.OutputStream, request, responseBytes);
+                // Sendet Antwort an den Klienten
+                await SendResponse(args.Socket.OutputStream, request, responseBytes);
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+            }
         }
 
-        private static async Task processPostRequest(PostQuery requestPostQuery)
+        private static async Task ProcessPostRequest(PostQuery requestPostQuery)
         {
-            if (requestPostQuery.Value.Count == 0)
-                return;
-
-            bool breakLoop = false;
-
-            foreach (KeyValuePair<string, string> keyValuePair in requestPostQuery.Value)
+            try
             {
-                if (breakLoop)
-                    break;
+                if (requestPostQuery.Value.Count == 0)
+                    return;
 
-                switch (keyValuePair.Key)
+                bool breakLoop = false;
+
+                foreach (KeyValuePair<string, string> keyValuePair in requestPostQuery.Value)
                 {
-                    case "upperleft":
-                        await setModule(Modules.UPPERLEFT, keyValuePair.Value);
+                    if (breakLoop)
                         break;
 
-                    case "upperright":
-                        await setModule(Modules.UPPERRIGHT, keyValuePair.Value);
-                        break;
+                    switch (keyValuePair.Key)
+                    {
+                        case "upperleft":
+                            await SetModule(Modules.UPPERLEFT, keyValuePair.Value);
+                            break;
 
-                    case "middleleft":
-                        await setModule(Modules.MIDDLELEFT, keyValuePair.Value);
-                        break;
+                        case "upperright":
+                            await SetModule(Modules.UPPERRIGHT, keyValuePair.Value);
+                            break;
 
-                    case "middleright":
-                        await setModule(Modules.MIDDLERIGHT, keyValuePair.Value);
-                        break;
+                        case "middleleft":
+                            await SetModule(Modules.MIDDLELEFT, keyValuePair.Value);
+                            break;
 
-                    case "lowerleft":
-                        await setModule(Modules.LOWERLEFT, keyValuePair.Value);
-                        break;
+                        case "middleright":
+                            await SetModule(Modules.MIDDLERIGHT, keyValuePair.Value);
+                            break;
 
-                    case "lowerright":
-                        await setModule(Modules.LOWERRIGHT, keyValuePair.Value);
-                        break;
+                        case "lowerleft":
+                            await SetModule(Modules.LOWERLEFT, keyValuePair.Value);
+                            break;
 
-                    case "City":
-                    case "Postal":
-                    case "State":
-                    case "Country":
-                    case "Language":
-                        await setLocation(requestPostQuery.Value);
-                        breakLoop = true;
-                        break;
+                        case "lowerright":
+                            await SetModule(Modules.LOWERRIGHT, keyValuePair.Value);
+                            break;
+
+                        case "City":
+                        case "Postal":
+                        case "State":
+                        case "Country":
+                        case "Language":
+                            await SetLocation(requestPostQuery.Value);
+                            breakLoop = true;
+                            break;
+                    }
                 }
-            }
 
-            #pragma warning disable 4014
-            Api.ApiData.GetApiData();
-            #pragma warning restore 4014
+                #pragma warning disable 4014
+                ApiData.GetApiData();
+                #pragma warning restore 4014
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+            }
         }
 
         #pragma warning disable 1998
-        private static async Task setLocation(IReadOnlyDictionary<string, string> value)
+        private static async Task SetLocation(IReadOnlyDictionary<string, string> value)
         #pragma warning restore 1998
         {
             try
             {
                 DataAccess.AddOrReplaceLocationData(value["City"], value["Postal"], value["Citycode"], value["Country"], value["Language"], value["State"]);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // ignored
+                Log.Log.WriteException(exception);
             }
         }
 
-        private static async Task setModule(Modules modules, string value)
+        private static async Task SetModule(Modules modules, string value)
         {
-            Module module = await getModule(value);
+            Module module = await GetModule(value);
 
             DataAccess.AddOrReplaceModule(modules, module);
         }
 
         #pragma warning disable 1998
-        private static async Task<Module> getModule(string value)
+        private static async Task<Module> GetModule(string value)
         #pragma warning restore 1998
         {
-            ModuleType moduleType = ModuleType.NONE;
-            string city = string.Empty;
-            string country = string.Empty;
-            string language = string.Empty;
-            LatitudeCoords latitudeCoords = null;
-            LongitudeCoords longitudeCoords = null;
-            Categories categories = Categories.Business;
-            Countries countries = Countries.AE;
-            Languages languages = Languages.AF;
-
-            if (value != string.Empty)
+            try
             {
-                if (!value.Contains("news"))
+                ModuleType moduleType = ModuleType.NONE;
+                string city = string.Empty;
+                string postal = string.Empty;
+                string cityCode = string.Empty;
+                string country = string.Empty;
+                string language = string.Empty;
+                LatitudeCoords latitudeCoords = null;
+                LongitudeCoords longitudeCoords = null;
+                Categories categories = Categories.Business;
+                Countries countries = Countries.AE;
+                Languages languages = Languages.AF;
+
+                if (value != string.Empty)
                 {
-                    LocationTable locationTable = DataAccess.GetLocationData()?[0];
-
-                    moduleType = (ModuleType)Enum.Parse(typeof(ModuleType), value.ToUpper());
-
-                    if (locationTable != null)
+                    if (!value.Contains("news"))
                     {
-                        switch (moduleType)
+                        LocationTable locationTable = DataAccess.GetLocationData()?[0];
+
+                        moduleType = (ModuleType)Enum.Parse(typeof(ModuleType), Regex.Replace(value, @"[\d-]", string.Empty).ToUpper());
+
+                        if (locationTable != null)
                         {
-                            case ModuleType.NONE:
-                                break;
+                            switch (moduleType)
+                            {
+                                case ModuleType.NONE:
+                                    break;
 
-                            case ModuleType.TIME:
+                                case ModuleType.TIME:
 
-                                Coordinates coordinates = await GoogleMapsGeocoding.GetCoordinatesForPostal(locationTable.Postal, locationTable.Country);
-                                latitudeCoords = coordinates.Latitude;
-                                longitudeCoords = coordinates.Longitude;
-                                break;
+                                    Coordinates coordinates = await GoogleMapsGeocoding.GetCoordinatesForPostal(locationTable.Postal, locationTable.Country);
 
-                            case ModuleType.WEATHER:
+                                    if (coordinates == null)
+                                        break;
 
-                                city = locationTable.City;
-                                country = locationTable.Country;
-                                language = locationTable.Language;
-                                break;
+                                    latitudeCoords = coordinates.Latitude;
+                                    longitudeCoords = coordinates.Longitude;
+                                    break;
 
-                            case ModuleType.WEATHERFORECAST:
+                                case ModuleType.WEATHER:
 
-                                city = locationTable.City;
-                                country = locationTable.Country;
-                                language = locationTable.Language;
-                                break;
+                                    city = locationTable.City;
+                                    postal = locationTable.Postal;
+                                    cityCode = locationTable.CityCode;
+                                    country = locationTable.Country;
+                                    language = locationTable.Language;
+                                    break;
 
-                            case ModuleType.NEWS:
-                                break;
+                                case ModuleType.WEATHERFORECAST:
 
-                            case ModuleType.QUOTE:
-                                break;
+                                    city = locationTable.City;
+                                    postal = locationTable.Postal;
+                                    cityCode = locationTable.CityCode;
+                                    country = locationTable.Country;
+                                    language = locationTable.Language;
+                                    break;
 
-                            case ModuleType.JOKE:
-                                break;
+                                case ModuleType.NEWS:
+                                    break;
+
+                                case ModuleType.QUOTE:
+                                    break;
+
+                                case ModuleType.JOKE:
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        moduleType = ModuleType.NEWS;
+
+                        value = value.Remove(0, 4);
+
+                        // To UppperCamelCase
+                        value = value.First().ToString().ToUpper() + value.Substring(1);
+
+                        categories = (Categories) Enum.Parse(typeof(Categories), Regex.Replace(value, @"[\d-]", string.Empty));
+
+                        LocationTable locationTable = DataAccess.GetLocationData()?[0];
+
+                        // ReSharper disable once InvertIf
+                        if (locationTable != null)
+                        {
+                            countries = (Countries) Enum.Parse(typeof(Countries), locationTable.Country.ToUpper());
+
+                            languages = (Languages) Enum.Parse(typeof(Languages), locationTable.Language.ToUpper());
                         }
                     }
                 }
-                else
+
+                return new Module
                 {
-                    moduleType = ModuleType.NEWS;
-
-                    value = value.Remove(0, 4);
-
-                    // To UppperCamelCase
-                    value = value.First().ToString().ToUpper() + value.Substring(1);
-
-                    categories = (Categories) Enum.Parse(typeof(Categories), value);
-
-                    LocationTable locationTable = DataAccess.GetLocationData()?[0];
-
-                    // ReSharper disable once InvertIf
-                    if (locationTable != null)
-                    {
-                        countries = (Countries) Enum.Parse(typeof(Countries), locationTable.Country.ToUpper());
-
-                        languages = (Languages) Enum.Parse(typeof(Languages), locationTable.Language.ToUpper());
-                    }
-                }
+                    ModuleType = moduleType,
+                    City = city,
+                    Postal = postal,
+                    CityCode = cityCode,
+                    Country =  country,
+                    Language = language,
+                    LatitudeCoords = latitudeCoords,
+                    LongitudeCoords = longitudeCoords,
+                    NewsCategory = categories,
+                    NewsCountry = countries,
+                    NewsLanguage = languages
+                };
             }
-
-            return new Module
+            catch (Exception exception)
             {
-                ModuleType = moduleType,
-                City = city,
-                Country =  country,
-                Language = language,
-                LatitudeCoords = latitudeCoords,
-                LongitudeCoords = longitudeCoords,
-                NewsCategory = categories,
-                NewsCountry = countries,
-                NewsLanguage = languages
-            };
+                Log.Log.WriteException(exception);
+                return new Module();
+            }
         }
 
         /// <summary>
@@ -303,10 +347,10 @@ namespace SmartMirrorServer
             try
             {
                 // Verarbeitet die HTTP Anfrage
-                StringBuilder requestString = await handleHttpRequest(args.Socket.InputStream);
+                StringBuilder requestString = await HandleHttpRequest(args.Socket.InputStream);
 
                 // Erstellt die Antwort und sendet diese
-                await handleHttpResponse(args, requestString);
+                await HandleHttpResponse(args, requestString);
             }
             catch (Exception exception)
             {
@@ -321,7 +365,7 @@ namespace SmartMirrorServer
         /// <param name="request"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static async Task sendPicture(Stream responseStream, Request request, byte[] file)
+        private static async Task SendPicture(Stream responseStream, Request request, byte[] file)
         {
             string fileType;
 
@@ -369,7 +413,7 @@ namespace SmartMirrorServer
         /// <param name="request"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static async Task sendResponse(IOutputStream outputStream, Request request, byte[] file)
+        private static async Task SendResponse(IOutputStream outputStream, Request request, byte[] file)
         {
             try
             {
@@ -378,9 +422,9 @@ namespace SmartMirrorServer
                     using (Stream responseStream = output.AsStreamForWrite())
                     {
                         if (request.Query.FileType == FileType.HTML)
-                            await sendWebsite(responseStream, file);
+                            await SendWebsite(responseStream, file);
                         else if (request.Query.FileType != FileType.UNKNOWN)
-                            await sendPicture(responseStream, request, file);
+                            await SendPicture(responseStream, request, file);
                     }
                 }
             }
@@ -396,7 +440,7 @@ namespace SmartMirrorServer
         /// <param name="responseStream"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static async Task sendWebsite(Stream responseStream, byte[] file)
+        private static async Task SendWebsite(Stream responseStream, byte[] file)
         {
             try
             {

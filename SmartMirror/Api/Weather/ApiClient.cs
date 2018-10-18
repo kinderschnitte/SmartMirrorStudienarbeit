@@ -7,6 +7,8 @@ namespace Api.Weather
 {
     public static class ApiClient
     {
+        private static int count;
+
         public static async Task<JObject> GetResponse(string queryString)
         {
             try
@@ -28,10 +30,18 @@ namespace Api.Weather
                     return parsedResponse;
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                //return await GetResponse(queryString);
-                return null;
+                Log.Log.WriteException(exception);
+
+                if (count > 2)
+                {
+                    count = 0;
+                    return new JObject();
+                }
+
+                count++;
+                return await GetResponse(queryString);
             }
         }
     }
