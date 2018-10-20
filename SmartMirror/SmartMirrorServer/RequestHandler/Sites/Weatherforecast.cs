@@ -50,14 +50,13 @@ namespace SmartMirrorServer.RequestHandler.Sites
             List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
 
             //Infos zu heutigen Tag löschen
-            if (result.Count > 4)
-                result.RemoveAt(0);
+            result.RemoveAt(0);
 
             StringBuilder forecastString = new StringBuilder();
 
             forecastString.Append("<table style=\"width: 100%; height: 100%; padding: 1%; color: white; text-align: center; table-layout: fixed;\">");
-            forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 0.75em; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.75em;\"/>{result[0][0].City}</td> </tr>");
-            forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.5em; text-align: left; color: grey;\">4 Tages Wettervorhersage</td> </tr>");
+            forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1em; text-align: right;\"> <img src=\"location.png\" alt=\"\" style=\"height: 0.8em; padding-right: 5px;\"/>{result[0][0].City}</td> </tr>");
+            forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{result[0][0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.75em; text-align: left; color: grey;\">Wettervorhersage</td> </tr>");
 
             foreach (List<FiveDaysForecastResult> fiveDaysForecastResults in result)
             {
@@ -72,9 +71,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 else
                     day = fiveDaysForecastResults[0].Date.ToString("dddd");
 
-                forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.25em; color: grey; text-align: left; padding-top: 5%;\">{day}</td> </tr>");
+                forecastString.Append($" <tr style=\"cursor: pointer;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\"> <td colspan=\"16\" style=\"font-size: 1.25em; color: grey; text-align: left; padding-top: 3%;\">{day}</td> </tr>");
 
-                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
+                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.95em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td colspan=\"2\" style=\"padding-top: 1%;\">{(listCount > 0 ? fiveDaysForecastResults[0].Date.ToString("t") : "")}</td>");
                 forecastString.Append($" <td colspan=\"2\" style=\"padding-top: 1%;\">{(listCount > 1 ? fiveDaysForecastResults[1].Date.ToString("t") : "")}</td>");
                 forecastString.Append($" <td colspan=\"2\" style=\"padding-top: 1%;\">{(listCount > 2 ? fiveDaysForecastResults[2].Date.ToString("t") : "")}</td>");
@@ -85,7 +84,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 forecastString.Append($" <td colspan=\"2\" style=\"padding-top: 1%;\">{(listCount > 7 ? fiveDaysForecastResults[7].Date.ToString("t") : "")}</td>");
                 forecastString.Append(" </tr>");
 
-                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
+                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.95em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td colspan=\"2\"> <img src=\"{(listCount > 0 ? WeatherHelperClass.ChooseWeatherIcon(fiveDaysForecastResults[0].Icon) : "")}\" alt=\"\" style=\"width: 100%; margin: auto;\"/> </td>");
                 forecastString.Append($" <td colspan=\"2\"> <img src=\"{(listCount > 1 ? WeatherHelperClass.ChooseWeatherIcon(fiveDaysForecastResults[1].Icon) : "")}\" alt=\"\" style=\"width: 100%; margin: auto;\"/> </td>");
                 forecastString.Append($" <td colspan=\"2\"> <img src=\"{(listCount > 2 ? WeatherHelperClass.ChooseWeatherIcon(fiveDaysForecastResults[2].Icon) : "")}\" alt=\"\" style=\"width: 100%; margin: auto;\"/> </td>");
@@ -96,7 +95,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 forecastString.Append($" <td colspan=\"2\"> <img src=\"{(listCount > 7 ? WeatherHelperClass.ChooseWeatherIcon(fiveDaysForecastResults[7].Icon) : "")}\" alt=\"\" style=\"width: 100%; margin: auto;\"/> </td>");
                 forecastString.Append(" </tr>");
 
-                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
+                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.95em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 0 ? fiveDaysForecastResults[0].Description : "")}</td>");
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 1 ? fiveDaysForecastResults[1].Description : "")}</td>");
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 2 ? fiveDaysForecastResults[2].Description : "")}</td>");
@@ -107,7 +106,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 7 ? fiveDaysForecastResults[7].Description : "")}</td>");
                 forecastString.Append(" </tr>");
 
-                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
+                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.95em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 0 ? fiveDaysForecastResults[0].Temp.ToString(CultureInfo.InvariantCulture) + " °C" : "")} </td>");
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 1 ? fiveDaysForecastResults[1].Temp.ToString(CultureInfo.InvariantCulture) + " °C" : "")} </td>");
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 2 ? fiveDaysForecastResults[2].Temp.ToString(CultureInfo.InvariantCulture) + " °C" : "")} </td>");
@@ -118,7 +117,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 forecastString.Append($" <td colspan=\"2\">{(listCount > 7 ? fiveDaysForecastResults[7].Temp.ToString(CultureInfo.InvariantCulture) + " °C" : "")} </td>");
                 forecastString.Append(" </tr>");
 
-                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.75em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
+                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td> {(listCount > 0 ? "<img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[0].Humidity.ToString(CultureInfo.InvariantCulture) : "")} </td> <td> { (listCount > 0 ? "<img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[0].WindSpeed.ToString(CultureInfo.InvariantCulture) + " <div style =\"display: inline-block; text-align: center; font-size: 0.4em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">m</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">s</span> </div>" : "")} </label> </td>");
                 forecastString.Append($" <td> {(listCount > 1 ? "<img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[1].Humidity.ToString(CultureInfo.InvariantCulture) : "")} </td> <td> { (listCount > 1 ? "<img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[1].WindSpeed.ToString(CultureInfo.InvariantCulture) + " <div style =\"display: inline-block; text-align: center; font-size: 0.4em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">m</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">s</span> </div>" : "")} </label> </td>");
                 forecastString.Append($" <td> {(listCount > 2 ? "<img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[2].Humidity.ToString(CultureInfo.InvariantCulture) : "")} </td> <td> { (listCount > 2 ? "<img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[2].WindSpeed.ToString(CultureInfo.InvariantCulture) + " <div style =\"display: inline-block; text-align: center; font-size: 0.4em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">m</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">s</span> </div>" : "")} </label> </td>");
@@ -129,7 +128,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                 forecastString.Append($" <td> {(listCount > 7 ? "<img src=\"humidity.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[7].Humidity.ToString(CultureInfo.InvariantCulture) : "")} </td> <td> { (listCount > 7 ? "<img src=\"windspeed.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[7].WindSpeed.ToString(CultureInfo.InvariantCulture) + " <div style =\"display: inline-block; text-align: center; font-size: 0.4em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">m</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">s</span> </div>" : "")} </label> </td>");
                 forecastString.Append(" </tr>");
 
-                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.75em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
+                forecastString.Append($" <tr style=\"cursor: pointer; font-size: 0.85em;\" onclick=\"window.location='https://openweathermap.org/city/{fiveDaysForecastResults[0].CityId}'\">");
                 forecastString.Append($" <td> {(listCount > 0 ? "<img src=\"cloudiness.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[0].Cloudinesss.ToString(CultureInfo.InvariantCulture) : "")} </td> <td style=\"white-space: nowrap;\"> <img src=\"{(listCount > 0 ? (fiveDaysForecastResults[0].Snow > 0 ? "snowflake.png" : "rain.png") : "")}\" alt=\"\" style=\"height: 0.75em;\"/> {(listCount > 0 ? $"{(fiveDaysForecastResults[0].Snow > 0 ? fiveDaysForecastResults[0].Snow.ToString(CultureInfo.InvariantCulture) : fiveDaysForecastResults[0].Rain.ToString(CultureInfo.InvariantCulture))} <div style =\"display: inline-block; text-align: center; font-size: 0.35em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">l</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">m<sup>2</sup></span> </div>" : "")} </td>");
                 forecastString.Append($" <td> {(listCount > 1 ? "<img src=\"cloudiness.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[1].Cloudinesss.ToString(CultureInfo.InvariantCulture) : "")} </td> <td style=\"white-space: nowrap;\"> <img src=\"{(listCount > 1 ? (fiveDaysForecastResults[1].Snow > 0 ? "snowflake.png" : "rain.png") : "")}\" alt=\"\" style=\"height: 0.75em;\"/> {(listCount > 1 ? $"{(fiveDaysForecastResults[0].Snow > 0 ? fiveDaysForecastResults[1].Snow.ToString(CultureInfo.InvariantCulture) : fiveDaysForecastResults[1].Rain.ToString(CultureInfo.InvariantCulture))} <div style =\"display: inline-block; text-align: center; font-size: 0.35em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">l</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">m<sup>2</sup></span> </div>" : "")} </td>");
                 forecastString.Append($" <td> {(listCount > 2 ? "<img src=\"cloudiness.png\" alt=\"\" style=\"height: 0.75em;\"/> " + fiveDaysForecastResults[2].Cloudinesss.ToString(CultureInfo.InvariantCulture) : "")} </td> <td style=\"white-space: nowrap;\"> <img src=\"{(listCount > 2 ? (fiveDaysForecastResults[2].Snow > 0 ? "snowflake.png" : "rain.png") : "")}\" alt=\"\" style=\"height: 0.75em;\"/> {(listCount > 2 ? $"{(fiveDaysForecastResults[0].Snow > 0 ? fiveDaysForecastResults[2].Snow.ToString(CultureInfo.InvariantCulture) : fiveDaysForecastResults[2].Rain.ToString(CultureInfo.InvariantCulture))} <div style =\"display: inline-block; text-align: center; font-size: 0.35em !important; \"> <span style=\"display: block; padding-top: 0.15em;\">l</span> <span style=\"display: none; padding-top: 0.15em;\">/</span> <span style=\"border-top: thin solid white; display: block;\">m<sup>2</sup></span> </div>" : "")} </td>");
