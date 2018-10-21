@@ -13,6 +13,8 @@ namespace SmartMirrorServer
         // ReSharper disable once NotAccessedField.Local
         private static BackgroundTaskDeferral deferral;
 
+        private IBackgroundTaskInstance ti;
+
         #endregion Private Fields
 
         #region Public Methods
@@ -25,6 +27,7 @@ namespace SmartMirrorServer
         {
             try
             {
+                ti = taskInstance;
                 deferral = taskInstance.GetDeferral();
 
                 SmartMirrorServer smartMirrorServer = new SmartMirrorServer();
@@ -37,6 +40,9 @@ namespace SmartMirrorServer
             catch (Exception exception)
             {
                 Log.Log.WriteException(exception);
+
+                // Restart
+                Run(ti);
             }
         }
 
