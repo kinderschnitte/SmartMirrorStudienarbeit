@@ -23,14 +23,21 @@ namespace SmartMirrorServer
         /// <param name="taskInstance"></param>
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            deferral = taskInstance.GetDeferral();
-
-            SmartMirrorServer smartMirrorServer = new SmartMirrorServer();
-
-            await ThreadPool.RunAsync(workItem =>
+            try
             {
-                smartMirrorServer.Start();
-            });
+                deferral = taskInstance.GetDeferral();
+
+                SmartMirrorServer smartMirrorServer = new SmartMirrorServer();
+
+                await ThreadPool.RunAsync(workItem =>
+                {
+                    smartMirrorServer.Start();
+                });
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+            }
         }
 
         #endregion Public Methods
