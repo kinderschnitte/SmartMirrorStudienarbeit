@@ -32,39 +32,43 @@ namespace Api
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (module.ModuleType)
             {
-                case ModuleType.TIME:
+                case ModuleType.Time:
                     TimeModul(modules, module);
                     break;
 
-                case ModuleType.WEATHER:
+                case ModuleType.Weather:
                     await WeatherModul(modules, module);
                     break;
 
-                case ModuleType.WEATHERFORECAST:
+                case ModuleType.Weatherforecast:
                     await WeatherforecastModul(modules, module);
                     break;
 
-                case ModuleType.NEWS:
+                case ModuleType.News:
                     await NewsModul(modules, module);
                     break;
 
-                case ModuleType.QUOTE:
+                case ModuleType.Quote:
                     await QuoteModul(modules);
                     break;
             }
         }
 
-        private static async Task<List<ForecastDays>> GetcalculatedForecast(Module module)
+        private static async Task<List<ForecastDays>> GetCalculatedForecast(Module module)
         {
             List<List<FiveDaysForecastResult>> result = await GetFiveDaysForecastByCityCode(module);
+
+            List<ForecastDays> forecastDays = new List<ForecastDays>();
+
+            if (result.Count == 0)
+                return forecastDays;
 
             // Infos zu heutigen Tag löschen
             result.RemoveAt(0);
 
-            List<ForecastDays> forecastDays = new List<ForecastDays>();
-
             foreach (List<FiveDaysForecastResult> fiveDaysForecastResults in result)
             {
+                // ReSharper disable once UseObjectOrCollectionInitializer
                 ForecastDays forecastDay = new ForecastDays();
 
                 forecastDay.City = fiveDaysForecastResults[0].City;
@@ -158,57 +162,57 @@ namespace Api
                 Debug.WriteLine("Api Daten werden abgerufen");
 
                 //if (DataAccess.ModuleExists(Modules.UPPERLEFT))
-                await BuildModul(Modules.UPPERLEFT, DataAccess.GetModule(Modules.UPPERLEFT));
+                await BuildModul(Modules.Upperleft, DataAccess.GetModule(Modules.Upperleft));
 
                 //if (DataAccess.ModuleExists(Modules.UPPERRIGHT))
-                await BuildModul(Modules.UPPERRIGHT, DataAccess.GetModule(Modules.UPPERRIGHT));
+                await BuildModul(Modules.Upperright, DataAccess.GetModule(Modules.Upperright));
 
                 //if (DataAccess.ModuleExists(Modules.MIDDLELEFT))
-                await BuildModul(Modules.MIDDLELEFT, DataAccess.GetModule(Modules.MIDDLELEFT));
+                await BuildModul(Modules.Middleleft, DataAccess.GetModule(Modules.Middleleft));
 
                 //if (DataAccess.ModuleExists(Modules.MIDDLERIGHT))
-                await BuildModul(Modules.MIDDLERIGHT, DataAccess.GetModule(Modules.MIDDLERIGHT));
+                await BuildModul(Modules.Middleright, DataAccess.GetModule(Modules.Middleright));
 
                 //if (DataAccess.ModuleExists(Modules.LOWERLEFT))
-                await BuildModul(Modules.LOWERLEFT, DataAccess.GetModule(Modules.LOWERLEFT));
+                await BuildModul(Modules.Lowerleft, DataAccess.GetModule(Modules.Lowerleft));
 
                 //if (DataAccess.ModuleExists(Modules.LOWERRIGHT))
-                await BuildModul(Modules.LOWERRIGHT, DataAccess.GetModule(Modules.LOWERRIGHT));
+                await BuildModul(Modules.Lowerright, DataAccess.GetModule(Modules.Lowerright));
 
                 //if (DataAccess.ModuleExists(Modules.WEATHER))
-                await WeatherModul(Modules.WEATHER, DataAccess.GetModule(Modules.WEATHER));
+                await WeatherModul(Modules.Weather, DataAccess.GetModule(Modules.Weather));
 
                 //if (DataAccess.ModuleExists(Modules.TIME))
-                TimeModul(Modules.TIME, DataAccess.GetModule(Modules.TIME));
+                TimeModul(Modules.Time, DataAccess.GetModule(Modules.Time));
 
                 //if (DataAccess.ModuleExists(Modules.WEATHERFORECAST))
-                await DataAccess.AddOrReplaceModuleData(Modules.WEATHERFORECAST, await GetFiveDaysForecastByCityCode(DataAccess.GetModule(Modules.WEATHERFORECAST)));
+                await DataAccess.AddOrReplaceModuleData(Modules.Weatherforecast, await GetFiveDaysForecastByCityCode(DataAccess.GetModule(Modules.Weatherforecast)));
 
                 Debug.WriteLine("Wettervorhersage Module geladen");
 
                 //if (DataAccess.ModuleExists(Modules.QUOTE))
-                await QuoteModul(Modules.QUOTE);
+                await QuoteModul(Modules.Quote);
 
                 //if (DataAccess.ModuleExists(Modules.JOKE))
-                await JokeModul(Modules.JOKE);
+                await JokeModul(Modules.Joke);
 
                 //if (DataAccess.ModuleExists(Modules.NEWSSCIENCE))
-                await NewsModul(Modules.NEWSSCIENCE, DataAccess.GetModule(Modules.NEWSSCIENCE));
+                await NewsModul(Modules.Newsscience, DataAccess.GetModule(Modules.Newsscience));
 
                 //if (DataAccess.ModuleExists(Modules.NEWSENTERTAINMENT))
-                await NewsModul(Modules.NEWSENTERTAINMENT, DataAccess.GetModule(Modules.NEWSENTERTAINMENT));
+                await NewsModul(Modules.Newsentertainment, DataAccess.GetModule(Modules.Newsentertainment));
 
                 //if (DataAccess.ModuleExists(Modules.NEWSHEALTH))
-                await NewsModul(Modules.NEWSHEALTH, DataAccess.GetModule(Modules.NEWSHEALTH));
+                await NewsModul(Modules.Newshealth, DataAccess.GetModule(Modules.Newshealth));
 
                 //if (DataAccess.ModuleExists(Modules.NEWSSPORT))
-                await NewsModul(Modules.NEWSSPORT, DataAccess.GetModule(Modules.NEWSSPORT));
+                await NewsModul(Modules.Newssport, DataAccess.GetModule(Modules.Newssport));
 
                 //if (DataAccess.ModuleExists(Modules.NEWSTECHNOLOGY))
-                await NewsModul(Modules.NEWSTECHNOLOGY, DataAccess.GetModule(Modules.NEWSTECHNOLOGY));
+                await NewsModul(Modules.Newstechnology, DataAccess.GetModule(Modules.Newstechnology));
 
                 //if (DataAccess.ModuleExists(Modules.NEWSBUSINESS))
-                await NewsModul(Modules.NEWSBUSINESS, DataAccess.GetModule(Modules.NEWSBUSINESS));
+                await NewsModul(Modules.Newsbusiness, DataAccess.GetModule(Modules.Newsbusiness));
 
                 Debug.WriteLine("Api Daten abgerufen");
             }
@@ -220,7 +224,11 @@ namespace Api
 
         private static async Task WeatherforecastModul(Modules modules, Module module)
         {
-            List<ForecastDays> weatherforecast = await GetcalculatedForecast(module);
+            List<ForecastDays> weatherforecast = await GetCalculatedForecast(module);
+
+            if (weatherforecast.Count == 0)
+                return;
+
             await DataAccess.AddOrReplaceModuleData(modules, weatherforecast);
 
             Debug.WriteLine("Wettervorhersage Module geladen");

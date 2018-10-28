@@ -19,9 +19,9 @@ namespace DataAccessLibrary.Module
 
         public string Language { get; set; }
 
-        public LatitudeCoords LatitudeCoords { get; set; } = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH);
+        public LatitudeCoords LatitudeCoords { get; set; } = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.North);
 
-        public LongitudeCoords LongitudeCoords { get; set; } = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST);
+        public LongitudeCoords LongitudeCoords { get; set; } = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.East);
 
         public Categories NewsCategory { get; set; }
 

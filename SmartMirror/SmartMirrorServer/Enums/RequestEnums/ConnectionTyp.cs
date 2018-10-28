@@ -2,8 +2,8 @@
 {
     public enum ConnectionTyp
     {
-        KEEP_ALIVE,
-        CLOSE,
-        UNKNOWN
+        KeepAlive,
+        Close,
+        Unknown
     }
 }

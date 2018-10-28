@@ -37,19 +37,23 @@ namespace Api.Weather
         /// <returns> The forecast information.</returns>
         public static async Task<List<List<FiveDaysForecastResult>>> GetByCityId(int id, string language, string units)
         {
+            List<List<FiveDaysForecastResult>> forecastResults = new List<List<FiveDaysForecastResult>>();
+
             try
             {
                 if (0 > id) return null;
 
                 JObject response = await ApiClient.GetResponse("/forecast?id=" + id + "&lang=" + language + "&units=" + units);
 
-                List<List<FiveDaysForecastResult>> forecastResults = Deserializer.GetWeatherForecast(response).Items.GroupBy(d => d.Date.DayOfYear).Select(s => s.ToList()).ToList();
+                forecastResults = Deserializer.GetWeatherForecast(response).Items.GroupBy(d => d.Date.DayOfYear).Select(s => s.ToList()).ToList();
 
                 return forecastResults;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return null;
+                Log.Log.WriteException(exception);
+
+                return forecastResults;
             }
         }
 

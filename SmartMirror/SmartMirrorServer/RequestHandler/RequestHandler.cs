@@ -16,25 +16,25 @@ namespace SmartMirrorServer.RequestHandler
         /// <returns></returns>
         public static async Task<byte[]> BuildResponse(Request request)
         {
-            if (request.IsInvalidRequest || request.Query.FileType == FileType.UNKNOWN)
+            if (request.IsInvalidRequest || request.Query.FileType == FileType.Unknown)
                 return new byte[0];
 
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (request.Query.FileType)
             {
-                case FileType.HTML:
+                case FileType.Html:
                     return await ResponseWebsite.BuildResponseWebsite(request);
 
-                case FileType.ICON:
-                case FileType.JPEG:
-                case FileType.PNG:
+                case FileType.Icon:
+                case FileType.Jpeg:
+                case FileType.Png:
                     return ResponseImage.LoadImage(request);
 
-                case FileType.CSS:
-                case FileType.JS:
+                case FileType.Css:
+                case FileType.Js:
                     return ResponseStylesheet.LoadStylesheet(request);
 
-                case FileType.UNKNOWN:
+                case FileType.Unknown:
                     break;
             }
 

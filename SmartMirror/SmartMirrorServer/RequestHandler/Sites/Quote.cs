@@ -24,7 +24,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\quote.html");
 
-                Api.Quote.Quote result = DataAccess.DeserializeModuleData(typeof(Api.Quote.Quote), await DataAccess.GetModuleData(Modules.QUOTE));
+                Api.Quote.Quote result = DataAccess.DeserializeModuleData(typeof(Api.Quote.Quote), await DataAccess.GetModuleData(Modules.Quote));
 
                 foreach (string line in file)
                 {

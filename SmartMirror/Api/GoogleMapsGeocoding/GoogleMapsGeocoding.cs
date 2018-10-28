@@ -52,12 +52,12 @@ namespace Api.GoogleMapsGeocoding
                 int minutes = (int)((lng - degrees) * 60);
                 int seconds = (int)((lng - degrees - minutes / 60) * 3600) % 60;
 
-                return new LongitudeCoords(degrees, minutes, seconds, lng > 0 ? LongitudeCoords.LongitudeDirection.EAST : LongitudeCoords.LongitudeDirection.WEST);
+                return new LongitudeCoords(degrees, minutes, seconds, lng > 0 ? LongitudeCoords.LongitudeDirection.East : LongitudeCoords.LongitudeDirection.West);
             }
             catch (Exception exception)
             {
                 Log.Log.WriteException(exception);
-                return new LongitudeCoords(0, 0, 0, LongitudeCoords.LongitudeDirection.EAST);
+                return new LongitudeCoords(0, 0, 0, LongitudeCoords.LongitudeDirection.East);
             }
         }
 
@@ -71,12 +71,12 @@ namespace Api.GoogleMapsGeocoding
                 int minutes = (int)((lat - degrees) * 60);
                 int seconds = (int)((lat - degrees - minutes / 60) * 3600) % 60;
 
-                return new LatitudeCoords(degrees, minutes, seconds, lat > 0 ? LatitudeCoords.LatitudeDirection.NORTH : LatitudeCoords.LatitudeDirection.SOUTH);
+                return new LatitudeCoords(degrees, minutes, seconds, lat > 0 ? LatitudeCoords.LatitudeDirection.North : LatitudeCoords.LatitudeDirection.South);
             }
             catch (Exception exception)
             {
                 Log.Log.WriteException(exception);
-                return new LatitudeCoords(0, 0, 0, LatitudeCoords.LatitudeDirection.NORTH);
+                return new LatitudeCoords(0, 0, 0, LatitudeCoords.LatitudeDirection.North);
             }
         }
     }

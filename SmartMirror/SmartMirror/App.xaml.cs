@@ -20,7 +20,7 @@ namespace SmartMirror
         {
             InitializeComponent();
 
-            Suspending += onSuspending;
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace SmartMirror
                 // Frame erstellen, der als Navigationskontext fungiert und zum Parameter der ersten Seite navigieren
                 rootFrame = new Frame();
 
-                rootFrame.NavigationFailed += onNavigationFailed;
+                rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -68,7 +68,7 @@ namespace SmartMirror
         /// </summary>
         /// <param name="sender">Der Rahmen, bei dem die Navigation fehlgeschlagen ist</param>
         /// <param name="e">Details über den Navigationsfehler</param>
-        private static void onNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private static void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -80,7 +80,7 @@ namespace SmartMirror
         /// </summary>
         /// <param name="sender">Die Quelle der Anhalteanforderung.</param>
         /// <param name="e">Details zur Anhalteanforderung.</param>
-        private static void onSuspending(object sender, SuspendingEventArgs e)
+        private static void OnSuspending(object sender, SuspendingEventArgs e)
         {
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             deferral.Complete();

@@ -10,7 +10,7 @@ namespace Api.Sun
         private readonly object mLock = new object();
 
         private const double MDr = Math.PI / 180;
-        private const double MK1 = 15 * MDr * 1.0027379;
+        private const double Mk1 = 15 * MDr * 1.0027379;
 
         private readonly int[] mRiseTimeArr = { 0, 0 };
         private readonly int[] mSetTimeArr = { 0, 0 };
@@ -238,8 +238,8 @@ namespace Api.Sun
             int hr, min;
             double az, dz, hz, nz;
 
-            ha[0] = t0 - mRightAscentionArr[0] + k * MK1;
-            ha[2] = t0 - mRightAscentionArr[2] + k * MK1 + MK1;
+            ha[0] = t0 - mRightAscentionArr[0] + k * Mk1;
+            ha[2] = t0 - mRightAscentionArr[2] + k * Mk1 + Mk1;
 
             ha[1] = (ha[2] + ha[0]) / 2;    // hour angle at half hour
             mDecensionArr[1] = (mDecensionArr[2] + mDecensionArr[0]) / 2;  // declination at half hour

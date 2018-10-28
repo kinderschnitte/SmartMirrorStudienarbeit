@@ -27,7 +27,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
 
                 //Sun sun = DataAccess.DeserializeModuleData(typeof(Sun), await DataAccess.GetModuleData(Modules.TIME));
 
-                Module sunModule = DataAccess.GetModule(Modules.TIME);
+                Module sunModule = DataAccess.GetModule(Modules.Time);
                 Sun sun = new Sun(sunModule);
 
                 foreach (string line in file)

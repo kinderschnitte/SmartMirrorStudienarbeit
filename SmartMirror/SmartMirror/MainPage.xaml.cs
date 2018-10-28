@@ -26,9 +26,9 @@ namespace SmartMirror
         {
             InitializeComponent();
 
-            Loaded += onLoaded;
+            Loaded += OnLoaded;
 
-            Unloaded += onUnloaded;
+            Unloaded += OnUnloaded;
 
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
@@ -61,7 +61,7 @@ namespace SmartMirror
 
         #region Private Methods
 
-        private async void onLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace SmartMirror
             }
         }
 
-        private void onUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             speechRecognition.StopRecognizing();
         }

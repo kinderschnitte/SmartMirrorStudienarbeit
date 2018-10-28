@@ -36,7 +36,7 @@ namespace SmartMirror.SpeechRecognition
         {
             speechRecognizer = new SpeechRecognitionManager.SpeechRecognitionManager("Grammar.xml");
 
-            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += continuousRecognitionSessionOnResultGenerated;
+            speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSessionOnResultGenerated;
 
             speechRecognizer.SpeechRecognizer.RecognitionQualityDegrading += (sender, args) =>
             {
@@ -63,7 +63,7 @@ namespace SmartMirror.SpeechRecognition
 
         #region Private Methods
 
-        private static RecognizedSpeech evaluateSpeechInput(SpeechRecognitionResult argsResult)
+        private static RecognizedSpeech EvaluateSpeechInput(SpeechRecognitionResult argsResult)
         {
             RecognizedSpeech recognizedSpeech = new RecognizedSpeech
             {
@@ -71,12 +71,12 @@ namespace SmartMirror.SpeechRecognition
                 Confidence = argsResult.Confidence
             };
 
-            recognizedSpeech.Message = getSpeechInputMessage(argsResult.SemanticInterpretation, recognizedSpeech);
+            recognizedSpeech.Message = GetSpeechInputMessage(argsResult.SemanticInterpretation, recognizedSpeech);
 
             return recognizedSpeech;
         }
 
-        private static Message getSpeechInputMessage(SpeechRecognitionSemanticInterpretation speechRecognitionSemanticInterpretation, RecognizedSpeech recognizedSpeech)
+        private static Message GetSpeechInputMessage(SpeechRecognitionSemanticInterpretation speechRecognitionSemanticInterpretation, RecognizedSpeech recognizedSpeech)
         {
             string home = speechRecognitionSemanticInterpretation.GetInterpretation("home");
             string help = speechRecognitionSemanticInterpretation.GetInterpretation("help");
@@ -95,37 +95,37 @@ namespace SmartMirror.SpeechRecognition
             if (home != null)
             {
                 recognizedSpeech.SemanticText = home;
-                return Message.HOME;
+                return Message.Home;
             }
 
             if (help != null)
             {
                 recognizedSpeech.SemanticText = help;
-                return Message.HELP;
+                return Message.Help;
             }
 
             if (time != null)
             {
                 recognizedSpeech.SemanticText = time;
-                return Message.TIME;
+                return Message.Time;
             }
 
             if (light != null)
             {
                 recognizedSpeech.SemanticText = light;
-                return Message.LIGHT;
+                return Message.Light;
             }
 
             if (weather != null)
             {
                 recognizedSpeech.SemanticText = weather;
-                return Message.WEATHER;
+                return Message.Weather;
             }
 
             if (weatherforecast != null)
             {
                 recognizedSpeech.SemanticText = weatherforecast;
-                return Message.WEATHERFORECAST;
+                return Message.Weatherforecast;
             }
 
             if (news != null)
@@ -134,44 +134,44 @@ namespace SmartMirror.SpeechRecognition
                 if (news == "sport")
                 {
                     recognizedSpeech.SemanticText = news;
-                    return Message.NEWS_SPORTS;
+                    return Message.NewsSports;
                 }
 
                 if (news == "business")
                 {
                     recognizedSpeech.SemanticText = news;
-                    return Message.NEWS_BUSINESS;
+                    return Message.NewsBusiness;
                 }
 
                 if (news == "entertainment")
                 {
                     recognizedSpeech.SemanticText = news;
-                    return Message.NEWS_ENTERTAINMENT;
+                    return Message.NewsEntertainment;
                 }
 
                 if (news == "health")
                 {
                     recognizedSpeech.SemanticText = news;
-                    return Message.NEWS_HEALTH;
+                    return Message.NewsHealth;
                 }
 
                 if (news == "science")
                 {
                     recognizedSpeech.SemanticText = news;
-                    return Message.NEWS_SCIENCE;
+                    return Message.NewsScience;
                 }
 
                 if (news == "technology")
                 {
                     recognizedSpeech.SemanticText = news;
-                    return Message.NEWS_TECHNOLOGY;
+                    return Message.NewsTechnology;
                 }
             }
 
             if (quote != null)
             {
                 recognizedSpeech.SemanticText = quote;
-                return Message.QUOTE;
+                return Message.Quote;
             }
 
             if (scroll != null)
@@ -180,13 +180,13 @@ namespace SmartMirror.SpeechRecognition
                 if (scroll == "up")
                 {
                     recognizedSpeech.SemanticText = scroll;
-                    return Message.SCROLL_UP;
+                    return Message.ScrollUp;
                 }
 
                 if (scroll == "down")
                 {
                     recognizedSpeech.SemanticText = scroll;
-                    return Message.SCROLL_DOWN;
+                    return Message.ScrollDown;
                 }
             }
 
@@ -196,20 +196,20 @@ namespace SmartMirror.SpeechRecognition
                 if (navigate == "back")
                 {
                     recognizedSpeech.SemanticText = navigate;
-                    return Message.NAVIGATE_BACKWARDS;
+                    return Message.NavigateBackwards;
                 }
 
                 if (navigate == "forward")
                 {
                     recognizedSpeech.SemanticText = navigate;
-                    return Message.NAVIGATE_FOREWARDS;
+                    return Message.NavigateForewards;
                 }
             }
 
             if (reload != null)
             {
                 recognizedSpeech.SemanticText = reload;
-                return Message.RELOAD;
+                return Message.Reload;
             }
 
             if (speech != null)
@@ -218,92 +218,92 @@ namespace SmartMirror.SpeechRecognition
                 if (speech == "clock")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_TIME;
+                    return Message.SpeechTime;
                 }
 
                 if (speech == "weather")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_WEATHER;
+                    return Message.SpeechWeather;
                 }
 
                 if (speech.Contains("weatherforecast"))
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_WEATHERFORECAST;
+                    return Message.SpeechWeatherforecast;
                 }
 
                 if (speech == "temperature")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_WEATHER_TEMPERATURE;
+                    return Message.SpeechWeatherTemperature;
                 }
 
                 if (speech == "sunrise")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_SUNRISE;
+                    return Message.SpeechSunrise;
                 }
 
                 if (speech == "sunset")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_SUNSET;
+                    return Message.SpeechSunset;
                 }
 
                 if (speech == "name")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_NAME;
+                    return Message.SpeechName;
                 }
 
                 if (speech == "look")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_LOOK;
+                    return Message.SpeechLook;
                 }
 
                 if (speech == "gender")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_GENDER;
+                    return Message.SpeechGender;
                 }
 
                 if (speech == "mirror")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_MIRROR;
+                    return Message.SpeechMirror;
                 }
 
                 if (speech == "quote")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_QUOTE;
+                    return Message.SpeechQuote;
                 }
 
                 if (speech == "joke")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_JOKE;
+                    return Message.SpeechJoke;
                 }
 
                 if (speech == "creator")
                 {
                     recognizedSpeech.SemanticText = speech;
-                    return Message.SPEECH_CREATOR;
+                    return Message.SpeechCreator;
                 }
             }
 
             if (power != null)
             {
                 recognizedSpeech.SemanticText = power;
-                return Message.POWER;
+                return Message.Power;
             }
 
-            return Message.UNKNOWN;
+            return Message.Unknown;
         }
 
-        private async void continuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
+        private async void ContinuousRecognitionSessionOnResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
         {
             try
             {
@@ -323,7 +323,7 @@ namespace SmartMirror.SpeechRecognition
                     Debug.WriteLine("Speech Recognition stopped");
 
                     mainPage.StartColorAnimation(mainPage.RecognitionLight, "(RecognitionLight.Background).Color", Colors.Black, Colors.Green);
-                    await handleRecognizedSpeech(evaluateSpeechInput(args.Result));
+                    await HandleRecognizedSpeech(EvaluateSpeechInput(args.Result));
 
                     speechRecognizer.SpeechRecognizer.ContinuousRecognitionSession.Resume();
 
@@ -336,70 +336,70 @@ namespace SmartMirror.SpeechRecognition
             }
         }
 
-        private async Task handleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
+        private async Task HandleRecognizedSpeech(RecognizedSpeech recognizedSpeech)
         {
             switch (recognizedSpeech.Message)
             {
-                case Message.HOME:
-                    showSite("http://localhost/home.html");
+                case Message.Home:
+                    ShowSite("http://localhost/home.html");
                     break;
 
-                case Message.HELP:
-                    showSite("http://localhost/help.html");
+                case Message.Help:
+                    ShowSite("http://localhost/help.html");
                     break;
 
-                case Message.TIME:
-                    showSite("http://localhost/time.html");
+                case Message.Time:
+                    ShowSite("http://localhost/time.html");
                     break;
 
-                case Message.WEATHER:
-                    showSite("http://localhost/weather.html");
+                case Message.Weather:
+                    ShowSite("http://localhost/weather.html");
                     break;
 
-                case Message.WEATHERFORECAST:
-                    showSite("http://localhost/weatherforecast.html");
+                case Message.Weatherforecast:
+                    ShowSite("http://localhost/weatherforecast.html");
                     break;
 
-                case Message.LIGHT:
-                    showSite("http://localhost/light.html");
+                case Message.Light:
+                    ShowSite("http://localhost/light.html");
                     break;
 
-                case Message.NEWS_SPORTS:
-                    showSite("http://localhost/news.html?Sports");
+                case Message.NewsSports:
+                    ShowSite("http://localhost/news.html?Sports");
                     break;
 
-                case Message.NEWS_BUSINESS:
-                    showSite("http://localhost/news.html?Business");
+                case Message.NewsBusiness:
+                    ShowSite("http://localhost/news.html?Business");
                     break;
 
-                case Message.NEWS_ENTERTAINMENT:
-                    showSite("http://localhost/news.html?Entertainment");
+                case Message.NewsEntertainment:
+                    ShowSite("http://localhost/news.html?Entertainment");
                     break;
 
-                case Message.NEWS_HEALTH:
-                    showSite("http://localhost/news.html?Health");
+                case Message.NewsHealth:
+                    ShowSite("http://localhost/news.html?Health");
                     break;
 
-                case Message.NEWS_SCIENCE:
-                    showSite("http://localhost/news.html?Science");
+                case Message.NewsScience:
+                    ShowSite("http://localhost/news.html?Science");
                     break;
 
-                case Message.NEWS_TECHNOLOGY:
-                    showSite("http://localhost/news.html?Technology");
+                case Message.NewsTechnology:
+                    ShowSite("http://localhost/news.html?Technology");
                     break;
 
-                case Message.QUOTE:
-                    showSite("http://localhost/quote.html");
+                case Message.Quote:
+                    ShowSite("http://localhost/quote.html");
                     break;
 
-                case Message.RELOAD:
+                case Message.Reload:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mainPage.Browser.Refresh();
                     });
                     break;
 
-                case Message.NAVIGATE_FOREWARDS:
+                case Message.NavigateForewards:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         if (mainPage.Browser.CanGoForward)
@@ -407,7 +407,7 @@ namespace SmartMirror.SpeechRecognition
                     });
                     break;
 
-                case Message.NAVIGATE_BACKWARDS:
+                case Message.NavigateBackwards:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         if (mainPage.Browser.CanGoBack)
@@ -415,52 +415,52 @@ namespace SmartMirror.SpeechRecognition
                     });
                     break;
 
-                case Message.SCROLL_UP:
+                case Message.ScrollUp:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, 50);" });
                     });
                     break;
 
-                case Message.SCROLL_DOWN:
+                case Message.ScrollDown:
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         await mainPage.Browser.InvokeScriptAsync("eval", new[] { "window.scrollBy(0, -50);" });
                     });
                     break;
 
-                case Message.SPEECH_TIME:
-                    showSite("http://localhost/time.html");
+                case Message.SpeechTime:
+                    ShowSite("http://localhost/time.html");
                     await SpeechService.SayTime();
                     break;
 
-                case Message.SPEECH_NAME:
+                case Message.SpeechName:
                     await SpeechService.SayName();
                     break;
 
-                case Message.SPEECH_LOOK:
+                case Message.SpeechLook:
                     await SpeechService.SayLook();
                     break;
 
-                case Message.SPEECH_GENDER:
+                case Message.SpeechGender:
                     await SpeechService.SayGender();
                     break;
 
-                case Message.SPEECH_MIRROR:
+                case Message.SpeechMirror:
                     await SpeechService.SayMirror();
                     break;
 
-                case Message.SPEECH_COUNT:
+                case Message.SpeechCount:
                     int.TryParse(recognizedSpeech.SemanticText, out int count);
                     await SpeechService.CountTo(count);
                     break;
 
-                case Message.SPEECH_COUNTDOWN:
+                case Message.SpeechCountdown:
                     int.TryParse(recognizedSpeech.SemanticText, out int countdown);
                     await SpeechService.CountDown(countdown);
                     break;
 
-                case Message.SPEECH_RANDOM:
+                case Message.SpeechRandom:
                     // TODO
                     //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     //{
@@ -470,51 +470,51 @@ namespace SmartMirror.SpeechRecognition
                     //});
                     //break;
 
-                case Message.SPEECH_JOKE:
+                case Message.SpeechJoke:
                     await SpeechService.SayJoke();
                     break;
 
-                case Message.SPEECH_QUOTE:
-                    showSite("http://localhost/quote.html");
+                case Message.SpeechQuote:
+                    ShowSite("http://localhost/quote.html");
                     await SpeechService.SayQuote();
                     break;
 
-                case Message.SPEECH_WEATHER:
-                    showSite("http://localhost/weather.html");
+                case Message.SpeechWeather:
+                    ShowSite("http://localhost/weather.html");
                     await SpeechService.SayWeather();
                     break;
 
-                case Message.SPEECH_CREATOR:
+                case Message.SpeechCreator:
                     await SpeechService.SayCreator();
                     break;
 
-                case Message.SPEECH_WEATHERFORECAST:
-                    showSite("http://localhost/weatherforecast.html");
+                case Message.SpeechWeatherforecast:
+                    ShowSite("http://localhost/weatherforecast.html");
                     await SpeechService.SayWeatherforecast(recognizedSpeech.SemanticText.Split(' ')[1]);
                     break;
 
-                case Message.SPEECH_WEATHER_TEMPERATURE:
+                case Message.SpeechWeatherTemperature:
                     //TODO
                     break;
 
-                case Message.SPEECH_SUNRISE:
+                case Message.SpeechSunrise:
                     await SpeechService.SaySunrise();
                     break;
 
-                case Message.SPEECH_SUNSET:
+                case Message.SpeechSunset:
                     await SpeechService.SaySunset();
                     break;
 
-                case Message.POWER:
+                case Message.Power:
                     await RaspberryPiGpio.RaspberryPiGpio.TriggerOnOffButton();
                     break;
 
-                case Message.UNKNOWN:
+                case Message.Unknown:
                     break;
             }
         }
 
-        private async void showSite(string url)
+        private async void ShowSite(string url)
         {
             await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

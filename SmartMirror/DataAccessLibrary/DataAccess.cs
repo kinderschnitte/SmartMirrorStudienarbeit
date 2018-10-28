@@ -91,7 +91,7 @@ namespace DataAccessLibrary
                     ModuleTable newRow = new ModuleTable
                     {
                         ModuleName = moduleName,
-                        ModuleConfig = serializeModule(module)
+                        ModuleConfig = SerializeModule(module)
                     };
 
                     // ReSharper disable once AccessToDisposedClosure
@@ -104,7 +104,9 @@ namespace DataAccessLibrary
             }
         }
 
-        public static Task AddOrReplaceModuleData(Modules moduleName, dynamic moduleData)
+        #pragma warning disable 1998
+        public static async Task AddOrReplaceModuleData(Modules moduleName, dynamic moduleData)
+        #pragma warning restore 1998
         {
             try
             {
@@ -113,7 +115,7 @@ namespace DataAccessLibrary
                     ModuleDataTable newRow = new ModuleDataTable
                     {
                         ModuleName = moduleName,
-                        ModuleData = serializeModule(moduleData)
+                        ModuleData = SerializeModule(moduleData)
                     };
 
                     dbConn.RunInTransaction(() =>
@@ -124,13 +126,10 @@ namespace DataAccessLibrary
                 }
 
                 Debug.WriteLine("Module " + moduleName + " gespeichert.");
-
-                return Task.CompletedTask;
             }
             catch (Exception exception)
             {
                 Log.Log.WriteException(exception);
-                return Task.CompletedTask;
             }
         }
 
@@ -205,7 +204,7 @@ namespace DataAccessLibrary
             catch (Exception exception)
             {
                 Log.Log.WriteException(exception);
-                return null;
+                return string.Empty;
             }
         }
 
@@ -248,24 +247,24 @@ namespace DataAccessLibrary
             using (SQLiteConnection dbConn = new SQLiteConnection(new SQLitePlatformWinRT(), path))
                 if (dbConn.Table<ModuleTable>().Any()) return;
 
-            AddOrReplaceModule(Modules.UPPERLEFT, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
-            AddOrReplaceModule(Modules.UPPERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.MIDDLELEFT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } });
-            AddOrReplaceModule(Modules.MIDDLERIGHT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
-            AddOrReplaceModule(Modules.LOWERLEFT, new Module.Module { ModuleType = ModuleType.QUOTE });
-            AddOrReplaceModule(Modules.LOWERRIGHT, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.Upperleft, new Module.Module { ModuleType = ModuleType.Time, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.East), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.North) });
+            AddOrReplaceModule(Modules.Upperright, new Module.Module { ModuleType = ModuleType.Weather, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.Middleleft, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsSources = new List<string> { "bild", "der-tagesspiegel", "die-zeit", "focus" } });
+            AddOrReplaceModule(Modules.Middleright, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
+            AddOrReplaceModule(Modules.Lowerleft, new Module.Module { ModuleType = ModuleType.Quote });
+            AddOrReplaceModule(Modules.Lowerright, new Module.Module { ModuleType = ModuleType.Weatherforecast, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
 
-            AddOrReplaceModule(Modules.TIME, new Module.Module { ModuleType = ModuleType.TIME, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.EAST), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.NORTH) });
-            AddOrReplaceModule(Modules.WEATHER, new Module.Module { ModuleType = ModuleType.WEATHER, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.WEATHERFORECAST, new Module.Module { ModuleType = ModuleType.WEATHERFORECAST, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
-            AddOrReplaceModule(Modules.QUOTE, new Module.Module { ModuleType = ModuleType.QUOTE });
-            AddOrReplaceModule(Modules.JOKE, new Module.Module { ModuleType = ModuleType.JOKE });
-            AddOrReplaceModule(Modules.NEWSBUSINESS, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Business });
-            AddOrReplaceModule(Modules.NEWSENTERTAINMENT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Entertainment });
-            AddOrReplaceModule(Modules.NEWSHEALTH, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Health });
-            AddOrReplaceModule(Modules.NEWSSCIENCE, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Science });
-            AddOrReplaceModule(Modules.NEWSSPORT, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
-            AddOrReplaceModule(Modules.NEWSTECHNOLOGY, new Module.Module { ModuleType = ModuleType.NEWS, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Technology });
+            AddOrReplaceModule(Modules.Time, new Module.Module { ModuleType = ModuleType.Time, LongitudeCoords = new LongitudeCoords(8, 24, 13, LongitudeCoords.LongitudeDirection.East), LatitudeCoords = new LatitudeCoords(49, 0, 25, LatitudeCoords.LatitudeDirection.North) });
+            AddOrReplaceModule(Modules.Weather, new Module.Module { ModuleType = ModuleType.Weather, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.Weatherforecast, new Module.Module { ModuleType = ModuleType.Weatherforecast, City = "Karlsruhe", Postal = "76131", CityCode = "2892794", Country = "Germany", Language = "de" });
+            AddOrReplaceModule(Modules.Quote, new Module.Module { ModuleType = ModuleType.Quote });
+            AddOrReplaceModule(Modules.Joke, new Module.Module { ModuleType = ModuleType.Joke });
+            AddOrReplaceModule(Modules.Newsbusiness, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Business });
+            AddOrReplaceModule(Modules.Newsentertainment, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Entertainment });
+            AddOrReplaceModule(Modules.Newshealth, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Health });
+            AddOrReplaceModule(Modules.Newsscience, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Science });
+            AddOrReplaceModule(Modules.Newssport, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Sports });
+            AddOrReplaceModule(Modules.Newstechnology, new Module.Module { ModuleType = ModuleType.News, NewsLanguage = Languages.DE, NewsCountry = Countries.DE, NewsCategory = Categories.Technology });
         }
 
         private static dynamic DeserializeModule(string moduleString)
@@ -304,25 +303,43 @@ namespace DataAccessLibrary
             }
         }
 
-        private static string serializeModule(Module.Module module)
+        private static string SerializeModule(Module.Module module)
         {
-            XmlSerializer serializer = new XmlSerializer(module.GetType());
-
-            using (StringWriter sw = new StringWriter())
+            try
             {
-                serializer.Serialize(sw, module);
-                return sw.ToString();
+                XmlSerializer serializer = new XmlSerializer(module.GetType());
+
+                using (StringWriter sw = new StringWriter())
+                {
+                    serializer.Serialize(sw, module);
+                    return sw.ToString();
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+
+                return string.Empty;
             }
         }
 
-        private static string serializeModule(dynamic moduledata)
+        private static string SerializeModule(dynamic moduledata)
         {
-            XmlSerializer serializer = new XmlSerializer(moduledata.GetType());
-
-            using (StringWriter sw = new StringWriter())
+            try
             {
-                serializer.Serialize(sw, moduledata);
-                return sw.ToString();
+                XmlSerializer serializer = new XmlSerializer(moduledata.GetType());
+
+                using (StringWriter sw = new StringWriter())
+                {
+                    serializer.Serialize(sw, moduledata);
+                    return sw.ToString();
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Log.WriteException(exception);
+
+                return string.Empty;
             }
         }
 

@@ -26,7 +26,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
             {
                 IEnumerable<string> file = await FileHelperClass.LoadFileFromStorage("SmartMirrorServer\\Websites\\weather.html");
 
-                SingleResult<CurrentWeatherResult> currentResult = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(Modules.WEATHER));
+                SingleResult<CurrentWeatherResult> currentResult = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(Modules.Weather));
 
                 foreach (string line in file)
                 {

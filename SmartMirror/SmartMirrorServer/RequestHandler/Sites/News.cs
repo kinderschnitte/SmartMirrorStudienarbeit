@@ -32,7 +32,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     string tag = line;
 
                     if (tag.Contains("News"))
-                        tag = tag.Replace("News", await getNews(request));
+                        tag = tag.Replace("News", await GetNews(request));
 
                     page += tag;
                 }
@@ -46,22 +46,22 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return Encoding.UTF8.GetBytes(page);
         }
 
-        private static async Task<string> getNews(Request request)
+        private static async Task<string> GetNews(Request request)
         {
             ArticlesResult result = null;
 
             if (request.Query.Parameters.Contains("Business"))
-                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.NEWSBUSINESS));
+                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.Newsbusiness));
             else if (request.Query.CompleteQuery.Contains("Entertainment"))
-                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.NEWSENTERTAINMENT));
+                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.Newsentertainment));
             else if (request.Query.CompleteQuery.Contains("Health"))
-                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.NEWSHEALTH));
+                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.Newshealth));
             else if (request.Query.CompleteQuery.Contains("Science"))
-                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.NEWSSCIENCE));
+                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.Newsscience));
             else if (request.Query.CompleteQuery.Contains("Sports"))
-                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.NEWSSPORT));
+                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.Newssport));
             else if (request.Query.CompleteQuery.Contains("Technology"))
-                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.NEWSTECHNOLOGY));
+                result = DataAccess.DeserializeModuleData(typeof(ArticlesResult), await DataAccess.GetModuleData(Modules.Newstechnology));
 
             if (result == null)
                 return string.Empty;

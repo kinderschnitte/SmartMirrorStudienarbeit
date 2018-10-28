@@ -2,10 +2,10 @@
 {
     public enum AcceptResponseFormat
     {
-        HTML,
-        XML,
-        XHTML_PLUS_XML,
-        WEBP,
-        APNG
+        Html,
+        Xml,
+        XhtmlPlusXml,
+        Webp,
+        Apng
     }
 }

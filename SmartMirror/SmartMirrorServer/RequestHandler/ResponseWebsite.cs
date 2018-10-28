@@ -10,36 +10,36 @@ namespace SmartMirrorServer.RequestHandler
         {
             switch (request.Query.FileName)
             {
-                case FileName.SETTINGS:
+                case FileName.Settings:
 
                     return await Site.BuildSettings(request);
 
-                case FileName.UNKNOWN:
+                case FileName.Unknown:
                     return new byte[0];
 
-                case FileName.HOME:
+                case FileName.Home:
 
                     return await Site.BuildHome();
 
-                case FileName.TIME:
+                case FileName.Time:
                     return await Site.BuildTime();
 
-                case FileName.WEATHER:
+                case FileName.Weather:
                     return await Site.BuildWeather();
 
-                case FileName.WEATHERFORECAST:
+                case FileName.Weatherforecast:
                     return await Site.BuildWeatherforecast();
 
-                case FileName.LIGHT:
+                case FileName.Light:
                     return await Site.BuildLight();
 
-                case FileName.QUOTE:
+                case FileName.Quote:
                     return await Site.BuildQuote();
 
-                case FileName.NEWS:
+                case FileName.News:
                     return await Site.BuildNews(request);
 
-                case FileName.HELP:
+                case FileName.Help:
                     return await Site.BuildHelp();
 
                 default:

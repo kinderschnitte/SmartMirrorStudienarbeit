@@ -2,11 +2,11 @@
 {
     public enum ModulLocation
     {
-        UPPERLEFT,
-        UPPERRIGHT,
-        MIDDLELEFT,
-        MIDDLERIGHT,
-        LOWERLEFT,
-        LOWERRIGHT
+        Upperleft,
+        Upperright,
+        Middleleft,
+        Middleright,
+        Lowerleft,
+        Lowerright
     }
 }

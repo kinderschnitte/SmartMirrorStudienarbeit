@@ -31,7 +31,7 @@ namespace SmartMirrorServer.RequestHandler.Sites
                     string tag = line;
 
                     if (tag.Contains("Forecast"))
-                        tag = tag.Replace("Forecast", await getForecastString());
+                        tag = tag.Replace("Forecast", await GetForecastString());
 
                     page += tag;
                 }
@@ -45,9 +45,9 @@ namespace SmartMirrorServer.RequestHandler.Sites
             return Encoding.UTF8.GetBytes(page);
         }
 
-        private static async Task<string> getForecastString()
+        private static async Task<string> GetForecastString()
         {
-            List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
+            List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.Weatherforecast));
 
             //Infos zu heutigen Tag löschen
             result.RemoveAt(0);

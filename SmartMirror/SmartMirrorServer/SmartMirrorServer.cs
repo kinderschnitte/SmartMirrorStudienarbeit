@@ -30,7 +30,7 @@ namespace SmartMirrorServer
         /// <summary>
         /// Größe des Empfangsbuffer des Webservers
         /// </summary>
-        private const uint bufferSize = 8192;
+        private const uint BufferSize = 8192;
 
         private StreamSocketListener listener;
 
@@ -85,13 +85,13 @@ namespace SmartMirrorServer
 
                 using (IInputStream input = inputStream)
                 {
-                    byte[] data = new byte[bufferSize];
+                    byte[] data = new byte[BufferSize];
                     IBuffer buffer = data.AsBuffer();
-                    uint dataRead = bufferSize;
+                    uint dataRead = BufferSize;
 
-                    while (dataRead == bufferSize)
+                    while (dataRead == BufferSize)
                     {
-                        await input.ReadAsync(buffer, bufferSize, InputStreamOptions.Partial);
+                        await input.ReadAsync(buffer, BufferSize, InputStreamOptions.Partial);
                         requestString.Append(Encoding.UTF8.GetString(data, 0, data.Length));
                         dataRead = buffer.Length;
                     }
@@ -154,27 +154,27 @@ namespace SmartMirrorServer
                     switch (keyValuePair.Key)
                     {
                         case "upperleft":
-                            await SetModule(Modules.UPPERLEFT, keyValuePair.Value);
+                            await SetModule(Modules.Upperleft, keyValuePair.Value);
                             break;
 
                         case "upperright":
-                            await SetModule(Modules.UPPERRIGHT, keyValuePair.Value);
+                            await SetModule(Modules.Upperright, keyValuePair.Value);
                             break;
 
                         case "middleleft":
-                            await SetModule(Modules.MIDDLELEFT, keyValuePair.Value);
+                            await SetModule(Modules.Middleleft, keyValuePair.Value);
                             break;
 
                         case "middleright":
-                            await SetModule(Modules.MIDDLERIGHT, keyValuePair.Value);
+                            await SetModule(Modules.Middleright, keyValuePair.Value);
                             break;
 
                         case "lowerleft":
-                            await SetModule(Modules.LOWERLEFT, keyValuePair.Value);
+                            await SetModule(Modules.Lowerleft, keyValuePair.Value);
                             break;
 
                         case "lowerright":
-                            await SetModule(Modules.LOWERRIGHT, keyValuePair.Value);
+                            await SetModule(Modules.Lowerright, keyValuePair.Value);
                             break;
 
                         case "City":
@@ -225,7 +225,7 @@ namespace SmartMirrorServer
         {
             try
             {
-                ModuleType moduleType = ModuleType.NONE;
+                ModuleType moduleType = ModuleType.None;
                 string city = string.Empty;
                 string postal = string.Empty;
                 string cityCode = string.Empty;
@@ -249,10 +249,10 @@ namespace SmartMirrorServer
                         {
                             switch (moduleType)
                             {
-                                case ModuleType.NONE:
+                                case ModuleType.None:
                                     break;
 
-                                case ModuleType.TIME:
+                                case ModuleType.Time:
 
                                     Coordinates coordinates = await GoogleMapsGeocoding.GetCoordinatesForPostal(locationTable.Postal, locationTable.Country);
 
@@ -263,7 +263,7 @@ namespace SmartMirrorServer
                                     longitudeCoords = coordinates.Longitude;
                                     break;
 
-                                case ModuleType.WEATHER:
+                                case ModuleType.Weather:
 
                                     city = locationTable.City;
                                     postal = locationTable.Postal;
@@ -272,7 +272,7 @@ namespace SmartMirrorServer
                                     language = locationTable.Language;
                                     break;
 
-                                case ModuleType.WEATHERFORECAST:
+                                case ModuleType.Weatherforecast:
 
                                     city = locationTable.City;
                                     postal = locationTable.Postal;
@@ -281,20 +281,20 @@ namespace SmartMirrorServer
                                     language = locationTable.Language;
                                     break;
 
-                                case ModuleType.NEWS:
+                                case ModuleType.News:
                                     break;
 
-                                case ModuleType.QUOTE:
+                                case ModuleType.Quote:
                                     break;
 
-                                case ModuleType.JOKE:
+                                case ModuleType.Joke:
                                     break;
                             }
                         }
                     }
                     else
                     {
-                        moduleType = ModuleType.NEWS;
+                        moduleType = ModuleType.News;
 
                         value = value.Remove(0, 4);
 
@@ -372,15 +372,15 @@ namespace SmartMirrorServer
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (request.Query.FileType)
             {
-                case FileType.JPEG:
+                case FileType.Jpeg:
                     fileType = "jpeg";
                     break;
 
-                case FileType.PNG:
+                case FileType.Png:
                     fileType = "png";
                     break;
 
-                case FileType.ICON:
+                case FileType.Icon:
                     fileType = "x-icon";
                     break;
 
@@ -421,9 +421,9 @@ namespace SmartMirrorServer
                 {
                     using (Stream responseStream = output.AsStreamForWrite())
                     {
-                        if (request.Query.FileType == FileType.HTML)
+                        if (request.Query.FileType == FileType.Html)
                             await SendWebsite(responseStream, file);
-                        else if (request.Query.FileType != FileType.UNKNOWN)
+                        else if (request.Query.FileType != FileType.Unknown)
                             await SendPicture(responseStream, request, file);
                     }
                 }

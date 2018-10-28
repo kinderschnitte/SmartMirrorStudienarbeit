@@ -2,12 +2,12 @@
 {
     public enum FileType
     {
-        HTML,
-        JPEG,
-        PNG,
-        ICON,
-        CSS,
-        JS,
-        UNKNOWN
+        Html,
+        Jpeg,
+        Png,
+        Icon,
+        Css,
+        Js,
+        Unknown
     }
 }

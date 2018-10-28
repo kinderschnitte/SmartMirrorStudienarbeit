@@ -2,8 +2,8 @@
 {
     public enum AcceptResponseLanguage
     {
-        EN_US,
-        EN_GB,
-        DE
+        EnUs,
+        EnGb,
+        De
     }
 }

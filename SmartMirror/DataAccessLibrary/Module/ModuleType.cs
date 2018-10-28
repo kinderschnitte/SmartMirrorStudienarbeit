@@ -2,12 +2,12 @@
 {
     public enum ModuleType
     {
-        NONE,
-        TIME,
-        WEATHER,
-        WEATHERFORECAST,
-        NEWS,
-        QUOTE,
-        JOKE
+        None,
+        Time,
+        Weather,
+        Weatherforecast,
+        News,
+        Quote,
+        Joke
     }
 }

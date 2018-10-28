@@ -22,19 +22,19 @@ namespace SmartMirrorServer.Extensions
             switch (connection.Split(' ')[1])
             {
                 case "keep-alive":
-                    request.Connection = ConnectionTyp.KEEP_ALIVE;
+                    request.Connection = ConnectionTyp.KeepAlive;
                     break;
 
                 case "Keep-Alive":
-                    request.Connection = ConnectionTyp.KEEP_ALIVE;
+                    request.Connection = ConnectionTyp.KeepAlive;
                     break;
 
                 case "close":
-                    request.Connection = ConnectionTyp.CLOSE;
+                    request.Connection = ConnectionTyp.Close;
                     break;
 
                 default:
-                    request.Connection = ConnectionTyp.UNKNOWN;
+                    request.Connection = ConnectionTyp.Unknown;
                     request.IsInvalidRequest = true;
                     break;
             }
@@ -58,7 +58,7 @@ namespace SmartMirrorServer.Extensions
         public static void SetContentType(this Request request, string contentType)
         {
             if (contentType.Contains("application/x-www-form-urlencoded"))
-                request.ContentType.Add(ContentType.X_WWW_FORM_URLENCODED);
+                request.ContentType.Add(ContentType.XWwwFormUrlencoded);
         }
 
         /// <summary>
@@ -120,10 +120,10 @@ namespace SmartMirrorServer.Extensions
         public static void SetEncodings(this Request request, string encodings)
         {
             if (encodings.Contains("gzip"))
-                request.Encodings.Add(AcceptResponseEncoding.GZIP);
+                request.Encodings.Add(AcceptResponseEncoding.Gzip);
 
             if (encodings.Contains("deflate"))
-                request.Encodings.Add(AcceptResponseEncoding.DEFLATE);
+                request.Encodings.Add(AcceptResponseEncoding.Deflate);
         }
 
         /// <summary>
@@ -134,19 +134,19 @@ namespace SmartMirrorServer.Extensions
         public static void SetFormats(this Request request, string formats)
         {
             if (formats.Contains("/html"))
-                request.Formats.Add(AcceptResponseFormat.HTML);
+                request.Formats.Add(AcceptResponseFormat.Html);
 
             if (formats.Contains("/xhtml+xml"))
-                request.Formats.Add(AcceptResponseFormat.XHTML_PLUS_XML);
+                request.Formats.Add(AcceptResponseFormat.XhtmlPlusXml);
 
             if (formats.Contains("/xml"))
-                request.Formats.Add(AcceptResponseFormat.XML);
+                request.Formats.Add(AcceptResponseFormat.Xml);
 
             if (formats.Contains("/webp"))
-                request.Formats.Add(AcceptResponseFormat.WEBP);
+                request.Formats.Add(AcceptResponseFormat.Webp);
 
             if (formats.Contains("/apng"))
-                request.Formats.Add(AcceptResponseFormat.APNG);
+                request.Formats.Add(AcceptResponseFormat.Apng);
         }
 
         /// <summary>
@@ -167,13 +167,13 @@ namespace SmartMirrorServer.Extensions
         public static void SetLanguages(this Request request, string languages)
         {
             if (languages.Contains("en-GB"))
-                request.Languages.Add(AcceptResponseLanguage.EN_GB);
+                request.Languages.Add(AcceptResponseLanguage.EnGb);
 
             if (languages.Contains("en-US"))
-                request.Languages.Add(AcceptResponseLanguage.EN_US);
+                request.Languages.Add(AcceptResponseLanguage.EnUs);
 
             if (languages.Contains("de"))
-                request.Languages.Add(AcceptResponseLanguage.DE);
+                request.Languages.Add(AcceptResponseLanguage.De);
         }
 
         /// <summary>
@@ -200,9 +200,9 @@ namespace SmartMirrorServer.Extensions
             if (string.IsNullOrEmpty(finalQuery))
             {
                 request.IsInvalidRequest = true;
-                query.FileName = FileName.UNKNOWN;
+                query.FileName = FileName.Unknown;
                 query.FilePath = "";
-                query.FileType = FileType.UNKNOWN;
+                query.FileType = FileType.Unknown;
                 request.Query = query;
 
                 return;
@@ -210,8 +210,8 @@ namespace SmartMirrorServer.Extensions
 
             if (finalQuery == " ")
             {
-                query.FileName = FileName.HOME;
-                query.FileType = FileType.HTML;
+                query.FileName = FileName.Home;
+                query.FileType = FileType.Html;
                 query.FilePath = "";
                 request.Query = query;
             }
@@ -229,43 +229,43 @@ namespace SmartMirrorServer.Extensions
                     switch (path.Substring(0, pointindex))
                     {
                         case "settings":
-                            query.FileName = FileName.SETTINGS;
+                            query.FileName = FileName.Settings;
                             break;
 
                         case "home":
-                            query.FileName = FileName.HOME;
+                            query.FileName = FileName.Home;
                             break;
 
                         case "time":
-                            query.FileName = FileName.TIME;
+                            query.FileName = FileName.Time;
                             break;
 
                         case "weather":
-                            query.FileName = FileName.WEATHER;
+                            query.FileName = FileName.Weather;
                             break;
 
                         case "weatherforecast":
-                            query.FileName = FileName.WEATHERFORECAST;
+                            query.FileName = FileName.Weatherforecast;
                             break;
 
                         case "light":
-                            query.FileName = FileName.LIGHT;
+                            query.FileName = FileName.Light;
                             break;
 
                         case "quote":
-                            query.FileName = FileName.QUOTE;
+                            query.FileName = FileName.Quote;
                             break;
 
                         case "news":
-                            query.FileName = FileName.NEWS;
+                            query.FileName = FileName.News;
                             break;
 
                         case "help":
-                            query.FileName = FileName.HELP;
+                            query.FileName = FileName.Help;
                             break;
 
                         default:
-                            query.FileName = FileName.UNKNOWN;
+                            query.FileName = FileName.Unknown;
                             break;
                     }
 
@@ -274,45 +274,45 @@ namespace SmartMirrorServer.Extensions
                         switch (path.Substring(pointindex + 1))
                         {
                             case "html":
-                                query.FileType = FileType.HTML;
+                                query.FileType = FileType.Html;
                                 break;
 
                             case "jpg":
-                                query.FileType = FileType.JPEG;
+                                query.FileType = FileType.Jpeg;
                                 break;
 
                             case "png":
-                                query.FileType = FileType.PNG;
+                                query.FileType = FileType.Png;
                                 break;
 
                             case "ico":
-                                query.FileType = FileType.ICON;
+                                query.FileType = FileType.Icon;
                                 break;
 
                             case "css":
-                                query.FileType = FileType.CSS;
+                                query.FileType = FileType.Css;
                                 break;
 
                             case "js":
-                                query.FileType = FileType.JS;
+                                query.FileType = FileType.Js;
                                 break;
 
                             default:
-                                query.FileType = FileType.UNKNOWN;
+                                query.FileType = FileType.Unknown;
                                 request.IsInvalidRequest = true;
                                 break;
                         }
                     }
                     else
                     {
-                        query.FileType = FileType.UNKNOWN;
+                        query.FileType = FileType.Unknown;
                         request.IsInvalidRequest = true;
                     }
                 }
                 else
                 {
-                    query.FileName = FileName.UNKNOWN;
-                    query.FileType = FileType.UNKNOWN;
+                    query.FileName = FileName.Unknown;
+                    query.FileType = FileType.Unknown;
                     request.IsInvalidRequest = true;
                 }
 
@@ -348,15 +348,15 @@ namespace SmartMirrorServer.Extensions
             switch (requestTyp.Split(' ')[0])
             {
                 case "GET":
-                    request.Typ = HttpRequestTyp.GET;
+                    request.Typ = HttpRequestTyp.Get;
                     break;
 
                 case "POST":
-                    request.Typ = HttpRequestTyp.POST;
+                    request.Typ = HttpRequestTyp.Post;
                     break;
 
                 default:
-                    request.Typ = HttpRequestTyp.UNKNOWN;
+                    request.Typ = HttpRequestTyp.Unknown;
                     request.IsInvalidRequest = true;
                     break;
             }
@@ -379,22 +379,22 @@ namespace SmartMirrorServer.Extensions
         public static void SetUserAgents(this Request request, string userAgents)
         {
             if (userAgents.Contains("Mozilla/"))
-                request.UserAgents.Add(UserAgent.MOZILLA);
+                request.UserAgents.Add(UserAgent.Mozilla);
 
             if (userAgents.Contains("AppleWebKit/"))
-                request.UserAgents.Add(UserAgent.APPLEWEBKIT);
+                request.UserAgents.Add(UserAgent.Applewebkit);
 
             if (userAgents.Contains("Chrome/"))
-                request.UserAgents.Add(UserAgent.CHROME);
+                request.UserAgents.Add(UserAgent.Chrome);
 
             if (userAgents.Contains("Safari/"))
-                request.UserAgents.Add(UserAgent.SAFARI);
+                request.UserAgents.Add(UserAgent.Safari);
 
             if (userAgents.Contains("Gecko/"))
-                request.UserAgents.Add(UserAgent.GECKO);
+                request.UserAgents.Add(UserAgent.Gecko);
 
             if (userAgents.Contains("Firefox/"))
-                request.UserAgents.Add(UserAgent.FIREFOX);
+                request.UserAgents.Add(UserAgent.Firefox);
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace SmartMirrorServer.Extensions
         {
             if (version.Contains("\0"))
             {
-                request.Version = HttpVersion.UNKNOWN;
+                request.Version = HttpVersion.Unknown;
                 request.IsInvalidRequest = true;
                 return;
             }
@@ -414,19 +414,19 @@ namespace SmartMirrorServer.Extensions
             switch (version.Substring(version.IndexOf("HTTP", StringComparison.Ordinal)))
             {
                 case "HTTP/1.0":
-                    request.Version = HttpVersion.HTTP_1_0;
+                    request.Version = HttpVersion.Http10;
                     break;
 
                 case "HTTP/1.1":
-                    request.Version = HttpVersion.HTTP_1_1;
+                    request.Version = HttpVersion.Http11;
                     break;
 
                 case "HTTP/2.0":
-                    request.Version = HttpVersion.HTTP_2_0;
+                    request.Version = HttpVersion.Http20;
                     break;
 
                 default:
-                    request.Version = HttpVersion.UNKNOWN;
+                    request.Version = HttpVersion.Unknown;
                     request.IsInvalidRequest = true;
                     break;
             }

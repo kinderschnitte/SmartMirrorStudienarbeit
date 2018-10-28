@@ -2,7 +2,7 @@
 {
     public enum AcceptResponseEncoding
     {
-        GZIP,
-        DEFLATE
+        Gzip,
+        Deflate
     }
 }

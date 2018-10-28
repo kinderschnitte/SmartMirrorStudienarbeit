@@ -2,15 +2,15 @@
 {
     public enum FileName
     {
-        SETTINGS,
-        HOME,
-        TIME,
-        WEATHER,
-        WEATHERFORECAST,
-        LIGHT,
-        QUOTE,
-        NEWS,
-        HELP,
-        UNKNOWN
+        Settings,
+        Home,
+        Time,
+        Weather,
+        Weatherforecast,
+        Light,
+        Quote,
+        News,
+        Help,
+        Unknown
     }
 }

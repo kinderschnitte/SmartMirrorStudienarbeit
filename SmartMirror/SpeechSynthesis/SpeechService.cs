@@ -27,7 +27,7 @@ namespace Speechservice
         {
             const string excuse = "Lückenfüller Lückenfüller <break time='300ms'/> Entschuldigung, das habe ich akustisch nicht verstanden.";
 
-            await sayAsync(excuse);
+            await SayAsync(excuse);
         }
 
         public static async Task CountDown(int fromNumber)
@@ -49,7 +49,7 @@ namespace Speechservice
                 }
             }
 
-            await sayAsync(countdownString.ToString());
+            await SayAsync(countdownString.ToString());
         }
 
         public static async Task CountTo(int toNumber)
@@ -71,7 +71,7 @@ namespace Speechservice
                 }
             }
 
-            await sayAsync(countToString.ToString());
+            await SayAsync(countToString.ToString());
         }
 
         public static async Task SayCreator()
@@ -80,7 +80,7 @@ namespace Speechservice
 
             creatorString.AppendLine("Lückenfüller Lückenfüller <break time='300ms'/> Gute Frage, das wüsste ich auch gerne. Ich sehe das wie Winston Churchill, er sagte einst: <break time='300ms'/> Ich bin bereit, meinem Schöpfer gegenüberzutreten. Ob mein Schöpfer ebenso bereit ist, diese Begegnung über sich ergehen zu lassen, ist eine andere Sache.");
 
-            await sayAsync(creatorString.ToString());
+            await SayAsync(creatorString.ToString());
         }
 
         public static async Task SayGender()
@@ -89,23 +89,23 @@ namespace Speechservice
 
             genderString.AppendLine("Lückenfüller Lückenfüller <break time='300ms'/> Das ist eine gute Frage. Ich muss gestehen, ich weiß es selber nicht einmal so genau.");
 
-            await sayAsync(genderString.ToString());
+            await SayAsync(genderString.ToString());
         }
 
         public static async Task SayJoke()
         {
-            Joke joke = DataAccess.DeserializeModuleData(typeof(Joke), await DataAccess.GetModuleData(Modules.JOKE));
+            Joke joke = DataAccess.DeserializeModuleData(typeof(Joke), await DataAccess.GetModuleData(Modules.Joke));
 
             StringBuilder jokeString = new StringBuilder();
 
             jokeString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
             jokeString.AppendLine($"Einen {joke.Title.Remove(joke.Title.Length - 1)} gefällig: <break time='300ms'/><prosody rate=\"-15%\">{joke.Description}</prosody>");
 
-            await sayAsync(jokeString.ToString());
+            await SayAsync(jokeString.ToString());
 
             // Neuen Joke laden
             #pragma warning disable 4014
-            DataAccess.AddOrReplaceModuleData(Modules.JOKE, await JokeHelper.GetJoke());
+            DataAccess.AddOrReplaceModuleData(Modules.Joke, await JokeHelper.GetJoke());
             #pragma warning restore 4014
         }
 
@@ -119,7 +119,7 @@ namespace Speechservice
             lookString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
             lookString.Append(randomNumber == 0 ? "Ich fürchte, dass die Beschreibung meines Aussehens einen längeren Ausflug in Themenbereiche zum Raum - Zeit - Kontinuum und zur Mode notwendig machen würde, die dir bis jetzt noch völlig unbekannt sind." : "Mal schauen. <break time='500ms'/> Dacht ich mir's doch, ich trage das gleiche wie gestern.");
 
-            await sayAsync(lookString.ToString());
+            await SayAsync(lookString.ToString());
         }
 
         public static async Task SayMirror()
@@ -132,7 +132,7 @@ namespace Speechservice
             nameString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
             nameString.Append(randomNumber == 0 ? "Geh mal zur Seite, <break time='300ms'/>ich kann nichts sehen!" : "Hier ein Tipp unter Freunden: <break time='500ms'/> Frag heute einfach mal nicht!");
 
-            await sayAsync(nameString.ToString());
+            await SayAsync(nameString.ToString());
         }
 
         public static async Task SayName()
@@ -145,19 +145,19 @@ namespace Speechservice
             nameString.Append("<break time='300ms'/>");
             nameString.Append("Eine hinduistische Legende erzählt die Geschichte von Mirabai, <break time='200ms'/>einer Prinzessin aus dem 16. Jahrhundert, die sich als Geliebte Krishnas betrachtete. <break time='200ms'/>Mirabai gilt als geistliche Liebesdichterin.");
 
-            await sayAsync(nameString.ToString());
+            await SayAsync(nameString.ToString());
         }
 
         public static async Task SayQuote()
         {
-            Quote quote = DataAccess.DeserializeModuleData(typeof(Quote), await DataAccess.GetModuleData(Modules.QUOTE));
+            Quote quote = DataAccess.DeserializeModuleData(typeof(Quote), await DataAccess.GetModuleData(Modules.Quote));
 
             StringBuilder quoteString = new StringBuilder();
 
             quoteString.Append("Lückenfüller Lückenfüller <break time='300ms'/>");
             quoteString.Append($"{(quote.Author != string.Empty ? quote.Author : "Ein kluge Frau oder ein kluger Mann")} sagte einstmal: <break time='400ms'/> {quote.Text}");
 
-            await sayAsync(quoteString.ToString());
+            await SayAsync(quoteString.ToString());
         }
 
         public static async Task SayRandom(int from, int to)
@@ -169,12 +169,12 @@ namespace Speechservice
 
             nameString.Append($"Lass mich nachdenken. <break time='1500ms'/> Ich sage einfach mal <break time='300ms'/><prosody rate=\"-35%\">{NumberHelper.NumberToWords(randomNumber)}</prosody>.");
 
-            await sayAsync(nameString.ToString());
+            await SayAsync(nameString.ToString());
         }
 
         public static async Task SaySunrise()
         {
-            Module module = DataAccess.GetModule(Modules.TIME);
+            Module module = DataAccess.GetModule(Modules.Time);
 
             Sun sun = new Sun(module);
 
@@ -197,12 +197,12 @@ namespace Speechservice
             else
                 sunriseString.Append($"Um {sun.Sunrise} ist die Sonne aufgegangen.");
 
-            await sayAsync(sunriseString.ToString());
+            await SayAsync(sunriseString.ToString());
         }
 
         public static async Task SaySunset()
         {
-            Module module = DataAccess.GetModule(Modules.TIME);
+            Module module = DataAccess.GetModule(Modules.Time);
 
             Sun sun = new Sun(module);
 
@@ -225,7 +225,7 @@ namespace Speechservice
             else
                 sunsetString.Append($"Um {sun.Sunset} ist die Sonne untergegangen.");
 
-            await sayAsync(sunsetString.ToString());
+            await SayAsync(sunsetString.ToString());
         }
 
         public static async Task SayTime()
@@ -235,12 +235,12 @@ namespace Speechservice
             //string time = $"Lückenfüller Lückenfüller Es ist {now.Hour} Uhr {now.Minute}.";
             string time = $"Lückenfüller Lückenfüller <break time='300ms'/> Meine innere Uhr sagt mir, dass es {now.Hour} Uhr {now.Minute} ist.";
 
-            await sayAsync(time);
+            await SayAsync(time);
         }
 
         public static async Task SayWeather()
         {
-            SingleResult<CurrentWeatherResult> result = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(Modules.WEATHER));
+            SingleResult<CurrentWeatherResult> result = DataAccess.DeserializeModuleData(typeof(SingleResult<CurrentWeatherResult>), await DataAccess.GetModuleData(Modules.Weather));
 
             StringBuilder weatherTodayString = new StringBuilder();
 
@@ -249,12 +249,12 @@ namespace Speechservice
             weatherTodayString.Append($"Momentan {result.Item.Description} <break time='500ms'/>, es werden {result.Item.Temp.ToString(CultureInfo.InvariantCulture).Replace(".", ",")} Grad Außentemperatur, bei einer Luftfeuchtigkeit von {result.Item.Humidity} Prozent gemessen. <break time='300ms'/>");
             weatherTodayString.Append(Math.Abs(result.Item.WindSpeed - double.Epsilon) < 0 ? "Zur Zeit weht kein Wind." : $"Ein Wind mit der Geschwindigkeit von {(Math.Abs(result.Item.WindSpeed - 1) < 0 ? "eins" : result.Item.WindSpeed.ToString(CultureInfo.InvariantCulture).Replace(".", ","))} Meter pro Sekunde weht aus Richtung {WindDirectionHelper.GetWindDirection(result.Item.WindDegree)}");
 
-            await sayAsync(weatherTodayString.ToString());
+            await SayAsync(weatherTodayString.ToString());
         }
 
         public static async Task SayWeatherforecast(string days)
         {
-            List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.WEATHERFORECAST));
+            List<List<FiveDaysForecastResult>> result = DataAccess.DeserializeModuleData(typeof(List<List<FiveDaysForecastResult>>), await DataAccess.GetModuleData(Modules.Weatherforecast));
 
             // Infos zu heutigen Tag löschen
             if (result.Count > 4)
@@ -342,7 +342,7 @@ namespace Speechservice
                     break;
             }
 
-            await sayAsync(weatherforecastString.ToString());
+            await SayAsync(weatherforecastString.ToString());
         }
 
         public static async Task Startup()
@@ -355,23 +355,23 @@ namespace Speechservice
             startupString.AppendLine("<break time='1000ms'/>");
             startupString.AppendLine("Alle verfügbaren Sprachbefehle kannst du dir mit dem Sprachbefehl <break time='250ms'/> <prosody rate=\"-25%\">Mira Hilfe</prosody> anzeigen lassen.");
 
-            await sayAsync(startupString.ToString());
+            await SayAsync(startupString.ToString());
         }
 
         #endregion Public Methods
 
         #region Private Methods
 
-        private static async Task noDataAvailable()
+        private static async Task NoDataAvailable()
         {
             StringBuilder nodata = new StringBuilder();
 
             nodata.AppendLine("");
 
-            await sayAsync(nodata.ToString());
+            await SayAsync(nodata.ToString());
         }
 
-        private static async Task sayAsync(string ssml)
+        private static async Task SayAsync(string ssml)
         {
             StringBuilder stringBuilder = new StringBuilder();
 

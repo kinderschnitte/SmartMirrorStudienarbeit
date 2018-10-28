@@ -2,8 +2,8 @@
 {
     public enum HttpRequestTyp
     {
-        GET,
-        POST,
-        UNKNOWN
+        Get,
+        Post,
+        Unknown
     }
 }

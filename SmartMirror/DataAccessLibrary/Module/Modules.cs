@@ -2,22 +2,22 @@
 {
     public enum Modules
     {
-        UPPERLEFT,
-        UPPERRIGHT,
-        MIDDLELEFT,
-        MIDDLERIGHT,
-        LOWERLEFT,
-        LOWERRIGHT,
-        TIME,
-        WEATHER,
-        WEATHERFORECAST,
-        QUOTE,
-        NEWSBUSINESS,
-        NEWSENTERTAINMENT,
-        NEWSHEALTH,
-        NEWSSCIENCE,
-        NEWSSPORT,
-        NEWSTECHNOLOGY,
-        JOKE
+        Upperleft,
+        Upperright,
+        Middleleft,
+        Middleright,
+        Lowerleft,
+        Lowerright,
+        Time,
+        Weather,
+        Weatherforecast,
+        Quote,
+        Newsbusiness,
+        Newsentertainment,
+        Newshealth,
+        Newsscience,
+        Newssport,
+        Newstechnology,
+        Joke
     }
 }

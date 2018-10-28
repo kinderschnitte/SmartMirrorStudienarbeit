@@ -2,11 +2,11 @@
 {
     public enum UserAgent
     {
-        MOZILLA,
-        GECKO,
-        FIREFOX,
-        SAFARI,
-        APPLEWEBKIT,
-        CHROME
+        Mozilla,
+        Gecko,
+        Firefox,
+        Safari,
+        Applewebkit,
+        Chrome
     }
 }

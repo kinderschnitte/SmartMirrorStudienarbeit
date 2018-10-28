@@ -2,7 +2,7 @@
 {
     public enum Charset
     {
-        ISO_8859_1,
-        UTF_8
+        Iso88591,
+        Utf8
     }
 }

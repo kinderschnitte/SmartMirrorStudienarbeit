@@ -7,8 +7,8 @@ namespace DataAccessLibrary.Module
     {
         public enum LatitudeDirection
         {
-            NORTH,
-            SOUTH
+            North,
+            South
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
@@ -25,7 +25,7 @@ namespace DataAccessLibrary.Module
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        public LatitudeDirection mLatitudeDirection { get; set; }
+        public LatitudeDirection MLatitudeDirection { get; set; }
 
         private LatitudeCoords() { }
 
@@ -34,17 +34,17 @@ namespace DataAccessLibrary.Module
             MDegrees = degrees;
             MMinutes = minutes;
             MSeconds = seconds;
-            mLatitudeDirection = latitudeDirection;
+            MLatitudeDirection = latitudeDirection;
         }
 
-        private int sign()
+        private int Sign()
         {
-            return mLatitudeDirection == LatitudeDirection.NORTH ? 1 : -1;
+            return MLatitudeDirection == LatitudeDirection.North ? 1 : -1;
         }
 
         public double ToDouble()
         {
-            return sign() * (MDegrees + (double)MMinutes / 60 + (double)MSeconds / 3600);
+            return Sign() * (MDegrees + (double)MMinutes / 60 + (double)MSeconds / 3600);
         }
     }
 }
